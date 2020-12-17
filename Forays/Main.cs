@@ -22,53 +22,6 @@ using GLDrawing;
 
 namespace Forays
 {
-    public enum EventType
-    {
-        ANY_EVENT,
-        MOVE,
-        REMOVE_ATTR,
-        REMOVE_GAS,
-        CHECK_FOR_HIDDEN,
-        RELATIVELY_SAFE,
-        POLTERGEIST,
-        MIMIC,
-        REGENERATING_FROM_DEATH,
-        REASSEMBLING,
-        GRENADE,
-        BLAST_FUNGUS,
-        STALAGMITE,
-        FIRE_GEYSER,
-        FIRE_GEYSER_ERUPTION,
-        FOG_VENT,
-        POISON_GAS_VENT,
-        STONE_SLAB,
-        MARBLE_HORROR,
-        FIRE,
-        NORMAL_LIGHTING,
-        TELEPORTAL,
-        BREACH,
-        GRAVE_DIRT,
-        POPPIES,
-        TOMBSTONE_GHOST,
-        SHIELDING,
-        BURROWING,
-        FINAL_LEVEL_SPAWN_CULTISTS,
-        SPAWN_WANDERING_MONSTER
-    };
-
-    public enum OptionType
-    {
-        NO_WALL_SLIDING,
-        AUTOPICKUP,
-        TOP_ROW_MOVEMENT,
-        NO_CONFIRMATION_BEFORE_RESTING,
-        NEVER_DISPLAY_TIPS,
-        ALWAYS_RESET_TIPS,
-        DARK_GRAY_UNSEEN,
-        HIDE_VIEW_MORE,
-        DISABLE_GRAPHICS
-    };
-
     public class Game
     {
         public Map M;

@@ -1,0 +1,36 @@
+namespace Forays.Enums
+{
+    public enum EventType
+    {
+        ANY_EVENT,
+        MOVE,
+        REMOVE_ATTR,
+        REMOVE_GAS,
+        CHECK_FOR_HIDDEN,
+        RELATIVELY_SAFE,
+        POLTERGEIST,
+        MIMIC,
+        REGENERATING_FROM_DEATH,
+        REASSEMBLING,
+        GRENADE,
+        BLAST_FUNGUS,
+        STALAGMITE,
+        FIRE_GEYSER,
+        FIRE_GEYSER_ERUPTION,
+        FOG_VENT,
+        POISON_GAS_VENT,
+        STONE_SLAB,
+        MARBLE_HORROR,
+        FIRE,
+        NORMAL_LIGHTING,
+        TELEPORTAL,
+        BREACH,
+        GRAVE_DIRT,
+        POPPIES,
+        TOMBSTONE_GHOST,
+        SHIELDING,
+        BURROWING,
+        FINAL_LEVEL_SPAWN_CULTISTS,
+        SPAWN_WANDERING_MONSTER
+    };
+}
