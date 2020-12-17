@@ -12,10 +12,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using PosArrays;
 using Utilities;
+using Forays.Enums;
 using GLDrawing;
 
 namespace Forays

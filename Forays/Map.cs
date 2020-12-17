@@ -14,6 +14,7 @@ using Utilities;
 using PosArrays;
 using SchismExtensionMethods;
 using Nym;
+using Forays.Enums;
 
 namespace Forays
 {

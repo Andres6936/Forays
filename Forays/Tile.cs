@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Utilities;
 using PosArrays;
 using Nym;
+using Forays.Enums;
 using static Nym.NameElement;
 
 namespace Forays

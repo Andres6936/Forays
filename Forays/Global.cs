@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using OpenTK.Graphics;
 using Utilities;
+using Forays.Enums;
 using PosArrays;
 
 namespace Forays

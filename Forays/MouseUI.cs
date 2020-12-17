@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using PosArrays;
 using Utilities;
+using Forays.Enums;
 
 namespace Forays
 {

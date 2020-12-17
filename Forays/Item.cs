@@ -13,6 +13,7 @@ using System.Threading;
 using PosArrays;
 using Utilities;
 using Nym;
+using Forays.Enums;
 using static Nym.NameElement;
 
 namespace Forays

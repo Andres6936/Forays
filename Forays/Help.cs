@@ -12,6 +12,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Threading;
 using Utilities;
+using Forays.Enums;
 
 namespace Forays
 {
