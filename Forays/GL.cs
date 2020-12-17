@@ -113,15 +113,15 @@ namespace GLDrawing
         protected override void OnFocusedChanged(EventArgs e)
         {
             base.OnFocusedChanged(e);
-            if (Focused)
-            {
-                key_down[Key.AltLeft] = false; //i could simply reset the whole dictionary, too...
-                key_down[Key.AltRight] = false;
-                key_down[Key.ShiftLeft] = false;
-                key_down[Key.ShiftRight] = false;
-                key_down[Key.ControlLeft] = false;
-                key_down[Key.ControlRight] = false;
-            }
+
+            if (!Focused) return;
+
+            key_down[Key.AltLeft] = false; //i could simply reset the whole dictionary, too...
+            key_down[Key.AltRight] = false;
+            key_down[Key.ShiftLeft] = false;
+            key_down[Key.ShiftRight] = false;
+            key_down[Key.ControlLeft] = false;
+            key_down[Key.ControlRight] = false;
         }
 
         protected override void OnResize(EventArgs e)
