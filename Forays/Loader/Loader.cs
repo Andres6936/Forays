@@ -17,8 +17,6 @@ namespace Forays.Loader
 
         public bool WizDark { get; set; }
 
-        public char[,] LastCharacterSeen { get; set; }
-
         public string NamePlayer { get; set; }
 
         public List<Actor> Tiebreakers { get; set; }
@@ -29,8 +27,6 @@ namespace Forays.Loader
 
         public List<LevelType> LevelTypes { get; set; }
 
-        public Color[,] LastColorCharacterSeen { get; set; }
-
-        public Color[,] LastBackgroundColorCharacterSeen { get; set; }
+        public colorchar[,] LastSeen { get; set; }
     }
 }

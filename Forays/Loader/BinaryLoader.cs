@@ -40,11 +40,11 @@ namespace Forays.Loader
                     for (var col = 0; col < Global.COLS; col += 1)
                     {
                         // 6. Last Character Seen (Char)
-                        LastCharacterSeen[row, col] = reader.ReadChar();
+                        LastSeen[row, col].c = reader.ReadChar();
                         // 7. Last Color of Character Seen (Int32)
-                        LastColorCharacterSeen[row, col] = (Color) reader.ReadInt32();
+                        LastSeen[row, col].color = (Color) reader.ReadInt32();
                         // 8. Last Background Color of Character Seen (Int32)
-                        LastBackgroundColorCharacterSeen[row, col] = (Color) reader.ReadInt32();
+                        LastSeen[row, col].bgcolor = (Color) reader.ReadInt32();
                     }
                 }
 
