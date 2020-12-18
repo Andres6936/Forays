@@ -1,10 +1,18 @@
+using System.Collections.Generic;
 using System.IO;
 using Forays.Enums;
+using OpenTK;
 
 namespace Forays.Loader
 {
     public sealed class BinaryLoader : Loader
     {
+        // Member
+
+        Dictionary<int, PhysicalObject> identificator = new Dictionary<int, PhysicalObject>();
+
+        // Construct
+
         public BinaryLoader(string filename)
         {
             using (var reader = new BinaryReader(File.Open(filename, FileMode.Open)))
@@ -68,6 +76,8 @@ namespace Forays.Loader
                     }
 
                     var actor = new Actor();
+
+                    identificator.Add(identification, actor);
                 }
             }
         }
