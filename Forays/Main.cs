@@ -680,10 +680,13 @@ namespace Forays
                                         }
                                     }
 
+                                    // 14.15 Number Attributes (Int32)
                                     int num_attrs = b.ReadInt32();
                                     for (int j = 0; j < num_attrs; ++j)
                                     {
+                                        // 14.15.1 Attribute Type (Int32)
                                         AttrType t = (AttrType) b.ReadInt32();
+                                        // 14.15.2 Attribute Value (Int32)
                                         a.attrs[t] = b.ReadInt32();
                                     }
 
