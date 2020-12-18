@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 using Forays.Enums;
-using OpenTK;
 
 namespace Forays.Loader
 {
