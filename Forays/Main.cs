@@ -589,7 +589,7 @@ namespace Forays
                                 }
                             }
 
-                            // 16. Number Tiles
+                            // 16. Number Tiles (Int32)
                             int num_tiles = b.ReadInt32();
                             for (int i = 0; i < num_tiles; ++i)
                             {
