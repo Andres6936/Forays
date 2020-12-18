@@ -19,6 +19,21 @@ namespace Forays.Loader
 
                 WizLite = reader.ReadBoolean();
                 WizDark = reader.ReadBoolean();
+
+                for (var row = 0; row < Global.ROWS; row += 1)
+                {
+                    for (var col = 0; col < Global.COLS; col += 1)
+                    {
+                        LastCharacterSeen[row, col] = reader.ReadChar();
+                        LastColorCharacterSeen[row, col] = (Color) reader.ReadInt32();
+                        LastBackgroundColorCharacterSeen[row, col] = (Color) reader.ReadInt32();
+                    }
+                }
+
+                for (var index = 0; index < 5; index += 1)
+                {
+                    FinalLevelCultistCount[index] = reader.ReadInt32();
+                }
             }
         }
     }
