@@ -5,32 +5,30 @@ namespace Forays.Loader
 {
     public abstract class Loader
     {
-        // Members
+        protected abstract int CurrentLevelId { get; }
 
-        protected int CurrentLevelId { get; }
+        protected abstract int FinalLevelClock { get; }
 
-        protected int FinalLevelClock { get; }
+        protected abstract int FinalLevelDemonCount { get; }
 
-        protected int FinalLevelDemonCount { get; }
+        protected abstract int[] FinalLevelCultistCount { get; }
 
-        protected int[] FinalLevelCultistCount { get; }
+        protected abstract bool WizLite { get; }
 
-        protected bool WizLite { get; }
+        protected abstract bool WizDark { get; }
 
-        protected bool WizDark { get; }
+        protected abstract char[,] LastCharacterSeen { get; }
 
-        protected char[,] LastCharacterSeen { get; }
+        protected abstract string NamePlayer { get; }
 
-        protected string NamePlayer { get; }
+        protected abstract List<FeatType> FeatTypes { get; }
 
-        protected List<FeatType> FeatTypes { get; }
+        protected abstract List<SpellType> SpellTypes { get; }
 
-        protected List<SpellType> SpellTypes { get; }
+        protected abstract List<LevelType> LevelTypes { get; }
 
-        protected List<LevelType> LevelTypes { get; }
+        protected abstract Color[,] LastColorCharacterSeen { get; }
 
-        protected Color[,] LastColorCharacterSeen { get; }
-
-        protected Color[,] LastBackgroundColorCharacterSeen { get; }
+        protected abstract Color[,] LastBackgroundColorCharacterSeen { get; }
     }
 }
