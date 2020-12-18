@@ -96,13 +96,21 @@ namespace Forays.Loader
                         row = reader.ReadInt32(),
                         // 14.3 Col Position (Int32)
                         col = reader.ReadInt32(),
+                        // 14.4 Symbol (Char)
                         symbol = reader.ReadChar(),
+                        // 14.5 Color (Int32)
                         color = (Color) reader.ReadInt32(),
+                        // 14.6 Actor Type (Int32)
                         type = (ActorType) reader.ReadInt32(),
+                        // 14.7 Maximum HP (Int32)
                         maxhp = reader.ReadInt32(),
+                        // 14.8 Current HP (Int32)
                         curhp = reader.ReadInt32(),
+                        // 14.9 Maximum MP (Int32)
                         maxmp = reader.ReadInt32(),
+                        // 14.10 Current MP (Int32)
                         curmp = reader.ReadInt32(),
+                        // 14.11 Speed (Int32)
                         speed = reader.ReadInt32(),
                         // 14.12 Light Radius (Int32)
                         light_radius = reader.ReadInt32()
