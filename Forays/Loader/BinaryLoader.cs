@@ -131,6 +131,18 @@ namespace Forays.Loader
 
                     // 14.15 Number Attributes (Int32)
                     var numberAttributes = reader.ReadInt32();
+                    for (var attribute = 0; attribute < numberAttributes; attribute += 1)
+                    {
+                        var attributeType = (AttrType) reader.ReadInt32();
+                        actor.attrs[attributeType] = reader.ReadInt32();
+                    }
+
+                    var numberSkills = reader.ReadInt32();
+                    for (var indexSkill = 0; indexSkill < numberSkills; indexSkill += 1)
+                    {
+                        var skillType = (SkillType) reader.ReadInt32();
+                        actor.skills[skillType] = reader.ReadInt32();
+                    }
 
                     Tiebreakers.Add(actor);
                     identificator.Add(identification, actor);
