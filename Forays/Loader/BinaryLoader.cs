@@ -207,6 +207,31 @@ namespace Forays.Loader
                         actor.weapons.AddLast(weapon);
                     }
 
+                    // 14.26 Number Armors (Int32)
+                    var numberArmors = reader.ReadInt32();
+                    for (var indexArmor = 0; indexArmor < numberArmors; indexArmor += 1)
+                    {
+                        var armor = new Armor(ArmorType.NO_ARMOR)
+                        {
+                            // 14.26.1 Armor Type (Int32)
+                            type = (ArmorType) reader.ReadInt32(),
+                            // 14.26.2 Enchantment Type (Int32)
+                            enchantment = (EnchantmentType) reader.ReadInt32()
+                        };
+
+                        // 14.26.3 Number Statues (Int32)
+                        var numberStatuses = reader.ReadInt32();
+                        for (var indexStatuses = 0; indexStatuses < numberStatuses; indexStatuses += 1)
+                        {
+                            // 14.26.3.1 Equipment Status (Int32)
+                            var equipmentStatus = (EquipmentStatus) reader.ReadInt32();
+                            // 14.26.3.2 Has ST (Boolean)
+                            armor.status[equipmentStatus] = reader.ReadBoolean();
+                        }
+
+                        actor.armors.AddLast(armor);
+                    }
+
                     Tiebreakers.Add(actor);
                     identificator.Add(identification, actor);
                 }
