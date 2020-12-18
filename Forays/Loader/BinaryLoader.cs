@@ -17,24 +17,33 @@ namespace Forays.Loader
         {
             using (var reader = new BinaryReader(File.Open(filename, FileMode.Open)))
             {
+                // 1. Player Name (String)
                 NamePlayer = reader.ReadString();
+                // 2. Current Level (Int32)
                 CurrentLevelId = reader.ReadInt32();
 
+                // 3. Number of Level Types (Int32)
                 var numberLevelTypes = reader.ReadInt32();
                 for (var index = 0; index < numberLevelTypes; index += 1)
                 {
+                    // 3.1 Level Type (Int32) -> Depend of 3 
                     LevelTypes.Add((LevelType) reader.ReadInt32());
                 }
 
+                // 4. Wiz Lite (Boolean)
                 WizLite = reader.ReadBoolean();
+                // 5. Wiz Dark (Boolean)
                 WizDark = reader.ReadBoolean();
 
                 for (var row = 0; row < Global.ROWS; row += 1)
                 {
                     for (var col = 0; col < Global.COLS; col += 1)
                     {
+                        // 6. Last Character Seen (Char)
                         LastCharacterSeen[row, col] = reader.ReadChar();
+                        // 7. Last Color of Character Seen (Int32)
                         LastColorCharacterSeen[row, col] = (Color) reader.ReadInt32();
+                        // 8. Last Background Color of Character Seen (Int32)
                         LastBackgroundColorCharacterSeen[row, col] = (Color) reader.ReadInt32();
                     }
                 }
@@ -43,16 +52,21 @@ namespace Forays.Loader
                 {
                     for (var index = 0; index < 5; index += 1)
                     {
+                        // 9. Final Level Cultist Count (Int32)
                         FinalLevelCultistCount[index] = reader.ReadInt32();
                     }
 
+                    // 10. Final Level Demon Count (Int32)
                     FinalLevelDemonCount = reader.ReadInt32();
+                    // 11. Final Level Clock (Int32)
                     FinalLevelClock = reader.ReadInt32();
                 }
 
+                // 12. Num Feature List (Int32)
                 var numberFeatList = reader.ReadInt32();
                 for (var index = 0; index < numberFeatList; index += 1)
                 {
+                    // 12.1 Feat Type (Int32) -> Depend of 12
                     FeatTypes.Add((FeatType) reader.ReadInt32());
                 }
 
