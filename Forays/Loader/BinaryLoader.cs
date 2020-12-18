@@ -179,6 +179,19 @@ namespace Forays.Loader
                     // Ignored for the moment
                     var locationId = reader.ReadInt32();
 
+                    // 14.24 Player Visibility Duration (Int32)
+                    actor.player_visibility_duration = reader.ReadInt32();
+
+                    // 14.25 Number Weapons (Int32)
+                    var numberWeapons = reader.ReadInt32();
+                    for (var indexWeapon = 0; indexWeapon < numberWeapons; indexWeapon += 1)
+                    {
+                        var weapon = new Weapon(WeaponType.NO_WEAPON);
+
+                        // 14.25.1 Weapon Type
+                        weapon.type = (WeaponType) reader.ReadInt32();
+                    }
+
                     Tiebreakers.Add(actor);
                     identificator.Add(identification, actor);
                 }
