@@ -93,6 +93,44 @@ namespace Forays.Loader
                         light_radius = reader.ReadInt32()
                     };
 
+                    // 14.13 Target ID (Int32)
+                    // Discard for the moment
+                    var targetId = reader.ReadInt32();
+
+                    // 14.14 Number Items (Int32)
+                    var numberItems = reader.ReadInt32();
+                    for (var indexItem = 0; indexItem < numberItems; indexItem += 1)
+                    {
+                        // 14.14.1 Identification Item (Int32)
+                        var itemIdentification = reader.ReadInt32();
+
+                        if (itemIdentification == 0)
+                        {
+                            continue;
+                        }
+
+                        var item = new Item
+                        {
+                            row = reader.ReadInt32(),
+                            col = reader.ReadInt32(),
+                            symbol = reader.ReadChar(),
+                            color = (Color) reader.ReadInt32(),
+                            light_radius = reader.ReadInt32(),
+                            type = (ConsumableType) reader.ReadInt32(),
+                            quantity = reader.ReadInt32(),
+                            charges = reader.ReadInt32(),
+                            other_data = reader.ReadInt32(),
+                            ignored = reader.ReadBoolean(),
+                            do_not_stack = reader.ReadBoolean(),
+                            // 14.14.13 Revealed By Light (Boolean)
+                            revealed_by_light = reader.ReadBoolean()
+                        };
+
+                        actor.inv.Add(item);
+                    }
+
+                    // 14.15 Number Attributes (Int32)
+                    var numberAttributes = reader.ReadInt32();
 
                     Tiebreakers.Add(actor);
                     identificator.Add(identification, actor);
