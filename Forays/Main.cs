@@ -645,14 +645,18 @@ namespace Forays
                                     int num_items = b.ReadInt32();
                                     for (int j = 0; j < num_items; ++j)
                                     {
+                                        // 14.14.1 Identification Item (Int32)
                                         int item_id = b.ReadInt32();
                                         if (item_id != 0)
                                         {
                                             Item item = new Item();
                                             id.Add(item_id, item);
+                                            // 14.14.2 Row Position Item (Int32)
                                             item.row = b.ReadInt32();
+                                            // 14.14.3 Col Position Item (Int32)
                                             item.col = b.ReadInt32();
                                             //todo name
+                                            // 14.14.4 Symbol Item (Char)
                                             item.symbol = b.ReadChar();
                                             item.color = (Color) b.ReadInt32();
                                             item.light_radius = b.ReadInt32();
