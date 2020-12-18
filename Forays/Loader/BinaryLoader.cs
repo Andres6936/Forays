@@ -81,7 +81,18 @@ namespace Forays.Loader
                         row = reader.ReadInt32(),
                         // 14.3 Col Position (Int32)
                         col = reader.ReadInt32(),
+                        symbol = reader.ReadChar(),
+                        color = (Color) reader.ReadInt32(),
+                        type = (ActorType) reader.ReadInt32(),
+                        maxhp = reader.ReadInt32(),
+                        curhp = reader.ReadInt32(),
+                        maxmp = reader.ReadInt32(),
+                        curmp = reader.ReadInt32(),
+                        speed = reader.ReadInt32(),
+                        // 14.12 Light Radius (Int32)
+                        light_radius = reader.ReadInt32()
                     };
+
 
                     Tiebreakers.Add(actor);
                     identificator.Add(identification, actor);
