@@ -289,10 +289,16 @@ namespace Forays.Loader
                     Tiebreakers.Add(actor);
                     identificator.Add(identification, actor);
 
-                    // Adjust of invariants
+                    // Adjust of invariant
                     if (identificator.ContainsKey(targetId))
                     {
                         actor.target = (Actor) identificator[targetId];
+                    }
+
+                    // Adjust of invariant
+                    if (identificator.ContainsKey(locationId))
+                    {
+                        actor.target_location = (Tile) identificator[locationId];
                     }
                 }
             }
