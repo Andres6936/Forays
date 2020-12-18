@@ -186,10 +186,25 @@ namespace Forays.Loader
                     var numberWeapons = reader.ReadInt32();
                     for (var indexWeapon = 0; indexWeapon < numberWeapons; indexWeapon += 1)
                     {
-                        var weapon = new Weapon(WeaponType.NO_WEAPON);
+                        var weapon = new Weapon(WeaponType.NO_WEAPON)
+                        {
+                            // 14.25.1 Weapon Type
+                            type = (WeaponType) reader.ReadInt32(),
+                            // 14.25.2 Enchantment Type (Int32)
+                            enchantment = (EnchantmentType) reader.ReadInt32()
+                        };
 
-                        // 14.25.1 Weapon Type
-                        weapon.type = (WeaponType) reader.ReadInt32();
+                        // 14.25.3 Number Statues (Int32)
+                        var numberStatuses = reader.ReadInt32();
+                        for (var indexStatuses = 0; indexStatuses < numberStatuses; indexStatuses += 1)
+                        {
+                            // 14.25.3.1 Equipment Status (Int32)
+                            var equipmentStatus = (EquipmentStatus) reader.ReadInt32();
+                            // 14.25.3.2 Has ST (Boolean)
+                            weapon.status[equipmentStatus] = reader.ReadBoolean();
+                        }
+
+                        actor.weapons.AddLast(weapon);
                     }
 
                     Tiebreakers.Add(actor);
