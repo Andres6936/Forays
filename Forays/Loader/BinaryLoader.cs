@@ -68,6 +68,7 @@ namespace Forays.Loader
                 var numberTiebreakers = reader.ReadInt32();
                 for (var index = 0; index < numberTiebreakers; index += 1)
                 {
+                    // 14.1 Identification (Int32)
                     var identification = reader.ReadInt32();
 
                     if (identification == 0)
@@ -75,8 +76,15 @@ namespace Forays.Loader
                         continue;
                     }
 
-                    var actor = new Actor();
+                    var actor = new Actor
+                    {
+                        // 14.2 Row Position (Int32)
+                        row = reader.ReadInt32(),
+                        // 14.3 Col Position (Int32)
+                        col = reader.ReadInt32(),
+                    };
 
+                    Tiebreakers.Add(actor);
                     identificator.Add(identification, actor);
                 }
             }
