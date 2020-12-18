@@ -24,7 +24,7 @@ namespace Forays
 {
     public class Game
     {
-        private Map Map;
+        private Map map;
         public Queue Q;
         public MessageBuffer B;
         public Actor player;
@@ -282,18 +282,18 @@ namespace Forays
                             game.player.armors.AddLast(new Armor(ArmorType.FULL_PLATE));
                         }
 
-                        game.Map = new Map(game);
+                        game.map = new Map(game);
                         game.B = new MessageBuffer(game);
                         game.Q = new Queue(game);
                         Map.Q = game.Q;
                         Map.B = game.B;
-                        PhysicalObject.M = game.Map;
+                        PhysicalObject.M = game.map;
                         PhysicalObject.B = game.B;
                         PhysicalObject.Q = game.Q;
                         PhysicalObject.player = game.player;
                         Event.Q = game.Q;
                         Event.B = game.B;
-                        Event.M = game.Map;
+                        Event.M = game.map;
                         Event.player = game.player;
                         Fire.fire_event = null;
                         Fire.burning_objects = new List<PhysicalObject>();
@@ -502,8 +502,8 @@ namespace Forays
                                 game.Q.Add(e);
                             }
                             Item.GenerateUnIDedNames();
-                            game.Map.GenerateLevelTypes();
-                            game.Map.GenerateLevel();
+                            game.map.GenerateLevelTypes();
+                            game.map.GenerateLevel();
                             game.player.UpdateRadius(0, 6, true);
                             Item.Create(ConsumableType.BANDAGES, game.player).other_data = 5;
                             Item.Create(ConsumableType.FLINT_AND_STEEL, game.player).other_data = 3;
@@ -522,36 +522,36 @@ namespace Forays
                             Dict<PhysicalObject, int> missing_location_id = new Dict<PhysicalObject, int>();
                             List<Actor> need_location = new List<Actor>();
                             Actor.player_name = b.ReadString();
-                            game.Map.currentLevelIdx = b.ReadInt32();
-                            game.Map.level_types = new List<LevelType>();
+                            game.map.currentLevelIdx = b.ReadInt32();
+                            game.map.level_types = new List<LevelType>();
                             int numLevelTypes = b.ReadInt32();
                             for (int i = 0; i < numLevelTypes; ++i)
                             {
-                                game.Map.level_types.Add((LevelType) b.ReadInt32());
+                                game.map.level_types.Add((LevelType) b.ReadInt32());
                             }
 
-                            game.Map.wiz_lite = b.ReadBoolean();
-                            game.Map.wiz_dark = b.ReadBoolean();
+                            game.map.wiz_lite = b.ReadBoolean();
+                            game.map.wiz_dark = b.ReadBoolean();
                             for (int i = 0; i < Global.ROWS; ++i)
                             {
                                 for (int j = 0; j < Global.COLS; ++j)
                                 {
-                                    game.Map.last_seen[i, j].c = b.ReadChar();
-                                    game.Map.last_seen[i, j].color = (Color) b.ReadInt32();
-                                    game.Map.last_seen[i, j].bgcolor = (Color) b.ReadInt32();
+                                    game.map.last_seen[i, j].c = b.ReadChar();
+                                    game.map.last_seen[i, j].color = (Color) b.ReadInt32();
+                                    game.map.last_seen[i, j].bgcolor = (Color) b.ReadInt32();
                                 }
                             }
 
-                            if (game.Map.CurrentLevelType == LevelType.Final)
+                            if (game.map.CurrentLevelType == LevelType.Final)
                             {
-                                game.Map.final_level_cultist_count = new int[5];
+                                game.map.final_level_cultist_count = new int[5];
                                 for (int i = 0; i < 5; ++i)
                                 {
-                                    game.Map.final_level_cultist_count[i] = b.ReadInt32();
+                                    game.map.final_level_cultist_count[i] = b.ReadInt32();
                                 }
 
-                                game.Map.final_level_demon_count = b.ReadInt32();
-                                game.Map.final_level_clock = b.ReadInt32();
+                                game.map.final_level_demon_count = b.ReadInt32();
+                                game.map.final_level_clock = b.ReadInt32();
                             }
 
                             Actor.feats_in_order = new List<FeatType>();
@@ -581,7 +581,7 @@ namespace Forays
                                     a.col = b.ReadInt32();
                                     if (a.row >= 0 && a.row < Global.ROWS && a.col >= 0 && a.col < Global.COLS)
                                     {
-                                        game.Map.actor[a.row, a.col] = a;
+                                        game.map.actor[a.row, a.col] = a;
                                     }
 
                                     Actor.tiebreakers.Add(a);
@@ -765,7 +765,7 @@ namespace Forays
                                 id.Add(ID, t);
                                 t.row = b.ReadInt32();
                                 t.col = b.ReadInt32();
-                                game.Map.tile[t.row, t.col] = t;
+                                game.map.tile[t.row, t.col] = t;
                                 //todo name
                                 t.symbol = b.ReadChar();
                                 t.color = (Color) b.ReadInt32();
@@ -972,8 +972,8 @@ namespace Forays
                             Actor.interrupted_path.row = b.ReadInt32();
                             Actor.interrupted_path.col = b.ReadInt32();
                             UI.viewing_commands_idx = b.ReadInt32();
-                            game.Map.feat_gained_this_level = b.ReadBoolean();
-                            game.Map.extra_danger = b.ReadInt32();
+                            game.map.feat_gained_this_level = b.ReadBoolean();
+                            game.map.extra_danger = b.ReadInt32();
                             int num_unIDed = b.ReadInt32();
                             for (int i = 0; i < num_unIDed; ++i)
                             {
@@ -1011,30 +1011,30 @@ namespace Forays
                                 }
                             }
 
-                            game.Map.aesthetics = new PosArray<AestheticFeature>(Global.ROWS, Global.COLS);
+                            game.map.aesthetics = new PosArray<AestheticFeature>(Global.ROWS, Global.COLS);
                             for (int i = 0; i < Global.ROWS; ++i)
                             {
                                 for (int j = 0; j < Global.COLS; ++j)
                                 {
-                                    game.Map.aesthetics[i, j] = (AestheticFeature) b.ReadInt32();
+                                    game.map.aesthetics[i, j] = (AestheticFeature) b.ReadInt32();
                                 }
                             }
 
-                            game.Map.dungeonDescription = b.ReadString();
+                            game.map.dungeonDescription = b.ReadString();
                             if (b.ReadBoolean())
                             {
                                 int numShrines = b.ReadInt32();
-                                game.Map.nextLevelShrines = new List<SchismDungeonGenerator.CellType>();
+                                game.map.nextLevelShrines = new List<SchismDungeonGenerator.CellType>();
                                 for (int i = 0; i < numShrines; ++i)
                                 {
-                                    game.Map.nextLevelShrines.Add((SchismDungeonGenerator.CellType) b.ReadInt32());
+                                    game.map.nextLevelShrines.Add((SchismDungeonGenerator.CellType) b.ReadInt32());
                                 }
                             }
 
-                            game.Map.shrinesFound = new int[5];
+                            game.map.shrinesFound = new int[5];
                             for (int i = 0; i < 5; ++i)
                             {
-                                game.Map.shrinesFound[i] = b.ReadInt32();
+                                game.map.shrinesFound[i] = b.ReadInt32();
                             }
 
                             Tile.spellbooks_generated = b.ReadInt32();
@@ -1058,8 +1058,8 @@ namespace Forays
                             File.Delete("forays.sav");
                             Tile.Feature(FeatureType.TELEPORTAL).color =
                                 Item.Prototype(ConsumableType.TELEPORTAL).color;
-                            game.Map.CalculatePoppyDistanceMap();
-                            game.Map.UpdateDangerValues();
+                            game.map.CalculatePoppyDistanceMap();
+                            game.map.UpdateDangerValues();
                         }
 
                         Screen.NoClose = true;
@@ -1092,7 +1092,7 @@ namespace Forays
                         MouseUI.IgnoreMouseMovement = false;
                         Screen.NoClose = false;
                         Global.SaveOptions();
-                        recentdepth = game.Map.Depth;
+                        recentdepth = game.map.Depth;
                         recentname = Actor.player_name;
                         recentwin = Global.BOSS_KILLED ? 'W' : '-';
                         recentcause = Global.KILLED_BY;
@@ -1122,7 +1122,7 @@ namespace Forays
                                         {
                                             char symbol = Global.BOSS_KILLED ? 'W' : '-';
                                             newhighscores.Add(
-                                                $"{game.Map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
+                                                $"{game.map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
                                             //newhighscores.Add(game.M.current_level.ToString() + " " + symbol + " " + Actor.player_name + " -- " + Global.KILLED_BY);
                                             on_highscore_list = true;
                                         }
@@ -1135,13 +1135,13 @@ namespace Forays
                                     {
                                         string[] tokens = s.Split(' ');
                                         int dlev = Convert.ToInt32(tokens[0]);
-                                        if (dlev < game.Map.Depth || (dlev == game.Map.Depth && Global.BOSS_KILLED))
+                                        if (dlev < game.map.Depth || (dlev == game.map.Depth && Global.BOSS_KILLED))
                                         {
                                             if (!added)
                                             {
                                                 char symbol = Global.BOSS_KILLED ? 'W' : '-';
                                                 newhighscores.Add(
-                                                    $"{game.Map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
+                                                    $"{game.map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
                                                 //newhighscores.Add(game.M.current_level.ToString() + " " + symbol + " " + Actor.player_name + " -- " + Global.KILLED_BY);
                                                 ++num_scores;
                                                 added = true;
@@ -1170,7 +1170,7 @@ namespace Forays
                                 newhighscores.Add("--");
                                 char symbol = Global.BOSS_KILLED ? 'W' : '-';
                                 newhighscores.Add(
-                                    $"{game.Map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
+                                    $"{game.map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
                                 //newhighscores.Add(game.M.current_level.ToString() + " " + symbol + " " + Actor.player_name + " -- " + Global.KILLED_BY);
                                 newhighscores.Add("--");
                                 on_highscore_list = true;
@@ -1444,27 +1444,27 @@ namespace Forays
                         MouseUI.PushButtonMap();
                         Dictionary<Actor, colorchar> old_ch = new Dictionary<Actor, colorchar>();
                         List<Actor> drawn = new List<Actor>();
-                        foreach (Actor a in game.Map.AllActors())
+                        foreach (Actor a in game.map.AllActors())
                         {
                             if (game.player.CanSee(a))
                             {
-                                old_ch.Add(a, game.Map.last_seen[a.row, a.col]);
-                                game.Map.last_seen[a.row, a.col] = new colorchar(a.symbol, a.color);
+                                old_ch.Add(a, game.map.last_seen[a.row, a.col]);
+                                game.map.last_seen[a.row, a.col] = new colorchar(a.symbol, a.color);
                                 drawn.Add(a);
                             }
                         }
 
-                        Screen.MapDrawWithStrings(game.Map.last_seen, 0, 0, Global.ROWS, Global.COLS);
+                        Screen.MapDrawWithStrings(game.map.last_seen, 0, 0, Global.ROWS, Global.COLS);
                         game.player.GetTarget(true, -1, -1, true, false, false, "");
                         //game.UI.Display("Press any key to continue. ");
                         //Input.ReadKey();
                         MouseUI.PopButtonMap();
                         foreach (Actor a in drawn)
                         {
-                            game.Map.last_seen[a.row, a.col] = old_ch[a];
+                            game.map.last_seen[a.row, a.col] = old_ch[a];
                         }
 
-                        game.Map.Redraw();
+                        game.map.Redraw();
                         /*foreach(Tile t in game.M.AllTiles()){
                             if(t.type != TileType.FLOOR && !t.IsTrap()){
                                 bool good = false;
@@ -1575,7 +1575,7 @@ namespace Forays
                         }
 
                         file.WriteLine();
-                        foreach (Tile t in game.Map.AllTiles())
+                        foreach (Tile t in game.map.AllTiles())
                         {
                             if (t.type != TileType.FLOOR && !t.IsTrap())
                             {
@@ -1597,7 +1597,7 @@ namespace Forays
 
                         Screen.WriteMapChar(0, 0,
                             '-'); //todo: this was a hack. can now be replaced with the proper Redraw method, I think.
-                        game.Map.Draw();
+                        game.map.Draw();
                         int col = 0;
                         foreach (colorchar cch in Screen.GetCurrentMap())
                         {
