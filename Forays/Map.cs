@@ -9,6 +9,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using SchismDungeonGenerator;
 using Utilities;
 using PosArrays;
@@ -146,6 +147,8 @@ namespace Forays
 
         public Map(Game g)
         {
+            Debug.Assert(g.Player != null, "The Player is Null.");
+
             //tile = new Tile[ROWS,COLS];
             //actor = new Actor[ROWS,COLS];
             currentLevelIdx = -1;
