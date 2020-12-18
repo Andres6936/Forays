@@ -779,16 +779,23 @@ namespace Forays
                                         a.weapons.AddLast(w);
                                     }
 
+                                    // 14.26 Number Armors (Int32)
                                     int num_armors = b.ReadInt32();
                                     for (int j = 0; j < num_armors; ++j)
                                     {
                                         Armor ar = new Armor(ArmorType.NO_ARMOR);
+                                        // 14.26.1 Armor Type (Int32)
                                         ar.type = (ArmorType) b.ReadInt32();
+                                        // 14.26.2 Enchantment Type (Int32)
                                         ar.enchantment = (EnchantmentType) b.ReadInt32();
+
+                                        // 14.26.3 Number Statues (Int32)
                                         int num_statuses = b.ReadInt32();
                                         for (int k = 0; k < num_statuses; ++k)
                                         {
+                                            // 14.26.3.1 Equipment Status (Int32)
                                             EquipmentStatus st = (EquipmentStatus) b.ReadInt32();
+                                            // 14.26.3.2 Has ST (Boolean)
                                             bool has_st = b.ReadBoolean();
                                             ar.status[st] = has_st;
                                         }
@@ -796,9 +803,11 @@ namespace Forays
                                         a.armors.AddLast(ar);
                                     }
 
+                                    // 14.27 Number Magic Trinkets (Int32)
                                     int num_magic_trinkets = b.ReadInt32();
                                     for (int j = 0; j < num_magic_trinkets; ++j)
                                     {
+                                        // 14.27.1 Magic Trinket Type (Int32)
                                         a.magic_trinkets.Add((MagicTrinketType) b.ReadInt32());
                                     }
                                 }
