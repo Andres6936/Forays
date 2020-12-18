@@ -43,7 +43,7 @@ namespace Forays.Loader
                 }
 
                 var numberFeatList = reader.ReadInt32();
-                for (int index = 0; index < numberFeatList; index += 1)
+                for (var index = 0; index < numberFeatList; index += 1)
                 {
                     FeatTypes.Add((FeatType) reader.ReadInt32());
                 }
