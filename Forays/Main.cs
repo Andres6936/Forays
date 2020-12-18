@@ -537,244 +537,36 @@ namespace Forays
 
                             Actor.feats_in_order = binaryLoader.FeatTypes;
                             Actor.spells_in_order = binaryLoader.SpellTypes;
+                            Actor.tiebreakers = binaryLoader.Tiebreakers;
 
-                            // 14. Num Actor TieBreakers (Int32)
-                            int num_actor_tiebreakers = b.ReadInt32();
-                            Actor.tiebreakers = new List<Actor>(num_actor_tiebreakers);
-                            for (int i = 0; i < num_actor_tiebreakers; ++i)
+                            foreach (var tiebreaker in Actor.tiebreakers)
                             {
-                                // 14.1 Identification (Int32)
-                                int ID = b.ReadInt32();
-                                if (ID != 0)
+                                if (tiebreaker.row >= 0 && tiebreaker.row < Global.ROWS &&
+                                    tiebreaker.col >= 0 && tiebreaker.col < Global.COLS)
                                 {
-                                    Actor a = new Actor();
-                                    id.Add(ID, a);
-                                    // 14.2 Row Position (Int32)
-                                    a.row = b.ReadInt32();
-                                    // 14.3 Col Position (Int32)
-                                    a.col = b.ReadInt32();
-                                    if (a.row >= 0 && a.row < Global.ROWS && a.col >= 0 && a.col < Global.COLS)
-                                    {
-                                        game.map.actor[a.row, a.col] = a;
-                                    }
-
-                                    Actor.tiebreakers.Add(a);
-                                    //todo name
-                                    // 14.4 Symbol (Char)
-                                    a.symbol = b.ReadChar();
-                                    // 14.5 Color (Int32)
-                                    a.color = (Color) b.ReadInt32();
-                                    // 14.6 Actor Type (Int32)
-                                    a.type = (ActorType) b.ReadInt32();
-                                    if (a.type == ActorType.PLAYER)
-                                    {
-                                        game.Player = a;
-                                        Actor.player = a;
-                                        //Buffer.player = a; //todo check
-                                        Item.player = a;
-                                        Map.player = a;
-                                        Event.player = a;
-                                        Tile.player = a;
-                                    }
-
-                                    // 14.7 Maximum HP (Int32)
-                                    a.maxhp = b.ReadInt32();
-                                    // 14.8 Current HP (Int32)
-                                    a.curhp = b.ReadInt32();
-                                    // 14.9 Maximum MP (Int32)
-                                    a.maxmp = b.ReadInt32();
-                                    // 14.10 Current MP (Int32)
-                                    a.curmp = b.ReadInt32();
-                                    // 14.11 Speed (Int32)
-                                    a.speed = b.ReadInt32();
-                                    // 14.12 Light Radius (Int32)
-                                    a.light_radius = b.ReadInt32();
-                                    // 14.13 Target ID (Int32)
-                                    int target_ID = b.ReadInt32();
-                                    if (id.ContainsKey(target_ID))
-                                    {
-                                        a.target = (Actor) id[target_ID];
-                                    }
-                                    else
-                                    {
-                                        a.target = null;
-                                        need_targets.Add(a);
-                                        missing_target_id[a] = target_ID;
-                                    }
-
-                                    // 14.14 Number Items (Int32)
-                                    int num_items = b.ReadInt32();
-                                    for (int j = 0; j < num_items; ++j)
-                                    {
-                                        // 14.14.1 Identification Item (Int32)
-                                        int item_id = b.ReadInt32();
-                                        if (item_id != 0)
-                                        {
-                                            Item item = new Item();
-                                            id.Add(item_id, item);
-                                            // 14.14.2 Row Position Item (Int32)
-                                            item.row = b.ReadInt32();
-                                            // 14.14.3 Col Position Item (Int32)
-                                            item.col = b.ReadInt32();
-                                            //todo name
-                                            // 14.14.4 Symbol Item (Char)
-                                            item.symbol = b.ReadChar();
-                                            // 14.14.5 Color Item (Int32)
-                                            item.color = (Color) b.ReadInt32();
-                                            // 14.14.6 Light Radius Item (Int32)
-                                            item.light_radius = b.ReadInt32();
-                                            // 14.14.7 Consumable Type (Int32)
-                                            item.type = (ConsumableType) b.ReadInt32();
-                                            // 14.14.8 Quantity (Int32)
-                                            item.quantity = b.ReadInt32();
-                                            // 14.14.9 Charges (Int32)
-                                            item.charges = b.ReadInt32();
-                                            // 14.14.10 Other Data (Int32)
-                                            item.other_data = b.ReadInt32();
-                                            // 14.14.11 Ignored (Boolean)
-                                            item.ignored = b.ReadBoolean();
-                                            // 14.14.12 Do Not Stack (Boolean)
-                                            item.do_not_stack = b.ReadBoolean();
-                                            // 14.14.13 Revealed By Light (Boolean)
-                                            item.revealed_by_light = b.ReadBoolean();
-                                            a.inv.Add(item);
-                                        }
-                                    }
-
-                                    // 14.15 Number Attributes (Int32)
-                                    int num_attrs = b.ReadInt32();
-                                    for (int j = 0; j < num_attrs; ++j)
-                                    {
-                                        // 14.15.1 Attribute Type (Int32)
-                                        AttrType t = (AttrType) b.ReadInt32();
-                                        // 14.15.2 Attribute Value (Int32)
-                                        a.attrs[t] = b.ReadInt32();
-                                    }
-
-                                    // 14.16 Number Skills (Int32)
-                                    int num_skills = b.ReadInt32();
-                                    for (int j = 0; j < num_skills; ++j)
-                                    {
-                                        // 14.16.1 Skill Type (Int32)
-                                        SkillType t = (SkillType) b.ReadInt32();
-                                        // 14.16.2 Skill Value (Int32)
-                                        a.skills[t] = b.ReadInt32();
-                                    }
-
-                                    // 14.17 Number Feat (Int32)
-                                    int num_feats = b.ReadInt32();
-                                    for (int j = 0; j < num_feats; ++j)
-                                    {
-                                        // 14.17.1 Feat Type (Int32)
-                                        FeatType t = (FeatType) b.ReadInt32();
-                                        // 14.17.2 Feat Value (Boolean)
-                                        a.feats[t] = b.ReadBoolean();
-                                    }
-
-                                    // 14.18 Number Spell (Int32)
-                                    int num_spells = b.ReadInt32();
-                                    for (int j = 0; j < num_spells; ++j)
-                                    {
-                                        // 14.18.1 Spell Type (Int32)
-                                        SpellType t = (SpellType) b.ReadInt32();
-                                        // 14.18.2 Spell Value (Boolean)
-                                        a.spells[t] = b.ReadBoolean();
-                                    }
-
-                                    // 14.19 Exhaustion (Int32)
-                                    a.exhaustion = b.ReadInt32();
-                                    // 14.20 Time Last Action (Int32)
-                                    a.time_of_last_action = b.ReadInt32();
-                                    // 14.21 Recover Time (Int32)
-                                    a.recover_time = b.ReadInt32();
-
-                                    // 14.22 Path Count (Int32)
-                                    int path_count = b.ReadInt32();
-                                    for (int j = 0; j < path_count; ++j)
-                                    {
-                                        // 14.22.1 Path Row (Int32)
-                                        int path_row = b.ReadInt32();
-                                        // 14.22.2 Path Col (Int32)
-                                        int path_col = b.ReadInt32();
-                                        a.path.Add(new pos(path_row, path_col));
-                                    }
-
-                                    // 14.23 Location ID (Int32)
-                                    int location_ID = b.ReadInt32();
-                                    if (id.ContainsKey(location_ID))
-                                    {
-                                        a.target_location = (Tile) id[location_ID];
-                                    }
-                                    else
-                                    {
-                                        a.target_location = null;
-                                        need_location.Add(a);
-                                        missing_location_id[a] = location_ID;
-                                    }
-
-                                    // 14.24 Player Visibility Duration (Int32)
-                                    a.player_visibility_duration = b.ReadInt32();
-
-                                    // 14.25 Number Weapons (Int32)
-                                    int num_weapons = b.ReadInt32();
-                                    for (int j = 0; j < num_weapons; ++j)
-                                    {
-                                        Weapon w = new Weapon(WeaponType.NO_WEAPON);
-
-                                        // 14.25.1 Weapon Type
-                                        w.type = (WeaponType) b.ReadInt32();
-                                        // 14.25.2 Enchantment Type (Int32)
-                                        w.enchantment = (EnchantmentType) b.ReadInt32();
-
-                                        // 14.25.3 Number Statues (Int32)
-                                        int num_statuses = b.ReadInt32();
-                                        for (int k = 0; k < num_statuses; ++k)
-                                        {
-                                            // 14.25.3.1 Equipment Status (Int32)
-                                            EquipmentStatus st = (EquipmentStatus) b.ReadInt32();
-                                            // 14.25.3.2 Has ST (Boolean)
-                                            bool has_st = b.ReadBoolean();
-                                            w.status[st] = has_st;
-                                        }
-
-                                        a.weapons.AddLast(w);
-                                    }
-
-                                    // 14.26 Number Armors (Int32)
-                                    int num_armors = b.ReadInt32();
-                                    for (int j = 0; j < num_armors; ++j)
-                                    {
-                                        Armor ar = new Armor(ArmorType.NO_ARMOR);
-                                        // 14.26.1 Armor Type (Int32)
-                                        ar.type = (ArmorType) b.ReadInt32();
-                                        // 14.26.2 Enchantment Type (Int32)
-                                        ar.enchantment = (EnchantmentType) b.ReadInt32();
-
-                                        // 14.26.3 Number Statues (Int32)
-                                        int num_statuses = b.ReadInt32();
-                                        for (int k = 0; k < num_statuses; ++k)
-                                        {
-                                            // 14.26.3.1 Equipment Status (Int32)
-                                            EquipmentStatus st = (EquipmentStatus) b.ReadInt32();
-                                            // 14.26.3.2 Has ST (Boolean)
-                                            bool has_st = b.ReadBoolean();
-                                            ar.status[st] = has_st;
-                                        }
-
-                                        a.armors.AddLast(ar);
-                                    }
-
-                                    // 14.27 Number Magic Trinkets (Int32)
-                                    int num_magic_trinkets = b.ReadInt32();
-                                    for (int j = 0; j < num_magic_trinkets; ++j)
-                                    {
-                                        // 14.27.1 Magic Trinket Type (Int32)
-                                        a.magic_trinkets.Add((MagicTrinketType) b.ReadInt32());
-                                    }
+                                    game.map.actor[tiebreaker.row, tiebreaker.col] = tiebreaker;
                                 }
-                                else
+
+                                if (tiebreaker.type == ActorType.PLAYER)
                                 {
-                                    Actor.tiebreakers.Add(null);
+                                    game.Player = tiebreaker;
+                                    Actor.player = tiebreaker;
+                                    Item.player = tiebreaker;
+                                    Map.player = tiebreaker;
+                                    Event.player = tiebreaker;
+                                    Tile.player = tiebreaker;
+                                }
+
+                                if (tiebreaker.target == null)
+                                {
+                                    need_targets.Add(tiebreaker);
+                                    // missing_target_id[a] = target_ID;
+                                }
+
+                                if (tiebreaker.target_location == null)
+                                {
+                                    need_location.Add(tiebreaker);
+                                    // missing_location_id[a] = location_ID;
                                 }
                             }
 
