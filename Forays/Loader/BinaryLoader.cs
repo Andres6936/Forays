@@ -36,6 +36,9 @@ namespace Forays.Loader
                     {
                         FinalLevelCultistCount[index] = reader.ReadInt32();
                     }
+
+                    FinalLevelDemonCount = reader.ReadInt32();
+                    FinalLevelClock = reader.ReadInt32();
                 }
             }
         }
