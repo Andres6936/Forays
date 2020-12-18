@@ -553,15 +553,19 @@ namespace Forays
                                     game.map.final_level_cultist_count[i] = b.ReadInt32();
                                 }
 
+                                // 10. Final Level Demon Count (Int32)
                                 game.map.final_level_demon_count = b.ReadInt32();
+                                // 11. Final Level Clock (Int32)
                                 game.map.final_level_clock = b.ReadInt32();
                             }
 
                             Actor.feats_in_order = new List<FeatType>();
                             Actor.spells_in_order = new List<SpellType>();
+                            // 12. Num Feature List (Int32)
                             int num_featlist = b.ReadInt32();
                             for (int i = 0; i < num_featlist; ++i)
                             {
+                                // 12.1 Feature Type (Int32) -> Depend of 12
                                 Actor.feats_in_order.Add((FeatType) b.ReadInt32());
                             }
 
