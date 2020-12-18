@@ -30,9 +30,12 @@ namespace Forays.Loader
                     }
                 }
 
-                for (var index = 0; index < 5; index += 1)
+                if (LevelTypes[CurrentLevelId] == LevelType.Final)
                 {
-                    FinalLevelCultistCount[index] = reader.ReadInt32();
+                    for (var index = 0; index < 5; index += 1)
+                    {
+                        FinalLevelCultistCount[index] = reader.ReadInt32();
+                    }
                 }
             }
         }
