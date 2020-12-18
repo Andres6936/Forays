@@ -145,6 +145,10 @@ namespace Forays
             }
         }
 
+        /// <summary>
+        /// Precondition: The variable Player of object Game should be different of null.
+        /// </summary>
+        /// <param name="g">Instance of game</param>
         public Map(Game g)
         {
             Debug.Assert(g.Player != null, "The Player is Null.");
