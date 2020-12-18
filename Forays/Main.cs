@@ -690,28 +690,39 @@ namespace Forays
                                         a.attrs[t] = b.ReadInt32();
                                     }
 
+                                    // 14.16 Number Skills (Int32)
                                     int num_skills = b.ReadInt32();
                                     for (int j = 0; j < num_skills; ++j)
                                     {
+                                        // 14.16.1 Skill Type (Int32)
                                         SkillType t = (SkillType) b.ReadInt32();
+                                        // 14.16.2 Skill Value (Int32)
                                         a.skills[t] = b.ReadInt32();
                                     }
 
+                                    // 14.17 Number Feat (Int32)
                                     int num_feats = b.ReadInt32();
                                     for (int j = 0; j < num_feats; ++j)
                                     {
+                                        // 14.17.1 Feat Type (Int32)
                                         FeatType t = (FeatType) b.ReadInt32();
+                                        // 14.17.2 Feat Value (Boolean)
                                         a.feats[t] = b.ReadBoolean();
                                     }
 
+                                    // 14.18 Number Spell (Int32)
                                     int num_spells = b.ReadInt32();
                                     for (int j = 0; j < num_spells; ++j)
                                     {
+                                        // 14.18.1 Spell Type (Int32)
                                         SpellType t = (SpellType) b.ReadInt32();
+                                        // 14.18.2 Spell Value (Boolean)
                                         a.spells[t] = b.ReadBoolean();
                                     }
 
+                                    // 14.19 Exhaustion (Int32)
                                     a.exhaustion = b.ReadInt32();
+                                    // 14.20 Time Last Action (Int32)
                                     a.time_of_last_action = b.ReadInt32();
                                     a.recover_time = b.ReadInt32();
                                     int path_count = b.ReadInt32();
