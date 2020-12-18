@@ -506,12 +506,14 @@ namespace Forays
                             //loading
                             FileStream file = new FileStream("forays.sav", FileMode.Open);
                             BinaryReader b = new BinaryReader(file);
-                            Dictionary<int, PhysicalObject> id = new Dictionary<int, PhysicalObject>();
+
+                            var id = new Dictionary<int, PhysicalObject>();
                             id.Add(0, null);
-                            Dict<PhysicalObject, int> missing_target_id = new Dict<PhysicalObject, int>();
-                            List<Actor> need_targets = new List<Actor>();
-                            Dict<PhysicalObject, int> missing_location_id = new Dict<PhysicalObject, int>();
-                            List<Actor> need_location = new List<Actor>();
+                            var missing_target_id = new Dict<PhysicalObject, int>();
+                            var need_targets = new List<Actor>();
+                            var missing_location_id = new Dict<PhysicalObject, int>();
+                            var need_location = new List<Actor>();
+
                             Actor.player_name = b.ReadString();
                             game.map.currentLevelIdx = b.ReadInt32();
                             game.map.level_types = new List<LevelType>();
