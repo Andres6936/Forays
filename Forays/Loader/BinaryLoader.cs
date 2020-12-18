@@ -60,6 +60,14 @@ namespace Forays.Loader
                 var numberTiebreakers = reader.ReadInt32();
                 for (var index = 0; index < numberTiebreakers; index += 1)
                 {
+                    var identification = reader.ReadInt32();
+
+                    if (identification == 0)
+                    {
+                        continue;
+                    }
+
+                    var actor = new Actor();
                 }
             }
         }
