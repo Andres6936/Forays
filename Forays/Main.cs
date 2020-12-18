@@ -569,22 +569,28 @@ namespace Forays
                                 Actor.feats_in_order.Add((FeatType) b.ReadInt32());
                             }
 
+                            // 13. Number Spell List (Int32)
                             int num_spelllist = b.ReadInt32();
                             for (int i = 0; i < num_spelllist; ++i)
                             {
+                                // 13.1 Spell Type (Int32) -> Depend of 13
                                 Actor.spells_in_order.Add((SpellType) b.ReadInt32());
                             }
 
+                            // 14. Num Actor TieBreakers (Int32)
                             int num_actor_tiebreakers = b.ReadInt32();
                             Actor.tiebreakers = new List<Actor>(num_actor_tiebreakers);
                             for (int i = 0; i < num_actor_tiebreakers; ++i)
                             {
+                                // 14.1 Identification (Int32)
                                 int ID = b.ReadInt32();
                                 if (ID != 0)
                                 {
                                     Actor a = new Actor();
                                     id.Add(ID, a);
+                                    // 14.2 Row Position (Int32)
                                     a.row = b.ReadInt32();
+                                    // 14.3 Col Position (Int32)
                                     a.col = b.ReadInt32();
                                     if (a.row >= 0 && a.row < Global.ROWS && a.col >= 0 && a.col < Global.COLS)
                                     {
