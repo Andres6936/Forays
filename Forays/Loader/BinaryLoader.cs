@@ -144,6 +144,27 @@ namespace Forays.Loader
                         actor.skills[skillType] = reader.ReadInt32();
                     }
 
+                    var numberFeats = reader.ReadInt32();
+                    for (var indexFeat = 0; indexFeat < numberFeats; indexFeat += 1)
+                    {
+                        var featType = (FeatType) reader.ReadInt32();
+                        actor.feats[featType] = reader.ReadBoolean();
+                    }
+
+                    var numberSpells = reader.ReadInt32();
+                    for (var indexSpell = 0; indexSpell < numberSpells; indexSpell += 1)
+                    {
+                        var spellType = (SpellType) reader.ReadInt32();
+                        actor.spells[spellType] = reader.ReadBoolean();
+                    }
+
+                    // 14.19 Exhaustion (Int32)
+                    actor.exhaustion = reader.ReadInt32();
+                    // 14.20 Time Last Action (Int32)
+                    actor.time_of_last_action = reader.ReadInt32();
+                    // 14.21 Recover Time (Int32)
+                    actor.recover_time = reader.ReadInt32();
+
                     Tiebreakers.Add(actor);
                     identificator.Add(identification, actor);
                 }
