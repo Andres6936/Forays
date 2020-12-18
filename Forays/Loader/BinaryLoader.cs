@@ -1,6 +1,7 @@
 using System.IO;
 using System.Collections.Generic;
 using Forays.Enums;
+using PosArrays;
 
 namespace Forays.Loader
 {
@@ -164,6 +165,19 @@ namespace Forays.Loader
                     actor.time_of_last_action = reader.ReadInt32();
                     // 14.21 Recover Time (Int32)
                     actor.recover_time = reader.ReadInt32();
+
+                    // 14.22 Path Count (Int32)
+                    var pathCount = reader.ReadInt32();
+                    for (var indexPath = 0; indexPath < pathCount; indexPath += 1)
+                    {
+                        var pathRow = reader.ReadInt32();
+                        var pathCol = reader.ReadInt32();
+                        actor.path.Add(new pos(pathRow, pathCol));
+                    }
+
+                    // 14.23 Location ID (Int32)
+                    // Ignored for the moment
+                    var locationId = reader.ReadInt32();
 
                     Tiebreakers.Add(actor);
                     identificator.Add(identification, actor);
