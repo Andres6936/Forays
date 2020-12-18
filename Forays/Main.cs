@@ -575,9 +575,11 @@ namespace Forays
                             for (int i = 0; i < num_groups; ++i)
                             {
                                 List<Actor> group = new List<Actor>();
+                                // 15.1 Group Size (Int32)
                                 int group_size = b.ReadInt32();
                                 for (int j = 0; j < group_size; ++j)
                                 {
+                                    // 15.1.1 Actor Value (Int32)
                                     group.Add((Actor) id[b.ReadInt32()]);
                                 }
 
@@ -587,6 +589,7 @@ namespace Forays
                                 }
                             }
 
+                            // 16. Number Tiles
                             int num_tiles = b.ReadInt32();
                             for (int i = 0; i < num_tiles; ++i)
                             {
