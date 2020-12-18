@@ -817,6 +817,7 @@ namespace Forays
                                 }
                             }
 
+                            // 15. Number Groups (Int32)
                             int num_groups = b.ReadInt32();
                             for (int i = 0; i < num_groups; ++i)
                             {
