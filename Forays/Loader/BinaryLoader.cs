@@ -167,28 +167,39 @@ namespace Forays.Loader
                     var numberAttributes = reader.ReadInt32();
                     for (var attribute = 0; attribute < numberAttributes; attribute += 1)
                     {
+                        // 14.15.1 Attribute Type (Int32)
                         var attributeType = (AttrType) reader.ReadInt32();
+                        // 14.15.2 Attribute Value (Int32)
                         actor.attrs[attributeType] = reader.ReadInt32();
                     }
 
+                    // 14.16 Number Skills (Int32)
                     var numberSkills = reader.ReadInt32();
                     for (var indexSkill = 0; indexSkill < numberSkills; indexSkill += 1)
                     {
+                        // 14.16.1 Skill Type (Int32)
                         var skillType = (SkillType) reader.ReadInt32();
+                        // 14.16.2 Skill Value (Int32)
                         actor.skills[skillType] = reader.ReadInt32();
                     }
 
+                    // 14.17 Number Feat (Int32)
                     var numberFeats = reader.ReadInt32();
                     for (var indexFeat = 0; indexFeat < numberFeats; indexFeat += 1)
                     {
+                        // 14.17.1 Feat Type (Int32)
                         var featType = (FeatType) reader.ReadInt32();
+                        // 14.17.2 Feat Value (Boolean)
                         actor.feats[featType] = reader.ReadBoolean();
                     }
 
+                    // 14.18 Number Spell (Int32)
                     var numberSpells = reader.ReadInt32();
                     for (var indexSpell = 0; indexSpell < numberSpells; indexSpell += 1)
                     {
+                        // 14.18.1 Spell Type (Int32)
                         var spellType = (SpellType) reader.ReadInt32();
+                        // 14.18.2 Spell Value (Boolean)
                         actor.spells[spellType] = reader.ReadBoolean();
                     }
 
