@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using Forays.Entity;
 using Forays.Enums;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -266,9 +267,8 @@ namespace Forays
                             {new AttackInfo(100, 2, AttackEffect.NO_CRIT, "& hit *", "& miss *", "")};
                         if (!saved_game)
                         {
-                            game.Player = new Actor(ActorType.PLAYER,
-                                new Nym.Name("you", noArticles: true, secondPerson: true), '@', Color.White, 100, 100,
-                                0, 0, AttrType.HUMANOID_INTELLIGENCE);
+                            game.Player = new Player(new Nym.Name("you", noArticles: true, secondPerson: true), 0,
+                                AttrType.HUMANOID_INTELLIGENCE);
                             game.Player.inv = new List<Item>();
                             Actor.feats_in_order = new List<FeatType>();
                             Actor.spells_in_order = new List<SpellType>();
