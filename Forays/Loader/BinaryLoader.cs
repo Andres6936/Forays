@@ -1,4 +1,5 @@
 using System.IO;
+using Forays.Enums;
 
 namespace Forays.Loader
 {
@@ -39,6 +40,18 @@ namespace Forays.Loader
 
                     FinalLevelDemonCount = reader.ReadInt32();
                     FinalLevelClock = reader.ReadInt32();
+                }
+
+                var numberFeatList = reader.ReadInt32();
+                for (int index = 0; index < numberFeatList; index += 1)
+                {
+                    FeatTypes.Add((FeatType) reader.ReadInt32());
+                }
+
+                var numberSpellList = reader.ReadInt32();
+                for (var index = 0; index < numberSpellList; index += 1)
+                {
+                    SpellTypes.Add((SpellType) reader.ReadInt32());
                 }
             }
         }
