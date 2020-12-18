@@ -134,16 +134,27 @@ namespace Forays.Loader
 
                         var item = new Item
                         {
+                            // 14.14.2 Row Position Item (Int32)
                             row = reader.ReadInt32(),
+                            // 14.14.3 Col Position Item (Int32)
                             col = reader.ReadInt32(),
+                            // 14.14.4 Symbol Item (Char)
                             symbol = reader.ReadChar(),
+                            // 14.14.5 Color Item (Int32)
                             color = (Color) reader.ReadInt32(),
+                            // 14.14.6 Light Radius Item (Int32)
                             light_radius = reader.ReadInt32(),
+                            // 14.14.7 Consumable Type (Int32)
                             type = (ConsumableType) reader.ReadInt32(),
+                            // 14.14.8 Quantity (Int32)
                             quantity = reader.ReadInt32(),
+                            // 14.14.9 Charges (Int32)
                             charges = reader.ReadInt32(),
+                            // 14.14.10 Other Data (Int32)
                             other_data = reader.ReadInt32(),
+                            // 14.14.11 Ignored (Boolean)
                             ignored = reader.ReadBoolean(),
+                            // 14.14.12 Do Not Stack (Boolean)
                             do_not_stack = reader.ReadBoolean(),
                             // 14.14.13 Revealed By Light (Boolean)
                             revealed_by_light = reader.ReadBoolean()
