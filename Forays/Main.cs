@@ -724,15 +724,21 @@ namespace Forays
                                     a.exhaustion = b.ReadInt32();
                                     // 14.20 Time Last Action (Int32)
                                     a.time_of_last_action = b.ReadInt32();
+                                    // 14.21 Recover Time (Int32)
                                     a.recover_time = b.ReadInt32();
+
+                                    // 14.22 Path Count (Int32)
                                     int path_count = b.ReadInt32();
                                     for (int j = 0; j < path_count; ++j)
                                     {
+                                        // 14.22.1 Path Row (Int32)
                                         int path_row = b.ReadInt32();
+                                        // 14.22.2 Path Col (Int32)
                                         int path_col = b.ReadInt32();
                                         a.path.Add(new pos(path_row, path_col));
                                     }
 
+                                    // 14.23 Location ID (Int32)
                                     int location_ID = b.ReadInt32();
                                     if (id.ContainsKey(location_ID))
                                     {
@@ -745,17 +751,27 @@ namespace Forays
                                         missing_location_id[a] = location_ID;
                                     }
 
+                                    // 14.24 Player Visibility Duration (Int32)
                                     a.player_visibility_duration = b.ReadInt32();
+
+                                    // 14.25 Number Weapons (Int32)
                                     int num_weapons = b.ReadInt32();
                                     for (int j = 0; j < num_weapons; ++j)
                                     {
                                         Weapon w = new Weapon(WeaponType.NO_WEAPON);
+
+                                        // 14.25.1 Weapon Type
                                         w.type = (WeaponType) b.ReadInt32();
+                                        // 14.25.2 Enchantment Type (Int32)
                                         w.enchantment = (EnchantmentType) b.ReadInt32();
+
+                                        // 14.25.3 Number Statues (Int32)
                                         int num_statuses = b.ReadInt32();
                                         for (int k = 0; k < num_statuses; ++k)
                                         {
+                                            // 14.25.3.1 Equipment Status (Int32)
                                             EquipmentStatus st = (EquipmentStatus) b.ReadInt32();
+                                            // 14.25.3.2 Has ST (Boolean)
                                             bool has_st = b.ReadBoolean();
                                             w.status[st] = has_st;
                                         }
