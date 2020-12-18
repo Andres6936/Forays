@@ -232,6 +232,14 @@ namespace Forays.Loader
                         actor.armors.AddLast(armor);
                     }
 
+                    // 14.27 Number Magic Trinkets (Int32)
+                    var numberMagicTrinkets = reader.ReadInt32();
+                    for (var magicTrinket = 0; magicTrinket < numberMagicTrinkets; magicTrinket += 1)
+                    {
+                        // 14.27.1 Magic Trinket Type (Int32)
+                        actor.magic_trinkets.Add((MagicTrinketType) reader.ReadInt32());
+                    }
+
                     Tiebreakers.Add(actor);
                     identificator.Add(identification, actor);
                 }
