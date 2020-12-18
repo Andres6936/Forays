@@ -3,6 +3,16 @@ using Forays.Enums;
 
 namespace Forays.Entity
 {
+    /// <summary>
+    /// A player of a game is a participant therein. The term 'player' is used
+    /// with this same meaning both in game theory and in ordinary recreational
+    /// games. 
+    ///
+    /// "To become a player, one must voluntarily accept the rules and
+    /// constraints of a game."
+    /// Reference: Fullerton (2008). Game Design Workshop: A Play-centric
+    /// Approach To Creating Innovative Games.
+    /// </summary>
     public class Player : Actor
     {
         /// <summary>
