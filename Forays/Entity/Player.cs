@@ -12,6 +12,14 @@ namespace Forays.Entity
     /// constraints of a game."
     /// Reference: Fullerton (2008). Game Design Workshop: A Play-centric
     /// Approach To Creating Innovative Games.
+    ///
+    /// A player character (also known as PC and playable character) is a
+    /// fictional character in a video game or tabletop role-playing game whose
+    /// actions are directly controlled by a player of the game rather than the
+    /// rules of the game.
+    ///
+    /// The player character functions as a fictional, alternate body for the
+    /// player controlling the character.
     /// </summary>
     public class Player : Actor
     {
