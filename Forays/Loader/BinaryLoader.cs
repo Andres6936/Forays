@@ -214,7 +214,9 @@ namespace Forays.Loader
                     var pathCount = reader.ReadInt32();
                     for (var indexPath = 0; indexPath < pathCount; indexPath += 1)
                     {
+                        // 14.22.1 Path Row (Int32)
                         var pathRow = reader.ReadInt32();
+                        // 14.22.2 Path Col (Int32)
                         var pathCol = reader.ReadInt32();
                         actor.path.Add(new pos(pathRow, pathCol));
                     }
