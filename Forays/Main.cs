@@ -269,17 +269,8 @@ namespace Forays
                         {
                             game.Player = new Player(new Nym.Name("you", noArticles: true, secondPerson: true), 0,
                                 AttrType.HUMANOID_INTELLIGENCE);
-                            game.Player.inv = new List<Item>();
                             Actor.feats_in_order = new List<FeatType>();
                             Actor.spells_in_order = new List<SpellType>();
-                            game.Player.weapons.AddLast(new Weapon(WeaponType.SWORD));
-                            game.Player.weapons.AddLast(new Weapon(WeaponType.MACE));
-                            game.Player.weapons.AddLast(new Weapon(WeaponType.DAGGER));
-                            game.Player.weapons.AddLast(new Weapon(WeaponType.STAFF));
-                            game.Player.weapons.AddLast(new Weapon(WeaponType.BOW));
-                            game.Player.armors.AddLast(new Armor(ArmorType.LEATHER));
-                            game.Player.armors.AddLast(new Armor(ArmorType.CHAINMAIL));
-                            game.Player.armors.AddLast(new Armor(ArmorType.FULL_PLATE));
                         }
 
                         game.map = new Map(game);
