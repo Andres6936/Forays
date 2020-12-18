@@ -108,7 +108,7 @@ namespace Forays
         {
             list = new LinkedList<Event>();
             turn = 0;
-            B = g.B;
+            B = g.MessageBuffer;
         }
 
         public void Add(Event e)

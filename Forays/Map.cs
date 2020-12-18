@@ -149,9 +149,9 @@ namespace Forays
             //tile = new Tile[ROWS,COLS];
             //actor = new Actor[ROWS,COLS];
             currentLevelIdx = -1;
-            Map.player = g.player;
-            Map.Q = g.Q;
-            Map.B = g.B;
+            Map.player = g.Player;
+            Map.Q = g.Queue;
+            Map.B = g.MessageBuffer;
         }
 
         public bool BoundsCheck(int r, int c)

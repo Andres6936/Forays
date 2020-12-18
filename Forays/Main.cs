@@ -25,9 +25,9 @@ namespace Forays
     public class Game
     {
         private Map map;
-        public Queue Q;
-        public MessageBuffer B;
-        public Actor player;
+        public Queue Queue;
+        public MessageBuffer MessageBuffer;
+        public Actor Player;
 
         static void Main(string[] args)
         {
@@ -266,35 +266,35 @@ namespace Forays
                             {new AttackInfo(100, 2, AttackEffect.NO_CRIT, "& hit *", "& miss *", "")};
                         if (!saved_game)
                         {
-                            game.player = new Actor(ActorType.PLAYER,
+                            game.Player = new Actor(ActorType.PLAYER,
                                 new Nym.Name("you", noArticles: true, secondPerson: true), '@', Color.White, 100, 100,
                                 0, 0, AttrType.HUMANOID_INTELLIGENCE);
-                            game.player.inv = new List<Item>();
+                            game.Player.inv = new List<Item>();
                             Actor.feats_in_order = new List<FeatType>();
                             Actor.spells_in_order = new List<SpellType>();
-                            game.player.weapons.AddLast(new Weapon(WeaponType.SWORD));
-                            game.player.weapons.AddLast(new Weapon(WeaponType.MACE));
-                            game.player.weapons.AddLast(new Weapon(WeaponType.DAGGER));
-                            game.player.weapons.AddLast(new Weapon(WeaponType.STAFF));
-                            game.player.weapons.AddLast(new Weapon(WeaponType.BOW));
-                            game.player.armors.AddLast(new Armor(ArmorType.LEATHER));
-                            game.player.armors.AddLast(new Armor(ArmorType.CHAINMAIL));
-                            game.player.armors.AddLast(new Armor(ArmorType.FULL_PLATE));
+                            game.Player.weapons.AddLast(new Weapon(WeaponType.SWORD));
+                            game.Player.weapons.AddLast(new Weapon(WeaponType.MACE));
+                            game.Player.weapons.AddLast(new Weapon(WeaponType.DAGGER));
+                            game.Player.weapons.AddLast(new Weapon(WeaponType.STAFF));
+                            game.Player.weapons.AddLast(new Weapon(WeaponType.BOW));
+                            game.Player.armors.AddLast(new Armor(ArmorType.LEATHER));
+                            game.Player.armors.AddLast(new Armor(ArmorType.CHAINMAIL));
+                            game.Player.armors.AddLast(new Armor(ArmorType.FULL_PLATE));
                         }
 
                         game.map = new Map(game);
-                        game.B = new MessageBuffer(game);
-                        game.Q = new Queue(game);
-                        Map.Q = game.Q;
-                        Map.B = game.B;
+                        game.MessageBuffer = new MessageBuffer(game);
+                        game.Queue = new Queue(game);
+                        Map.Q = game.Queue;
+                        Map.B = game.MessageBuffer;
                         PhysicalObject.M = game.map;
-                        PhysicalObject.B = game.B;
-                        PhysicalObject.Q = game.Q;
-                        PhysicalObject.player = game.player;
-                        Event.Q = game.Q;
-                        Event.B = game.B;
+                        PhysicalObject.B = game.MessageBuffer;
+                        PhysicalObject.Q = game.Queue;
+                        PhysicalObject.player = game.Player;
+                        Event.Q = game.Queue;
+                        Event.B = game.MessageBuffer;
                         Event.M = game.map;
-                        Event.player = game.player;
+                        Event.player = game.Player;
                         Fire.fire_event = null;
                         Fire.burning_objects = new List<PhysicalObject>();
                         if (!saved_game)
@@ -497,18 +497,18 @@ namespace Forays
                             }
 
                             {
-                                Event e = new Event(game.player, 0, EventType.MOVE);
+                                Event e = new Event(game.Player, 0, EventType.MOVE);
                                 e.tiebreaker = 0;
-                                game.Q.Add(e);
+                                game.Queue.Add(e);
                             }
                             Item.GenerateUnIDedNames();
                             game.map.GenerateLevelTypes();
                             game.map.GenerateLevel();
-                            game.player.UpdateRadius(0, 6, true);
-                            Item.Create(ConsumableType.BANDAGES, game.player).other_data = 5;
-                            Item.Create(ConsumableType.FLINT_AND_STEEL, game.player).other_data = 3;
-                            game.player.inv[0].revealed_by_light = true;
-                            game.player.inv[1].revealed_by_light = true;
+                            game.Player.UpdateRadius(0, 6, true);
+                            Item.Create(ConsumableType.BANDAGES, game.Player).other_data = 5;
+                            Item.Create(ConsumableType.FLINT_AND_STEEL, game.Player).other_data = 3;
+                            game.Player.inv[0].revealed_by_light = true;
+                            game.Player.inv[1].revealed_by_light = true;
                         }
                         else
                         {
@@ -591,7 +591,7 @@ namespace Forays
                                     a.type = (ActorType) b.ReadInt32();
                                     if (a.type == ActorType.PLAYER)
                                     {
-                                        game.player = a;
+                                        game.Player = a;
                                         Actor.player = a;
                                         //Buffer.player = a; //todo check
                                         Item.player = a;
@@ -845,7 +845,7 @@ namespace Forays
                             }
 
                             int game_turn = b.ReadInt32();
-                            game.Q.turn =
+                            game.Queue.turn =
                                 -1; //this keeps events from being added incorrectly to the front of the queue while loading. turn is set correctly after events are all loaded.
                             int num_events = b.ReadInt32();
                             for (int i = 0; i < num_events; ++i)
@@ -936,19 +936,19 @@ namespace Forays
                                 e.time_created = b.ReadInt32();
                                 e.dead = b.ReadBoolean();
                                 e.tiebreaker = b.ReadInt32();
-                                game.Q.Add(e);
+                                game.Queue.Add(e);
                                 if (e.type == EventType.FIRE && !e.dead)
                                 {
                                     Fire.fire_event = e;
                                 }
                             }
 
-                            game.Q.turn = game_turn;
-                            foreach (Event e in game.Q.list)
+                            game.Queue.turn = game_turn;
+                            foreach (Event e in game.Queue.list)
                             {
-                                if (e.type == EventType.MOVE && e.target == game.player)
+                                if (e.type == EventType.MOVE && e.target == game.Player)
                                 {
-                                    game.Q.current_event = e;
+                                    game.Queue.current_event = e;
                                     break;
                                 }
                             }
@@ -1052,7 +1052,7 @@ namespace Forays
                             }
 
                             int message_pos = b.ReadInt32();
-                            game.B.LoadMessagesAndPosition(messages, message_pos, num_messages);
+                            game.MessageBuffer.LoadMessagesAndPosition(messages, message_pos, num_messages);
                             b.Close();
                             file.Close();
                             File.Delete("forays.sav");
@@ -1069,7 +1069,7 @@ namespace Forays
                         {
                             while (!Global.GAME_OVER)
                             {
-                                game.Q.Pop();
+                                game.Queue.Pop();
                             }
                         }
                         catch (Exception e)
@@ -1353,16 +1353,16 @@ namespace Forays
         static void GameOverScreen(Game game)
         {
             MouseUI.PushButtonMap();
-            game.player.attrs[AttrType.BLIND] = 0; //make sure the player can actually view the map
-            game.player.attrs[AttrType.BURNING] = 0;
-            game.player.attrs[AttrType.FROZEN] = 0; //...without borders
+            game.Player.attrs[AttrType.BLIND] = 0; //make sure the player can actually view the map
+            game.Player.attrs[AttrType.BURNING] = 0;
+            game.Player.attrs[AttrType.FROZEN] = 0; //...without borders
             //game.M.Draw();
             colorchar[,] mem = null;
             UI.DisplayStats();
             bool showed_IDed_tip = false;
             if (Global.KILLED_BY != "gave up" && !Help.displayed[TutorialTopic.IdentifiedConsumables])
             {
-                if (game.player.inv.Where(item =>
+                if (game.Player.inv.Where(item =>
                         Item.identified[item.type] && item.Is(ConsumableType.HEALING, ConsumableType.TIME)).Count > 0)
                 {
                     Help.TutorialTip(TutorialTopic.IdentifiedConsumables);
@@ -1383,7 +1383,7 @@ namespace Forays
                     }
                 }
 
-                if (known_count < 2 && game.player.inv.Where(item => !Item.identified[item.type]).Count > 2)
+                if (known_count < 2 && game.Player.inv.Where(item => !Item.identified[item.type]).Count > 2)
                 {
                     Help.TutorialTip(TutorialTopic.UnidentifiedConsumables);
                     Global.SaveOptions();
@@ -1397,7 +1397,7 @@ namespace Forays
             }
 
             List<string> postMortemInventoryList = new List<string>();
-            foreach (Item i in game.player.inv)
+            foreach (Item i in game.Player.inv)
             {
                 if (i.ItemClass == ConsumableClass.WAND) i.other_data = -1;
                 if (knownAtTimeOfDeath[i.type])
@@ -1433,9 +1433,9 @@ namespace Forays
                     Screen.MapDrawWithStrings(mem, 0, 0, Global.ROWS, Global.COLS);
                 }
 
-                game.player.Select("Would you like to examine your character! ", "".PadRight(Global.COLS),
+                game.Player.Select("Would you like to examine your character! ", "".PadRight(Global.COLS),
                     "".PadRight(Global.COLS), ls, true, false, false);
-                int sel = game.player.GetSelection("Would you like to examine your character? ", ls.Count, true, false,
+                int sel = game.Player.GetSelection("Would you like to examine your character? ", ls.Count, true, false,
                     false);
                 mem = Screen.GetCurrentMap();
                 switch (sel)
@@ -1446,7 +1446,7 @@ namespace Forays
                         List<Actor> drawn = new List<Actor>();
                         foreach (Actor a in game.map.AllActors())
                         {
-                            if (game.player.CanSee(a))
+                            if (game.Player.CanSee(a))
                             {
                                 old_ch.Add(a, game.map.last_seen[a.row, a.col]);
                                 game.map.last_seen[a.row, a.col] = new colorchar(a.symbol, a.color);
@@ -1455,7 +1455,7 @@ namespace Forays
                         }
 
                         Screen.MapDrawWithStrings(game.map.last_seen, 0, 0, Global.ROWS, Global.COLS);
-                        game.player.GetTarget(true, -1, -1, true, false, false, "");
+                        game.Player.GetTarget(true, -1, -1, true, false, false, "");
                         //game.UI.Display("Press any key to continue. ");
                         //Input.ReadKey();
                         MouseUI.PopButtonMap();
@@ -1500,7 +1500,7 @@ namespace Forays
                         }
 
                         MouseUI.AutomaticButtonsFromStrings = false;
-                        game.player.Select("In your pack: ", postMortemInventoryList, true, false, false);
+                        game.Player.Select("In your pack: ", postMortemInventoryList, true, false, false);
                         Input.ReadKey();
                         MouseUI.PopButtonMap();
                         break;
@@ -1612,7 +1612,7 @@ namespace Forays
 
                         file.WriteLine();
                         file.WriteLine("Last messages: ");
-                        foreach (string s in game.B.GetMessageLog())
+                        foreach (string s in game.MessageBuffer.GetMessageLog())
                         {
                             //todo, limit message log size?
                             if (s != "")

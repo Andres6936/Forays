@@ -67,7 +67,7 @@ namespace Forays
                     if (o != null)
                     {
                         sightChecked = true;
-                        if (game.player.CanSee(o))
+                        if (game.Player.CanSee(o))
                         {
                             seen = true;
                             break;
@@ -90,7 +90,7 @@ namespace Forays
             DisplayLines(buffer.Clear(), requireMorePrompt, true);
             if (interruptPlayer)
             {
-                game.player.Interrupt();
+                game.Player.Interrupt();
                 interruptPlayer = false;
             }
         }
@@ -148,7 +148,7 @@ namespace Forays
             //game.M.Draw(); //todo: necessary? and wouldn't it need to happen *before* the [more]?
             if (interruptPlayer)
             {
-                game.player.Interrupt();
+                game.Player.Interrupt();
                 interruptPlayer = false;
             }
         }
