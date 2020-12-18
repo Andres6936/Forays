@@ -514,23 +514,32 @@ namespace Forays
                             var missing_location_id = new Dict<PhysicalObject, int>();
                             var need_location = new List<Actor>();
 
+                            // 1. Player Name (String)
                             Actor.player_name = b.ReadString();
+                            // 2. Current Level (Int32)
                             game.map.currentLevelIdx = b.ReadInt32();
                             game.map.level_types = new List<LevelType>();
+                            // 3. Number of Level Types (Int32)
                             int numLevelTypes = b.ReadInt32();
                             for (int i = 0; i < numLevelTypes; ++i)
                             {
+                                // 3.1 Level Type (Int32) -> Depend of 3 
                                 game.map.level_types.Add((LevelType) b.ReadInt32());
                             }
 
+                            // 4. Wiz Lite (Boolean)
                             game.map.wiz_lite = b.ReadBoolean();
+                            // 5. Wiz Dark (Boolean)
                             game.map.wiz_dark = b.ReadBoolean();
                             for (int i = 0; i < Global.ROWS; ++i)
                             {
                                 for (int j = 0; j < Global.COLS; ++j)
                                 {
+                                    // 6. Last Character Seen (Char)
                                     game.map.last_seen[i, j].c = b.ReadChar();
+                                    // 7. Last Color of Character Seen (Int32)
                                     game.map.last_seen[i, j].color = (Color) b.ReadInt32();
+                                    // 8. Last Background Color of Character Seen (Int32)
                                     game.map.last_seen[i, j].bgcolor = (Color) b.ReadInt32();
                                 }
                             }
@@ -540,6 +549,7 @@ namespace Forays
                                 game.map.final_level_cultist_count = new int[5];
                                 for (int i = 0; i < 5; ++i)
                                 {
+                                    // 9. Final Level Cultist Count (Int32)
                                     game.map.final_level_cultist_count[i] = b.ReadInt32();
                                 }
 
