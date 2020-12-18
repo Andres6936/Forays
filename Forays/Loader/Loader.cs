@@ -7,56 +7,30 @@ namespace Forays.Loader
     {
         // Members
 
-        protected int CurrentLevelId;
+        protected int CurrentLevelId { get; }
 
-        protected int FinalLevelClock;
+        protected int FinalLevelClock { get; }
 
-        protected int FinalLevelDemonCount;
+        protected int FinalLevelDemonCount { get; }
 
-        protected int[] FinalLevelCultistCount;
+        protected int[] FinalLevelCultistCount { get; }
 
-        protected bool WizLite;
+        protected bool WizLite { get; }
 
-        protected bool WizDark;
+        protected bool WizDark { get; }
 
-        protected char[,] LastCharacterSeen;
+        protected char[,] LastCharacterSeen { get; }
 
-        protected string NamePlayer;
+        protected string NamePlayer { get; }
 
-        protected List<FeatType> FeatTypes;
+        protected List<FeatType> FeatTypes { get; }
 
-        protected List<SpellType> SpellTypes;
+        protected List<SpellType> SpellTypes { get; }
 
-        protected List<LevelType> LevelTypes;
+        protected List<LevelType> LevelTypes { get; }
 
-        protected Color[,] LastColorCharacterSeen;
+        protected Color[,] LastColorCharacterSeen { get; }
 
-        protected Color[,] LastBackgroundColorCharacterSeen;
-
-        // Getters Abstract
-
-        public abstract int GetCurrentLevelId();
-
-        public abstract int GetFinalLevelClock();
-
-        public abstract int GetFinalLevelDemonCount();
-
-        public abstract int[] GetFinalLevelCultistCount();
-
-        public abstract bool GetWizLite();
-
-        public abstract bool GetWizDark();
-
-        public abstract string GetNamePlayer();
-
-        public abstract List<FeatType> GetFeatTypes();
-
-        public abstract List<SpellType> GetSpellTypes();
-
-        public abstract List<LevelType> GetLevelTypes();
-
-        public abstract Color[,] GetLastColorCharacterSeen();
-
-        public abstract Color[,] GetLastBackgroundColorCharacterSeen();
+        protected Color[,] LastBackgroundColorCharacterSeen { get; }
     }
 }
