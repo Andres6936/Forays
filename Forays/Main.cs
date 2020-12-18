@@ -618,11 +618,17 @@ namespace Forays
 
                                     // 14.7 Maximum HP (Int32)
                                     a.maxhp = b.ReadInt32();
+                                    // 14.8 Current HP (Int32)
                                     a.curhp = b.ReadInt32();
+                                    // 14.9 Maximum MP (Int32)
                                     a.maxmp = b.ReadInt32();
+                                    // 14.10 Current MP (Int32)
                                     a.curmp = b.ReadInt32();
+                                    // 14.11 Speed (Int32)
                                     a.speed = b.ReadInt32();
+                                    // 14.12 Light Radius (Int32)
                                     a.light_radius = b.ReadInt32();
+                                    // 14.13 Target ID (Int32)
                                     int target_ID = b.ReadInt32();
                                     if (id.ContainsKey(target_ID))
                                     {
@@ -635,6 +641,7 @@ namespace Forays
                                         missing_target_id[a] = target_ID;
                                     }
 
+                                    // 14.14 Number Items (Int32)
                                     int num_items = b.ReadInt32();
                                     for (int j = 0; j < num_items; ++j)
                                     {
