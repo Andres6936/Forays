@@ -599,8 +599,11 @@ namespace Forays
 
                                     Actor.tiebreakers.Add(a);
                                     //todo name
+                                    // 14.4 Symbol (Char)
                                     a.symbol = b.ReadChar();
+                                    // 14.5 Color (Int32)
                                     a.color = (Color) b.ReadInt32();
+                                    // 14.6 Actor Type (Int32)
                                     a.type = (ActorType) b.ReadInt32();
                                     if (a.type == ActorType.PLAYER)
                                     {
@@ -613,6 +616,7 @@ namespace Forays
                                         Tile.player = a;
                                     }
 
+                                    // 14.7 Maximum HP (Int32)
                                     a.maxhp = b.ReadInt32();
                                     a.curhp = b.ReadInt32();
                                     a.maxmp = b.ReadInt32();
