@@ -658,14 +658,23 @@ namespace Forays
                                             //todo name
                                             // 14.14.4 Symbol Item (Char)
                                             item.symbol = b.ReadChar();
+                                            // 14.14.5 Color Item (Int32)
                                             item.color = (Color) b.ReadInt32();
+                                            // 14.14.6 Light Radius Item (Int32)
                                             item.light_radius = b.ReadInt32();
+                                            // 14.14.7 Consumable Type (Int32)
                                             item.type = (ConsumableType) b.ReadInt32();
+                                            // 14.14.8 Quantity (Int32)
                                             item.quantity = b.ReadInt32();
+                                            // 14.14.9 Charges (Int32)
                                             item.charges = b.ReadInt32();
+                                            // 14.14.10 Other Data (Int32)
                                             item.other_data = b.ReadInt32();
+                                            // 14.14.11 Ignored (Boolean)
                                             item.ignored = b.ReadBoolean();
+                                            // 14.14.12 Do Not Stack (Boolean)
                                             item.do_not_stack = b.ReadBoolean();
+                                            // 14.14.13 Revealed By Light (Boolean)
                                             item.revealed_by_light = b.ReadBoolean();
                                             a.inv.Add(item);
                                         }
