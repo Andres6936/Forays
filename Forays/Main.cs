@@ -565,7 +565,7 @@ namespace Forays
                             int num_featlist = b.ReadInt32();
                             for (int i = 0; i < num_featlist; ++i)
                             {
-                                // 12.1 Feature Type (Int32) -> Depend of 12
+                                // 12.1 Feat Type (Int32) -> Depend of 12
                                 Actor.feats_in_order.Add((FeatType) b.ReadInt32());
                             }
 

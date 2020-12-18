@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Forays.Enums;
 
 namespace Forays.Loader
 {
@@ -22,7 +23,11 @@ namespace Forays.Loader
 
         protected string NamePlayer;
 
-        protected List<LevelType> LevelType;
+        protected List<LevelType> LevelTypes;
+
+        protected List<FeatType> FeatTypes;
+
+        protected List<SpellType> SpellTypes;
 
         protected Color[,] LastColorCharacterSeen;
 
