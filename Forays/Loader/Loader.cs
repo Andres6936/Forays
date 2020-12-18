@@ -21,6 +21,8 @@ namespace Forays.Loader
 
         protected string NamePlayer { get; set; }
 
+        protected List<Actor> Tiebreakers { get; set; }
+
         protected List<FeatType> FeatTypes { get; set; }
 
         protected List<SpellType> SpellTypes { get; set; }

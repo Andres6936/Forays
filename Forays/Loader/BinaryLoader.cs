@@ -55,6 +55,12 @@ namespace Forays.Loader
                     // 13.1 Spell Type (Int32) -> Depend of 13
                     SpellTypes.Add((SpellType) reader.ReadInt32());
                 }
+
+                // 14. Num Actor TieBreakers (Int32)
+                var numberTiebreakers = reader.ReadInt32();
+                for (var index = 0; index < numberTiebreakers; index += 1)
+                {
+                }
             }
         }
     }
