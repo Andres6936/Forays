@@ -6,7 +6,9 @@ namespace Forays.Loader
     {
         public BinaryLoader(string filename)
         {
-            var binaryReader = new BinaryReader(new FileStream(filename, FileMode.Open));
+            using (var reader = new BinaryReader(File.Open(filename, FileMode.Open)))
+            {
+            }
         }
     }
 }
