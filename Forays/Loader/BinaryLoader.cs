@@ -48,9 +48,11 @@ namespace Forays.Loader
                     FeatTypes.Add((FeatType) reader.ReadInt32());
                 }
 
+                // 13. Number Spell List (Int32)
                 var numberSpellList = reader.ReadInt32();
                 for (var index = 0; index < numberSpellList; index += 1)
                 {
+                    // 13.1 Spell Type (Int32) -> Depend of 13
                     SpellTypes.Add((SpellType) reader.ReadInt32());
                 }
             }
