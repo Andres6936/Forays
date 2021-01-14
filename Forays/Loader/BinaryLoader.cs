@@ -301,6 +301,25 @@ namespace Forays.Loader
                         actor.target_location = (Tile) identificator[locationId];
                     }
                 }
+
+                // 15. Number Groups (Int32)
+                var numberGroup = reader.ReadInt32();
+                for (var index = 0; index < numberGroup; index += 1)
+                {
+                    var group = new List<Actor>();
+                    // 15.1 Group Size (Int32)
+                    var groupSize = reader.ReadInt32();
+                    for (var element = 0; element < groupSize; element += 1)
+                    {
+                        // 15.1.1 Actor Value (Int32)
+                        group.Add((Actor) identificator[reader.ReadInt32()]);
+                    }
+
+                    foreach (var actor in group)
+                    {
+                        actor.group = group;
+                    }
+                }
             }
         }
     }
