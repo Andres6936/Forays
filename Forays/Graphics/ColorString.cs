@@ -8,16 +8,6 @@ namespace Forays
         public Color Background;
         public string Text;
 
-        public static implicit operator ColorString(string s)
-        {
-            return new ColorString(s, Color.Gray);
-        }
-
-        public static implicit operator ColorBufferString(ColorString c)
-        {
-            return new ColorBufferString(c);
-        }
-
         // Constructs
 
         public ColorString(string text, Color foreground, Color background = Color.Black)
@@ -32,6 +22,18 @@ namespace Forays
         public static ColorBufferString operator +(ColorString one, ColorString two)
         {
             return new ColorBufferString(one, two);
+        }
+
+        // Implicit Operators
+
+        public static implicit operator ColorString(string s)
+        {
+            return new ColorString(s, Color.Gray);
+        }
+
+        public static implicit operator ColorBufferString(ColorString c)
+        {
+            return new ColorBufferString(c);
         }
     }
 }
