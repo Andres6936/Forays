@@ -747,7 +747,7 @@ namespace Forays
                     }
 
                     ++idx;
-                    if (idx == text.Text.Length)
+                    if (idx == text.Length)
                     {
                         if (brace == 1)
                         {
