@@ -435,7 +435,7 @@ namespace Forays
 
         private static int cursor_top = 0;
         private static int cursor_left = 0;
-        public static OpenTkRender gl = null;
+        public static OpenTk gl = null;
         public static Surface textSurface = null;
         public static Surface cursorSurface = null;
         public static int cellHeight = 16;

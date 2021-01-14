@@ -106,7 +106,7 @@ namespace Forays
                 ToolkitOptions.Default.EnableHighResolution = false;
                 int height_px = Global.SCREEN_H * 16;
                 int width_px = Global.SCREEN_W * 8;
-                Screen.gl = new OpenTkRender(width_px, height_px, "Forays into Norrendrin");
+                Screen.gl = new OpenTk(width_px, height_px, "Forays into Norrendrin");
                 Screen.gl.Icon = new System.Drawing.Icon(Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream(Global.ForaysImageResources + "forays.ico"));
                 Screen.gl.ResizingPreference = ResizeOption.SnapWindow;

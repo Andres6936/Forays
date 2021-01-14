@@ -186,7 +186,7 @@ namespace GLDrawing
 
     public class Surface
     {
-        public OpenTkRender window;
+        public OpenTk window;
         public VBO vbo;
         public Texture texture;
         public Shader shader;
@@ -206,12 +206,12 @@ namespace GLDrawing
         {
         }
 
-        public static Surface Create(OpenTkRender window_, string texture_filename, params int[] vertex_attrib_counts)
+        public static Surface Create(OpenTk window_, string texture_filename, params int[] vertex_attrib_counts)
         {
             return Create(window_, texture_filename, false, Shader.DefaultFS(), false, vertex_attrib_counts);
         }
 
-        public static Surface Create(OpenTkRender window_, string texture_filename,
+        public static Surface Create(OpenTk window_, string texture_filename,
             bool loadTextureFromEmbeddedResource,
             string frag_shader, bool has_depth, params int[] vertex_attrib_counts)
         {

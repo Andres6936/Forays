@@ -9,7 +9,7 @@ using OpenTK.Input;
 
 namespace Forays.Renderer
 {
-    public class OpenTkRender : GameWindow, IRenderer
+    public class OpenTk : GameWindow, IRenderer
     {
         public List<Surface> Surfaces = new List<Surface>();
 
@@ -54,7 +54,7 @@ namespace Forays.Renderer
             GL.Viewport(x, y, width, height);
         }
 
-        public OpenTkRender(int w, int h, string title) : base(w, h, GraphicsMode.Default, title)
+        public OpenTk(int w, int h, string title) : base(w, h, GraphicsMode.Default, title)
         {
             VSync = VSyncMode.On;
             GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
