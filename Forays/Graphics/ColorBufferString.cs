@@ -12,7 +12,7 @@ namespace Forays
             int total = 0;
             foreach (ColorString s in strings)
             {
-                total += s.s.Length;
+                total += s.Text.Length;
             }
 
             return total;
@@ -23,13 +23,14 @@ namespace Forays
             get
             {
                 int cstr_idx = 0;
-                while (index >= strings[cstr_idx].s.Length)
+                while (index >= strings[cstr_idx].Text.Length)
                 {
-                    index -= strings[cstr_idx].s.Length;
+                    index -= strings[cstr_idx].Text.Length;
                     ++cstr_idx;
                 }
 
-                return new ColorChar(strings[cstr_idx].s[index], strings[cstr_idx].color, strings[cstr_idx].bgcolor);
+                return new ColorChar(strings[cstr_idx].Text[index], strings[cstr_idx].Foreground,
+                    strings[cstr_idx].Background);
             }
         }
 
@@ -280,18 +281,20 @@ namespace Forays
                 int len_0 = result[0].Length();
                 if (len_0 < idx)
                 {
-                    if (len_0 + s.s.Length > idx)
+                    if (len_0 + s.Text.Length > idx)
                     {
-                        result[0].strings.Add(new ColorString(s.s.Substring(0, idx - len_0), s.color, s.bgcolor));
+                        result[0].strings
+                            .Add(new ColorString(s.Text.Substring(0, idx - len_0), s.Foreground, s.Background));
                         int second_start = idx - len_0;
                         if (remove_at_split_idx)
                         {
                             ++second_start;
                         }
 
-                        if (second_start < s.s.Length)
+                        if (second_start < s.Text.Length)
                         {
-                            result[1].strings.Add(new ColorString(s.s.Substring(idx - len_0), s.color, s.bgcolor));
+                            result[1].strings.Add(new ColorString(s.Text.Substring(idx - len_0), s.Foreground,
+                                s.Background));
                         }
                     }
                     else

@@ -231,8 +231,8 @@ namespace Forays
                 int row = 8;
                 int col = (Global.SCREEN_W - 28) / 2; //centering "Forays into Norrendrin x.y.z", which is 28 chars.
                 Screen.WriteString(row++, col,
-                    new ColorString(Color.Yellow, "Forays into Norrendrin " + Global.VERSION));
-                Screen.WriteString(row++, col, new ColorString(Color.Green, "".PadRight(28, '-')));
+                    new ColorString("Forays into Norrendrin " + Global.VERSION, Color.Yellow));
+                Screen.WriteString(row++, col, new ColorString("".PadRight(28, '-'), Color.Green));
                 col += 4; //recenter for menu options
                 row++;
                 bool saved_game = File.Exists("forays.sav");

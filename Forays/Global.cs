@@ -904,7 +904,7 @@ namespace Forays
             string s = "";
             foreach (ColorString c in cs.strings)
             {
-                s += c.s;
+                s += c.Text;
             }
 
             return s.LastSpaceBeforeWrap(wrap_index);

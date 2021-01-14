@@ -859,41 +859,41 @@ namespace Forays
             else
             {
                 ColorString s;
-                s.s = "";
-                s.bgcolor = Color.Black;
-                s.color = Color.Black;
+                s.Text = "";
+                s.Background = Color.Black;
+                s.Foreground = Color.Black;
                 int r = 0;
                 int c = 0;
                 for (int i = i_start; i < row_limit; ++i)
                 {
-                    s.s = "";
+                    s.Text = "";
                     r = i;
                     c = j_start;
                     for (int j = j_start; j < col_limit; ++j)
                     {
                         ColorChar ch = VisibleColorChar(i, j);
                         ch.color = Colors.ResolveColor(ch.color);
-                        if (ch.color != s.color)
+                        if (ch.color != s.Foreground)
                         {
                             //ignores background color, assumes black
-                            if (s.s.Length > 0)
+                            if (s.Text.Length > 0)
                             {
                                 Screen.WriteMapString(r, c, s);
-                                s.s = "";
-                                s.s += ch.c;
-                                s.color = ch.color;
+                                s.Text = "";
+                                s.Text += ch.c;
+                                s.Foreground = ch.color;
                                 r = i;
                                 c = j;
                             }
                             else
                             {
-                                s.s += ch.c;
-                                s.color = ch.color;
+                                s.Text += ch.c;
+                                s.Foreground = ch.color;
                             }
                         }
                         else
                         {
-                            s.s += ch.c;
+                            s.Text += ch.c;
                         }
                     }
 

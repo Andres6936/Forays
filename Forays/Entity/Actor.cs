@@ -21239,7 +21239,7 @@ namespace Forays
                         Screen.WriteMapChar(bottomBorder, 8, new ColorChar(Color.Cyan, 'a'));
                         Screen.WriteMapChar(bottomBorder, 10, new ColorChar(Color.Cyan, 'd'));
                         Screen.WriteMapChar(bottomBorder, 33, new ColorChar(Color.Cyan, '?'));
-                        Screen.WriteMapString(bottomBorder, 48, new ColorString(Color.Magenta, "Enter"));
+                        Screen.WriteMapString(bottomBorder, 48, new ColorString("Enter", Color.Magenta));
                         MouseUI.CreateButton(ConsoleKey.Enter, false, Global.MAP_OFFSET_ROWS + ROWS + 2,
                             Global.MAP_OFFSET_COLS + 47, 1, 17);
                     }

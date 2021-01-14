@@ -588,7 +588,7 @@ namespace Forays
 
         public static void WriteString(int r, int c, string s)
         {
-            WriteString(r, c, new ColorString(Color.Gray, s));
+            WriteString(r, c, new ColorString(s, Color.Gray));
         }
 
         public static void WriteString(int r, int c, string s, Color color)
@@ -601,184 +601,184 @@ namespace Forays
             WriteString(r, c, new ColorString(s, color, bgcolor));
         }
 
-        public static void WriteString(int r, int c, ColorString s)
+        public static void WriteString(int r, int c, ColorString text)
         {
-            if (Global.SCREEN_W - c > s.s.Length)
+            if (Global.SCREEN_W - c > text.Text.Length)
             {
                 //s.s = s.s.Substring(0,; //don't move down to the next line
             }
             else
             {
-                s.s = s.s.Substring(0, Global.SCREEN_W - c);
+                text.Text = text.Text.Substring(0, Global.SCREEN_W - c);
             }
 
-            if (s.s.Length > 0)
+            if (text.Text.Length <= 0) return;
+
+            text.Foreground = Colors.ResolveColor(text.Foreground);
+            text.Background = Colors.ResolveColor(text.Background);
+            ColorChar cch;
+            cch.color = text.Foreground;
+            cch.bgcolor = text.Background;
+            if (!GLMode)
             {
-                s.color = Colors.ResolveColor(s.color);
-                s.bgcolor = Colors.ResolveColor(s.bgcolor);
-                ColorChar cch;
-                cch.color = s.color;
-                cch.bgcolor = s.bgcolor;
-                if (!GLMode)
+                ConsoleColor co = Colors.GetColor(text.Foreground);
+                if (ForegroundColor != co)
                 {
-                    ConsoleColor co = Colors.GetColor(s.color);
-                    if (ForegroundColor != co)
-                    {
-                        ForegroundColor = co;
-                    }
-
-                    co = Colors.GetColor(s.bgcolor);
-                    if (BackgroundColor != co)
-                    {
-                        BackgroundColor = co;
-                    }
+                    ForegroundColor = co;
                 }
 
-                int start_col = -1;
-                int end_col = -1;
-                int i = 0;
-                bool changed = false;
-                foreach (char ch in s.s)
+                co = Colors.GetColor(text.Background);
+                if (BackgroundColor != co)
                 {
-                    cch.c = ch;
-                    if (!memory[r, c + i].Equals(cch))
-                    {
-                        memory[r, c + i] = cch;
-                        if (start_col == -1)
-                        {
-                            start_col = c + i;
-                        }
+                    BackgroundColor = co;
+                }
+            }
 
-                        end_col = c + i;
-                        changed = true;
+            int start_col = -1;
+            int end_col = -1;
+            int i = 0;
+            bool changed = false;
+            foreach (char ch in text.Text)
+            {
+                cch.c = ch;
+                if (!memory[r, c + i].Equals(cch))
+                {
+                    memory[r, c + i] = cch;
+                    if (start_col == -1)
+                    {
+                        start_col = c + i;
                     }
 
-                    ++i;
+                    end_col = c + i;
+                    changed = true;
                 }
 
-                if (changed)
+                ++i;
+            }
+
+            if (changed)
+            {
+                if (GLMode)
                 {
-                    if (GLMode)
+                    if (!NoGLUpdate)
                     {
-                        if (!NoGLUpdate)
+                        UpdateGLBuffer(r, start_col, r, end_col);
+                    }
+                }
+                else
+                {
+                    Console.SetCursorPosition(c, r);
+                    Console.Write(text.Text);
+                }
+            }
+
+            if (MouseUI.AutomaticButtonsFromStrings && GLMode)
+            {
+                int idx = 0;
+                int brace = -1;
+                int start = -1;
+                int end = -1;
+                bool last_char_was_separator = false;
+                while (true)
+                {
+                    if (brace == -1)
+                    {
+                        if (text.Text[idx] == '[')
                         {
-                            UpdateGLBuffer(r, start_col, r, end_col);
+                            brace = 0;
+                            start = idx;
                         }
                     }
                     else
                     {
-                        Console.SetCursorPosition(c, r);
-                        Console.Write(s.s);
-                    }
-                }
-
-                if (MouseUI.AutomaticButtonsFromStrings && GLMode)
-                {
-                    int idx = 0;
-                    int brace = -1;
-                    int start = -1;
-                    int end = -1;
-                    bool last_char_was_separator = false;
-                    while (true)
-                    {
-                        if (brace == -1)
+                        if (brace == 0)
                         {
-                            if (s.s[idx] == '[')
+                            if (text.Text[idx] == ']')
                             {
-                                brace = 0;
-                                start = idx;
+                                brace = 1;
+                                end = idx;
                             }
                         }
                         else
                         {
-                            if (brace == 0)
+                            if (text.Text[idx] == ' ' || text.Text[idx] == '-' || text.Text[idx] == ',')
                             {
-                                if (s.s[idx] == ']')
+                                if (last_char_was_separator)
                                 {
-                                    brace = 1;
-                                    end = idx;
+                                    ConsoleKey key = ConsoleKey.A;
+                                    bool shifted = false;
+                                    switch (text.Text[start + 1])
+                                    {
+                                        case 'E':
+                                            key = ConsoleKey.Enter;
+                                            break;
+                                        case 'T':
+                                            key = ConsoleKey.Tab;
+                                            break;
+                                        case 'P': //"Press any key"
+                                            break;
+                                        case '?':
+                                            key = ConsoleKey.Oem2;
+                                            shifted = true;
+                                            break;
+                                        case '=':
+                                            key = ConsoleKey.OemPlus;
+                                            break;
+                                        default: //all others should be lowercase letters
+                                            key = (ConsoleKey) (ConsoleKey.A +
+                                                                ((int) text.Text[start + 1] - (int) 'a'));
+                                            break;
+                                    }
+
+                                    MouseUI.CreateButton(key, shifted, r, c + start, 1, end - start + 1);
+                                    brace = -1;
+                                    start = -1;
+                                    end = -1;
                                 }
+
+                                last_char_was_separator = !last_char_was_separator;
                             }
                             else
                             {
-                                if (s.s[idx] == ' ' || s.s[idx] == '-' || s.s[idx] == ',')
-                                {
-                                    if (last_char_was_separator)
-                                    {
-                                        ConsoleKey key = ConsoleKey.A;
-                                        bool shifted = false;
-                                        switch (s.s[start + 1])
-                                        {
-                                            case 'E':
-                                                key = ConsoleKey.Enter;
-                                                break;
-                                            case 'T':
-                                                key = ConsoleKey.Tab;
-                                                break;
-                                            case 'P': //"Press any key"
-                                                break;
-                                            case '?':
-                                                key = ConsoleKey.Oem2;
-                                                shifted = true;
-                                                break;
-                                            case '=':
-                                                key = ConsoleKey.OemPlus;
-                                                break;
-                                            default: //all others should be lowercase letters
-                                                key = (ConsoleKey) (ConsoleKey.A + ((int) s.s[start + 1] - (int) 'a'));
-                                                break;
-                                        }
-
-                                        MouseUI.CreateButton(key, shifted, r, c + start, 1, end - start + 1);
-                                        brace = -1;
-                                        start = -1;
-                                        end = -1;
-                                    }
-
-                                    last_char_was_separator = !last_char_was_separator;
-                                }
-                                else
-                                {
-                                    last_char_was_separator = false;
-                                    end = idx;
-                                }
+                                last_char_was_separator = false;
+                                end = idx;
                             }
                         }
+                    }
 
-                        ++idx;
-                        if (idx == s.s.Length)
+                    ++idx;
+                    if (idx == text.Text.Length)
+                    {
+                        if (brace == 1)
                         {
-                            if (brace == 1)
+                            ConsoleKey key = ConsoleKey.A;
+                            bool shifted = false;
+                            switch (text.Text[start + 1])
                             {
-                                ConsoleKey key = ConsoleKey.A;
-                                bool shifted = false;
-                                switch (s.s[start + 1])
-                                {
-                                    case 'E':
-                                        key = ConsoleKey.Enter;
-                                        break;
-                                    case 'T':
-                                        key = ConsoleKey.Tab;
-                                        break;
-                                    case 'P': //"Press any key"
-                                        break;
-                                    case '?':
-                                        key = ConsoleKey.Oem2;
-                                        shifted = true;
-                                        break;
-                                    case '=':
-                                        key = ConsoleKey.OemPlus;
-                                        break;
-                                    default: //all others should be lowercase letters
-                                        key = (ConsoleKey) (ConsoleKey.A + ((int) s.s[start + 1] - (int) 'a'));
-                                        break;
-                                }
-
-                                MouseUI.CreateButton(key, shifted, r, c + start, 1, end - start + 1);
+                                case 'E':
+                                    key = ConsoleKey.Enter;
+                                    break;
+                                case 'T':
+                                    key = ConsoleKey.Tab;
+                                    break;
+                                case 'P': //"Press any key"
+                                    break;
+                                case '?':
+                                    key = ConsoleKey.Oem2;
+                                    shifted = true;
+                                    break;
+                                case '=':
+                                    key = ConsoleKey.OemPlus;
+                                    break;
+                                default: //all others should be lowercase letters
+                                    key = (ConsoleKey) (ConsoleKey.A + ((int) text.Text[start + 1] - (int) 'a'));
+                                    break;
                             }
 
-                            break;
+                            MouseUI.CreateButton(key, shifted, r, c + start, 1, end - start + 1);
                         }
+
+                        break;
                     }
                 }
             }
@@ -793,26 +793,26 @@ namespace Forays
                 int end_col = -1;
                 foreach (ColorString s1 in cs.strings)
                 {
-                    ColorString s = new ColorString(s1.s, s1.color, s1.bgcolor);
-                    if (s.s.Length + pos > Global.SCREEN_W)
+                    ColorString s = new ColorString(s1.Text, s1.Foreground, s1.Background);
+                    if (s.Text.Length + pos > Global.SCREEN_W)
                     {
-                        s.s = s.s.Substring(0, Global.SCREEN_W - pos);
+                        s.Text = s.Text.Substring(0, Global.SCREEN_W - pos);
                     }
 
-                    s.color = Colors.ResolveColor(s.color);
-                    s.bgcolor = Colors.ResolveColor(s.bgcolor);
+                    s.Foreground = Colors.ResolveColor(s.Foreground);
+                    s.Background = Colors.ResolveColor(s.Background);
                     ColorChar cch;
-                    cch.color = s.color;
-                    cch.bgcolor = s.bgcolor;
+                    cch.color = s.Foreground;
+                    cch.bgcolor = s.Background;
                     if (!GLMode)
                     {
-                        ConsoleColor co = Colors.GetColor(s.color);
+                        ConsoleColor co = Colors.GetColor(s.Foreground);
                         if (ForegroundColor != co)
                         {
                             ForegroundColor = co;
                         }
 
-                        co = Colors.GetColor(s.bgcolor);
+                        co = Colors.GetColor(s.Background);
                         if (BackgroundColor != co)
                         {
                             BackgroundColor = co;
@@ -821,7 +821,7 @@ namespace Forays
 
                     int i = 0;
                     bool changed = false;
-                    foreach (char ch in s.s)
+                    foreach (char ch in s.Text)
                     {
                         cch.c = ch;
                         if (!memory[r, pos + i].Equals(cch))
@@ -842,10 +842,10 @@ namespace Forays
                     if (changed && !GLMode)
                     {
                         Console.SetCursorPosition(pos, r);
-                        Console.Write(s.s);
+                        Console.Write(s.Text);
                     }
 
-                    pos += s.s.Length;
+                    pos += s.Text.Length;
                 }
 
                 if (GLMode && !NoGLUpdate && start_col != -1)
@@ -1005,50 +1005,50 @@ namespace Forays
         public static void WriteMapString(int r, int c, string s)
         {
             ColorString cs;
-            cs.color = Color.Gray;
-            cs.bgcolor = Color.Black;
-            cs.s = s;
+            cs.Foreground = Color.Gray;
+            cs.Background = Color.Black;
+            cs.Text = s;
             WriteMapString(r, c, cs);
         }
 
         public static void WriteMapString(int r, int c, string s, Color color)
         {
             ColorString cs;
-            cs.color = color;
-            cs.bgcolor = Color.Black;
-            cs.s = s;
+            cs.Foreground = color;
+            cs.Background = Color.Black;
+            cs.Text = s;
             WriteMapString(r, c, cs);
         }
 
         public static void WriteMapString(int r, int c, ColorString s)
         {
-            if (Global.COLS - c > s.s.Length)
+            if (Global.COLS - c > s.Text.Length)
             {
                 //s.s = s.s.Substring(0); //don't move down to the next line
             }
             else
             {
-                s.s = s.s.Substring(0, Global.COLS - c);
+                s.Text = s.Text.Substring(0, Global.COLS - c);
             }
 
-            if (s.s.Length > 0)
+            if (s.Text.Length > 0)
             {
                 r += Global.MAP_OFFSET_ROWS;
                 c += Global.MAP_OFFSET_COLS;
-                s.color = Colors.ResolveColor(s.color);
-                s.bgcolor = Colors.ResolveColor(s.bgcolor);
+                s.Foreground = Colors.ResolveColor(s.Foreground);
+                s.Background = Colors.ResolveColor(s.Background);
                 ColorChar cch;
-                cch.color = s.color;
-                cch.bgcolor = s.bgcolor;
+                cch.color = s.Foreground;
+                cch.bgcolor = s.Background;
                 if (!GLMode)
                 {
-                    ConsoleColor co = Colors.GetColor(s.color);
+                    ConsoleColor co = Colors.GetColor(s.Foreground);
                     if (ForegroundColor != co)
                     {
                         ForegroundColor = co;
                     }
 
-                    co = Colors.GetColor(s.bgcolor);
+                    co = Colors.GetColor(s.Background);
                     if (BackgroundColor != co)
                     {
                         BackgroundColor = co;
@@ -1059,7 +1059,7 @@ namespace Forays
                 int end_col = -1;
                 int i = 0;
                 bool changed = false;
-                foreach (char ch in s.s)
+                foreach (char ch in s.Text)
                 {
                     cch.c = ch;
                     if (!memory[r, c + i].Equals(cch))
@@ -1089,18 +1089,18 @@ namespace Forays
                     else
                     {
                         Console.SetCursorPosition(c, r);
-                        Console.Write(s.s);
+                        Console.Write(s.Text);
                     }
                 }
 
                 if (MouseUI.AutomaticButtonsFromStrings && GLMode)
                 {
-                    int idx = s.s.IndexOf('['); //for now I'm only checking for a single brace here.
-                    if (idx != -1 && idx + 1 < s.s.Length)
+                    int idx = s.Text.IndexOf('['); //for now I'm only checking for a single brace here.
+                    if (idx != -1 && idx + 1 < s.Text.Length)
                     {
                         ConsoleKey key = ConsoleKey.A;
                         bool shifted = false;
-                        switch (s.s[idx + 1])
+                        switch (s.Text[idx + 1])
                         {
                             case 'E':
                                 key = ConsoleKey.Enter;
@@ -1118,7 +1118,7 @@ namespace Forays
                                 key = ConsoleKey.OemPlus;
                                 break;
                             default: //all others should be lowercase letters
-                                key = (ConsoleKey) (ConsoleKey.A + ((int) s.s[idx + 1] - (int) 'a'));
+                                key = (ConsoleKey) (ConsoleKey.A + ((int) s.Text[idx + 1] - (int) 'a'));
                                 break;
                         }
 
@@ -1139,26 +1139,26 @@ namespace Forays
                 int cpos = c;
                 foreach (ColorString s1 in cs.strings)
                 {
-                    ColorString s = new ColorString(s1.s, s1.color, s1.bgcolor);
-                    if (cpos - Global.MAP_OFFSET_COLS + s.s.Length > Global.COLS)
+                    ColorString s = new ColorString(s1.Text, s1.Foreground, s1.Background);
+                    if (cpos - Global.MAP_OFFSET_COLS + s.Text.Length > Global.COLS)
                     {
-                        s.s = s.s.Substring(0, Global.COLS - (cpos - Global.MAP_OFFSET_COLS));
+                        s.Text = s.Text.Substring(0, Global.COLS - (cpos - Global.MAP_OFFSET_COLS));
                     }
 
-                    s.color = Colors.ResolveColor(s.color);
-                    s.bgcolor = Colors.ResolveColor(s.bgcolor);
+                    s.Foreground = Colors.ResolveColor(s.Foreground);
+                    s.Background = Colors.ResolveColor(s.Background);
                     ColorChar cch;
-                    cch.color = s.color;
-                    cch.bgcolor = s.bgcolor;
+                    cch.color = s.Foreground;
+                    cch.bgcolor = s.Background;
                     if (!GLMode)
                     {
-                        ConsoleColor co = Colors.GetColor(s.color);
+                        ConsoleColor co = Colors.GetColor(s.Foreground);
                         if (ForegroundColor != co)
                         {
                             ForegroundColor = co;
                         }
 
-                        co = Colors.GetColor(s.bgcolor);
+                        co = Colors.GetColor(s.Background);
                         if (BackgroundColor != co)
                         {
                             BackgroundColor = co;
@@ -1167,7 +1167,7 @@ namespace Forays
 
                     int i = 0;
                     bool changed = false;
-                    foreach (char ch in s.s)
+                    foreach (char ch in s.Text)
                     {
                         cch.c = ch;
                         if (!memory[r, cpos + i].Equals(cch))
@@ -1188,10 +1188,10 @@ namespace Forays
                     if (changed && !GLMode)
                     {
                         Console.SetCursorPosition(cpos, r);
-                        Console.Write(s.s);
+                        Console.Write(s.Text);
                     }
 
-                    cpos += s.s.Length;
+                    cpos += s.Text.Length;
                 }
 
                 if (GLMode && !NoGLUpdate && start_col != -1)
@@ -1256,49 +1256,49 @@ namespace Forays
         public static void WriteStatsString(int r, int c, string s)
         {
             ColorString cs;
-            cs.color = Color.Gray;
-            cs.bgcolor = Color.Black;
-            cs.s = s;
+            cs.Foreground = Color.Gray;
+            cs.Background = Color.Black;
+            cs.Text = s;
             WriteStatsString(r, c, cs);
         }
 
         public static void WriteStatsString(int r, int c, string s, Color color)
         {
             ColorString cs;
-            cs.color = color;
-            cs.bgcolor = Color.Black;
-            cs.s = s;
+            cs.Foreground = color;
+            cs.Background = Color.Black;
+            cs.Text = s;
             WriteStatsString(r, c, cs);
         }
 
         public static void WriteStatsString(int r, int c, ColorString s)
         {
-            if (Global.STATUS_WIDTH - c > s.s.Length)
+            if (Global.STATUS_WIDTH - c > s.Text.Length)
             {
                 //s.s = s.s.Substring(0); //don't move down to the next line
             }
             else
             {
-                s.s = s.s.Substring(0, Global.STATUS_WIDTH - c);
+                s.Text = s.Text.Substring(0, Global.STATUS_WIDTH - c);
             }
 
-            if (s.s.Length > 0)
+            if (s.Text.Length > 0)
             {
                 //++r;
-                s.color = Colors.ResolveColor(s.color);
-                s.bgcolor = Colors.ResolveColor(s.bgcolor);
+                s.Foreground = Colors.ResolveColor(s.Foreground);
+                s.Background = Colors.ResolveColor(s.Background);
                 ColorChar cch;
-                cch.color = s.color;
-                cch.bgcolor = s.bgcolor;
+                cch.color = s.Foreground;
+                cch.bgcolor = s.Background;
                 if (!GLMode)
                 {
-                    ConsoleColor co = Colors.GetColor(s.color);
+                    ConsoleColor co = Colors.GetColor(s.Foreground);
                     if (ForegroundColor != co)
                     {
                         ForegroundColor = co;
                     }
 
-                    co = Colors.GetColor(s.bgcolor);
+                    co = Colors.GetColor(s.Background);
                     if (BackgroundColor != co)
                     {
                         BackgroundColor = co;
@@ -1309,7 +1309,7 @@ namespace Forays
                 int end_col = -1;
                 int i = 0;
                 bool changed = false;
-                foreach (char ch in s.s)
+                foreach (char ch in s.Text)
                 {
                     cch.c = ch;
                     if (!memory[r, c + i].Equals(cch))
@@ -1339,18 +1339,18 @@ namespace Forays
                     else
                     {
                         Console.SetCursorPosition(c, r);
-                        Console.Write(s.s);
+                        Console.Write(s.Text);
                     }
                 }
 
                 if (MouseUI.AutomaticButtonsFromStrings && GLMode)
                 {
-                    int idx = s.s.IndexOf('['); //for now I'm only checking for a single brace here.
-                    if (idx != -1 && idx + 1 < s.s.Length)
+                    int idx = s.Text.IndexOf('['); //for now I'm only checking for a single brace here.
+                    if (idx != -1 && idx + 1 < s.Text.Length)
                     {
                         ConsoleKey key = ConsoleKey.A;
                         bool shifted = false;
-                        switch (s.s[idx + 1])
+                        switch (s.Text[idx + 1])
                         {
                             case 'E':
                                 key = ConsoleKey.Enter;
@@ -1368,7 +1368,7 @@ namespace Forays
                                 key = ConsoleKey.OemPlus;
                                 break;
                             default: //all others should be lowercase letters
-                                key = (ConsoleKey) (ConsoleKey.A + ((int) s.s[idx + 1] - (int) 'a'));
+                                key = (ConsoleKey) (ConsoleKey.A + ((int) s.Text[idx + 1] - (int) 'a'));
                                 break;
                         }
 
@@ -1381,36 +1381,36 @@ namespace Forays
         public static void MapDrawWithStrings(ColorChar[,] array, int row, int col, int height, int width)
         {
             ColorString s;
-            s.s = "";
-            s.bgcolor = Color.Black;
-            s.color = Color.Black;
+            s.Text = "";
+            s.Background = Color.Black;
+            s.Foreground = Color.Black;
             int current_c = col;
             for (int i = row; i < row + height; ++i)
             {
-                s.s = "";
+                s.Text = "";
                 current_c = col;
                 for (int j = col; j < col + width; ++j)
                 {
                     ColorChar ch = array[i, j];
-                    if (Colors.ResolveColor(ch.color) != s.color)
+                    if (Colors.ResolveColor(ch.color) != s.Foreground)
                     {
-                        if (s.s.Length > 0)
+                        if (s.Text.Length > 0)
                         {
                             Screen.WriteMapString(i, current_c, s);
-                            s.s = "";
-                            s.s += ch.c;
-                            s.color = ch.color;
+                            s.Text = "";
+                            s.Text += ch.c;
+                            s.Foreground = ch.color;
                             current_c = j;
                         }
                         else
                         {
-                            s.s += ch.c;
-                            s.color = ch.color;
+                            s.Text += ch.c;
+                            s.Foreground = ch.color;
                         }
                     }
                     else
                     {
-                        s.s += ch.c;
+                        s.Text += ch.c;
                     }
                 }
 

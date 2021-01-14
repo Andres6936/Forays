@@ -2,10 +2,11 @@ namespace Forays
 {
     public struct ColorString
     {
-        //todo: change this to a class eventually
-        public Color color;
-        public Color bgcolor;
-        public string s;
+        // Member Variables
+
+        public Color Foreground;
+        public Color Background;
+        public string Text;
 
         public static implicit operator ColorString(string s)
         {
@@ -17,33 +18,21 @@ namespace Forays
             return new ColorBufferString(c);
         }
 
-        public ColorString(string s_, Color color_)
+        // Constructs
+
+        public ColorString(string text, Color foreground) : this(text, foreground, Color.Black)
         {
-            color = color_;
-            bgcolor = Color.Black;
-            s = s_;
+            // Delegate the construction of object to another construct.
         }
 
-        public ColorString(string s_, Color color_, Color bgcolor_)
+        public ColorString(string text, Color foreground, Color background)
         {
-            color = color_;
-            bgcolor = bgcolor_;
-            s = s_;
+            Foreground = foreground;
+            Background = background;
+            Text = text;
         }
 
-        public ColorString(Color color_, string s_)
-        {
-            color = color_;
-            bgcolor = Color.Black;
-            s = s_;
-        }
-
-        public ColorString(Color color_, Color bgcolor_, string s_)
-        {
-            color = color_;
-            bgcolor = bgcolor_;
-            s = s_;
-        }
+        // Overload Operators
 
         public static ColorBufferString operator +(ColorString one, ColorString two)
         {
