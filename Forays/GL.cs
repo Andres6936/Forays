@@ -12,7 +12,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
 using System.Reflection;
-using Forays;
+using Forays.Renderer;
 using OpenTK.Graphics.OpenGL;
 
 namespace GLDrawing

@@ -8,7 +8,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
-namespace Forays
+namespace Forays.Renderer
 {
     public class OpenTkRender : GameWindow, IRenderer
     {
