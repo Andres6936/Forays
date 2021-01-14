@@ -15,6 +15,7 @@ using System.Reflection;
 using Forays.Entity;
 using Forays.Enums;
 using Forays.Loader;
+using Forays.Renderer;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Utilities;
