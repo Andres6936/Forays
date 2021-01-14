@@ -118,7 +118,7 @@ namespace Forays
 
         //public int[,] row_displacement = null;
         //public int[,] col_displacement = null;
-        public colorchar[,] last_seen = new colorchar[ROWS, COLS];
+        public ColorChar[,] last_seen = new ColorChar[ROWS, COLS];
         public int[] final_level_cultist_count = new int[5];
         public int final_level_demon_count = 0;
         public int final_level_clock = 0;
@@ -871,7 +871,7 @@ namespace Forays
                     c = j_start;
                     for (int j = j_start; j < col_limit; ++j)
                     {
-                        colorchar ch = VisibleColorChar(i, j);
+                        ColorChar ch = VisibleColorChar(i, j);
                         ch.color = Colors.ResolveColor(ch.color);
                         if (ch.color != s.color)
                         {
@@ -907,9 +907,9 @@ namespace Forays
             UI.SortStatusBarObjects();
         }
 
-        public colorchar VisibleColorChar(int r, int c)
+        public ColorChar VisibleColorChar(int r, int c)
         {
-            colorchar ch = Screen.BlankChar();
+            ColorChar ch = Screen.BlankChar();
             if (player.CanSee(r, c))
             {
                 tile[r, c].seen = true;
@@ -1131,7 +1131,7 @@ namespace Forays
                 }
             }
 
-            Screen.DrawMapBorder(new colorchar(ch, color));
+            Screen.DrawMapBorder(new ColorChar(ch, color));
         }
 
         public void RemoveTargets(Actor a)
@@ -3726,7 +3726,7 @@ namespace Forays
             safetymap = null;
             travel_map = null;
             Q.ResetForNewLevel();
-            last_seen = new colorchar[ROWS, COLS];
+            last_seen = new ColorChar[ROWS, COLS];
             Fire.fire_event = null;
             Fire.burning_objects.Clear();
             if (player.IsBurning())

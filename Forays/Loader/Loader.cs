@@ -27,6 +27,6 @@ namespace Forays.Loader
 
         public List<LevelType> LevelTypes { get; set; }
 
-        public colorchar[,] LastSeen { get; set; }
+        public ColorChar[,] LastSeen { get; set; }
     }
 }

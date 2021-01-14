@@ -925,7 +925,7 @@ namespace Forays
                                             B.DisplayContents();
                                             Screen.AnimateProjectile(
                                                 tile.GetBestExtendedLineOfEffect(player).ToFirstSolidTileOrActor(),
-                                                new colorchar(item.color, item.symbol));
+                                                new ColorChar(item.color, item.symbol));
                                             player.tile().GetItem(item);
                                             B.Add(item.GetName(true, The, Extra) + " hits you. ");
                                             player.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(6),
@@ -1011,7 +1011,7 @@ namespace Forays
                                                     Screen.AnimateProjectile(
                                                         tile.GetBestExtendedLineOfEffect(player)
                                                             .ToFirstSolidTileOrActor(),
-                                                        new colorchar(item.color, item.symbol));
+                                                        new ColorChar(item.color, item.symbol));
                                                     player.tile().GetItem(item);
                                                     B.Add(item.GetName(true, The) + " hits you. ");
                                                     player.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL,
@@ -1281,7 +1281,7 @@ namespace Forays
                             if (t != null && t.seen)
                             {
                                 Screen.AnimateMapCell(t.row, t.col,
-                                    new colorchar(i.other_data.ToString()[0], Color.Red), 100);
+                                    new ColorChar(i.other_data.ToString()[0], Color.Red), 100);
                                 if (player.CanSee(t))
                                 {
                                     Help.TutorialTip(TutorialTopic.BlastFungus);
@@ -1742,13 +1742,13 @@ namespace Forays
                             if (recovered > 0)
                             {
                                 List<pos> cells = new List<pos>();
-                                List<colorchar> cch = new List<colorchar>();
+                                List<ColorChar> cch = new List<ColorChar>();
                                 foreach (pos p2 in target.PositionsWithinDistance(4))
                                 {
                                     if (target.HasLOE(M.tile[p2]) && player.CanSee(M.tile[p2]))
                                     {
                                         cells.Add(p2);
-                                        colorchar ch = M.VisibleColorChar(p2.row, p2.col);
+                                        ColorChar ch = M.VisibleColorChar(p2.row, p2.col);
                                         ch.color = Color.Red;
                                         cch.Add(ch);
                                     }
@@ -1870,11 +1870,11 @@ namespace Forays
                     case EventType.SHIELDING:
                     {
                         List<pos> cells = new List<pos>();
-                        List<colorchar> symbols = new List<colorchar>();
+                        List<ColorChar> symbols = new List<ColorChar>();
                         int animation_delay = 75;
                         foreach (Tile tile in area)
                         {
-                            colorchar cch = tile.visual;
+                            ColorChar cch = tile.visual;
                             if (tile.actor() != null)
                             {
                                 if (!tile.actor().HasAttr(AttrType.SHIELDED))

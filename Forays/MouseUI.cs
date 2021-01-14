@@ -243,7 +243,7 @@ namespace Forays
         {
             if (Highlighted != null)
             {
-                colorchar[,] highlight = new colorchar[Highlighted.height, Highlighted.width];
+                ColorChar[,] highlight = new ColorChar[Highlighted.height, Highlighted.width];
                 int hh = Highlighted.height;
                 int hw = Highlighted.width;
                 int hr = Highlighted.row;
@@ -286,7 +286,7 @@ namespace Forays
                 {
                     int i = p.row;
                     int j = p.col;
-                    colorchar
+                    ColorChar
                         cch = Screen.MapChar(i,
                             j); //I tried doing this with a single call to UpdateVertexArray. It was slow.
                     Screen.gl.UpdateOtherSingleVertex(Screen.textSurface,

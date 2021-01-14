@@ -525,7 +525,7 @@ namespace Forays
             MouseUI.CreateButton(ConsoleKey.A, false, y + boxheight - 3, x + 1 + spaces_on_left / 2, 1, 27);
             spaces_on_left = stringwidth - 21;
             MouseUI.CreateButton(ConsoleKey.OemPlus, false, y + boxheight - 2, x + 1 + spaces_on_left / 2, 1, 21);
-            colorchar[,] memory = Screen.GetCurrentRect(y, x, boxheight, boxwidth);
+            ColorChar[,] memory = Screen.GetCurrentRect(y, x, boxheight, boxwidth);
             List<List<colorstring>> frames = new List<List<colorstring>>();
             frames.Add(BoxAnimationFrame(boxheight - 2, FrameWidth(boxheight, boxwidth)));
             for (int i = boxheight - 4; i > 0; i -= 2)

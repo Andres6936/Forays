@@ -33,7 +33,7 @@ namespace Forays
             set { p.col = value; }
         }
 
-        public colorchar visual;
+        public ColorChar visual;
 
         public char symbol
         {
@@ -870,7 +870,7 @@ namespace Forays
 
             if (cells.Count > 0)
             {
-                Screen.AnimateMapCells(cells, new colorchar('*', Color.RandomExplosion));
+                Screen.AnimateMapCells(cells, new ColorChar('*', Color.RandomExplosion));
             }
 
             List<Tile> affected_walls = new List<Tile>();
@@ -4592,7 +4592,7 @@ compare this number to 1/2:  if less than 1/2, major.
                 }
             }
 
-            colorchar[,] mem = new colorchar[ROWS, COLS];
+            ColorChar[,] mem = new ColorChar[ROWS, COLS];
             List<Tile> line = new List<Tile>();
             List<Tile> oldline = new List<Tile>();
             bool description_shown_last_time = false;
@@ -4728,7 +4728,7 @@ compare this number to 1/2:  if less than 1/2, major.
                 }
                 else
                 {
-                    colorchar cch = mem[r, c];
+                    ColorChar cch = mem[r, c];
                     cch.bgcolor = Color.Green;
                     if (Global.LINUX && !Screen.GLMode)
                     {
@@ -5056,14 +5056,14 @@ compare this number to 1/2:  if less than 1/2, major.
             }
         }
 
-        public static void Targeting_ShowLine(Tile tc, int radius, colorchar[,] mem, List<Tile> line,
+        public static void Targeting_ShowLine(Tile tc, int radius, ColorChar[,] mem, List<Tile> line,
             List<Tile> oldline, ref bool blocked, TileDelegate is_blocking)
         {
             foreach (Tile t in line)
             {
                 if (t.row != player.row || t.col != player.col || tc.actor() != player)
                 {
-                    colorchar cch = mem[t.row, t.col];
+                    ColorChar cch = mem[t.row, t.col];
                     if (t.row == tc.row && t.col == tc.col)
                     {
                         if (!blocked)
@@ -5137,7 +5137,7 @@ compare this number to 1/2:  if less than 1/2, major.
                 {
                     if (!line.Contains(t))
                     {
-                        colorchar cch = mem[t.row, t.col];
+                        ColorChar cch = mem[t.row, t.col];
                         if (blocked)
                         {
                             cch.bgcolor = Color.DarkRed;
@@ -5354,7 +5354,7 @@ compare this number to 1/2:  if less than 1/2, major.
             return result;
         }
 
-        public static void Targeting_RemoveLine(Tile tc, bool done, List<Tile> line, colorchar[,] mem, int radius)
+        public static void Targeting_RemoveLine(Tile tc, bool done, List<Tile> line, ColorChar[,] mem, int radius)
         {
             if (done)
             {

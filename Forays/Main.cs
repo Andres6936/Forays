@@ -250,7 +250,7 @@ namespace Forays
                 Screen.WriteString(row++, col, "[d] Quit");
                 for (int i = 0; i < 4; ++i)
                 {
-                    Screen.WriteChar(i + row - 4, col + 1, new colorchar(Color.Cyan, (char) (i + 'a')));
+                    Screen.WriteChar(i + row - 4, col + 1, new ColorChar(Color.Cyan, (char) (i + 'a')));
                     MouseUI.CreateButton((ConsoleKey) (i + ConsoleKey.A), false, i + row - 4, 0, 1, Global.SCREEN_W);
                 }
 
@@ -1212,7 +1212,7 @@ namespace Forays
             game.Player.attrs[AttrType.BURNING] = 0;
             game.Player.attrs[AttrType.FROZEN] = 0; //...without borders
             //game.M.Draw();
-            colorchar[,] mem = null;
+            ColorChar[,] mem = null;
             UI.DisplayStats();
             bool showed_IDed_tip = false;
             if (Global.KILLED_BY != "gave up" && !Help.displayed[TutorialTopic.IdentifiedConsumables])
@@ -1297,14 +1297,14 @@ namespace Forays
                 {
                     case 0:
                         MouseUI.PushButtonMap();
-                        Dictionary<Actor, colorchar> old_ch = new Dictionary<Actor, colorchar>();
+                        Dictionary<Actor, ColorChar> old_ch = new Dictionary<Actor, ColorChar>();
                         List<Actor> drawn = new List<Actor>();
                         foreach (Actor a in game.map.AllActors())
                         {
                             if (game.Player.CanSee(a))
                             {
                                 old_ch.Add(a, game.map.last_seen[a.row, a.col]);
-                                game.map.last_seen[a.row, a.col] = new colorchar(a.symbol, a.color);
+                                game.map.last_seen[a.row, a.col] = new ColorChar(a.symbol, a.color);
                                 drawn.Add(a);
                             }
                         }
@@ -1385,7 +1385,7 @@ namespace Forays
 
                         StreamWriter file = new StreamWriter(filename, true);
                         UI.DisplayCharacterInfo(false);
-                        colorchar[,] screen = Screen.GetCurrentScreen();
+                        ColorChar[,] screen = Screen.GetCurrentScreen();
                         for (int i = 2; i < Global.SCREEN_H; ++i)
                         {
                             for (int j = 0; j < Global.SCREEN_W; ++j)
@@ -1454,7 +1454,7 @@ namespace Forays
                             '-'); //todo: this was a hack. can now be replaced with the proper Redraw method, I think.
                         game.map.Draw();
                         int col = 0;
-                        foreach (colorchar cch in Screen.GetCurrentMap())
+                        foreach (ColorChar cch in Screen.GetCurrentMap())
                         {
                             file.Write(cch.c);
                             ++col;

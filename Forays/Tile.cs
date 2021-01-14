@@ -800,7 +800,7 @@ namespace Forays
             return false;
         }
 
-        public colorchar FeatureVisual()
+        public ColorChar FeatureVisual()
         {
             foreach (FeatureType ft in feature_priority)
             {
@@ -819,7 +819,7 @@ namespace Forays
                     {
                         if (type == TileType.BARREL)
                         {
-                            return new colorchar('0', Tile.Feature(ft).color);
+                            return new ColorChar('0', Tile.Feature(ft).color);
                         }
 
                         if (type == TileType.FIRE_GEYSER)
@@ -835,7 +835,7 @@ namespace Forays
 
                     if (ft == FeatureType.OIL && type == TileType.WATER)
                     {
-                        return new colorchar('~', Tile.Feature(ft).color);
+                        return new ColorChar('~', Tile.Feature(ft).color);
                     }
 
                     return Tile.Feature(ft).visual;
@@ -2303,7 +2303,7 @@ namespace Forays
                             M.Draw();
                             if (line.Count > 0)
                             {
-                                Screen.AnimateProjectile(line, new colorchar(i.symbol, i.color));
+                                Screen.AnimateProjectile(line, new ColorChar(i.symbol, i.color));
                             }
 
                             if (i.IsBreakable())

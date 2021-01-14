@@ -329,7 +329,7 @@ namespace Forays
             if (show_footsteps && player.HasAttr(AttrType.DETECTING_MOVEMENT) && Actor.previous_footsteps.Count > 0)
             {
                 M.Draw();
-                Screen.AnimateMapCells(Actor.previous_footsteps, new colorchar('!', Color.Red), 150);
+                Screen.AnimateMapCells(Actor.previous_footsteps, new ColorChar('!', Color.Red), 150);
             }
 
             MouseUI.PopButtonMap();
@@ -588,7 +588,7 @@ namespace Forays
                                     i.other_data = 3;
                                     i.revealed_by_light = true;
                                     Q.Add(new Event(i, 100, EventType.BLAST_FUNGUS));
-                                    Screen.AnimateMapCell(t.row, t.col, new colorchar('3', Color.Red), 100);
+                                    Screen.AnimateMapCell(t.row, t.col, new ColorChar('3', Color.Red), 100);
                                 }
                             }
 
@@ -787,7 +787,7 @@ namespace Forays
                             bool torch = t.Is(TileType.STANDING_TORCH);
                             string feature_name = "";
                             int impact_damage_dice = 3;
-                            colorchar vis = new colorchar(t.symbol, t.color);
+                            ColorChar vis = new ColorChar(t.symbol, t.color);
                             switch (t.type)
                             {
                                 case TileType.CRACKED_WALL:
@@ -919,7 +919,7 @@ namespace Forays
                                 }
 
                                 Screen.WriteMapChar(t.row, t.col, M.VisibleColorChar(t.row, t.col));
-                                colorchar[,] mem = Screen.GetCurrentMap();
+                                ColorChar[,] mem = Screen.GetCurrentMap();
                                 int current_row = t.row;
                                 int current_col = t.col;
                                 //

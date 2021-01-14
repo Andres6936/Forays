@@ -1112,7 +1112,7 @@ namespace Forays
                     {
                         int dir = valid_dirs.Random();
                         Tile t = user.TileInDirection(dir);
-                        colorchar ch = new colorchar(Color.Cyan, '!');
+                        ColorChar ch = new ColorChar(Color.Cyan, '!');
                         switch (user.DirectionOf(t))
                         {
                             case 8:
@@ -1126,7 +1126,7 @@ namespace Forays
                         }
 
                         List<Tile> tiles = new List<Tile>();
-                        List<colorchar> memlist = new List<colorchar>();
+                        List<ColorChar> memlist = new List<ColorChar>();
                         Tile last_wall = null;
                         while (!t.passable)
                         {
@@ -1283,7 +1283,7 @@ namespace Forays
                                     t.Toggle(null);
                                 }
 
-                                colorchar ch2 = Screen.BlankChar();
+                                ColorChar ch2 = Screen.BlankChar();
                                 if (t.inv != null)
                                 {
                                     t.inv.revealed_by_light = true;
@@ -1648,7 +1648,7 @@ namespace Forays
 
                         foreach (Tile t in printed[dist])
                         {
-                            colorchar cch = M.VisibleColorChar(t.row, t.col);
+                            ColorChar cch = M.VisibleColorChar(t.row, t.col);
                             cch.bgcolor = leading_edge_color;
                             if (cch.color == leading_edge_color)
                             {
@@ -1662,7 +1662,7 @@ namespace Forays
                         {
                             foreach (Tile t in printed[dist - 1])
                             {
-                                colorchar cch = M.VisibleColorChar(t.row, t.col);
+                                ColorChar cch = M.VisibleColorChar(t.row, t.col);
                                 cch.bgcolor = trail_color;
                                 if (cch.color == trail_color)
                                 {
@@ -1753,7 +1753,7 @@ namespace Forays
                             t.AddFeature(FeatureType.FIRE);
                         }
 
-                        Screen.AnimateMapCells(cells, new colorchar('&', Color.RandomFire));
+                        Screen.AnimateMapCells(cells, new ColorChar('&', Color.RandomFire));
                     }
                     else
                     {
@@ -1787,7 +1787,7 @@ namespace Forays
 
                         foreach (Tile t in printed[dist])
                         {
-                            colorchar cch = M.VisibleColorChar(t.row, t.col);
+                            ColorChar cch = M.VisibleColorChar(t.row, t.col);
                             cch.bgcolor = leading_edge_color;
                             if (cch.color == leading_edge_color)
                             {
@@ -1801,7 +1801,7 @@ namespace Forays
                         {
                             foreach (Tile t in printed[dist - 1])
                             {
-                                colorchar cch = M.VisibleColorChar(t.row, t.col);
+                                ColorChar cch = M.VisibleColorChar(t.row, t.col);
                                 cch.bgcolor = trail_color;
                                 if (cch.color == trail_color)
                                 {
@@ -1851,7 +1851,7 @@ namespace Forays
                 {
                     ItemUseResult orb_result = UseOrb(2, false, user, line, (t, LOE_tile, results) =>
                     {
-                        Screen.AnimateExplosion(t, 2, new colorchar('*', Color.RandomIce));
+                        Screen.AnimateExplosion(t, 2, new ColorChar('*', Color.RandomIce));
                         List<Tile> targets = new List<Tile>();
                         foreach (Tile t2 in t.TilesWithinDistance(2))
                         {
@@ -1904,7 +1904,7 @@ namespace Forays
                             }
                         }
 
-                        Screen.AnimateMapCells(cells, new colorchar('&', Color.RandomFire));
+                        Screen.AnimateMapCells(cells, new ColorChar('&', Color.RandomFire));
                     });
                     used = orb_result.used;
                     IDed = orb_result.IDed;
@@ -1916,7 +1916,7 @@ namespace Forays
                     {
                         List<Tile> area = new List<Tile>();
                         List<pos> cells = new List<pos>();
-                        colorchar cch = new colorchar('*', Color.Gray);
+                        ColorChar cch = new ColorChar('*', Color.Gray);
                         for (int i = 0; i <= 3; ++i)
                         {
                             foreach (Tile tile in t.TilesAtDistance(i))
@@ -2018,12 +2018,12 @@ namespace Forays
                     {
                         List<Tile> area = new List<Tile>();
                         List<pos> cells = new List<pos>();
-                        List<colorchar> symbols = new List<colorchar>();
+                        List<ColorChar> symbols = new List<ColorChar>();
                         foreach (Tile tile in t.TilesWithinDistance(1))
                         {
                             if (tile.passable && LOE_tile.HasLOE(tile))
                             {
-                                colorchar cch = tile.visual;
+                                ColorChar cch = tile.visual;
                                 if (tile.actor() != null)
                                 {
                                     if (!tile.actor().HasAttr(AttrType.SHIELDED))
@@ -2095,7 +2095,7 @@ namespace Forays
                     ItemUseResult orb_result = UseOrb(5, false, user, line, (t, LOE_tile, results) =>
                     {
                         List<pos> cells = new List<pos>();
-                        List<colorchar> symbols = new List<colorchar>();
+                        List<ColorChar> symbols = new List<ColorChar>();
                         foreach (Tile tile in t.TilesWithinDistance(5))
                         {
                             if (LOE_tile.HasLOE(tile))
@@ -2114,7 +2114,7 @@ namespace Forays
                                     }
                                 }
 
-                                symbols.Add(new colorchar('*', Color.RandomDoom));
+                                symbols.Add(new ColorChar('*', Color.RandomDoom));
                                 /*if(tile.DistanceFrom(t) % 2 == 0){
                                     symbols.Add(new colorchar('*',Color.DarkMagenta));
                                 }
@@ -2137,7 +2137,7 @@ namespace Forays
                     {
                         List<Tile> area = new List<Tile>();
                         List<pos> cells = new List<pos>();
-                        colorchar cch = new colorchar('*', Color.RandomConfusion);
+                        ColorChar cch = new ColorChar('*', Color.RandomConfusion);
                         for (int i = 0; i <= 2; ++i)
                         {
                             foreach (Tile tile in t.TilesAtDistance(i))
@@ -2222,7 +2222,7 @@ namespace Forays
                             area.AddUnique(n1);
                         }
 
-                        colorchar cch = new colorchar('*', Color.TerrainDarkGray);
+                        ColorChar cch = new ColorChar('*', Color.TerrainDarkGray);
                         foreach (Tile t2 in area)
                         {
                             t2.AddFeature(FeatureType.THICK_DUST);
@@ -2263,7 +2263,7 @@ namespace Forays
                         if (a != null)
                         {
                             B.Add("Jets of flame erupt from " + a.GetName(true, The) + ". ", a, targeting.targeted);
-                            Screen.AnimateMapCell(a.row, a.col, new colorchar('&', Color.RandomFire));
+                            Screen.AnimateMapCell(a.row, a.col, new ColorChar('&', Color.RandomFire));
                             int dmg = (a.curhp + 1) / 2;
                             if (a.TakeDamage(DamageType.MAGIC, DamageClass.MAGICAL, dmg, user,
                                 "a wand of flesh to fire"))

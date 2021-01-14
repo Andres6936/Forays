@@ -1033,7 +1033,7 @@ namespace Forays
                         if (b != MouseUI.Highlighted)
                         {
                             MouseUI.Highlighted = b;
-                            colorchar[,] array = new colorchar[b.height, b.width];
+                            ColorChar[,] array = new ColorChar[b.height, b.width];
                             for (int i = 0; i < b.height; ++i)
                             {
                                 for (int j = 0; j < b.width; ++j)
@@ -1134,7 +1134,7 @@ namespace Forays
                         if (dir_b != null && dir_b != MouseUI.Highlighted)
                         {
                             MouseUI.Highlighted = dir_b;
-                            colorchar[,] array = new colorchar[1, 1];
+                            ColorChar[,] array = new ColorChar[1, 1];
                             array[0, 0] = Screen.Char(Global.MAP_OFFSET_ROWS + p.row, Global.MAP_OFFSET_COLS + p.col);
                             array[0, 0].bgcolor = Color.Blue;
                             Screen.UpdateGLBuffer(dir_b.row, dir_b.col, array);
@@ -1166,7 +1166,7 @@ namespace Forays
                     if (b != null && b != MouseUI.Highlighted)
                     {
                         MouseUI.Highlighted = b;
-                        colorchar[,] array = new colorchar[b.height, b.width];
+                        ColorChar[,] array = new ColorChar[b.height, b.width];
                         for (int i = 0; i < b.height; ++i)
                         {
                             for (int j = 0; j < b.width; ++j)
@@ -1247,7 +1247,7 @@ namespace Forays
                                                 w, h);
                                         int player_r = Actor.player.row;
                                         int player_c = Actor.player.col;
-                                        colorchar[,] array = new colorchar[h, w];
+                                        ColorChar[,] array = new ColorChar[h, w];
                                         if (description_on_right)
                                         {
                                             for (int i = 0; i < h; ++i)
@@ -1330,7 +1330,7 @@ namespace Forays
                                                 continue;
                                             }
 
-                                            colorchar cch = Screen.MapChar(p.row, p.col);
+                                            ColorChar cch = Screen.MapChar(p.row, p.col);
                                             cch.bgcolor = Color.DarkGreen;
                                             if (cch.color == Color.DarkGreen)
                                             {

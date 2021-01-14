@@ -2563,13 +2563,13 @@ namespace Forays
                     if (type == ActorType.TROLL_BLOODWITCH)
                     {
                         List<pos> cells = new List<pos>();
-                        List<colorchar> cch = new List<colorchar>();
+                        List<ColorChar> cch = new List<ColorChar>();
                         foreach (pos p2 in PositionsWithinDistance(4))
                         {
                             if (M.tile[p2].passable && HasLOE(M.tile[p2]) && player.CanSee(M.tile[p2]))
                             {
                                 cells.Add(p2);
-                                colorchar ch = M.VisibleColorChar(p2.row, p2.col);
+                                ColorChar ch = M.VisibleColorChar(p2.row, p2.col);
                                 ch.color = Color.Red;
                                 cch.Add(ch);
                             }
@@ -2987,7 +2987,7 @@ namespace Forays
         {
             if (HasAttr(AttrType.DETECTING_MOVEMENT) && footsteps.Count > 0 && time_of_last_action < Q.turn)
             {
-                Screen.AnimateMapCells(footsteps, new colorchar('!', Color.Red));
+                Screen.AnimateMapCells(footsteps, new ColorChar('!', Color.Red));
                 previous_footsteps = footsteps;
                 footsteps = new List<pos>();
             }
@@ -3392,7 +3392,7 @@ namespace Forays
                                         t.Toggle(null);
                                     }
 
-                                    colorchar ch2 = Screen.BlankChar();
+                                    ColorChar ch2 = Screen.BlankChar();
                                     if (t.inv != null)
                                     {
                                         t.inv.revealed_by_light = true;
@@ -4272,7 +4272,7 @@ namespace Forays
                             {
                                 if (p.row != row || p.col != col)
                                 {
-                                    colorchar cch = Screen.MapChar(p.row, p.col);
+                                    ColorChar cch = Screen.MapChar(p.row, p.col);
                                     if (p.row == stairs.row && p.col == stairs.col)
                                     {
                                         cch.bgcolor = Color.Green;
@@ -4392,14 +4392,14 @@ namespace Forays
                         break;
                     }
 
-                    Dictionary<Actor, colorchar> old_ch = new Dictionary<Actor, colorchar>();
+                    Dictionary<Actor, ColorChar> old_ch = new Dictionary<Actor, ColorChar>();
                     List<Actor> drawn = new List<Actor>();
                     foreach (Actor a in M.AllActors())
                     {
                         if (CanSee(a))
                         {
                             old_ch.Add(a, M.last_seen[a.row, a.col]);
-                            M.last_seen[a.row, a.col] = new colorchar(a.symbol, a.color);
+                            M.last_seen[a.row, a.col] = new ColorChar(a.symbol, a.color);
                             drawn.Add(a);
                         }
                     }
@@ -4608,7 +4608,7 @@ namespace Forays
                                             i.other_data = 3;
                                             i.revealed_by_light = true;
                                             Q.Add(new Event(i, 100, EventType.BLAST_FUNGUS));
-                                            Screen.AnimateMapCell(row, col, new colorchar('3', Color.Red), 100);
+                                            Screen.AnimateMapCell(row, col, new ColorChar('3', Color.Red), 100);
                                         }
 
                                         Q1();
@@ -4735,7 +4735,7 @@ namespace Forays
                         {
                             MouseUI.PushButtonMap(MouseMode.Inventory);
                             MouseUI.AutomaticButtonsFromStrings = true;
-                            colorchar[,] screen = Screen.GetCurrentScreen();
+                            ColorChar[,] screen = Screen.GetCurrentScreen();
                             for (int letter = 0; letter < inv.Count; ++letter)
                             {
                                 Screen.WriteMapChar(letter + 1, 1, (char) (letter + 'a'), Color.DarkCyan);
@@ -5638,11 +5638,11 @@ namespace Forays
                 {
                     MouseUI.PushButtonMap();
                     Tile stairs = M.AllTiles().Where(x => x.type == TileType.STAIRS && x.seen).RandomOrDefault();
-                    colorchar cch = Screen.BlankChar();
+                    ColorChar cch = Screen.BlankChar();
                     if (stairs != null)
                     {
                         cch = M.last_seen[stairs.row, stairs.col];
-                        M.last_seen[stairs.row, stairs.col] = new colorchar('>', stairs.color);
+                        M.last_seen[stairs.row, stairs.col] = new ColorChar('>', stairs.color);
                     }
 
                     Screen.MapDrawWithStrings(M.last_seen, 0, 0, ROWS, COLS);
@@ -5831,8 +5831,8 @@ namespace Forays
                                     }
                                     else
                                     {
-                                        colorchar[,] screen = Screen.GetCurrentScreen();
-                                        colorchar cch = new colorchar('@', Color.White);
+                                        ColorChar[,] screen = Screen.GetCurrentScreen();
+                                        ColorChar cch = new ColorChar('@', Color.White);
                                         for (int i = 0; i < Global.SCREEN_H; ++i)
                                         {
                                             for (int j = i % 2; j < Global.SCREEN_W; j += 2)
@@ -5844,7 +5844,7 @@ namespace Forays
                                             }
                                         }
 
-                                        cch = new colorchar('@', Color.Green);
+                                        cch = new ColorChar('@', Color.Green);
                                         for (int i = 0; i < Global.SCREEN_H; ++i)
                                         {
                                             Screen.WriteChar(i, 0, cch);
@@ -5857,7 +5857,7 @@ namespace Forays
                                             }
                                         }
 
-                                        cch = new colorchar('@', Color.Cyan);
+                                        cch = new ColorChar('@', Color.Cyan);
                                         for (int j = 0; j < Global.SCREEN_W; ++j)
                                         {
                                             for (int i = 0; i < Global.SCREEN_H; ++i)
@@ -6428,7 +6428,7 @@ namespace Forays
                             }
                             case 4:
                             {
-                                colorchar cch;
+                                ColorChar cch;
                                 cch.c = ' ';
                                 cch.color = Color.Black;
                                 cch.bgcolor = Color.Black;
@@ -6761,7 +6761,7 @@ namespace Forays
                                 {
                                     if (t.solid_rock) continue;
                                     t.seen = true;
-                                    colorchar ch2 = Screen.BlankChar();
+                                    ColorChar ch2 = Screen.BlankChar();
                                     if (t.IsKnownTrap() || t.IsShrine() || t.Is(TileType.RUINED_SHRINE))
                                     {
                                         t.revealed_by_light = true;
@@ -6800,7 +6800,7 @@ namespace Forays
                                 //M.Draw();
                                 foreach (Actor a in M.AllActors())
                                 {
-                                    Screen.WriteMapChar(a.row, a.col, new colorchar(a.color, Color.Black, a.symbol));
+                                    Screen.WriteMapChar(a.row, a.col, new ColorChar(a.color, Color.Black, a.symbol));
                                 }
 
                                 Input.ReadKey();
@@ -7121,7 +7121,7 @@ namespace Forays
                         const int menuCol = 60;
                         const int menuHeight = 8;
                         const int menuWidth = 21;
-                        colorchar[,] mem = Screen.GetCurrentRect(menuRow, menuCol, menuHeight, menuWidth);
+                        ColorChar[,] mem = Screen.GetCurrentRect(menuRow, menuCol, menuHeight, menuWidth);
                         UI.darken_status_bar = true;
                         UI.DisplayStats();
                         string[] strings = new string[]
@@ -7557,7 +7557,7 @@ namespace Forays
                                     nearby.revealed_by_light = true;
                                     if (!nearby.seen && nearby != t)
                                     {
-                                        colorchar ch2 = nearby.visual;
+                                        ColorChar ch2 = nearby.visual;
                                         ch2.color = Color.Blue;
                                         M.last_seen[nearby.row, nearby.col] = ch2;
                                         ch2.color = nearby.color;
@@ -7737,7 +7737,7 @@ namespace Forays
                                         if (HasAttr(AttrType.BLIND) && !t.seen)
                                         {
                                             t.seen = true;
-                                            colorchar ch2 = Screen.BlankChar();
+                                            ColorChar ch2 = Screen.BlankChar();
                                             ch2.c = t.symbol;
                                             ch2.color = Color.Blue;
                                             M.last_seen[t.row, t.col] = ch2;
@@ -7850,7 +7850,7 @@ namespace Forays
                                             if (HasAttr(AttrType.BLIND) && !t.seen)
                                             {
                                                 t.seen = true;
-                                                colorchar ch2 = Screen.BlankChar();
+                                                ColorChar ch2 = Screen.BlankChar();
                                                 ch2.c = t.symbol;
                                                 ch2.color = Color.Blue;
                                                 M.last_seen[t.row, t.col] = ch2;
@@ -8092,13 +8092,13 @@ namespace Forays
             {
                 B.Add("You're too afraid! ");
                 List<pos> cells = new List<pos>();
-                List<colorchar> chars = new List<colorchar>();
+                List<ColorChar> chars = new List<ColorChar>();
                 foreach (Tile neighbor in TilesAtDistance(1))
                 {
                     if (neighbor.passable && !least_frightening.Contains(neighbor))
                     {
                         cells.Add(neighbor.p);
-                        colorchar cch = M.VisibleColorChar(neighbor.row, neighbor.col);
+                        ColorChar cch = M.VisibleColorChar(neighbor.row, neighbor.col);
                         cch.bgcolor = Color.DarkMagenta;
                         if (!CanSee(neighbor))
                         {
@@ -10074,7 +10074,7 @@ namespace Forays
 
                                 if (cells.Count > 0)
                                 {
-                                    Screen.AnimateMapCells(cells, new colorchar(',', Color.Green), 20);
+                                    Screen.AnimateMapCells(cells, new ColorChar(',', Color.Green), 20);
                                 }
                             }
 
@@ -10600,7 +10600,7 @@ namespace Forays
                                     }
                                 }
 
-                                Screen.AnimateMapCells(cells, new colorchar('*', Color.RandomRainbow));
+                                Screen.AnimateMapCells(cells, new ColorChar('*', Color.RandomRainbow));
                             }
 
                             target.TakeDamage(DamageType.MAGIC, DamageClass.MAGICAL, R.Roll(2, 6), this,
@@ -10693,8 +10693,8 @@ namespace Forays
                     }
 
                     objs[idx] = this;
-                    List<colorchar> chars = new List<colorchar>();
-                    colorchar cch = new colorchar('*', Color.RandomLightning);
+                    List<ColorChar> chars = new List<ColorChar>();
+                    ColorChar cch = new ColorChar('*', Color.RandomLightning);
                     if (cloud.Contains(target.p))
                     {
                         B.Add(GetName(false, The) + " electrifies the cloud! ", objs);
@@ -12185,7 +12185,7 @@ namespace Forays
                             Move(destination.row, destination.col);
                             foreach (Tile t in ext.To(destination))
                             {
-                                colorchar cch = M.VisibleColorChar(t.row, t.col);
+                                ColorChar cch = M.VisibleColorChar(t.row, t.col);
                                 cch.bgcolor = Color.Yellow;
                                 if (Global.LINUX && !Screen.GLMode)
                                 {
@@ -12675,7 +12675,7 @@ namespace Forays
 
                                 if (cells.Count > 0)
                                 {
-                                    Screen.AnimateMapCells(cells, new colorchar(',', Color.DarkYellow), 20);
+                                    Screen.AnimateMapCells(cells, new ColorChar(',', Color.DarkYellow), 20);
                                 }
                             }
 
@@ -15160,7 +15160,7 @@ namespace Forays
                     if (a == player)
                     {
                         B.DisplayContents();
-                        Screen.AnimateMapCell(a.row, a.col, new colorchar('!', Color.Green), 80);
+                        Screen.AnimateMapCell(a.row, a.col, new ColorChar('!', Color.Green), 80);
                     }
 
                     a.Move(dodge_tile.row, dodge_tile.col);
@@ -15735,7 +15735,7 @@ namespace Forays
 
                 if (a == player && !player.CanSee(this))
                 {
-                    Screen.AnimateMapCell(row, col, new colorchar('?', Color.DarkGray), 50);
+                    Screen.AnimateMapCell(row, col, new ColorChar('?', Color.DarkGray), 50);
                 }
 
                 if (a.type == ActorType.GHOST && EquippedWeapon.enchantment != EnchantmentType.NO_ENCHANTMENT &&
@@ -16958,7 +16958,7 @@ namespace Forays
 
                 if (this == player && solid_object_hit && !player.CanSee(o) && (o is Actor || !o.tile().seen))
                 {
-                    Screen.AnimateMapCell(o.row, o.col, new colorchar('?', Color.DarkGray), 50);
+                    Screen.AnimateMapCell(o.row, o.col, new ColorChar('?', Color.DarkGray), 50);
                 }
             }
 
@@ -19106,7 +19106,7 @@ namespace Forays
                         B.Add(GetName(false, The, Verb("cast")) + " force palm. ", this);
                         MakeNoise(spellVolume);
                         B.DisplayContents();
-                        Screen.AnimateMapCell(t.row, t.col, new colorchar('*', Color.Blue), 100);
+                        Screen.AnimateMapCell(t.row, t.col, new ColorChar('*', Color.Blue), 100);
                         bool self_knockback = false;
                         if (a != null)
                         {
@@ -19293,7 +19293,7 @@ namespace Forays
                                 if (i < 3)
                                 {
                                     Screen.AnimateProjectile(atile.GetBestLineOfEffect(a),
-                                        new colorchar('*', Color.Blue));
+                                        new ColorChar('*', Color.Blue));
                                 }
                             }
 
@@ -19741,7 +19741,7 @@ namespace Forays
                         MakeNoise(spellVolume);
                         M.Draw();
                         B.DisplayContents();
-                        Screen.AnimateMapCell(t.row, t.col, new colorchar('*', Color.Magenta), 100);
+                        Screen.AnimateMapCell(t.row, t.col, new ColorChar('*', Color.Magenta), 100);
                         if (a != null)
                         {
                             B.Add(GetName(false, The, Verb("wallop")) + " " + a.GetName(true, The) + ". ", this, a);
@@ -19842,7 +19842,7 @@ namespace Forays
                         {
                             B.Add(GetName(false, The, Verb("cast")) + " passage. ", this);
                             MakeNoise(spellVolume);
-                            colorchar ch = new colorchar(Color.Cyan, '!');
+                            ColorChar ch = new ColorChar(Color.Cyan, '!');
                             if (this == player)
                             {
                                 switch (DirectionOf(t))
@@ -19868,7 +19868,7 @@ namespace Forays
                             }
 
                             List<Tile> tiles = new List<Tile>();
-                            List<colorchar> memlist = new List<colorchar>();
+                            List<ColorChar> memlist = new List<ColorChar>();
                             Tile last_wall = null;
                             while (!t.passable)
                             {
@@ -20184,39 +20184,39 @@ namespace Forays
                         for (int dist = 2; dist > 0; --dist)
                         {
                             List<pos> cells = new List<pos>();
-                            List<colorchar> chars = new List<colorchar>();
+                            List<ColorChar> chars = new List<ColorChar>();
                             pos p2 = new pos(t.row - dist, t.col - dist);
                             if (p2.BoundsCheck(M.tile))
                             {
                                 cells.Add(p2);
-                                chars.Add(new colorchar('\\', Color.DarkGreen));
+                                chars.Add(new ColorChar('\\', Color.DarkGreen));
                             }
 
                             p2 = new pos(t.row - dist, t.col + dist);
                             if (p2.BoundsCheck(M.tile))
                             {
                                 cells.Add(p2);
-                                chars.Add(new colorchar('/', Color.DarkGreen));
+                                chars.Add(new ColorChar('/', Color.DarkGreen));
                             }
 
                             p2 = new pos(t.row + dist, t.col - dist);
                             if (p2.BoundsCheck(M.tile))
                             {
                                 cells.Add(p2);
-                                chars.Add(new colorchar('/', Color.DarkGreen));
+                                chars.Add(new ColorChar('/', Color.DarkGreen));
                             }
 
                             p2 = new pos(t.row + dist, t.col + dist);
                             if (p2.BoundsCheck(M.tile))
                             {
                                 cells.Add(p2);
-                                chars.Add(new colorchar('\\', Color.DarkGreen));
+                                chars.Add(new ColorChar('\\', Color.DarkGreen));
                             }
 
                             Screen.AnimateMapCells(cells, chars);
                         }
 
-                        Screen.AnimateMapCell(t.row, t.col, new colorchar('X', Color.DarkGreen));
+                        Screen.AnimateMapCell(t.row, t.col, new ColorChar('X', Color.DarkGreen));
                         foreach (Tile neighbor in t.TilesWithinDistance(1).Randomize())
                         {
                             if (neighbor.p.BoundsCheck(M.tile, false))
@@ -20416,7 +20416,7 @@ namespace Forays
 
                         if (area.Count > 0)
                         {
-                            colorchar cch = Tile.Prototype(TileType.STALAGMITE).visual;
+                            ColorChar cch = Tile.Prototype(TileType.STALAGMITE).visual;
                             foreach (Tile t2 in area)
                             {
                                 TileType previous_type = t2.type;
@@ -21233,9 +21233,9 @@ namespace Forays
                     {
                         Screen.WriteMapString(bottomBorder, 0,
                             "--Type [a-d] to choose a feat---[?] for help---[Enter] to accept--");
-                        Screen.WriteMapChar(bottomBorder, 8, new colorchar(Color.Cyan, 'a'));
-                        Screen.WriteMapChar(bottomBorder, 10, new colorchar(Color.Cyan, 'd'));
-                        Screen.WriteMapChar(bottomBorder, 33, new colorchar(Color.Cyan, '?'));
+                        Screen.WriteMapChar(bottomBorder, 8, new ColorChar(Color.Cyan, 'a'));
+                        Screen.WriteMapChar(bottomBorder, 10, new ColorChar(Color.Cyan, 'd'));
+                        Screen.WriteMapChar(bottomBorder, 33, new ColorChar(Color.Cyan, '?'));
                         Screen.WriteMapString(bottomBorder, 48, new ColorString(Color.Magenta, "Enter"));
                         MouseUI.CreateButton(ConsoleKey.Enter, false, Global.MAP_OFFSET_ROWS + ROWS + 2,
                             Global.MAP_OFFSET_COLS + 47, 1, 17);
@@ -21244,9 +21244,9 @@ namespace Forays
                     {
                         Screen.WriteMapString(bottomBorder, 0,
                             "--Type [a-d] to choose a feat---[?] for help----------------------");
-                        Screen.WriteMapChar(bottomBorder, 8, new colorchar(Color.Cyan, 'a'));
-                        Screen.WriteMapChar(bottomBorder, 10, new colorchar(Color.Cyan, 'd'));
-                        Screen.WriteMapChar(bottomBorder, 33, new colorchar(Color.Cyan, '?'));
+                        Screen.WriteMapChar(bottomBorder, 8, new ColorChar(Color.Cyan, 'a'));
+                        Screen.WriteMapChar(bottomBorder, 10, new ColorChar(Color.Cyan, 'd'));
+                        Screen.WriteMapChar(bottomBorder, 33, new ColorChar(Color.Cyan, '?'));
                         MouseUI.RemoveButton(Global.MAP_OFFSET_ROWS + ROWS + 2, Global.MAP_OFFSET_COLS + 47);
                     }
 
@@ -22509,7 +22509,7 @@ namespace Forays
             int maxrow = ROWS - 1;
             int mincol = 0;
             int maxcol = COLS - 1;
-            colorchar[,] mem = new colorchar[ROWS, COLS];
+            ColorChar[,] mem = new ColorChar[ROWS, COLS];
             List<Tile> line = new List<Tile>();
             List<Tile> oldline = new List<Tile>();
             for (int i = 0; i < ROWS; ++i)
@@ -22589,7 +22589,7 @@ namespace Forays
                     {
                         if (r != row || c != col)
                         {
-                            colorchar cch = mem[r, c];
+                            ColorChar cch = mem[r, c];
                             cch.bgcolor = Color.Green;
                             if (Global.LINUX && !Screen.GLMode)
                             {
@@ -22610,7 +22610,7 @@ namespace Forays
                 }
                 else
                 {
-                    colorchar cch = mem[r, c];
+                    ColorChar cch = mem[r, c];
                     cch.bgcolor = Color.Green;
                     if (Global.LINUX && !Screen.GLMode)
                     {
@@ -22919,7 +22919,7 @@ namespace Forays
             {
                 string s2 = "[" + letter + "] " + s;
                 Screen.WriteMapString(i, 0, s2.PadRight(COLS));
-                Screen.WriteMapChar(i, 1, new colorchar(Color.Cyan, letter));
+                Screen.WriteMapChar(i, 1, new ColorChar(Color.Cyan, letter));
                 letter++;
                 i++;
             }
@@ -23090,13 +23090,13 @@ namespace Forays
         public void AnimateProjectile(PhysicalObject o, Color color, char c)
         {
             B.DisplayContents();
-            Screen.AnimateProjectile(GetBestLineOfEffect(o.row, o.col), new colorchar(color, c));
+            Screen.AnimateProjectile(GetBestLineOfEffect(o.row, o.col), new ColorChar(color, c));
         }
 
         public void AnimateMapCell(PhysicalObject o, Color color, char c)
         {
             B.DisplayContents();
-            Screen.AnimateMapCell(o.row, o.col, new colorchar(color, c));
+            Screen.AnimateMapCell(o.row, o.col, new ColorChar(color, c));
         }
 
         public void AnimateBoltProjectile(PhysicalObject o, Color color)
@@ -23114,13 +23114,13 @@ namespace Forays
         public void AnimateExplosion(PhysicalObject o, int radius, Color color, char c)
         {
             B.DisplayContents();
-            Screen.AnimateExplosion(o, radius, new colorchar(color, c));
+            Screen.AnimateExplosion(o, radius, new ColorChar(color, c));
         }
 
         public void AnimateBeam(PhysicalObject o, Color color, char c)
         {
             B.DisplayContents();
-            Screen.AnimateBeam(GetBestLineOfEffect(o.row, o.col), new colorchar(color, c));
+            Screen.AnimateBeam(GetBestLineOfEffect(o.row, o.col), new ColorChar(color, c));
         }
 
         public void AnimateBoltBeam(PhysicalObject o, Color color)
@@ -23135,44 +23135,44 @@ namespace Forays
         public void AnimateProjectile(PhysicalObject o, char c, Color color)
         {
             B.DisplayContents();
-            Screen.AnimateProjectile(GetBestLineOfEffect(o.row, o.col), new colorchar(color, c));
+            Screen.AnimateProjectile(GetBestLineOfEffect(o.row, o.col), new ColorChar(color, c));
         }
 
         public void AnimateMapCell(PhysicalObject o, char c, Color color)
         {
             B.DisplayContents();
-            Screen.AnimateMapCell(o.row, o.col, new colorchar(color, c));
+            Screen.AnimateMapCell(o.row, o.col, new ColorChar(color, c));
         }
 
         public void AnimateExplosion(PhysicalObject o, int radius, char c, Color color)
         {
             B.DisplayContents();
-            Screen.AnimateExplosion(o, radius, new colorchar(color, c));
+            Screen.AnimateExplosion(o, radius, new ColorChar(color, c));
         }
 
         public void AnimateBeam(PhysicalObject o, char c, Color color)
         {
             B.DisplayContents();
-            Screen.AnimateBeam(GetBestLineOfEffect(o.row, o.col), new colorchar(color, c));
+            Screen.AnimateBeam(GetBestLineOfEffect(o.row, o.col), new ColorChar(color, c));
         }
 
         //from here forward, i'll just do (char,color)..
         public void AnimateStorm(int radius, int num_frames, int num_per_frame, char c, Color color)
         {
             B.DisplayContents();
-            Screen.AnimateStorm(p, radius, num_frames, num_per_frame, new colorchar(c, color));
+            Screen.AnimateStorm(p, radius, num_frames, num_per_frame, new ColorChar(c, color));
         }
 
         public void AnimateProjectile(List<Tile> line, char c, Color color)
         {
             B.DisplayContents();
-            Screen.AnimateProjectile(line, new colorchar(color, c));
+            Screen.AnimateProjectile(line, new ColorChar(color, c));
         }
 
         public void AnimateBeam(List<Tile> line, char c, Color color)
         {
             B.DisplayContents();
-            Screen.AnimateBeam(line, new colorchar(color, c));
+            Screen.AnimateBeam(line, new ColorChar(color, c));
         }
 
         public void AnimateBoltProjectile(List<Tile> line, Color color)
@@ -23187,12 +23187,12 @@ namespace Forays
             Screen.AnimateBoltBeam(line, color);
         }
 
-        public void AnimateVisibleMapCells(List<pos> cells, colorchar ch)
+        public void AnimateVisibleMapCells(List<pos> cells, ColorChar ch)
         {
             AnimateVisibleMapCells(cells, ch, 50);
         }
 
-        public void AnimateVisibleMapCells(List<pos> cells, colorchar ch, int duration)
+        public void AnimateVisibleMapCells(List<pos> cells, ColorChar ch, int duration)
         {
             List<pos> new_cells = cells.Where(x => CanSee(x.row, x.col));
             if (new_cells.Count > 0)
@@ -23202,15 +23202,15 @@ namespace Forays
             }
         }
 
-        public void AnimateVisibleMapCells(List<pos> cells, List<colorchar> chars)
+        public void AnimateVisibleMapCells(List<pos> cells, List<ColorChar> chars)
         {
             AnimateVisibleMapCells(cells, chars, 50);
         }
 
-        public void AnimateVisibleMapCells(List<pos> cells, List<colorchar> chars, int duration)
+        public void AnimateVisibleMapCells(List<pos> cells, List<ColorChar> chars, int duration)
         {
             List<pos> new_cells = new List<pos>();
-            List<colorchar> new_chars = new List<colorchar>();
+            List<ColorChar> new_chars = new List<ColorChar>();
             for (int i = 0; i < cells.Count; ++i)
             {
                 if (CanSee(cells[i].row, cells[i].col))

@@ -18,43 +18,43 @@ using GLDrawing;
 
 namespace Forays
 {
-    public struct colorchar
+    public struct ColorChar
     {
         public Color color;
         public Color bgcolor;
         public char c;
 
-        public colorchar(char c_, Color color_, Color bgcolor_)
+        public ColorChar(char c_, Color color_, Color bgcolor_)
         {
             color = color_;
             bgcolor = bgcolor_;
             c = c_;
         }
 
-        public colorchar(char c_, Color color_)
+        public ColorChar(char c_, Color color_)
         {
             color = color_;
             bgcolor = Color.Black;
             c = c_;
         }
 
-        public colorchar(Color color_, Color bgcolor_, char c_)
+        public ColorChar(Color color_, Color bgcolor_, char c_)
         {
             color = color_;
             bgcolor = bgcolor_;
             c = c_;
         }
 
-        public colorchar(Color color_, char c_)
+        public ColorChar(Color color_, char c_)
         {
             color = color_;
             bgcolor = Color.Black;
             c = c_;
         }
 
-        public static implicit operator colorchar(char c)
+        public static implicit operator ColorChar(char c)
         {
-            return new colorchar(c, Color.Gray, Color.Black);
+            return new ColorChar(c, Color.Gray, Color.Black);
         }
     }
 
@@ -124,7 +124,7 @@ namespace Forays
             return total;
         }
 
-        public colorchar this[int index]
+        public ColorChar this[int index]
         {
             get
             {
@@ -135,7 +135,7 @@ namespace Forays
                     ++cstr_idx;
                 }
 
-                return new colorchar(strings[cstr_idx].s[index], strings[cstr_idx].color, strings[cstr_idx].bgcolor);
+                return new ColorChar(strings[cstr_idx].s[index], strings[cstr_idx].color, strings[cstr_idx].bgcolor);
             }
         }
 
@@ -271,10 +271,10 @@ namespace Forays
 
         public colorstring PadLeft(int totalWidth)
         {
-            return PadLeft(totalWidth, new colorchar(' ', Color.Gray, Color.Black));
+            return PadLeft(totalWidth, new ColorChar(' ', Color.Gray, Color.Black));
         }
 
-        public colorstring PadLeft(int totalWidth, colorchar paddingChar)
+        public colorstring PadLeft(int totalWidth, ColorChar paddingChar)
         {
             int diff = totalWidth - Length();
             if (diff <= 0) return new colorstring(this);
@@ -283,10 +283,10 @@ namespace Forays
 
         public colorstring PadRight(int totalWidth)
         {
-            return PadRight(totalWidth, new colorchar(' ', Color.Gray, Color.Black));
+            return PadRight(totalWidth, new ColorChar(' ', Color.Gray, Color.Black));
         }
 
-        public colorstring PadRight(int totalWidth, colorchar paddingChar)
+        public colorstring PadRight(int totalWidth, ColorChar paddingChar)
         {
             int diff = totalWidth - Length();
             if (diff <= 0) return new colorstring(this);
@@ -295,10 +295,10 @@ namespace Forays
 
         public colorstring PadOuter(int totalWidth)
         {
-            return PadOuter(totalWidth, new colorchar(' ', Color.Gray, Color.Black));
+            return PadOuter(totalWidth, new ColorChar(' ', Color.Gray, Color.Black));
         }
 
-        public colorstring PadOuter(int totalWidth, colorchar paddingChar)
+        public colorstring PadOuter(int totalWidth, ColorChar paddingChar)
         {
             int diff = totalWidth - Length();
             if (diff <= 0) return new colorstring(this);
@@ -417,7 +417,7 @@ namespace Forays
 
     public static class Screen
     {
-        private static colorchar[,] memory;
+        private static ColorChar[,] memory;
         private static bool terminal_bold = false; //for linux terminals
         private static readonly string bold_on = (char) 27 + "[1m"; //VT100 codes, sweet
         private static readonly string bold_off = (char) 27 + "[m";
@@ -639,24 +639,24 @@ namespace Forays
             }
         }
 
-        public static colorchar Char(int r, int c)
+        public static ColorChar Char(int r, int c)
         {
             return memory[r, c];
         }
 
-        public static colorchar MapChar(int r, int c)
+        public static ColorChar MapChar(int r, int c)
         {
             return memory[r + Global.MAP_OFFSET_ROWS, c + Global.MAP_OFFSET_COLS];
         }
 
-        public static colorchar StatsChar(int r, int c)
+        public static ColorChar StatsChar(int r, int c)
         {
             return memory[r, c];
         } //changed from r+1,c
 
         static Screen()
         {
-            memory = new colorchar[Global.SCREEN_H, Global.SCREEN_W];
+            memory = new ColorChar[Global.SCREEN_H, Global.SCREEN_W];
             for (int i = 0; i < Global.SCREEN_H; ++i)
             {
                 for (int j = 0; j < Global.SCREEN_W; ++j)
@@ -674,14 +674,14 @@ namespace Forays
             }
         }
 
-        public static colorchar BlankChar()
+        public static ColorChar BlankChar()
         {
-            return new colorchar(Color.Black, ' ');
+            return new ColorChar(Color.Black, ' ');
         }
 
-        public static colorchar[,] GetCurrentScreen()
+        public static ColorChar[,] GetCurrentScreen()
         {
-            colorchar[,] result = new colorchar[Global.SCREEN_H, Global.SCREEN_W];
+            ColorChar[,] result = new ColorChar[Global.SCREEN_H, Global.SCREEN_W];
             for (int i = 0; i < Global.SCREEN_H; ++i)
             {
                 for (int j = 0; j < Global.SCREEN_W; ++j)
@@ -693,9 +693,9 @@ namespace Forays
             return result;
         }
 
-        public static colorchar[,] GetCurrentMap()
+        public static ColorChar[,] GetCurrentMap()
         {
-            colorchar[,] result = new colorchar[Global.ROWS, Global.COLS];
+            ColorChar[,] result = new ColorChar[Global.ROWS, Global.COLS];
             for (int i = 0; i < Global.ROWS; ++i)
             {
                 for (int j = 0; j < Global.COLS; ++j)
@@ -707,9 +707,9 @@ namespace Forays
             return result;
         }
 
-        public static colorchar[,] GetCurrentRect(int row, int col, int height, int width)
+        public static ColorChar[,] GetCurrentRect(int row, int col, int height, int width)
         {
-            colorchar[,] result = new colorchar[height, width];
+            ColorChar[,] result = new ColorChar[height, width];
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
@@ -768,7 +768,7 @@ namespace Forays
             color_info[1] = new float[4 * num_positions];
             for (int i = 0; i < num_positions; ++i)
             {
-                colorchar cch = memory[row, col];
+                ColorChar cch = memory[row, col];
                 Color4 color = Colors.ConvertColor(cch.color);
                 Color4 bgcolor = Colors.ConvertColor(cch.bgcolor);
                 sprite_rows[i] = 0;
@@ -799,7 +799,7 @@ namespace Forays
 
         public static void UpdateGLBuffer(int row, int col)
         {
-            colorchar cch = memory[row, col];
+            ColorChar cch = memory[row, col];
             gl.UpdateOtherSingleVertex(textSurface, U.Get1DIndex(row, col, Global.SCREEN_W), (int) cch.c, 0,
                 cch.color.GetFloatValues(), cch.bgcolor.GetFloatValues());
             //Game.gl.UpdateVertexArray(row,col,GLGame.text_surface,0,(int)cch.c,cch.color.GetFloatValues(),cch.bgcolor.GetFloatValues());
@@ -819,7 +819,7 @@ namespace Forays
             }
         }
 
-        public static void UpdateGLBuffer(int start_row, int start_col, colorchar[,] array)
+        public static void UpdateGLBuffer(int start_row, int start_col, ColorChar[,] array)
         {
             int array_h = array.GetLength(0);
             int array_w = array.GetLength(1);
@@ -837,7 +837,7 @@ namespace Forays
             {
                 int row = (n + start_col) / Global.SCREEN_W + start_row; //screen coords
                 int col = (n + start_col) % Global.SCREEN_W;
-                colorchar cch = (row >= start_row && row <= end_row && col >= start_col && col <= end_col)
+                ColorChar cch = (row >= start_row && row <= end_row && col >= start_col && col <= end_col)
                     ? array[row - start_row, col - start_col]
                     : memory[row, col];
                 Color4 color = Colors.ConvertColor(cch.color);
@@ -867,20 +867,20 @@ namespace Forays
         }*/
         public static void WriteChar(int r, int c, char ch)
         {
-            WriteChar(r, c, new colorchar(Color.Gray, ch));
+            WriteChar(r, c, new ColorChar(Color.Gray, ch));
         }
 
         public static void WriteChar(int r, int c, char ch, Color color)
         {
-            WriteChar(r, c, new colorchar(ch, color));
+            WriteChar(r, c, new ColorChar(ch, color));
         }
 
         public static void WriteChar(int r, int c, char ch, Color color, Color bgcolor)
         {
-            WriteChar(r, c, new colorchar(ch, color, bgcolor));
+            WriteChar(r, c, new ColorChar(ch, color, bgcolor));
         }
 
-        public static void WriteChar(int r, int c, colorchar ch)
+        public static void WriteChar(int r, int c, ColorChar ch)
         {
             if (!memory[r, c].Equals(ch))
             {
@@ -920,7 +920,7 @@ namespace Forays
             }
         }
 
-        public static void WriteArray(int r, int c, colorchar[,] array)
+        public static void WriteArray(int r, int c, ColorChar[,] array)
         {
             int h = array.GetLength(0);
             int w = array.GetLength(1);
@@ -929,7 +929,7 @@ namespace Forays
                 for (int j = 0; j < w; ++j)
                 {
                     //WriteChar(i+r,j+c,array[i,j]);
-                    colorchar ch = array[i, j];
+                    ColorChar ch = array[i, j];
                     if (!memory[r + i, c + j].Equals(ch))
                     {
                         ch.color = Colors.ResolveColor(ch.color);
@@ -1013,7 +1013,7 @@ namespace Forays
             {
                 s.color = Colors.ResolveColor(s.color);
                 s.bgcolor = Colors.ResolveColor(s.bgcolor);
-                colorchar cch;
+                ColorChar cch;
                 cch.color = s.color;
                 cch.bgcolor = s.bgcolor;
                 if (!GLMode)
@@ -1198,7 +1198,7 @@ namespace Forays
 
                     s.color = Colors.ResolveColor(s.color);
                     s.bgcolor = Colors.ResolveColor(s.bgcolor);
-                    colorchar cch;
+                    ColorChar cch;
                     cch.color = s.color;
                     cch.bgcolor = s.bgcolor;
                     if (!GLMode)
@@ -1381,20 +1381,20 @@ namespace Forays
 
         public static void WriteMapChar(int r, int c, char ch)
         {
-            WriteMapChar(r, c, new colorchar(Color.Gray, ch));
+            WriteMapChar(r, c, new ColorChar(Color.Gray, ch));
         }
 
         public static void WriteMapChar(int r, int c, char ch, Color color)
         {
-            WriteMapChar(r, c, new colorchar(ch, color));
+            WriteMapChar(r, c, new ColorChar(ch, color));
         }
 
         public static void WriteMapChar(int r, int c, char ch, Color color, Color bgcolor)
         {
-            WriteMapChar(r, c, new colorchar(ch, color, bgcolor));
+            WriteMapChar(r, c, new ColorChar(ch, color, bgcolor));
         }
 
-        public static void WriteMapChar(int r, int c, colorchar ch)
+        public static void WriteMapChar(int r, int c, ColorChar ch)
         {
             WriteChar(r + Global.MAP_OFFSET_ROWS, c + Global.MAP_OFFSET_COLS, ch);
         }
@@ -1434,7 +1434,7 @@ namespace Forays
                 c += Global.MAP_OFFSET_COLS;
                 s.color = Colors.ResolveColor(s.color);
                 s.bgcolor = Colors.ResolveColor(s.bgcolor);
-                colorchar cch;
+                ColorChar cch;
                 cch.color = s.color;
                 cch.bgcolor = s.bgcolor;
                 if (!GLMode)
@@ -1544,7 +1544,7 @@ namespace Forays
 
                     s.color = Colors.ResolveColor(s.color);
                     s.bgcolor = Colors.ResolveColor(s.bgcolor);
-                    colorchar cch;
+                    ColorChar cch;
                     cch.color = s.color;
                     cch.bgcolor = s.bgcolor;
                     if (!GLMode)
@@ -1645,7 +1645,7 @@ namespace Forays
             }
         }
 
-        public static void WriteStatsChar(int r, int c, colorchar ch)
+        public static void WriteStatsChar(int r, int c, ColorChar ch)
         {
             WriteChar(r, c, ch);
         } //was r+1,c
@@ -1684,7 +1684,7 @@ namespace Forays
                 //++r;
                 s.color = Colors.ResolveColor(s.color);
                 s.bgcolor = Colors.ResolveColor(s.bgcolor);
-                colorchar cch;
+                ColorChar cch;
                 cch.color = s.color;
                 cch.bgcolor = s.bgcolor;
                 if (!GLMode)
@@ -1775,7 +1775,7 @@ namespace Forays
             }
         }
 
-        public static void MapDrawWithStrings(colorchar[,] array, int row, int col, int height, int width)
+        public static void MapDrawWithStrings(ColorChar[,] array, int row, int col, int height, int width)
         {
             ColorString s;
             s.s = "";
@@ -1788,7 +1788,7 @@ namespace Forays
                 current_c = col;
                 for (int j = col; j < col + width; ++j)
                 {
-                    colorchar ch = array[i, j];
+                    ColorChar ch = array[i, j];
                     if (Colors.ResolveColor(ch.color) != s.color)
                     {
                         if (s.s.Length > 0)
@@ -1815,9 +1815,9 @@ namespace Forays
             }
         }
 
-        public static void AnimateCell(int r, int c, colorchar ch, int duration)
+        public static void AnimateCell(int r, int c, ColorChar ch, int duration)
         {
-            colorchar prev = memory[r, c];
+            ColorChar prev = memory[r, c];
             WriteChar(r, c, ch);
             Screen.GLUpdate();
             Thread.Sleep(duration);
@@ -1836,24 +1836,24 @@ namespace Forays
             }
             WriteChar(r,c,prev);
         }*/
-        public static void AnimateMapCell(int r, int c, colorchar ch)
+        public static void AnimateMapCell(int r, int c, ColorChar ch)
         {
             AnimateMapCell(r, c, ch, 50);
         }
 
-        public static void AnimateMapCell(int r, int c, colorchar ch, int duration)
+        public static void AnimateMapCell(int r, int c, ColorChar ch, int duration)
         {
             AnimateCell(r + Global.MAP_OFFSET_ROWS, c + Global.MAP_OFFSET_COLS, ch, duration);
         }
 
-        public static void AnimateMapCells(List<pos> cells, List<colorchar> chars)
+        public static void AnimateMapCells(List<pos> cells, List<ColorChar> chars)
         {
             AnimateMapCells(cells, chars, 50);
         }
 
-        public static void AnimateMapCells(List<pos> cells, List<colorchar> chars, int duration)
+        public static void AnimateMapCells(List<pos> cells, List<ColorChar> chars, int duration)
         {
-            List<colorchar> prev = new List<colorchar>();
+            List<ColorChar> prev = new List<ColorChar>();
             int idx = 0;
             foreach (pos p in cells)
             {
@@ -1872,14 +1872,14 @@ namespace Forays
             }
         }
 
-        public static void AnimateMapCells(List<pos> cells, colorchar ch)
+        public static void AnimateMapCells(List<pos> cells, ColorChar ch)
         {
             AnimateMapCells(cells, ch, 50);
         }
 
-        public static void AnimateMapCells(List<pos> cells, colorchar ch, int duration)
+        public static void AnimateMapCells(List<pos> cells, ColorChar ch, int duration)
         {
-            List<colorchar> prev = new List<colorchar>();
+            List<ColorChar> prev = new List<ColorChar>();
             int idx = 0;
             foreach (pos p in cells)
             {
@@ -1898,12 +1898,12 @@ namespace Forays
             }
         }
 
-        public static void AnimateProjectile(List<Tile> list, colorchar ch)
+        public static void AnimateProjectile(List<Tile> list, ColorChar ch)
         {
             AnimateProjectile(list, ch, 50);
         }
 
-        public static void AnimateProjectile(List<Tile> list, colorchar ch, int duration)
+        public static void AnimateProjectile(List<Tile> list, ColorChar ch, int duration)
         {
             CursorVisible = false;
             list.RemoveAt(0);
@@ -1923,7 +1923,7 @@ namespace Forays
         public static void AnimateBoltProjectile(List<Tile> list, Color color, int duration)
         {
             CursorVisible = false;
-            colorchar ch;
+            ColorChar ch;
             ch.color = color;
             ch.bgcolor = Color.Black;
             ch.c = '!';
@@ -1956,26 +1956,26 @@ namespace Forays
             CursorVisible = true;
         }
 
-        public static void AnimateExplosion(PhysicalObject obj, int radius, colorchar ch)
+        public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch)
         {
             AnimateExplosion(obj, radius, ch, 50, false);
         }
 
-        public static void AnimateExplosion(PhysicalObject obj, int radius, colorchar ch, bool single_frame)
+        public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch, bool single_frame)
         {
             AnimateExplosion(obj, radius, ch, 50, single_frame);
         }
 
-        public static void AnimateExplosion(PhysicalObject obj, int radius, colorchar ch, int duration)
+        public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch, int duration)
         {
             AnimateExplosion(obj, radius, ch, duration, false);
         }
 
-        public static void AnimateExplosion(PhysicalObject obj, int radius, colorchar ch, int duration,
+        public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch, int duration,
             bool single_frame)
         {
             CursorVisible = false;
-            colorchar[,] prev = new colorchar[radius * 2 + 1, radius * 2 + 1];
+            ColorChar[,] prev = new ColorChar[radius * 2 + 1, radius * 2 + 1];
             for (int i = 0; i <= radius * 2; ++i)
             {
                 for (int j = 0; j <= radius * 2; ++j)
@@ -2033,7 +2033,7 @@ namespace Forays
         public static void AnimateBoltBeam(List<Tile> list, Color color, int duration)
         {
             CursorVisible = false;
-            colorchar ch;
+            ColorChar ch;
             ch.color = color;
             ch.bgcolor = Color.Black;
             ch.c = '!';
@@ -2058,7 +2058,7 @@ namespace Forays
             }
 
             list.RemoveAt(0);
-            List<colorchar> memlist = new List<colorchar>();
+            List<ColorChar> memlist = new List<ColorChar>();
             foreach (Tile t in list)
             {
                 memlist.Add(MapChar(t.row, t.col));
@@ -2076,16 +2076,16 @@ namespace Forays
             CursorVisible = true;
         }
 
-        public static void AnimateBeam(List<Tile> list, colorchar ch)
+        public static void AnimateBeam(List<Tile> list, ColorChar ch)
         {
             AnimateBeam(list, ch, 50);
         }
 
-        public static void AnimateBeam(List<Tile> list, colorchar ch, int duration)
+        public static void AnimateBeam(List<Tile> list, ColorChar ch, int duration)
         {
             CursorVisible = false;
             list.RemoveAt(0);
-            List<colorchar> memlist = new List<colorchar>();
+            List<ColorChar> memlist = new List<ColorChar>();
             foreach (Tile t in list)
             {
                 memlist.Add(MapChar(t.row, t.col));
@@ -2105,10 +2105,10 @@ namespace Forays
 
         public static void AnimateStorm(pos origin, int radius, int num_frames, int num_per_frame, char c, Color color)
         {
-            AnimateStorm(origin, radius, num_frames, num_per_frame, new colorchar(c, color));
+            AnimateStorm(origin, radius, num_frames, num_per_frame, new ColorChar(c, color));
         }
 
-        public static void AnimateStorm(pos origin, int radius, int num_frames, int num_per_frame, colorchar ch)
+        public static void AnimateStorm(pos origin, int radius, int num_frames, int num_per_frame, ColorChar ch)
         {
             for (int i = 0; i < num_frames; ++i)
             {
@@ -2128,7 +2128,7 @@ namespace Forays
             }
         }
 
-        public static void DrawMapBorder(colorchar ch)
+        public static void DrawMapBorder(ColorChar ch)
         {
             for (int i = 0; i < Global.ROWS; i += Global.ROWS - 1)
             {
