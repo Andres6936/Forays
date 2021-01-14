@@ -33,6 +33,14 @@ namespace Forays
             Text = text;
         }
 
+        // Indexers
+
+        /// <summary>
+        /// Return the character that is store in the index.
+        /// </summary>
+        /// <param name="index">Index of character.</param>
+        public readonly char this[int index] => Text[index];
+
         // Overload Operators
 
         public static ColorBufferString operator +(ColorString one, ColorString two)

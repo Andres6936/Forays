@@ -693,7 +693,7 @@ namespace Forays
                     {
                         if (brace == 0)
                         {
-                            if (text.Text[idx] == ']')
+                            if (text[idx] == ']')
                             {
                                 brace = 1;
                                 end = idx;
@@ -701,13 +701,13 @@ namespace Forays
                         }
                         else
                         {
-                            if (text.Text[idx] == ' ' || text.Text[idx] == '-' || text.Text[idx] == ',')
+                            if (text[idx] == ' ' || text[idx] == '-' || text[idx] == ',')
                             {
                                 if (last_char_was_separator)
                                 {
                                     ConsoleKey key = ConsoleKey.A;
                                     bool shifted = false;
-                                    switch (text.Text[start + 1])
+                                    switch (text[start + 1])
                                     {
                                         case 'E':
                                             key = ConsoleKey.Enter;
@@ -725,8 +725,8 @@ namespace Forays
                                             key = ConsoleKey.OemPlus;
                                             break;
                                         default: //all others should be lowercase letters
-                                            key = (ConsoleKey) (ConsoleKey.A +
-                                                                ((int) text.Text[start + 1] - (int) 'a'));
+                                            key = (ConsoleKey.A +
+                                                   (text[start + 1] - 'a'));
                                             break;
                                     }
 
@@ -753,7 +753,7 @@ namespace Forays
                         {
                             ConsoleKey key = ConsoleKey.A;
                             bool shifted = false;
-                            switch (text.Text[start + 1])
+                            switch (text[start + 1])
                             {
                                 case 'E':
                                     key = ConsoleKey.Enter;
@@ -771,7 +771,7 @@ namespace Forays
                                     key = ConsoleKey.OemPlus;
                                     break;
                                 default: //all others should be lowercase letters
-                                    key = (ConsoleKey) (ConsoleKey.A + ((int) text.Text[start + 1] - (int) 'a'));
+                                    key = (ConsoleKey) (ConsoleKey.A + (text[start + 1] - 'a'));
                                     break;
                             }
 
