@@ -934,19 +934,19 @@ namespace Forays
                 result.Add(cs);
                 if (result.Count == 1)
                 {
-                    cs.strings.Add(new cstr(symbol.ToString(), color));
-                    cs.strings.Add(new cstr(": " + s, text));
+                    cs.strings.Add(new ColorString(symbol.ToString(), color));
+                    cs.strings.Add(new ColorString(": " + s, text));
                 }
                 else
                 {
-                    cs.strings.Add(new cstr("   " + s, text));
+                    cs.strings.Add(new ColorString("   " + s, text));
                 }
             }
 
             string hp = ("HP: " + s_curhp.ToString() + "  (" + s_aware + ")").PadOuter(Global.STATUS_WIDTH);
             int idx = UI.GetStatusBarIndex(s_curhp, s_maxhp);
-            result.Add(new colorstring(new cstr(hp.SafeSubstring(0, idx), text, Color.HealthBar),
-                new cstr(hp.SafeSubstring(idx), text)));
+            result.Add(new colorstring(new ColorString(hp.SafeSubstring(0, idx), text, Color.HealthBar),
+                new ColorString(hp.SafeSubstring(idx), text)));
             Dictionary<AttrType, Event> events = Q.StatusEvents.ContainsKey(this) ? Q.StatusEvents[this] : null;
             foreach (AttrType attr in UI.displayed_statuses)
             {
@@ -968,8 +968,8 @@ namespace Forays
                     int attr_idx = UI.GetStatusBarIndex(value, max);
                     string attr_name = attr.StatusName(this).PadOuter(Global.STATUS_WIDTH);
                     result.Add(new colorstring(
-                        new cstr(attr_name.SafeSubstring(0, attr_idx), text, Color.StatusEffectBar),
-                        new cstr(attr_name.SafeSubstring(attr_idx), text)));
+                        new ColorString(attr_name.SafeSubstring(0, attr_idx), text, Color.StatusEffectBar),
+                        new ColorString(attr_name.SafeSubstring(attr_idx), text)));
                 }
             }
 
@@ -3975,8 +3975,9 @@ namespace Forays
                                     Color.Gray);
                             //cs.strings.Add(new cstr(FailRate(spell).ToString().PadLeft(9) + "%",FailColor(spell)));
                             int failrate = Spell.FailRate(spell, exhaustion);
-                            cs.strings.Add(new cstr("/", Color.DarkGray));
-                            cs.strings.Add(new cstr((failrate.ToString() + "%  ").PadRight(5), FailColor(failrate)));
+                            cs.strings.Add(new ColorString("/", Color.DarkGray));
+                            cs.strings.Add(new ColorString((failrate.ToString() + "%  ").PadRight(5),
+                                FailColor(failrate)));
                             // this too cs.strings.Add(new cstr("".PadLeft(5),Color.Gray));
                             if (HasFeat(FeatType.MASTERS_EDGE) && Spell.IsDamaging(spell) && !bonus_marked)
                             {
@@ -4491,7 +4492,7 @@ namespace Forays
                                                     Spell.Name(spell).PadRight(18) +
                                                     Spell.Tier(spell).ToString().PadLeft(3), Color.Gray);
                                                 //cs.strings.Add(new cstr(FailRate(spell).ToString().PadLeft(9) + "%",FailColor(spell)));
-                                                cs.strings.Add(new cstr("".PadRight(5), Color.Gray));
+                                                cs.strings.Add(new ColorString("".PadRight(5), Color.Gray));
                                                 if (HasFeat(FeatType.MASTERS_EDGE) && Spell.IsDamaging(spell) &&
                                                     !bonus_marked)
                                                 {
@@ -21235,7 +21236,7 @@ namespace Forays
                         Screen.WriteMapChar(bottomBorder, 8, new colorchar(Color.Cyan, 'a'));
                         Screen.WriteMapChar(bottomBorder, 10, new colorchar(Color.Cyan, 'd'));
                         Screen.WriteMapChar(bottomBorder, 33, new colorchar(Color.Cyan, '?'));
-                        Screen.WriteMapString(bottomBorder, 48, new cstr(Color.Magenta, "Enter"));
+                        Screen.WriteMapString(bottomBorder, 48, new ColorString(Color.Magenta, "Enter"));
                         MouseUI.CreateButton(ConsoleKey.Enter, false, Global.MAP_OFFSET_ROWS + ROWS + 2,
                             Global.MAP_OFFSET_COLS + 47, 1, 17);
                     }
@@ -21359,9 +21360,10 @@ namespace Forays
                 foreach (SpellType spell in unknown)
                 {
                     colorstring cs = new colorstring();
-                    cs.strings.Add(new cstr(Spell.Name(spell).PadRight(17) + Spell.Tier(spell).ToString().PadLeft(3),
+                    cs.strings.Add(new ColorString(
+                        Spell.Name(spell).PadRight(17) + Spell.Tier(spell).ToString().PadLeft(3),
                         Color.Gray));
-                    cs.strings.Add(new cstr("".PadRight(5), Color.Gray));
+                    cs.strings.Add(new ColorString("".PadRight(5), Color.Gray));
                     unknownstr.Add(cs + Spell.Description(spell));
                 }
 

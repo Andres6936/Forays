@@ -736,12 +736,12 @@ namespace Forays
                         c = Colors.darkcolor;
                     }
 
-                    cs.strings.Add(new cstr(symbol.ToString(), c));
-                    cs.strings.Add(new cstr(": " + s, text));
+                    cs.strings.Add(new ColorString(symbol.ToString(), c));
+                    cs.strings.Add(new ColorString(": " + s, text));
                 }
                 else
                 {
-                    cs.strings.Add(new cstr("   " + s, text));
+                    cs.strings.Add(new ColorString("   " + s, text));
                 }
             }
 

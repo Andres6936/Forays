@@ -152,12 +152,12 @@ namespace Forays
                 result.Add(cs);
                 if (result.Count == 1)
                 {
-                    cs.strings.Add(new cstr(symbol.ToString(), color));
-                    cs.strings.Add(new cstr(": " + s, text));
+                    cs.strings.Add(new ColorString(symbol.ToString(), color));
+                    cs.strings.Add(new ColorString(": " + s, text));
                 }
                 else
                 {
-                    cs.strings.Add(new cstr("   " + s, text));
+                    cs.strings.Add(new ColorString("   " + s, text));
                 }
             }
 

@@ -858,7 +858,7 @@ namespace Forays
             }
             else
             {
-                cstr s;
+                ColorString s;
                 s.s = "";
                 s.bgcolor = Color.Black;
                 s.color = Color.Black;

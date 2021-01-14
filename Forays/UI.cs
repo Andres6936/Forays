@@ -125,15 +125,15 @@ namespace Forays
                 string s = ("Health: " + player.curhp.ToString()).PadOuter(Global.STATUS_WIDTH);
                 int idx = GetStatusBarIndex(player.curhp, player.maxhp);
                 StatusWriteString(ref row,
-                    new colorstring(new cstr(s.SafeSubstring(0, idx), Color.Gray, Color.DarkRed),
-                        new cstr(s.SafeSubstring(idx), Color.Gray, Color.Black)));
+                    new colorstring(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkRed),
+                        new ColorString(s.SafeSubstring(idx), Color.Gray, Color.Black)));
                 if (player.maxmp > 0)
                 {
                     s = ("Mana: " + player.curmp.ToString()).PadOuter(Global.STATUS_WIDTH);
                     idx = GetStatusBarIndex(player.curmp, player.maxmp);
                     StatusWriteString(ref row,
-                        new colorstring(new cstr(s.SafeSubstring(0, idx), Color.Gray, Color.DarkCyan),
-                            new cstr(s.SafeSubstring(idx), Color.Gray, Color.Black)));
+                        new colorstring(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkCyan),
+                            new ColorString(s.SafeSubstring(idx), Color.Gray, Color.Black)));
                 }
 
                 if (player.exhaustion > 0)
@@ -141,8 +141,8 @@ namespace Forays
                     s = ("Exhaustion: " + player.exhaustion.ToString() + "%").PadOuter(Global.STATUS_WIDTH);
                     idx = GetStatusBarIndex(player.exhaustion, 100);
                     StatusWriteString(ref row,
-                        new colorstring(new cstr(s.SafeSubstring(0, idx), Color.Gray, Color.DarkYellow),
-                            new cstr(s.SafeSubstring(idx), Color.Gray, Color.Black)));
+                        new colorstring(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkYellow),
+                            new ColorString(s.SafeSubstring(idx), Color.Gray, Color.Black)));
                 }
 
                 Dictionary<AttrType, Event> events = Q.StatusEvents.ContainsKey(player) ? Q.StatusEvents[player] : null;
@@ -167,8 +167,8 @@ namespace Forays
                         string attr_name = attr.StatusName(player).PadOuter(Global.STATUS_WIDTH);
                         StatusWriteString(ref row,
                             new colorstring(
-                                new cstr(attr_name.SafeSubstring(0, attr_idx), Color.Gray, Color.DarkMagenta),
-                                new cstr(attr_name.SafeSubstring(attr_idx), Color.Gray)));
+                                new ColorString(attr_name.SafeSubstring(0, attr_idx), Color.Gray, Color.DarkMagenta),
+                                new ColorString(attr_name.SafeSubstring(attr_idx), Color.Gray)));
                     }
                 }
 
@@ -226,8 +226,8 @@ namespace Forays
                         int e_idx = UI.GetStatusBarIndex(value, max);
                         string e_name = (M.wiz_dark ? "Darkness" : "Sunlight").PadOuter(Global.STATUS_WIDTH);
                         StatusWriteString(ref row,
-                            new colorstring(new cstr(e_name.SafeSubstring(0, e_idx), Color.Gray, Color.DarkBlue),
-                                new cstr(e_name.SafeSubstring(e_idx), Color.Gray)));
+                            new colorstring(new ColorString(e_name.SafeSubstring(0, e_idx), Color.Gray, Color.DarkBlue),
+                                new ColorString(e_name.SafeSubstring(e_idx), Color.Gray)));
                     }
                 }
 
@@ -855,8 +855,9 @@ namespace Forays
             List<colorstring> top = new List<colorstring> {new colorstring("".PadRight(COLS, '-'), text)};
             List<colorstring> name = new List<colorstring>
             {
-                (new cstr("Name", c) + new cstr(": " + Actor.player_name + "  ", text)).PadRight(COLS / 2) +
-                (new cstr("Turns played", c) + new cstr(": " + Q.turn / 100, text))
+                (new ColorString("Name", c) + new ColorString(": " + Actor.player_name + "  ", text))
+                .PadRight(COLS / 2) +
+                (new ColorString("Turns played", c) + new ColorString(": " + Q.turn / 100, text))
             };
             List<colorstring> skills = null;
             List<colorstring> feats = null;
@@ -884,11 +885,11 @@ namespace Forays
                     {
                         if (skill_mod < 0)
                         {
-                            skill_string.strings.Add(new cstr(skill_mod.ToString(), Color.Blue));
+                            skill_string.strings.Add(new ColorString(skill_mod.ToString(), Color.Blue));
                         }
                     }
 
-                    skill_string.strings.Add(new cstr(")", text));
+                    skill_string.strings.Add(new ColorString(")", text));
                     list.AddWithWrap(skill_string, Global.COLS, indent);
                 }
             }

@@ -229,8 +229,9 @@ namespace Forays
                 Screen.Blank();
                 int row = 8;
                 int col = (Global.SCREEN_W - 28) / 2; //centering "Forays into Norrendrin x.y.z", which is 28 chars.
-                Screen.WriteString(row++, col, new cstr(Color.Yellow, "Forays into Norrendrin " + Global.VERSION));
-                Screen.WriteString(row++, col, new cstr(Color.Green, "".PadRight(28, '-')));
+                Screen.WriteString(row++, col,
+                    new ColorString(Color.Yellow, "Forays into Norrendrin " + Global.VERSION));
+                Screen.WriteString(row++, col, new ColorString(Color.Green, "".PadRight(28, '-')));
                 col += 4; //recenter for menu options
                 row++;
                 bool saved_game = File.Exists("forays.sav");
@@ -1136,11 +1137,11 @@ namespace Forays
                         Color primary = Color.Green;
                         Color recent = Color.Cyan;
                         Screen.WriteString(0, (Global.SCREEN_W - 11) / 2,
-                            new cstr("HIGH SCORES", Color.Yellow)); //"HIGH SCORES" has width 11
-                        Screen.WriteString(1, (Global.SCREEN_W - 11) / 2, new cstr("-----------", Color.Cyan));
-                        Screen.WriteString(2, name_middle - 4, new cstr("Character", primary));
-                        Screen.WriteString(2, depth_middle - 2, new cstr("Depth", primary));
-                        Screen.WriteString(2, cause_middle - 6, new cstr("Cause of death", primary));
+                            new ColorString("HIGH SCORES", Color.Yellow)); //"HIGH SCORES" has width 11
+                        Screen.WriteString(1, (Global.SCREEN_W - 11) / 2, new ColorString("-----------", Color.Cyan));
+                        Screen.WriteString(2, name_middle - 4, new ColorString("Character", primary));
+                        Screen.WriteString(2, depth_middle - 2, new ColorString("Depth", primary));
+                        Screen.WriteString(2, cause_middle - 6, new ColorString("Cause of death", primary));
                         bool written_recent = false;
                         int line = 3;
                         foreach (string s in scores)
@@ -1171,15 +1172,15 @@ namespace Forays
                                 current_color = Color.White;
                             }
 
-                            Screen.WriteString(line, spaces1, new cstr(name, current_color));
+                            Screen.WriteString(line, spaces1, new ColorString(name, current_color));
                             Screen.WriteString(line, spaces1 + spaces2 + longest_name,
-                                new cstr(dlev.ToString().PadLeft(2), current_color));
+                                new ColorString(dlev.ToString().PadLeft(2), current_color));
                             Screen.WriteString(line, spaces1 + spaces2 + spaces3 + longest_name + 4,
-                                new cstr(cause_capitalized, current_color));
+                                new ColorString(cause_capitalized, current_color));
                             if (winning == 'W')
                             {
                                 Screen.WriteString(line, spaces1 + spaces2 + longest_name + 3,
-                                    new cstr("W", Color.Yellow));
+                                    new ColorString("W", Color.Yellow));
                             }
 
                             ++line;

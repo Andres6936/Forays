@@ -902,7 +902,7 @@ namespace Forays
         public static int LastSpaceBeforeWrap(this colorstring cs, int wrap_index)
         {
             string s = "";
-            foreach (cstr c in cs.strings)
+            foreach (ColorString c in cs.strings)
             {
                 s += c.s;
             }
@@ -951,7 +951,7 @@ namespace Forays
                     int close = temp.IndexOf(']');
                     if (close == -1)
                     {
-                        result.strings.Add(new cstr(temp, text_color, bg_color));
+                        result.strings.Add(new ColorString(temp, text_color, bg_color));
                         temp = "";
                     }
                     else
@@ -959,22 +959,23 @@ namespace Forays
                         int hyphen = temp.IndexOf('-');
                         if (hyphen != -1 && hyphen > open && hyphen < close)
                         {
-                            result.strings.Add(new cstr(temp.Substring(0, open + 1), text_color, bg_color));
+                            result.strings.Add(new ColorString(temp.Substring(0, open + 1), text_color, bg_color));
                             //result.strings.Add(new cstr(temp.Substring(open+1,(close-open)-1),Color.Cyan));
-                            result.strings.Add(new cstr(temp.Substring(open + 1, (hyphen - open) - 1), key_color,
+                            result.strings.Add(new ColorString(temp.Substring(open + 1, (hyphen - open) - 1), key_color,
                                 bg_color));
-                            result.strings.Add(new cstr("-", text_color, bg_color));
-                            result.strings.Add(new cstr(temp.Substring(hyphen + 1, (close - hyphen) - 1), key_color,
+                            result.strings.Add(new ColorString("-", text_color, bg_color));
+                            result.strings.Add(new ColorString(temp.Substring(hyphen + 1, (close - hyphen) - 1),
+                                key_color,
                                 bg_color));
-                            result.strings.Add(new cstr("]", text_color, bg_color));
+                            result.strings.Add(new ColorString("]", text_color, bg_color));
                             temp = temp.Substring(close + 1);
                         }
                         else
                         {
-                            result.strings.Add(new cstr(temp.Substring(0, open + 1), text_color, bg_color));
-                            result.strings.Add(new cstr(temp.Substring(open + 1, (close - open) - 1), key_color,
+                            result.strings.Add(new ColorString(temp.Substring(0, open + 1), text_color, bg_color));
+                            result.strings.Add(new ColorString(temp.Substring(open + 1, (close - open) - 1), key_color,
                                 bg_color));
-                            result.strings.Add(new cstr("]", text_color, bg_color));
+                            result.strings.Add(new ColorString("]", text_color, bg_color));
                             temp = temp.Substring(close + 1);
                         }
                     }
@@ -982,7 +983,7 @@ namespace Forays
 
                 if (temp != "")
                 {
-                    result.strings.Add(new cstr(temp, text_color, bg_color));
+                    result.strings.Add(new ColorString(temp, text_color, bg_color));
                 }
 
                 return result;
@@ -1016,7 +1017,7 @@ namespace Forays
             {
                 if (last.Length() + cs.Length() <= wrap_width)
                 {
-                    foreach (cstr s in cs.strings)
+                    foreach (ColorString s in cs.strings)
                     {
                         last.strings.Add(s);
                     }
@@ -1031,7 +1032,7 @@ namespace Forays
                     else
                     {
                         var split = cs.SplitAt(split_idx, true);
-                        foreach (cstr s in split[0].strings)
+                        foreach (ColorString s in split[0].strings)
                         {
                             last.strings.Add(s);
                         }
@@ -1062,7 +1063,7 @@ namespace Forays
                     }
 
                     var split = remainder.SplitAt(split_idx, remove_space);
-                    foreach (cstr s in split[0].strings)
+                    foreach (ColorString s in split[0].strings)
                     {
                         next.strings.Add(s);
                     }

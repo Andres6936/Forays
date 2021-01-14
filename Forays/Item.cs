@@ -298,12 +298,12 @@ namespace Forays
                         c = Colors.darkcolor;
                     }
 
-                    cs.strings.Add(new cstr(symbol.ToString(), c));
-                    cs.strings.Add(new cstr(": " + s, text));
+                    cs.strings.Add(new ColorString(symbol.ToString(), c));
+                    cs.strings.Add(new ColorString(": " + s, text));
                 }
                 else
                 {
-                    cs.strings.Add(new cstr("   " + s, text));
+                    cs.strings.Add(new ColorString("   " + s, text));
                 }
             }
 
@@ -3358,7 +3358,7 @@ namespace Forays
             {
                 if (status[(EquipmentStatus) i])
                 {
-                    result.strings.Add(new cstr("*", StatusColor((EquipmentStatus) i)));
+                    result.strings.Add(new ColorString("*", StatusColor((EquipmentStatus) i)));
                     if (result.Length() >= 25)
                     {
                         break;

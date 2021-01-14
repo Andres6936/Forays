@@ -511,9 +511,9 @@ namespace Forays
                 if (pos == 1)
                 {
                     box[pos] = new colorstring();
-                    box[pos].strings.Add(new cstr("|", box_edge_color));
-                    box[pos].strings.Add(new cstr(s.PadOuter(stringwidth), first_line_color));
-                    box[pos].strings.Add(new cstr("|", box_edge_color));
+                    box[pos].strings.Add(new ColorString("|", box_edge_color));
+                    box[pos].strings.Add(new ColorString(s.PadOuter(stringwidth), first_line_color));
+                    box[pos].strings.Add(new ColorString("|", box_edge_color));
                 }
 
                 ++pos;
