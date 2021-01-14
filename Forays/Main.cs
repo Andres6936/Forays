@@ -594,27 +594,42 @@ namespace Forays
                             for (int i = 0; i < num_tiles; ++i)
                             {
                                 Tile t = new Tile();
+                                // 16.1 Identification Tile (Int32)
                                 int ID = b.ReadInt32();
                                 id.Add(ID, t);
+                                // 16.2 Row Tile (Int32)
                                 t.row = b.ReadInt32();
+                                // 16.3 Column Tile (Int32)
                                 t.col = b.ReadInt32();
                                 game.map.tile[t.row, t.col] = t;
                                 //todo name
+                                // 16.4 Symbol Tile (Char)
                                 t.symbol = b.ReadChar();
+                                // 16.5 Color Tile (Int32)
                                 t.color = (Color) b.ReadInt32();
+                                // 16.6 Light Radius Tile (Int32)
                                 t.light_radius = b.ReadInt32();
+                                // 16.7 Type of Tile (Int32)
                                 t.type = (TileType) b.ReadInt32();
+                                // 16.8 Is a passable Tile (Boolean) 
                                 t.passable = b.ReadBoolean();
+                                // 16.9 Has internal opacity (Boolean)
                                 t.SetInternalOpacity(b.ReadBoolean());
+                                // 16.10 Is internal seen (Boolean)
                                 t.SetInternalSeen(b.ReadBoolean());
-                                //t.seen = b.ReadBoolean();
+                                // 16.11 Revealed by Ligth (Boolean)
                                 t.revealed_by_light = b.ReadBoolean();
+                                // 16.12 Is Solid Rock (Boolean)
                                 t.solid_rock = b.ReadBoolean();
+                                // 16.13 Light value (Int32)
                                 t.light_value = b.ReadInt32();
+                                // 16.14 Direction Exited (Int32)
                                 t.direction_exited = b.ReadInt32();
+                                // 16.15 Has toggle value
                                 if (b.ReadBoolean())
                                 {
                                     //indicates a toggles_into value
+                                    // 16.15.1 Value of Toggle (Int32)
                                     t.toggles_into = (TileType) b.ReadInt32();
                                 }
                                 else
@@ -622,15 +637,20 @@ namespace Forays
                                     t.toggles_into = null;
                                 }
 
+                                // 16.16 Item ID (Int32)
                                 int item_id = b.ReadInt32();
                                 if (item_id != 0)
                                 {
                                     t.inv = new Item();
                                     id.Add(item_id, t.inv);
+                                    // 16.16.1 Item row (Int32)
                                     t.inv.row = b.ReadInt32();
+                                    // 16.16.2 Item column (Int32)
                                     t.inv.col = b.ReadInt32();
                                     //todo name
+                                    // 16.16.3 Symbol Item (Char)
                                     t.inv.symbol = b.ReadChar();
+                                    // 16.16.4 Color Item (Int32)
                                     t.inv.color = (Color) b.ReadInt32();
                                     t.inv.light_radius = b.ReadInt32();
                                     t.inv.type = (ConsumableType) b.ReadInt32();
