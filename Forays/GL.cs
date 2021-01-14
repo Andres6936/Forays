@@ -15,10 +15,12 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Reflection;
+using Forays.Renderer;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
+using Color = Forays.Color;
 
 namespace GLDrawing
 {
@@ -30,7 +32,7 @@ namespace GLDrawing
         NoResize
     };
 
-    public class GLWindow : GameWindow
+    public class OpenTkRender : GameWindow, IRenderer
     {
         public List<Surface> Surfaces = new List<Surface>();
 
@@ -75,7 +77,7 @@ namespace GLDrawing
             GL.Viewport(x, y, width, height);
         }
 
-        public GLWindow(int w, int h, string title) : base(w, h, GraphicsMode.Default, title)
+        public OpenTkRender(int w, int h, string title) : base(w, h, GraphicsMode.Default, title)
         {
             VSync = VSyncMode.On;
             GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -603,6 +605,21 @@ namespace GLDrawing
             GL.BufferSubData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * a4 * index),
                 new IntPtr(sizeof(float) * a4), values);
         }
+
+        public void WriteString(int x, int y, string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteString(int x, int y, string text, Color foreground)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteString(int x, int y, string text, Color foreground, Color background)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public delegate float PositionFromIndex(int idx);
@@ -766,7 +783,7 @@ namespace GLDrawing
 
     public class Surface
     {
-        public GLWindow window;
+        public OpenTkRender window;
         public VBO vbo;
         public Texture texture;
         public Shader shader;
@@ -786,12 +803,13 @@ namespace GLDrawing
         {
         }
 
-        public static Surface Create(GLWindow window_, string texture_filename, params int[] vertex_attrib_counts)
+        public static Surface Create(OpenTkRender window_, string texture_filename, params int[] vertex_attrib_counts)
         {
             return Create(window_, texture_filename, false, Shader.DefaultFS(), false, vertex_attrib_counts);
         }
 
-        public static Surface Create(GLWindow window_, string texture_filename, bool loadTextureFromEmbeddedResource,
+        public static Surface Create(OpenTkRender window_, string texture_filename,
+            bool loadTextureFromEmbeddedResource,
             string frag_shader, bool has_depth, params int[] vertex_attrib_counts)
         {
             Surface s = new Surface();
