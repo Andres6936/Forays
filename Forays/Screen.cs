@@ -10,10 +10,8 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Drawing;
-using OpenTK;
+using Forays.Renderer;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 using Utilities;
 using PosArrays;
 using GLDrawing;
