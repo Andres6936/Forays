@@ -277,9 +277,9 @@ namespace Forays
             return n.GetName(Quantity, x, elements);
         }
 
-        public override List<colorstring> GetStatusBarInfo()
+        public override List<ColorBufferString> GetStatusBarInfo()
         {
-            List<colorstring> result = new List<colorstring>();
+            List<ColorBufferString> result = new List<ColorBufferString>();
             Color text = UI.darken_status_bar ? Colors.status_darken : Color.Gray;
             if (p.Equals(UI.MapCursor))
             {
@@ -288,7 +288,7 @@ namespace Forays
 
             foreach (string s in GetName(true, Extra).GetWordWrappedList(17, true))
             {
-                colorstring cs = new colorstring();
+                ColorBufferString cs = new ColorBufferString();
                 result.Add(cs);
                 if (result.Count == 1)
                 {
@@ -3207,17 +3207,17 @@ namespace Forays
             }
         }
 
-        public colorstring NameOnStatusBar()
+        public ColorBufferString NameOnStatusBar()
         {
             if (IsEnchanted())
             {
-                colorstring cs = new colorstring("+", EnchantmentColor());
-                return new colorstring("-- ", cs, NameWithoutEnchantment().Capitalize(), cs, " --").PadOuter(
+                ColorBufferString cs = new ColorBufferString("+", EnchantmentColor());
+                return new ColorBufferString("-- ", cs, NameWithoutEnchantment().Capitalize(), cs, " --").PadOuter(
                     Global.STATUS_WIDTH);
             }
             else
             {
-                return new colorstring(
+                return new ColorBufferString(
                     ("-- " + NameWithoutEnchantment().Capitalize() + " --").PadOuter(Global.STATUS_WIDTH), Color.Gray);
             }
         }
@@ -3282,9 +3282,9 @@ namespace Forays
             }
         }
 
-        public List<colorstring> ShortStatusList()
+        public List<ColorBufferString> ShortStatusList()
         {
-            List<colorstring> result = new List<colorstring>();
+            List<ColorBufferString> result = new List<ColorBufferString>();
             List<EquipmentStatus> list = new List<EquipmentStatus>();
             for (int i = 0; i < (int) EquipmentStatus.NUM_STATUS; ++i)
             {
@@ -3299,7 +3299,7 @@ namespace Forays
             {
                 EquipmentStatus st = list[i];
                 string comma = (i == list.Count - 1) ? "" : ",";
-                colorstring statusString = new colorstring(" " + StatusName(st) + comma, StatusColor(st));
+                ColorBufferString statusString = new ColorBufferString(" " + StatusName(st) + comma, StatusColor(st));
                 result.AddWithWrap(statusString, Global.COLS - 2, 1);
             }
 
@@ -3317,15 +3317,15 @@ namespace Forays
             return result;
         }
 
-        public List<colorstring> LongStatusList()
+        public List<ColorBufferString> LongStatusList()
         {
-            List<colorstring> result = new List<colorstring>();
+            List<ColorBufferString> result = new List<ColorBufferString>();
             for (int i = 0; i < (int) EquipmentStatus.NUM_STATUS; ++i)
             {
                 EquipmentStatus st = (EquipmentStatus) i;
                 if (status[st])
                 {
-                    result.Add(new colorstring(StatusDescription(st), StatusColor(st)));
+                    result.Add(new ColorBufferString(StatusDescription(st), StatusColor(st)));
                 }
             }
 
@@ -3351,9 +3351,10 @@ namespace Forays
             return "";
         }
 
-        public colorstring EquipmentScreenName()
+        public ColorBufferString EquipmentScreenName()
         {
-            colorstring result = new colorstring(NameWithEnchantment().Capitalize() + " ", EnchantmentColor());
+            ColorBufferString result =
+                new ColorBufferString(NameWithEnchantment().Capitalize() + " ", EnchantmentColor());
             for (int i = 0; i < (int) EquipmentStatus.NUM_STATUS; ++i)
             {
                 if (status[(EquipmentStatus) i])

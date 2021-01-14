@@ -80,11 +80,12 @@ namespace Forays
                 ConsumableType.DUST_STORM, ConsumableType.SLUMBER, ConsumableType.TELEKINESIS, ConsumableType.REACH,
                 ConsumableType.INVISIBILITY, ConsumableType.WEBS, ConsumableType.FLESH_TO_FIRE
             };
-            List<colorstring> potions = new List<colorstring>();
-            List<colorstring> scrolls = new List<colorstring>();
-            List<colorstring> orbs = new List<colorstring>();
-            List<colorstring> wands = new List<colorstring>();
-            List<List<colorstring>> string_lists = new List<List<colorstring>> {potions, scrolls, orbs, wands};
+            List<ColorBufferString> potions = new List<ColorBufferString>();
+            List<ColorBufferString> scrolls = new List<ColorBufferString>();
+            List<ColorBufferString> orbs = new List<ColorBufferString>();
+            List<ColorBufferString> wands = new List<ColorBufferString>();
+            List<List<ColorBufferString>> string_lists = new List<List<ColorBufferString>>
+                {potions, scrolls, orbs, wands};
             int list_idx = 0;
             foreach (List<ConsumableType> item_list in new List<List<ConsumableType>>
                 {potion_order, scroll_order, orb_order, wand_order})
@@ -111,7 +112,7 @@ namespace Forays
                     }
 
                     int num_spaces = width - (names[0].Length + names[1].Length);
-                    string_lists[list_idx].Add(new colorstring(names[0], ided_color[0], "".PadRight(num_spaces),
+                    string_lists[list_idx].Add(new ColorBufferString(names[0], ided_color[0], "".PadRight(num_spaces),
                         Color.Black, names[1], ided_color[1]));
                     item_idx += 2;
                 }
@@ -128,7 +129,8 @@ namespace Forays
                     }
 
                     int num_spaces = width - n.Length;
-                    string_lists[list_idx].Add(new colorstring(n, ided_color, "".PadRight(num_spaces), Color.Black));
+                    string_lists[list_idx]
+                        .Add(new ColorBufferString(n, ided_color, "".PadRight(num_spaces), Color.Black));
                 }
 
                 ++list_idx;
@@ -148,14 +150,14 @@ namespace Forays
             Screen.WriteMapString(first_item_row - 1, 8 + first_column_offset, "- Potions -", label_color);
             Screen.WriteMapString(first_item_row - 1, 7 + second_column_offset, "- Scrolls -", label_color);
             int line = first_item_row;
-            foreach (colorstring s in potions)
+            foreach (ColorBufferString s in potions)
             {
                 Screen.WriteMapString(line, first_column_offset, s);
                 ++line;
             }
 
             line = first_item_row;
-            foreach (colorstring s in scrolls)
+            foreach (ColorBufferString s in scrolls)
             {
                 Screen.WriteMapString(line, second_column_offset, s);
                 ++line;
@@ -165,14 +167,14 @@ namespace Forays
             Screen.WriteMapString(second_item_row - 1, 9 + first_column_offset, "- Orbs -", label_color);
             Screen.WriteMapString(second_item_row - 1, 8 + second_column_offset, "- Wands -", label_color);
             line = second_item_row;
-            foreach (colorstring s in orbs)
+            foreach (ColorBufferString s in orbs)
             {
                 Screen.WriteMapString(line, first_column_offset, s);
                 ++line;
             }
 
             line = second_item_row;
-            foreach (colorstring s in wands)
+            foreach (ColorBufferString s in wands)
             {
                 Screen.WriteMapString(line, second_column_offset, s);
                 ++line;
@@ -204,7 +206,7 @@ namespace Forays
                 if (startline > 0)
                 {
                     Screen.WriteMapString(0, COLS - 3,
-                        new colorstring("[", Color.Yellow, "-", Color.Cyan, "]", Color.Yellow));
+                        new ColorBufferString("[", Color.Yellow, "-", Color.Cyan, "]", Color.Yellow));
                 }
                 else
                 {
@@ -220,7 +222,7 @@ namespace Forays
                 if (more)
                 {
                     Screen.WriteMapString(text_height + 1, COLS - 3,
-                        new colorstring("[", Color.Yellow, "+", Color.Cyan, "]", Color.Yellow));
+                        new ColorBufferString("[", Color.Yellow, "+", Color.Cyan, "]", Color.Yellow));
                 }
                 else
                 {

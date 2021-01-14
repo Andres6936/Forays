@@ -881,7 +881,7 @@ namespace Forays
             return n.GetName(Quantity, x, elements);
         }
 
-        public override List<colorstring> GetStatusBarInfo()
+        public override List<ColorBufferString> GetStatusBarInfo()
         {
             string s_name = GetName(false);
             int s_curhp = curhp;
@@ -921,7 +921,7 @@ namespace Forays
                 }
             }
 
-            List<colorstring> result = new List<colorstring>();
+            List<ColorBufferString> result = new List<ColorBufferString>();
             Color text = UI.darken_status_bar ? Colors.status_darken : Color.Gray;
             if (p.Equals(UI.MapCursor))
             {
@@ -930,7 +930,7 @@ namespace Forays
 
             foreach (string s in s_name.Capitalize().GetWordWrappedList(Global.STATUS_WIDTH - 3, true))
             {
-                colorstring cs = new colorstring();
+                ColorBufferString cs = new ColorBufferString();
                 result.Add(cs);
                 if (result.Count == 1)
                 {
@@ -945,7 +945,7 @@ namespace Forays
 
             string hp = ("HP: " + s_curhp.ToString() + "  (" + s_aware + ")").PadOuter(Global.STATUS_WIDTH);
             int idx = UI.GetStatusBarIndex(s_curhp, s_maxhp);
-            result.Add(new colorstring(new ColorString(hp.SafeSubstring(0, idx), text, Color.HealthBar),
+            result.Add(new ColorBufferString(new ColorString(hp.SafeSubstring(0, idx), text, Color.HealthBar),
                 new ColorString(hp.SafeSubstring(idx), text)));
             Dictionary<AttrType, Event> events = Q.StatusEvents.ContainsKey(this) ? Q.StatusEvents[this] : null;
             foreach (AttrType attr in UI.displayed_statuses)
@@ -967,7 +967,7 @@ namespace Forays
 
                     int attr_idx = UI.GetStatusBarIndex(value, max);
                     string attr_name = attr.StatusName(this).PadOuter(Global.STATUS_WIDTH);
-                    result.Add(new colorstring(
+                    result.Add(new ColorBufferString(
                         new ColorString(attr_name.SafeSubstring(0, attr_idx), text, Color.StatusEffectBar),
                         new ColorString(attr_name.SafeSubstring(attr_idx), text)));
                 }
@@ -984,12 +984,14 @@ namespace Forays
                         webbed = "In a web";
                     }
 
-                    result.Add(new colorstring(webbed.PadOuter(Global.STATUS_WIDTH), text, Color.StatusEffectBar));
+                    result.Add(new ColorBufferString(webbed.PadOuter(Global.STATUS_WIDTH), text,
+                        Color.StatusEffectBar));
                 }
 
                 if (IsSilencedHere() && !HasAttr(AttrType.SILENCED, AttrType.SILENCE_AURA))
                 {
-                    result.Add(new colorstring(AttrType.SILENCED.StatusName(this).PadOuter(Global.STATUS_WIDTH), text,
+                    result.Add(new ColorBufferString(AttrType.SILENCED.StatusName(this).PadOuter(Global.STATUS_WIDTH),
+                        text,
                         Color.StatusEffectBar));
                 }
             }
@@ -3957,7 +3959,7 @@ namespace Forays
                         return;
                     }
 
-                    List<colorstring> ls = new List<colorstring>();
+                    List<ColorBufferString> ls = new List<ColorBufferString>();
                     List<SpellType> sp = new List<SpellType>();
                     //foreach(SpellType spell in Enum.GetValues(typeof(SpellType))){
                     bool bonus_marked = false;
@@ -3969,8 +3971,8 @@ namespace Forays
                             //s = s + FailRate(spell).ToString().PadLeft(9) + "%";
                             //s = s + Spell.Description(spell).PadLeft(34);
                             //this is the recent one!   colorstring cs = new colorstring(Spell.Name(spell).PadRight(17) + Spell.Tier(spell).ToString().PadLeft(3),Color.Gray);
-                            colorstring cs =
-                                new colorstring(
+                            ColorBufferString cs =
+                                new ColorBufferString(
                                     Spell.Name(spell).PadRight(17) + Spell.Tier(spell).ToString().PadLeft(2),
                                     Color.Gray);
                             //cs.strings.Add(new cstr(FailRate(spell).ToString().PadLeft(9) + "%",FailColor(spell)));
@@ -3996,12 +3998,13 @@ namespace Forays
 
                     if (sp.Count > 0)
                     {
-                        colorstring topborder =
-                            new colorstring("-------------------Tier/Fail%-----------Description---------------",
+                        ColorBufferString topborder =
+                            new ColorBufferString("-------------------Tier/Fail%-----------Description---------------",
                                 Color.Gray);
                         //colorstring topborder = new colorstring("-------------------Tier (fail%)---------Description---------------",Color.Gray);
                         //colorstring topborder = new colorstring("---------------------Tier-----------------Description-------------",Color.Gray);
-                        colorstring bottomborder = new colorstring("".PadRight(25, '-') + "[", Color.Gray, "?",
+                        ColorBufferString bottomborder = new ColorBufferString("".PadRight(25, '-') + "[", Color.Gray,
+                            "?",
                             Color.Cyan, "] for help".PadRight(COLS, '-'), Color.Gray);
                         //colorstring bottomborder = new colorstring("----------------" + "Exhaustion: ".PadLeft(12+(3-basefail.ToString().Length),'-'),Color.Gray,(basefail.ToString() + "%"),FailColor(basefail),"----------[",Color.Gray,"?",Color.Cyan,"] for help".PadRight(22,'-'),Color.Gray);
                         //int i = Select("Cast which spell? ",topborder,bottomborder,ls);
@@ -4481,14 +4484,14 @@ namespace Forays
                                         break;
                                     case TileType.SPELL_EXCHANGE_SHRINE: //currently disabled
                                     {
-                                        List<colorstring> ls = new List<colorstring>();
+                                        List<ColorBufferString> ls = new List<ColorBufferString>();
                                         List<SpellType> sp = new List<SpellType>();
                                         bool bonus_marked = false;
                                         foreach (SpellType spell in spells_in_order)
                                         {
                                             if (HasSpell(spell))
                                             {
-                                                colorstring cs = new colorstring(
+                                                ColorBufferString cs = new ColorBufferString(
                                                     Spell.Name(spell).PadRight(18) +
                                                     Spell.Tier(spell).ToString().PadLeft(3), Color.Gray);
                                                 //cs.strings.Add(new cstr(FailRate(spell).ToString().PadLeft(9) + "%",FailColor(spell)));
@@ -4511,11 +4514,11 @@ namespace Forays
 
                                         if (sp.Count > 0)
                                         {
-                                            colorstring topborder = new colorstring(
+                                            ColorBufferString topborder = new ColorBufferString(
                                                 "----------------------Tier-----------------Description------------",
                                                 Color.Gray);
                                             int basefail = exhaustion;
-                                            colorstring bottomborder = new colorstring(
+                                            ColorBufferString bottomborder = new ColorBufferString(
                                                 "----------------" +
                                                 "Exhaustion: ".PadLeft(12 + (3 - basefail.ToString().Length), '-'),
                                                 Color.Gray, (basefail.ToString() + "%"), FailColor(basefail),
@@ -4741,10 +4744,10 @@ namespace Forays
                                 Screen.WriteMapChar(letter + 1, 1, (char) (letter + 'a'), Color.DarkCyan);
                             }
 
-                            List<colorstring> box = UI.ItemDescriptionBox(inv[sel.value], false, false, 31);
+                            List<ColorBufferString> box = UI.ItemDescriptionBox(inv[sel.value], false, false, 31);
                             int i = (Global.SCREEN_H - box.Count) / 2;
                             int j = (Global.SCREEN_W - box[0].Length()) / 2;
-                            foreach (colorstring cs in box)
+                            foreach (ColorBufferString cs in box)
                             {
                                 Screen.WriteString(i, j, cs);
                                 ++i;
@@ -21340,7 +21343,7 @@ namespace Forays
                 maxmp += 5;
                 curmp += 5;
                 List<SpellType> unknown = new List<SpellType>();
-                List<colorstring> unknownstr = new List<colorstring>();
+                List<ColorBufferString> unknownstr = new List<ColorBufferString>();
                 List<SpellType> random_spell_list = new List<SpellType>();
                 foreach (SpellType spell in Enum.GetValues(typeof(SpellType)))
                 {
@@ -21359,7 +21362,7 @@ namespace Forays
                 unknown.Sort((sp1, sp2) => Spell.Tier(sp1).CompareTo(Spell.Tier(sp2)));
                 foreach (SpellType spell in unknown)
                 {
-                    colorstring cs = new colorstring();
+                    ColorBufferString cs = new ColorBufferString();
                     cs.strings.Add(new ColorString(
                         Spell.Name(spell).PadRight(17) + Spell.Tier(spell).ToString().PadLeft(3),
                         Color.Gray));
@@ -21373,10 +21376,11 @@ namespace Forays
                 }*/
                 Help.TutorialTip(TutorialTopic.SpellTiers);
                 Screen.WriteMapString(unknown.Count + 2, 0, "".PadRight(COLS));
-                colorstring topborder =
-                    new colorstring("---------------------Tier-----------------Description-------------", Color.Gray);
+                ColorBufferString topborder =
+                    new ColorBufferString("---------------------Tier-----------------Description-------------",
+                        Color.Gray);
                 int selection = Select("Learn which spell? ", topborder,
-                    new colorstring("".PadRight(25, '-') + "[", Color.Gray, "?", Color.Cyan,
+                    new ColorBufferString("".PadRight(25, '-') + "[", Color.Gray, "?", Color.Cyan,
                         "] for help".PadRight(COLS, '-'), Color.Gray), unknownstr, false, true, false, true,
                     HelpTopic.Spells);
                 spells[unknown[selection]] = true;
@@ -21869,7 +21873,7 @@ namespace Forays
             }
         }
 
-        public static List<colorstring> MonsterDescriptionBox(Actor a, bool mouselook, int max_string_length)
+        public static List<ColorBufferString> MonsterDescriptionBox(Actor a, bool mouselook, int max_string_length)
         {
             ActorType type = a.type;
             List<string> text = MonsterDescriptionText(type).GetWordWrappedList(max_string_length, false);
@@ -21899,35 +21903,37 @@ namespace Forays
             }
 
             widest += 2; //one space on each side
-            List<colorstring> box = new List<colorstring>();
-            box.Add(new colorstring("+", box_corner_color, "".PadRight(widest, '-'), box_edge_color, "+",
+            List<ColorBufferString> box = new List<ColorBufferString>();
+            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(widest, '-'), box_edge_color, "+",
                 box_corner_color));
             if (mouselook)
             {
-                box.Add(new colorstring("|", box_edge_color) +
+                box.Add(new ColorBufferString("|", box_edge_color) +
                         a.GetName().PadOuter(widest).GetColorString(Color.White) +
-                        new colorstring("|", box_edge_color));
-                box.Add(new colorstring("|", box_edge_color) +
+                        new ColorBufferString("|", box_edge_color));
+                box.Add(new ColorBufferString("|", box_edge_color) +
                         a.WoundStatus().PadOuter(widest).GetColorString(Color.White) +
-                        new colorstring("|", box_edge_color));
-                box.Add(new colorstring("|", box_edge_color, "".PadRight(widest), Color.Gray, "|", box_edge_color));
+                        new ColorBufferString("|", box_edge_color));
+                box.Add(
+                    new ColorBufferString("|", box_edge_color, "".PadRight(widest), Color.Gray, "|", box_edge_color));
             }
 
             foreach (string s in text)
             {
-                box.Add(new colorstring("|", box_edge_color) + s.PadOuter(widest).GetColorString(text_color) +
-                        new colorstring("|", box_edge_color));
+                box.Add(new ColorBufferString("|", box_edge_color) + s.PadOuter(widest).GetColorString(text_color) +
+                        new ColorBufferString("|", box_edge_color));
             }
 
             if (!mouselook)
             {
-                box.Add(new colorstring("|", box_edge_color, "".PadRight(widest), Color.Gray, "|", box_edge_color));
-                box.Add(new colorstring("|", box_edge_color) +
+                box.Add(
+                    new ColorBufferString("|", box_edge_color, "".PadRight(widest), Color.Gray, "|", box_edge_color));
+                box.Add(new ColorBufferString("|", box_edge_color) +
                         "[=] Hide description".PadOuter(widest).GetColorString(text_color) +
-                        new colorstring("|", box_edge_color));
+                        new ColorBufferString("|", box_edge_color));
             }
 
-            box.Add(new colorstring("+", box_corner_color, "".PadRight(widest, '-'), box_edge_color, "+",
+            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(widest, '-'), box_edge_color, "+",
                 box_corner_color));
             return box;
         }
@@ -22747,11 +22753,11 @@ namespace Forays
         {
             MouseUI.PushButtonMap();
             MouseUI.AutomaticButtonsFromStrings = true;
-            colorstring top_border = "".PadRight(COLS, '-').GetColorString();
-            colorstring bottom_border =
+            ColorBufferString top_border = "".PadRight(COLS, '-').GetColorString();
+            ColorBufferString bottom_border =
                 ("------Space left: " + (Global.MAX_INVENTORY_SIZE - InventoryCount()).ToString().PadRight(7, '-') +
                  "[?] for help").PadRight(COLS, '-').GetColorString();
-            List<colorstring> strings = InventoryList().GetColorStrings();
+            List<ColorBufferString> strings = InventoryList().GetColorStrings();
             bool no_ask = false;
             bool no_cancel = false;
             bool easy_cancel = true;
@@ -22765,10 +22771,10 @@ namespace Forays
                 Screen.WriteMapString(0, 0, top_border);
                 char letter = 'a';
                 int i = 1;
-                foreach (colorstring s in strings)
+                foreach (ColorBufferString s in strings)
                 {
                     Screen.WriteMapString(i, 0,
-                        new colorstring("[", Color.Gray, letter.ToString(), Color.Cyan, "] ", Color.Gray));
+                        new ColorBufferString("[", Color.Gray, letter.ToString(), Color.Cyan, "] ", Color.Gray));
                     Screen.WriteMapString(i, 4, s);
                     if (s.Length() < COLS - 4)
                     {
@@ -22957,14 +22963,16 @@ namespace Forays
             }
         } //todo: check how many things actually use the non-colorstring version of Select and consider removing it
 
-        public int Select(string message, colorstring top_border, colorstring bottom_border, List<colorstring> strings,
+        public int Select(string message, ColorBufferString top_border, ColorBufferString bottom_border,
+            List<ColorBufferString> strings,
             bool no_ask, bool no_cancel, bool easy_cancel, bool help_key, HelpTopic help_topic)
         {
             return Select(message, top_border, bottom_border, strings, no_ask, no_cancel, easy_cancel, false, help_key,
                 help_topic);
         }
 
-        public int Select(string message, colorstring top_border, colorstring bottom_border, List<colorstring> strings,
+        public int Select(string message, ColorBufferString top_border, ColorBufferString bottom_border,
+            List<ColorBufferString> strings,
             bool no_ask, bool no_cancel, bool easy_cancel, bool never_redraw_map, bool help_key, HelpTopic help_topic)
         {
             if (!no_ask)
@@ -22979,10 +22987,10 @@ namespace Forays
                 Screen.WriteMapString(0, 0, top_border);
                 char letter = 'a';
                 int i = 1;
-                foreach (colorstring s in strings)
+                foreach (ColorBufferString s in strings)
                 {
                     Screen.WriteMapString(i, 0,
-                        new colorstring("[", Color.Gray, letter.ToString(), Color.Cyan, "] ", Color.Gray));
+                        new ColorBufferString("[", Color.Gray, letter.ToString(), Color.Cyan, "] ", Color.Gray));
                     Screen.WriteMapString(i, 4, s);
                     if (s.Length() < COLS - 4)
                     {

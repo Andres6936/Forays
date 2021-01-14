@@ -12,9 +12,9 @@ namespace Forays
             return new ColorString(s, Color.Gray);
         }
 
-        public static implicit operator colorstring(ColorString c)
+        public static implicit operator ColorBufferString(ColorString c)
         {
-            return new colorstring(c);
+            return new ColorBufferString(c);
         }
 
         public ColorString(string s_, Color color_)
@@ -45,9 +45,9 @@ namespace Forays
             s = s_;
         }
 
-        public static colorstring operator +(ColorString one, ColorString two)
+        public static ColorBufferString operator +(ColorString one, ColorString two)
         {
-            return new colorstring(one, two);
+            return new ColorBufferString(one, two);
         }
     }
 }

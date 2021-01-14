@@ -125,14 +125,14 @@ namespace Forays
                 string s = ("Health: " + player.curhp.ToString()).PadOuter(Global.STATUS_WIDTH);
                 int idx = GetStatusBarIndex(player.curhp, player.maxhp);
                 StatusWriteString(ref row,
-                    new colorstring(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkRed),
+                    new ColorBufferString(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkRed),
                         new ColorString(s.SafeSubstring(idx), Color.Gray, Color.Black)));
                 if (player.maxmp > 0)
                 {
                     s = ("Mana: " + player.curmp.ToString()).PadOuter(Global.STATUS_WIDTH);
                     idx = GetStatusBarIndex(player.curmp, player.maxmp);
                     StatusWriteString(ref row,
-                        new colorstring(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkCyan),
+                        new ColorBufferString(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkCyan),
                             new ColorString(s.SafeSubstring(idx), Color.Gray, Color.Black)));
                 }
 
@@ -141,7 +141,7 @@ namespace Forays
                     s = ("Exhaustion: " + player.exhaustion.ToString() + "%").PadOuter(Global.STATUS_WIDTH);
                     idx = GetStatusBarIndex(player.exhaustion, 100);
                     StatusWriteString(ref row,
-                        new colorstring(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkYellow),
+                        new ColorBufferString(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkYellow),
                             new ColorString(s.SafeSubstring(idx), Color.Gray, Color.Black)));
                 }
 
@@ -166,7 +166,7 @@ namespace Forays
                         int attr_idx = UI.GetStatusBarIndex(value, max);
                         string attr_name = attr.StatusName(player).PadOuter(Global.STATUS_WIDTH);
                         StatusWriteString(ref row,
-                            new colorstring(
+                            new ColorBufferString(
                                 new ColorString(attr_name.SafeSubstring(0, attr_idx), Color.Gray, Color.DarkMagenta),
                                 new ColorString(attr_name.SafeSubstring(attr_idx), Color.Gray)));
                     }
@@ -181,13 +181,14 @@ namespace Forays
                     }
 
                     StatusWriteString(ref row,
-                        new colorstring(webbed.PadOuter(Global.STATUS_WIDTH), Color.Gray, Color.DarkMagenta));
+                        new ColorBufferString(webbed.PadOuter(Global.STATUS_WIDTH), Color.Gray, Color.DarkMagenta));
                 }
 
                 if (player.IsSilencedHere() && !player.HasAttr(AttrType.SILENCED, AttrType.SILENCE_AURA))
                 {
                     StatusWriteString(ref row,
-                        new colorstring(AttrType.SILENCED.StatusName(player).PadOuter(Global.STATUS_WIDTH), Color.Gray,
+                        new ColorBufferString(AttrType.SILENCED.StatusName(player).PadOuter(Global.STATUS_WIDTH),
+                            Color.Gray,
                             Color.DarkMagenta));
                 }
 
@@ -198,7 +199,7 @@ namespace Forays
                     if (player.EquippedWeapon.status[(EquipmentStatus) i])
                     {
                         StatusWriteString(ref row,
-                            new colorstring(Weapon.StatusName((EquipmentStatus) i).PadOuter(Global.STATUS_WIDTH),
+                            new ColorBufferString(Weapon.StatusName((EquipmentStatus) i).PadOuter(Global.STATUS_WIDTH),
                                 Color.Gray, Color.DarkBlue));
                     }
                 }
@@ -209,7 +210,7 @@ namespace Forays
                     if (player.EquippedArmor.status[(EquipmentStatus) i])
                     {
                         StatusWriteString(ref row,
-                            new colorstring(Weapon.StatusName((EquipmentStatus) i).PadOuter(Global.STATUS_WIDTH),
+                            new ColorBufferString(Weapon.StatusName((EquipmentStatus) i).PadOuter(Global.STATUS_WIDTH),
                                 Color.Gray, Color.DarkBlue));
                     }
                 }
@@ -226,7 +227,8 @@ namespace Forays
                         int e_idx = UI.GetStatusBarIndex(value, max);
                         string e_name = (M.wiz_dark ? "Darkness" : "Sunlight").PadOuter(Global.STATUS_WIDTH);
                         StatusWriteString(ref row,
-                            new colorstring(new ColorString(e_name.SafeSubstring(0, e_idx), Color.Gray, Color.DarkBlue),
+                            new ColorBufferString(
+                                new ColorString(e_name.SafeSubstring(0, e_idx), Color.Gray, Color.DarkBlue),
                                 new ColorString(e_name.SafeSubstring(e_idx), Color.Gray)));
                     }
                 }
@@ -369,7 +371,7 @@ namespace Forays
             MouseUI.AutomaticButtonsFromStrings = buttons;
         }
 
-        public static void StatusWriteString(ref int row, colorstring s)
+        public static void StatusWriteString(ref int row, ColorBufferString s)
         {
             if (row >= status_row_cutoff)
             {
@@ -392,7 +394,7 @@ namespace Forays
             if (UI.viewing_map_shrine_info) return;
             int row = status_row_start;
             List<PhysicalObject> objs = null;
-            List<List<colorstring>> names = null;
+            List<List<ColorBufferString>> names = null;
             List<PhysicalObject>
                 extra_objs =
                     null; // objects under MapCursor that should be displayed but weren't visible on the first pass.
@@ -402,7 +404,7 @@ namespace Forays
                 row = status_row_start;
                 extras_found = false;
                 objs = new List<PhysicalObject>();
-                names = new List<List<colorstring>>();
+                names = new List<List<ColorBufferString>>();
                 bool screen_too_small = false;
                 if (extra_objs != null)
                 {
@@ -469,7 +471,7 @@ namespace Forays
             for (int i = 0; i < objs.Count; ++i)
             {
                 PhysicalObject o = objs[i];
-                foreach (colorstring cs2 in names[i])
+                foreach (ColorBufferString cs2 in names[i])
                 {
                     Screen.WriteString(row, 0, cs2);
                     if (extra_objs == null || !extra_objs.Contains(o))
@@ -771,7 +773,7 @@ namespace Forays
             });
         }
 
-        public static List<colorstring> ItemDescriptionBox(Item item, bool lookmode, bool mouselook,
+        public static List<ColorBufferString> ItemDescriptionBox(Item item, bool lookmode, bool mouselook,
             int max_string_length)
         {
             List<string> text = item.Description().GetWordWrappedList(max_string_length, false);
@@ -798,42 +800,44 @@ namespace Forays
             }
 
             widest += 2; //one space on each side
-            List<colorstring> box = new List<colorstring>();
-            box.Add(new colorstring("+", box_corner_color, "".PadRight(widest, '-'), box_edge_color, "+",
+            List<ColorBufferString> box = new List<ColorBufferString>();
+            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(widest, '-'), box_edge_color, "+",
                 box_corner_color));
             if (!lookmode || mouselook)
             {
-                box.Add(new colorstring("|", box_edge_color) +
+                box.Add(new ColorBufferString("|", box_edge_color) +
                         item.GetName(true, Extra).PadOuter(widest).GetColorString(Color.White) +
-                        new colorstring("|", box_edge_color));
-                box.Add(new colorstring("|", box_edge_color, "".PadRight(widest), Color.Gray, "|", box_edge_color));
+                        new ColorBufferString("|", box_edge_color));
+                box.Add(
+                    new ColorBufferString("|", box_edge_color, "".PadRight(widest), Color.Gray, "|", box_edge_color));
             }
 
             foreach (string s in text)
             {
-                box.Add(new colorstring("|", box_edge_color) + s.PadOuter(widest).GetColorString(text_color) +
-                        new colorstring("|", box_edge_color));
+                box.Add(new ColorBufferString("|", box_edge_color) + s.PadOuter(widest).GetColorString(text_color) +
+                        new ColorBufferString("|", box_edge_color));
             }
 
             if (!mouselook)
             {
-                box.Add(new colorstring("|", box_edge_color, "".PadRight(widest), Color.Gray, "|", box_edge_color));
+                box.Add(
+                    new ColorBufferString("|", box_edge_color, "".PadRight(widest), Color.Gray, "|", box_edge_color));
                 if (lookmode)
                 {
-                    box.Add(new colorstring("|", box_edge_color) +
+                    box.Add(new ColorBufferString("|", box_edge_color) +
                             "[=] Hide description".PadOuter(widest).GetColorString(text_color) +
-                            new colorstring("|", box_edge_color));
+                            new ColorBufferString("|", box_edge_color));
                 }
                 else
                 {
-                    box.Add(new colorstring("|", box_edge_color) +
+                    box.Add(new ColorBufferString("|", box_edge_color) +
                             "[a]pply  [f]ling  [d]rop".PadOuter(widest).GetColorString(text_color) +
-                            new colorstring("|", box_edge_color));
+                            new ColorBufferString("|", box_edge_color));
                     //box.Add(new colorstring("|",box_edge_color) + "[Press any other key to cancel]".PadOuter(widest).GetColorString(text_color) + new colorstring("|",box_edge_color));
                 }
             }
 
-            box.Add(new colorstring("+", box_corner_color, "".PadRight(widest, '-'), box_edge_color, "+",
+            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(widest, '-'), box_edge_color, "+",
                 box_corner_color));
             return box;
         }
@@ -852,30 +856,34 @@ namespace Forays
 
             const Color c = Color.Green;
             const Color text = Color.Gray;
-            List<colorstring> top = new List<colorstring> {new colorstring("".PadRight(COLS, '-'), text)};
-            List<colorstring> name = new List<colorstring>
+            List<ColorBufferString> top = new List<ColorBufferString>
+                {new ColorBufferString("".PadRight(COLS, '-'), text)};
+            List<ColorBufferString> name = new List<ColorBufferString>
             {
                 (new ColorString("Name", c) + new ColorString(": " + Actor.player_name + "  ", text))
                 .PadRight(COLS / 2) +
                 (new ColorString("Turns played", c) + new ColorString(": " + Q.turn / 100, text))
             };
-            List<colorstring> skills = null;
-            List<colorstring> feats = null;
-            List<colorstring> spells = null;
-            List<colorstring> trinkets = null;
-            List<colorstring> divider = new List<colorstring> {new colorstring("Active abilities", c, ":", text)};
-            List<colorstring> actives = new List<colorstring>();
+            List<ColorBufferString> skills = null;
+            List<ColorBufferString> feats = null;
+            List<ColorBufferString> spells = null;
+            List<ColorBufferString> trinkets = null;
+            List<ColorBufferString> divider = new List<ColorBufferString>
+                {new ColorBufferString("Active abilities", c, ":", text)};
+            List<ColorBufferString> actives = new List<ColorBufferString>();
 
-            List<List<colorstring>> potential_skills = new List<List<colorstring>>();
+            List<List<ColorBufferString>> potential_skills = new List<List<ColorBufferString>>();
             for (int indent = 7; indent >= 1; --indent)
             {
-                List<colorstring> list = new List<colorstring> {new colorstring("Skills", c, ":", text)};
+                List<ColorBufferString> list = new List<ColorBufferString>
+                    {new ColorBufferString("Skills", c, ":", text)};
                 potential_skills.Add(list);
                 for (SkillType sk = SkillType.COMBAT; sk < SkillType.NUM_SKILLS; ++sk)
                 {
                     int skill_base = player.skills[sk];
                     int skill_mod = player.BonusSkill(sk);
-                    colorstring skill_string = new colorstring(" " + Skill.Name(sk) + "(", text, skill_base.ToString(),
+                    ColorBufferString skill_string = new ColorBufferString(" " + Skill.Name(sk) + "(", text,
+                        skill_base.ToString(),
                         Color.White);
                     if (skill_mod > 0)
                     {
@@ -897,15 +905,17 @@ namespace Forays
             skills = potential_skills.WhereLeast(x =>
                 x.Count)[0]; //Take the first result (i.e. highest indent) from the lowest count.
 
-            List<List<colorstring>> potential_feats = new List<List<colorstring>>();
+            List<List<ColorBufferString>> potential_feats = new List<List<ColorBufferString>>();
             for (int indent = 6; indent >= 1; --indent)
             {
-                List<colorstring> list = new List<colorstring> {new colorstring("Feats", c, ":", text)};
+                List<ColorBufferString> list = new List<ColorBufferString>
+                    {new ColorBufferString("Feats", c, ":", text)};
                 potential_feats.Add(list);
                 for (int i = 0; i < Actor.feats_in_order.Count; ++i)
                 {
                     string comma = (i == Actor.feats_in_order.Count - 1) ? "" : ",";
-                    colorstring feat_string = new colorstring(" " + Feat.Name(Actor.feats_in_order[i]) + comma);
+                    ColorBufferString feat_string =
+                        new ColorBufferString(" " + Feat.Name(Actor.feats_in_order[i]) + comma);
                     list.AddWithWrap(feat_string, Global.COLS, indent);
                 }
             }
@@ -913,15 +923,17 @@ namespace Forays
             feats = potential_feats.WhereLeast(x =>
                 x.Count)[0]; //Take the first result (i.e. highest indent) from the lowest count.
 
-            List<List<colorstring>> potential_spells = new List<List<colorstring>>();
+            List<List<ColorBufferString>> potential_spells = new List<List<ColorBufferString>>();
             for (int indent = 7; indent >= 1; --indent)
             {
-                List<colorstring> list = new List<colorstring> {new colorstring("Spells", c, ":", text)};
+                List<ColorBufferString> list = new List<ColorBufferString>
+                    {new ColorBufferString("Spells", c, ":", text)};
                 potential_spells.Add(list);
                 for (int i = 0; i < Actor.spells_in_order.Count; ++i)
                 {
                     string comma = (i == Actor.spells_in_order.Count - 1) ? "" : ",";
-                    colorstring spell_string = new colorstring(" " + Spell.Name(Actor.spells_in_order[i]) + comma);
+                    ColorBufferString spell_string =
+                        new ColorBufferString(" " + Spell.Name(Actor.spells_in_order[i]) + comma);
                     list.AddWithWrap(spell_string, Global.COLS, indent);
                 }
             }
@@ -951,16 +963,18 @@ namespace Forays
                 magic_equipment_names.Add(MagicTrinket.Name(trinket));
             }
 
-            List<List<colorstring>> potential_trinkets = new List<List<colorstring>>();
+            List<List<ColorBufferString>> potential_trinkets = new List<List<ColorBufferString>>();
             for (int indent = 18; indent >= 1; --indent)
             {
                 //todo keep this value?
-                List<colorstring> list = new List<colorstring> {new colorstring("Magical equipment", c, ":", text)};
+                List<ColorBufferString> list = new List<ColorBufferString>
+                    {new ColorBufferString("Magical equipment", c, ":", text)};
                 potential_trinkets.Add(list);
                 for (int i = 0; i < magic_equipment_names.Count; ++i)
                 {
                     string comma = (i == magic_equipment_names.Count - 1) ? "" : ",";
-                    colorstring equip_string = new colorstring(" " + magic_equipment_names[i].Capitalize() + comma);
+                    ColorBufferString equip_string =
+                        new ColorBufferString(" " + magic_equipment_names[i].Capitalize() + comma);
                     list.AddWithWrap(equip_string, Global.COLS, indent);
                 }
             }
@@ -980,17 +994,18 @@ namespace Forays
 
             for (int i = 0; i < active_feats.Count; ++i)
             {
-                actives.Add(new colorstring("  [", text, ((char) (i + 'a')).ToString(), Color.Cyan,
+                actives.Add(new ColorBufferString("  [", text, ((char) (i + 'a')).ToString(), Color.Cyan,
                     "] " + Feat.Name(active_feats[i]), text));
             }
 
             //eventually activated trinkets or temporary effects will go here.
 
             const int total_height = Global.SCREEN_H - Global.MAP_OFFSET_ROWS;
-            List<List<colorstring>> all = new List<List<colorstring>>
+            List<List<ColorBufferString>> all = new List<List<ColorBufferString>>
                 {top, name, skills, feats, spells, trinkets, divider, actives};
-            List<List<colorstring>> some = new List<List<colorstring>> {name, skills, feats, spells};
-            List<List<colorstring>> top_titles = new List<List<colorstring>> {name, skills, feats, spells, trinkets};
+            List<List<ColorBufferString>> some = new List<List<ColorBufferString>> {name, skills, feats, spells};
+            List<List<ColorBufferString>> top_titles = new List<List<ColorBufferString>>
+                {name, skills, feats, spells, trinkets};
             int rows_left = total_height - 1; // -1 for the bottom border
             foreach (var list in all)
             {
@@ -1000,17 +1015,17 @@ namespace Forays
             //Here's how the extra rows are distributed:
             if (rows_left >= 1)
             {
-                trinkets.Add(new colorstring(""));
+                trinkets.Add(new ColorBufferString(""));
                 --rows_left;
             }
 
             if (rows_left >= 1)
             {
-                actives.Add(new colorstring(""));
+                actives.Add(new ColorBufferString(""));
                 --rows_left;
             }
 
-            List<List<colorstring>> cramped = new List<List<colorstring>>();
+            List<List<ColorBufferString>> cramped = new List<List<ColorBufferString>>();
             foreach (var list in some)
             {
                 if (list.Count == 1)
@@ -1024,12 +1039,12 @@ namespace Forays
             {
                 foreach (var list in cramped)
                 {
-                    list.Add(new colorstring(""));
+                    list.Add(new ColorBufferString(""));
                     --rows_left;
                 }
             }
 
-            List<List<colorstring>> no_blank_line = new List<List<colorstring>>();
+            List<List<ColorBufferString>> no_blank_line = new List<List<ColorBufferString>>();
             foreach (var list in some)
             {
                 if (list.Last().Length() > 0)
@@ -1042,7 +1057,7 @@ namespace Forays
             {
                 foreach (var list in no_blank_line)
                 {
-                    list.Add(new colorstring(""));
+                    list.Add(new ColorBufferString(""));
                     --rows_left;
                 }
             }
@@ -1060,19 +1075,19 @@ namespace Forays
 
             if (rows_left >= 1 && top_text_height < 14)
             {
-                top.Add(new colorstring(""));
+                top.Add(new ColorBufferString(""));
                 --rows_left;
             }
 
             for (int i = 0; i < rows_left; ++i)
             {
-                actives.Add(new colorstring(""));
+                actives.Add(new ColorBufferString(""));
             }
 
             int row = 0;
             foreach (var list in all)
             {
-                foreach (colorstring cs in list)
+                foreach (ColorBufferString cs in list)
                 {
                     Screen.WriteMapString(row, 0, cs.PadRight(COLS));
                     ++row;
@@ -1246,40 +1261,40 @@ namespace Forays
                 MagicTrinketType selectedTrinket = selectedTrinketIdx >= 0
                     ? trinkets[selectedTrinketIdx]
                     : MagicTrinketType.NO_MAGIC_TRINKET;
-                List<colorstring> wStr = newWeapon.Description().GetColorStrings();
-                wStr[0] = new colorstring("Weapon", Color.DarkRed, ": ", Color.Gray) + wStr[0];
-                List<colorstring> aStr = newArmor.Description().GetColorStrings();
-                aStr[0] = new colorstring("Armor", Color.DarkCyan, ": ", Color.Gray) + aStr[0];
+                List<ColorBufferString> wStr = newWeapon.Description().GetColorStrings();
+                wStr[0] = new ColorBufferString("Weapon", Color.DarkRed, ": ", Color.Gray) + wStr[0];
+                List<ColorBufferString> aStr = newArmor.Description().GetColorStrings();
+                aStr[0] = new ColorBufferString("Armor", Color.DarkCyan, ": ", Color.Gray) + aStr[0];
                 {
                     string wEnch = newWeapon.DescriptionOfEnchantment();
                     string aEnch = newArmor.DescriptionOfEnchantment();
                     if (wEnch != "")
                     {
-                        wStr.Add(new colorstring(wEnch, newWeapon.EnchantmentColor()));
+                        wStr.Add(new ColorBufferString(wEnch, newWeapon.EnchantmentColor()));
                     }
 
                     if (aEnch != "")
                     {
-                        aStr.Add(new colorstring(aEnch, newArmor.EnchantmentColor()));
+                        aStr.Add(new ColorBufferString(aEnch, newArmor.EnchantmentColor()));
                     }
                 }
-                List<colorstring> mStr = MagicTrinket.Description(selectedTrinket).GetColorStrings();
-                mStr[0] = new colorstring("Magic trinket", Color.DarkGreen, ": ", Color.Gray) + mStr[0];
+                List<ColorBufferString> mStr = MagicTrinket.Description(selectedTrinket).GetColorStrings();
+                mStr[0] = new ColorBufferString("Magic trinket", Color.DarkGreen, ": ", Color.Gray) + mStr[0];
                 if (mStr.Count > 1)
                 {
                     mStr[1] = "".PadRight(15) + mStr[1];
                 }
 
-                List<colorstring> wStatusShort = newWeapon.ShortStatusList();
-                List<colorstring> aStatusShort = newArmor.ShortStatusList();
+                List<ColorBufferString> wStatusShort = newWeapon.ShortStatusList();
+                List<ColorBufferString> aStatusShort = newArmor.ShortStatusList();
 
                 int wMin = wStr.Count + wStatusShort.Count;
                 int aMin = aStr.Count + aStatusShort.Count;
 
                 int lines_free = 12 - wMin - aMin - mStr.Count;
 
-                List<colorstring> wStatusLong = newWeapon.LongStatusList();
-                List<colorstring> aStatusLong = newArmor.LongStatusList();
+                List<ColorBufferString> wStatusLong = newWeapon.LongStatusList();
+                List<ColorBufferString> aStatusLong = newArmor.LongStatusList();
                 int wDiff = wStatusLong.Count - wStatusShort.Count;
                 int aDiff = aStatusLong.Count - aStatusShort.Count;
 
@@ -1344,7 +1359,7 @@ namespace Forays
                     aStr.AddRange(aStatusShort);
                 }
 
-                List<colorstring> top = new List<colorstring>();
+                List<ColorBufferString> top = new List<ColorBufferString>();
 
                 //now let's distribute those extra lines. (0-7 possible)
                 for (int i = 0; i < 2; ++i)
@@ -1353,14 +1368,14 @@ namespace Forays
                     if (lines_free >= 2)
                     {
                         lines_free -= 2;
-                        wStr.Add(new colorstring(""));
-                        aStr.Add(new colorstring(""));
+                        wStr.Add(new ColorBufferString(""));
+                        aStr.Add(new ColorBufferString(""));
                     }
 
                     if (lines_free >= 1)
                     {
                         lines_free -= 1;
-                        mStr.Add(new colorstring(""));
+                        mStr.Add(new ColorBufferString(""));
                     }
                 }
 
@@ -1368,13 +1383,13 @@ namespace Forays
                 {
                     //if there's one left, it means that we had the full 7 lines, so we need an extra space at the top.
                     lines_free -= 1;
-                    top.Add(new colorstring(""));
+                    top.Add(new ColorBufferString(""));
                 }
 
                 int row = 12;
-                foreach (List<colorstring> list in new List<List<colorstring>> {top, wStr, aStr, mStr})
+                foreach (List<ColorBufferString> list in new List<List<ColorBufferString>> {top, wStr, aStr, mStr})
                 {
-                    foreach (colorstring cs in list)
+                    foreach (ColorBufferString cs in list)
                     {
                         Screen.WriteMapString(row++, 0, cs.PadRight(COLS));
                     }
@@ -1396,7 +1411,7 @@ namespace Forays
                     else
                     {
                         Screen.WriteMapString(row, 0,
-                            new colorstring("[", Color.Gray, "Enter", Color.Magenta, "] to confirm", Color.Gray)
+                            new ColorBufferString("[", Color.Gray, "Enter", Color.Magenta, "] to confirm", Color.Gray)
                                 .PadOuter(COLS, '-'));
                         MouseUI.CreateMapButton(ConsoleKey.Enter, false, row, 1);
                     }

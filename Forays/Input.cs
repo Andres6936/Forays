@@ -1223,7 +1223,7 @@ namespace Forays
                                         description_on_right = true;
                                     }
 
-                                    List<colorstring> desc_box = null;
+                                    List<ColorBufferString> desc_box = null;
                                     Actor a = o as Actor;
                                     if (a != null)
                                     {

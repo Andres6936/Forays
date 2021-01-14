@@ -715,9 +715,9 @@ namespace Forays
             return n.GetName(Quantity, x, elements);
         }
 
-        public override List<colorstring> GetStatusBarInfo()
+        public override List<ColorBufferString> GetStatusBarInfo()
         {
-            List<colorstring> result = new List<colorstring>();
+            List<ColorBufferString> result = new List<ColorBufferString>();
             Color text = UI.darken_status_bar ? Colors.status_darken : Color.Gray;
             if (p.Equals(UI.MapCursor))
             {
@@ -726,7 +726,7 @@ namespace Forays
 
             foreach (string s in GetName(true).GetWordWrappedList(17, true))
             {
-                colorstring cs = new colorstring();
+                ColorBufferString cs = new ColorBufferString();
                 result.Add(cs);
                 if (result.Count == 1)
                 {

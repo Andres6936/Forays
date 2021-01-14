@@ -137,9 +137,9 @@ namespace Forays
             }
         }
 
-        public virtual List<colorstring> GetStatusBarInfo()
+        public virtual List<ColorBufferString> GetStatusBarInfo()
         {
-            List<colorstring> result = new List<colorstring>();
+            List<ColorBufferString> result = new List<ColorBufferString>();
             Color text = UI.darken_status_bar ? Colors.status_darken : Color.Gray;
             if (p.Equals(UI.MapCursor))
             {
@@ -148,7 +148,7 @@ namespace Forays
 
             foreach (string s in this.GetName().GetWordWrappedList(17, true))
             {
-                colorstring cs = new colorstring();
+                ColorBufferString cs = new ColorBufferString();
                 result.Add(cs);
                 if (result.Count == 1)
                 {
@@ -164,13 +164,14 @@ namespace Forays
             if (Name.Singular == "troll corpse")
             {
                 //gotta do this here, since TerrainFeature isn't a class.
-                result.Add(new colorstring("Regenerating".PadOuter(Global.STATUS_WIDTH), text, Color.StatusEffectBar));
+                result.Add(new ColorBufferString("Regenerating".PadOuter(Global.STATUS_WIDTH), text,
+                    Color.StatusEffectBar));
             }
             else
             {
                 if (Name.Singular == "troll bloodwitch corpse")
                 {
-                    result.Add(new colorstring("Regenerating 3".PadOuter(Global.STATUS_WIDTH), text,
+                    result.Add(new ColorBufferString("Regenerating 3".PadOuter(Global.STATUS_WIDTH), text,
                         Color.StatusEffectBar));
                 }
             }
@@ -4767,7 +4768,8 @@ compare this number to 1/2:  if less than 1/2, major.
                                 max_length = 29;
                             }
 
-                            List<colorstring> desc = Actor.MonsterDescriptionBox(M.actor[r, c], false, max_length);
+                            List<ColorBufferString>
+                                desc = Actor.MonsterDescriptionBox(M.actor[r, c], false, max_length);
                             if (description_on_right)
                             {
                                 int start_c = COLS - desc[0].Length();
@@ -4811,7 +4813,7 @@ compare this number to 1/2:  if less than 1/2, major.
                                     max_length = 29;
                                 }
 
-                                List<colorstring> desc =
+                                List<ColorBufferString> desc =
                                     UI.ItemDescriptionBox(M.tile[r, c].inv, true, false, max_length);
                                 if (description_on_right)
                                 {

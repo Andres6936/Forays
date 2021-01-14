@@ -154,7 +154,7 @@ namespace Forays
                 if (startline > 0)
                 {
                     Screen.WriteString(0, text_col + text_width - 3,
-                        new colorstring("[", Color.Yellow, "-", Color.Cyan, "]", Color.Yellow));
+                        new ColorBufferString("[", Color.Yellow, "-", Color.Cyan, "]", Color.Yellow));
                 }
                 else
                 {
@@ -170,7 +170,7 @@ namespace Forays
                 if (more)
                 {
                     Screen.WriteString(Global.SCREEN_H - 1, text_col + text_width - 3,
-                        new colorstring("[", Color.Yellow, "+", Color.Cyan, "]", Color.Yellow));
+                        new ColorBufferString("[", Color.Yellow, "+", Color.Cyan, "]", Color.Yellow));
                 }
                 else
                 {
@@ -435,19 +435,20 @@ namespace Forays
             return result;
         }
 
-        private static List<colorstring> BoxAnimationFrame(int height, int width)
+        private static List<ColorBufferString> BoxAnimationFrame(int height, int width)
         {
             Color box_edge_color = Color.Blue;
             Color box_corner_color = Color.Yellow;
-            List<colorstring> box = new List<colorstring>();
-            box.Add(new colorstring("+", box_corner_color, "".PadRight(width - 2, '-'), box_edge_color, "+",
+            List<ColorBufferString> box = new List<ColorBufferString>();
+            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(width - 2, '-'), box_edge_color, "+",
                 box_corner_color));
             for (int i = 0; i < height - 2; ++i)
             {
-                box.Add(new colorstring("|", box_edge_color, "".PadRight(width - 2), Color.Gray, "|", box_edge_color));
+                box.Add(new ColorBufferString("|", box_edge_color, "".PadRight(width - 2), Color.Gray, "|",
+                    box_edge_color));
             }
 
-            box.Add(new colorstring("+", box_corner_color, "".PadRight(width - 2, '-'), box_edge_color, "+",
+            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(width - 2, '-'), box_edge_color, "+",
                 box_corner_color));
             return box;
         }
@@ -490,27 +491,30 @@ namespace Forays
             stringwidth += 4; //2 blanks on each side
             int boxwidth = stringwidth + 2;
             int boxheight = text.Length + 5;
-            colorstring[] box = new colorstring[boxheight]; //maybe i should make this a list to match the others
-            box[0] = new colorstring("+", box_corner_color, "".PadRight(stringwidth, '-'), box_edge_color, "+",
+            ColorBufferString[]
+                box = new ColorBufferString[boxheight]; //maybe i should make this a list to match the others
+            box[0] = new ColorBufferString("+", box_corner_color, "".PadRight(stringwidth, '-'), box_edge_color, "+",
                 box_corner_color);
-            box[text.Length + 1] = new colorstring("|", box_edge_color, "".PadRight(stringwidth), Color.Gray, "|",
+            box[text.Length + 1] = new ColorBufferString("|", box_edge_color, "".PadRight(stringwidth), Color.Gray, "|",
                 box_edge_color);
-            box[text.Length + 2] = new colorstring("|", box_edge_color) +
+            box[text.Length + 2] = new ColorBufferString("|", box_edge_color) +
                                    "[Press any key to continue]".PadOuter(stringwidth).GetColorString(text_color) +
-                                   new colorstring("|", box_edge_color);
-            box[text.Length + 3] = new colorstring("|", box_edge_color) +
+                                   new ColorBufferString("|", box_edge_color);
+            box[text.Length + 3] = new ColorBufferString("|", box_edge_color) +
                                    "[=] Stop showing tips".PadOuter(stringwidth).GetColorString(text_color) +
-                                   new colorstring("|", box_edge_color);
-            box[text.Length + 4] = new colorstring("+", box_corner_color, "".PadRight(stringwidth, '-'), box_edge_color,
+                                   new ColorBufferString("|", box_edge_color);
+            box[text.Length + 4] = new ColorBufferString("+", box_corner_color, "".PadRight(stringwidth, '-'),
+                box_edge_color,
                 "+", box_corner_color);
             int pos = 1;
             foreach (string s in text)
             {
-                box[pos] = new colorstring("|", box_edge_color) + s.PadOuter(stringwidth).GetColorString(text_color) +
-                           new colorstring("|", box_edge_color);
+                box[pos] = new ColorBufferString("|", box_edge_color) +
+                           s.PadOuter(stringwidth).GetColorString(text_color) +
+                           new ColorBufferString("|", box_edge_color);
                 if (pos == 1)
                 {
-                    box[pos] = new colorstring();
+                    box[pos] = new ColorBufferString();
                     box[pos].strings.Add(new ColorString("|", box_edge_color));
                     box[pos].strings.Add(new ColorString(s.PadOuter(stringwidth), first_line_color));
                     box[pos].strings.Add(new ColorString("|", box_edge_color));
@@ -526,7 +530,7 @@ namespace Forays
             spaces_on_left = stringwidth - 21;
             MouseUI.CreateButton(ConsoleKey.OemPlus, false, y + boxheight - 2, x + 1 + spaces_on_left / 2, 1, 21);
             ColorChar[,] memory = Screen.GetCurrentRect(y, x, boxheight, boxwidth);
-            List<List<colorstring>> frames = new List<List<colorstring>>();
+            List<List<ColorBufferString>> frames = new List<List<ColorBufferString>>();
             frames.Add(BoxAnimationFrame(boxheight - 2, FrameWidth(boxheight, boxwidth)));
             for (int i = boxheight - 4; i > 0; i -= 2)
             {
@@ -549,7 +553,7 @@ namespace Forays
                 Thread.Sleep(20);
             }
 
-            foreach (colorstring s in box)
+            foreach (ColorBufferString s in box)
             {
                 Screen.WriteString(y, x, s);
                 ++y;

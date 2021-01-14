@@ -899,7 +899,7 @@ namespace Forays
             return s.PadRight(Global.COLS);
         }
 
-        public static int LastSpaceBeforeWrap(this colorstring cs, int wrap_index)
+        public static int LastSpaceBeforeWrap(this ColorBufferString cs, int wrap_index)
         {
             string s = "";
             foreach (ColorString c in cs.strings)
@@ -924,27 +924,27 @@ namespace Forays
             return -1;
         }
 
-        public static colorstring GetColorString(this string s)
+        public static ColorBufferString GetColorString(this string s)
         {
             return GetColorString(s, Color.Gray, Color.Cyan, Color.Black);
         }
 
-        public static colorstring GetColorString(this string s, Color text_color)
+        public static ColorBufferString GetColorString(this string s, Color text_color)
         {
             return GetColorString(s, text_color, Color.Cyan, Color.Black);
         }
 
-        public static colorstring GetColorString(this string s, Color text_color, Color key_color)
+        public static ColorBufferString GetColorString(this string s, Color text_color, Color key_color)
         {
             return GetColorString(s, text_color, key_color, Color.Black);
         }
 
-        public static colorstring GetColorString(this string s, Color text_color, Color key_color, Color bg_color)
+        public static ColorBufferString GetColorString(this string s, Color text_color, Color key_color, Color bg_color)
         {
             if (s.Contains("["))
             {
                 string temp = s;
-                colorstring result = new colorstring();
+                ColorBufferString result = new ColorBufferString();
                 while (temp.Contains("["))
                 {
                     int open = temp.IndexOf('[');
@@ -990,13 +990,13 @@ namespace Forays
             }
             else
             {
-                return new colorstring(s, text_color, bg_color);
+                return new ColorBufferString(s, text_color, bg_color);
             }
         }
 
-        public static List<colorstring> GetColorStrings(this List<string> l)
+        public static List<ColorBufferString> GetColorStrings(this List<string> l)
         {
-            List<colorstring> result = new List<colorstring>();
+            List<ColorBufferString> result = new List<ColorBufferString>();
             foreach (string s in l)
             {
                 result.Add(s.GetColorString());
@@ -1005,10 +1005,11 @@ namespace Forays
             return result;
         }
 
-        public static void AddWithWrap(this List<colorstring> l, colorstring cs, int wrap_width, int indent = 0)
+        public static void AddWithWrap(this List<ColorBufferString> l, ColorBufferString cs, int wrap_width,
+            int indent = 0)
         {
-            colorstring last = l.LastOrDefault();
-            colorstring remainder = null;
+            ColorBufferString last = l.LastOrDefault();
+            ColorBufferString remainder = null;
             if (last == null)
             {
                 remainder = cs;
@@ -1046,12 +1047,12 @@ namespace Forays
             {
                 if (indent + remainder.Length() <= wrap_width)
                 {
-                    l.Add(new colorstring("".PadRight(indent)) + remainder);
+                    l.Add(new ColorBufferString("".PadRight(indent)) + remainder);
                     break;
                 }
                 else
                 {
-                    colorstring next = new colorstring("".PadRight(indent));
+                    ColorBufferString next = new ColorBufferString("".PadRight(indent));
                     l.Add(next);
                     int split_idx = remainder.LastSpaceBeforeWrap(wrap_width - indent);
                     bool remove_space = true;

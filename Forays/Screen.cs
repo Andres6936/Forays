@@ -18,7 +18,7 @@ using GLDrawing;
 
 namespace Forays
 {
-    public class colorstring
+    public class ColorBufferString
     {
         public List<ColorString> strings = new List<ColorString>();
 
@@ -48,12 +48,12 @@ namespace Forays
             }
         }
 
-        public static implicit operator colorstring(string s)
+        public static implicit operator ColorBufferString(string s)
         {
-            return new colorstring(s);
+            return new ColorBufferString(s);
         }
 
-        public colorstring(colorstring other)
+        public ColorBufferString(ColorBufferString other)
         {
             foreach (ColorString cs in other.strings)
             {
@@ -61,40 +61,40 @@ namespace Forays
             }
         }
 
-        public colorstring(ColorString cs)
+        public ColorBufferString(ColorString cs)
         {
             strings.Add(cs);
         }
 
-        public colorstring(string s)
+        public ColorBufferString(string s)
         {
             strings.Add(new ColorString(s, Color.Gray));
         }
 
-        public colorstring(string s1, Color c1)
+        public ColorBufferString(string s1, Color c1)
         {
             strings.Add(new ColorString(s1, c1));
         }
 
-        public colorstring(string s1, Color c1, Color bg1)
+        public ColorBufferString(string s1, Color c1, Color bg1)
         {
             strings.Add(new ColorString(s1, c1, bg1));
         }
 
-        public colorstring(string s1, Color c1, string s2, Color c2)
+        public ColorBufferString(string s1, Color c1, string s2, Color c2)
         {
             strings.Add(new ColorString(s1, c1));
             strings.Add(new ColorString(s2, c2));
         }
 
-        public colorstring(string s1, Color c1, string s2, Color c2, string s3, Color c3)
+        public ColorBufferString(string s1, Color c1, string s2, Color c2, string s3, Color c3)
         {
             strings.Add(new ColorString(s1, c1));
             strings.Add(new ColorString(s2, c2));
             strings.Add(new ColorString(s3, c3));
         }
 
-        public colorstring(string s1, Color c1, string s2, Color c2, string s3, Color c3, string s4, Color c4)
+        public ColorBufferString(string s1, Color c1, string s2, Color c2, string s3, Color c3, string s4, Color c4)
         {
             strings.Add(new ColorString(s1, c1));
             strings.Add(new ColorString(s2, c2));
@@ -102,7 +102,7 @@ namespace Forays
             strings.Add(new ColorString(s4, c4));
         }
 
-        public colorstring(string s1, Color c1, string s2, Color c2, string s3, Color c3, string s4, Color c4,
+        public ColorBufferString(string s1, Color c1, string s2, Color c2, string s3, Color c3, string s4, Color c4,
             string s5, Color c5)
         {
             strings.Add(new ColorString(s1, c1));
@@ -112,7 +112,7 @@ namespace Forays
             strings.Add(new ColorString(s5, c5));
         }
 
-        public colorstring(string s1, Color c1, string s2, Color c2, string s3, Color c3, string s4, Color c4,
+        public ColorBufferString(string s1, Color c1, string s2, Color c2, string s3, Color c3, string s4, Color c4,
             string s5, Color c5, string s6, Color c6)
         {
             strings.Add(new ColorString(s1, c1));
@@ -123,7 +123,7 @@ namespace Forays
             strings.Add(new ColorString(s6, c6));
         }
 
-        public colorstring(params object[] objs)
+        public ColorBufferString(params object[] objs)
         {
             if (objs != null)
             {
@@ -141,9 +141,9 @@ namespace Forays
                         }
                         else
                         {
-                            if (o is colorstring)
+                            if (o is ColorBufferString)
                             {
-                                foreach (ColorString cs in (o as colorstring).strings)
+                                foreach (ColorString cs in (o as ColorBufferString).strings)
                                 {
                                     strings.Add(cs);
                                 }
@@ -178,47 +178,47 @@ namespace Forays
             strings.Add(new ColorString(s1, c1, bg1));
         }
 
-        public colorstring PadLeft(int totalWidth)
+        public ColorBufferString PadLeft(int totalWidth)
         {
             return PadLeft(totalWidth, new ColorChar(' ', Color.Gray, Color.Black));
         }
 
-        public colorstring PadLeft(int totalWidth, ColorChar paddingChar)
+        public ColorBufferString PadLeft(int totalWidth, ColorChar paddingChar)
         {
             int diff = totalWidth - Length();
-            if (diff <= 0) return new colorstring(this);
+            if (diff <= 0) return new ColorBufferString(this);
             return new ColorString("".PadRight(diff, paddingChar.c), paddingChar.color, paddingChar.bgcolor) + this;
         }
 
-        public colorstring PadRight(int totalWidth)
+        public ColorBufferString PadRight(int totalWidth)
         {
             return PadRight(totalWidth, new ColorChar(' ', Color.Gray, Color.Black));
         }
 
-        public colorstring PadRight(int totalWidth, ColorChar paddingChar)
+        public ColorBufferString PadRight(int totalWidth, ColorChar paddingChar)
         {
             int diff = totalWidth - Length();
-            if (diff <= 0) return new colorstring(this);
+            if (diff <= 0) return new ColorBufferString(this);
             return this + new ColorString("".PadRight(diff, paddingChar.c), paddingChar.color, paddingChar.bgcolor);
         }
 
-        public colorstring PadOuter(int totalWidth)
+        public ColorBufferString PadOuter(int totalWidth)
         {
             return PadOuter(totalWidth, new ColorChar(' ', Color.Gray, Color.Black));
         }
 
-        public colorstring PadOuter(int totalWidth, ColorChar paddingChar)
+        public ColorBufferString PadOuter(int totalWidth, ColorChar paddingChar)
         {
             int diff = totalWidth - Length();
-            if (diff <= 0) return new colorstring(this);
+            if (diff <= 0) return new ColorBufferString(this);
             return new ColorString("".PadRight(diff / 2, paddingChar.c), paddingChar.color, paddingChar.bgcolor) +
                    this +
                    new ColorString("".PadRight((diff + 1) / 2, paddingChar.c), paddingChar.color, paddingChar.bgcolor);
         }
 
-        public static colorstring operator +(colorstring one, colorstring two)
+        public static ColorBufferString operator +(ColorBufferString one, ColorBufferString two)
         {
-            colorstring result = new colorstring();
+            ColorBufferString result = new ColorBufferString();
             foreach (ColorString s in one.strings)
             {
                 result.strings.Add(s);
@@ -232,10 +232,10 @@ namespace Forays
             return result;
         }
 
-        public static colorstring operator +(ColorString one, colorstring two)
+        public static ColorBufferString operator +(ColorString one, ColorBufferString two)
         {
             //todo: whoops, forgot colorchar in this section.
-            colorstring result = new colorstring();
+            ColorBufferString result = new ColorBufferString();
             result.strings.Add(one);
             foreach (ColorString s in two.strings)
             {
@@ -245,9 +245,9 @@ namespace Forays
             return result;
         }
 
-        public static colorstring operator +(colorstring one, ColorString two)
+        public static ColorBufferString operator +(ColorBufferString one, ColorString two)
         {
-            colorstring result = new colorstring();
+            ColorBufferString result = new ColorBufferString();
             foreach (ColorString s in one.strings)
             {
                 result.strings.Add(s);
@@ -257,14 +257,14 @@ namespace Forays
             return result;
         }
 
-        public static colorstring operator +(string one, colorstring two)
+        public static ColorBufferString operator +(string one, ColorBufferString two)
         {
             return new ColorString(one, Color.Gray) + two;
         }
 
-        public static colorstring operator +(colorstring one, string two)
+        public static ColorBufferString operator +(ColorBufferString one, string two)
         {
-            colorstring result = new colorstring();
+            ColorBufferString result = new ColorBufferString();
             foreach (ColorString s in one.strings)
             {
                 result.strings.Add(s);
@@ -274,7 +274,7 @@ namespace Forays
             return result;
         }
 
-        public colorstring[] SplitAt(int idx, bool remove_at_split_idx = false)
+        public ColorBufferString[] SplitAt(int idx, bool remove_at_split_idx = false)
         {
             if (idx < 0)
             {
@@ -287,9 +287,9 @@ namespace Forays
                     "idx argument " + idx.ToString() + " can't be outside the string.");
             }
 
-            colorstring[] result = new colorstring[2];
-            result[0] = new colorstring();
-            result[1] = new colorstring();
+            ColorBufferString[] result = new ColorBufferString[2];
+            result[0] = new ColorBufferString();
+            result[1] = new ColorBufferString();
             foreach (ColorString s in strings)
             {
                 int len_0 = result[0].Length();
@@ -882,10 +882,10 @@ namespace Forays
             }
         }
 
-        public static void WriteList(int r, int c, List<colorstring> ls)
+        public static void WriteList(int r, int c, List<ColorBufferString> ls)
         {
             int line = r;
-            foreach (colorstring cs in ls)
+            foreach (ColorBufferString cs in ls)
             {
                 WriteString(line, c, cs);
                 ++line;
@@ -1090,7 +1090,7 @@ namespace Forays
             }
         }
 
-        public static void WriteString(int r, int c, colorstring cs)
+        public static void WriteString(int r, int c, ColorBufferString cs)
         {
             if (cs.Length() > 0)
             {
@@ -1434,7 +1434,7 @@ namespace Forays
             }
         }
 
-        public static void WriteMapString(int r, int c, colorstring cs)
+        public static void WriteMapString(int r, int c, ColorBufferString cs)
         {
             if (cs.Length() > 0)
             {
