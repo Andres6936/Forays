@@ -2,11 +2,27 @@ namespace Forays
 {
     public struct ColorString
     {
-        // Member Variables
+        // Member Variable
 
-        public Color Foreground;
-        public Color Background;
+        /// <summary>
+        /// Return the length of text.
+        /// </summary>
+        public readonly int Length => Text.Length;
+
+        /// <summary>
+        /// The text that content this object.
+        /// </summary>
         public string Text;
+
+        /// <summary>
+        /// Foreground color of text.
+        /// </summary>
+        public Color Foreground;
+
+        /// <summary>
+        /// Background color of text.
+        /// </summary>
+        public Color Background;
 
         // Constructs
 

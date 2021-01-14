@@ -612,7 +612,7 @@ namespace Forays
                 text.Text = text.Text.Substring(0, Global.SCREEN_W - c);
             }
 
-            if (text.Text.Length <= 0) return;
+            if (text.Length <= 0) return;
 
             text.Foreground = Colors.ResolveColor(text.Foreground);
             text.Background = Colors.ResolveColor(text.Background);
