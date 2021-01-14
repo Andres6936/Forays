@@ -603,7 +603,7 @@ namespace Forays
 
         public static void WriteString(int r, int c, ColorString text)
         {
-            if (Global.SCREEN_W - c > text.Text.Length)
+            if (Global.SCREEN_W - c > text.Length)
             {
                 //s.s = s.s.Substring(0,; //don't move down to the next line
             }
