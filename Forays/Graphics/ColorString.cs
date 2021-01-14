@@ -20,12 +20,7 @@ namespace Forays
 
         // Constructs
 
-        public ColorString(string text, Color foreground) : this(text, foreground, Color.Black)
-        {
-            // Delegate the construction of object to another construct.
-        }
-
-        public ColorString(string text, Color foreground, Color background)
+        public ColorString(string text, Color foreground, Color background = Color.Black)
         {
             Foreground = foreground;
             Background = background;
