@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Collections.Generic;
-using Forays.Renderer;
 using GLDrawing;
 using OpenTK;
 using OpenTK.Graphics;
