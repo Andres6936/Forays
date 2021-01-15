@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Forays.Entity;
 using Forays.Enums;
+using Nym;
 using Utilities;
 
 namespace Forays.Scenes
@@ -65,17 +66,20 @@ namespace Forays.Scenes
                 if (i.ItemClass == ConsumableClass.WAND) i.other_data = -1;
                 if (knownAtTimeOfDeath[i.type])
                 {
-                    postMortemInventoryList.Add(i.GetName(false, An, Extra));
+                    postMortemInventoryList.Add(i.GetName(false, NameElement.An,
+                        NameElement.Extra));
                 }
                 else
                 {
                     if (Item.tried[i.type])
                     {
-                        postMortemInventoryList.Add(i.GetName(false, An, Extra) + " {tried}");
+                        postMortemInventoryList.Add(
+                            i.GetName(false, NameElement.An, NameElement.Extra) + " {tried}");
                     }
                     else
                     {
-                        postMortemInventoryList.Add(i.GetName(false, An, Extra) + " {untried}");
+                        postMortemInventoryList.Add(
+                            i.GetName(false, NameElement.An, NameElement.Extra) + " {untried}");
                     }
                 }
             }
