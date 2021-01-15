@@ -47,10 +47,7 @@ namespace Forays
             s.Y = idx => 0;
             s.SpriteWidth = texcoord_width;
             s.SpriteHeight = 1.0f;
-            if (surface != null)
-            {
-                surface.texture.Sprite.Add(s);
-            }
+            surface.texture.Sprite.Add(s);
         }
 
         public static SpriteType DefineSpriteAcross(Surface surface, int sprite_width_px,
