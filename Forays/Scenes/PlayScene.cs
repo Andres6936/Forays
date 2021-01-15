@@ -235,58 +235,46 @@ namespace Forays.Scenes
                                         s = s + command.KeyChar;
                                     }
                                 }
-                                else
+                                else if (command.Key == ConsoleKey.Backspace && s.Length > 0)
                                 {
-                                    if (command.Key == ConsoleKey.Backspace && s.Length > 0)
+                                    s = s.Substring(0, s.Length - 1);
+                                }
+                                else if (command.Key == ConsoleKey.Escape)
+                                {
+                                    s = "";
+                                }
+                                else if (command.Key == ConsoleKey.Tab)
+                                {
+                                    name_option = (name_option + 1) % 4;
+                                }
+                                else if (command.Key == ConsoleKey.Enter)
+                                {
+                                    if (s.Length == 0)
                                     {
-                                        s = s.Substring(0, s.Length - 1);
+                                        s = Global.GenerateCharacterName();
                                     }
                                     else
                                     {
-                                        if (command.Key == ConsoleKey.Escape)
-                                        {
-                                            s = "";
-                                        }
-                                        else
-                                        {
-                                            if (command.Key == ConsoleKey.Tab)
-                                            {
-                                                name_option = (name_option + 1) % 4;
-                                            }
-                                            else
-                                            {
-                                                if (command.Key == ConsoleKey.Enter)
-                                                {
-                                                    if (s.Length == 0)
-                                                    {
-                                                        s = Global.GenerateCharacterName();
-                                                    }
-                                                    else
-                                                    {
-                                                        Actor.player_name = s;
-                                                        break;
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    switch (command.Key)
-                                                    {
-                                                        case ConsoleKey.F21:
-                                                            name_option = 0;
-                                                            break;
-                                                        case ConsoleKey.F22:
-                                                            name_option = 1;
-                                                            break;
-                                                        case ConsoleKey.F23:
-                                                            name_option = 2;
-                                                            break;
-                                                        case ConsoleKey.F24:
-                                                            name_option = 3;
-                                                            break;
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        Actor.player_name = s;
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    switch (command.Key)
+                                    {
+                                        case ConsoleKey.F21:
+                                            name_option = 0;
+                                            break;
+                                        case ConsoleKey.F22:
+                                            name_option = 1;
+                                            break;
+                                        case ConsoleKey.F23:
+                                            name_option = 2;
+                                            break;
+                                        case ConsoleKey.F24:
+                                            name_option = 3;
+                                            break;
                                     }
                                 }
                             }
