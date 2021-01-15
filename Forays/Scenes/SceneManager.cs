@@ -13,6 +13,10 @@ namespace Forays.Scenes
         /// </summary>
         private IScene current;
 
+        private IScene playScene;
+
+        private IScene gameOverScene;
+
         /// <summary>
         /// First scene rendered to execute the app.
         /// </summary>
@@ -47,7 +51,28 @@ namespace Forays.Scenes
                 case NextScene.None:
                     // Exit the function if no scene is requested to be rendered.
                     return;
+                case NextScene.Play:
+                    // Lazy initialization of object
+                    if (playScene == null)
+                    {
+                        playScene = new PlayScene();
+                    }
+
+                    // A point to play scene.
+                    current = playScene;
+                    return;
+                case NextScene.GameOver:
+                    // Lazy initialization of object
+                    if (gameOverScene == null)
+                    {
+                        gameOverScene = new GameOverScene();
+                    }
+
+                    // A point to game over scene.
+                    current = gameOverScene;
+                    return;
                 case NextScene.Exit:
+                    // The user wanna exit of application.
                     running = false;
                     return;
             }
