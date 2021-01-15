@@ -10,6 +10,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Forays.Entity;
 using SchismDungeonGenerator;
 using Utilities;
 using PosArrays;
@@ -149,16 +150,16 @@ namespace Forays
         /// Precondition: The variable Player of object Game should be different of null.
         /// </summary>
         /// <param name="g">Instance of game</param>
-        public Map(Game g)
+        public Map(Actor player, Queue queue, MessageBuffer messageBuffer)
         {
-            Debug.Assert(g.Player != null, "The Player is Null.");
+            Debug.Assert(player != null, "The Player is Null.");
 
             //tile = new Tile[ROWS,COLS];
             //actor = new Actor[ROWS,COLS];
             currentLevelIdx = -1;
-            Map.player = g.Player;
-            Map.Q = g.Queue;
-            Map.B = g.MessageBuffer;
+            Map.player = player;
+            Map.Q = queue;
+            Map.B = messageBuffer;
         }
 
         public bool BoundsCheck(int r, int c)
@@ -185,7 +186,8 @@ namespace Forays
         {
             //possible speed issues? is there anywhere that I should be using 'alltiles' directly?
             List<Tile>
-                result = new List<Tile>(); //should i have one method that allows modification and one that doesn't?
+                result =
+                    new List<Tile>(); //should i have one method that allows modification and one that doesn't?
             if (tile[0, 0] == null)
             {
                 //if one is null, they are all null.
@@ -226,7 +228,8 @@ namespace Forays
             return allpositions;
         }
 
-        public IEnumerable<Tile> ReachableTilesByDistance(int origin_row, int origin_col, bool return_reachable_walls,
+        public IEnumerable<Tile> ReachableTilesByDistance(int origin_row, int origin_col,
+            bool return_reachable_walls,
             params TileType[] tiles_considered_passable)
         {
             int[,]
@@ -264,7 +267,8 @@ namespace Forays
 
             int minrow = 1;
             int maxrow = ROWS - 2;
-            int mincol = 1; //todo: make it start at 1 radius and go out from there until it hits these limits.
+            int mincol =
+                1; //todo: make it start at 1 radius and go out from there until it hits these limits.
             int maxcol = COLS - 2;
             values[origin_row, origin_col] = 1;
             int val = 1;
@@ -304,7 +308,8 @@ namespace Forays
             }
         }
 
-        public IEnumerable<Tile> TilesByDistance(int origin_row, int origin_col, bool cardinal_directions_first,
+        public IEnumerable<Tile> TilesByDistance(int origin_row, int origin_col,
+            bool cardinal_directions_first,
             bool deterministic_results)
         {
             Tile t = tile[origin_row, origin_col];
@@ -322,7 +327,8 @@ namespace Forays
                 {
                     if (cardinal_directions_first)
                     {
-                        List<Tile> closest = current_list.WhereLeast(x => t.ApproximateEuclideanDistanceFromX10(x));
+                        List<Tile> closest = current_list.WhereLeast(x =>
+                            t.ApproximateEuclideanDistanceFromX10(x));
                         foreach (Tile t2 in closest)
                         {
                             current_list.Remove(t2);
@@ -427,7 +433,8 @@ namespace Forays
                     new int[] {40, 20, 5, 18, 12, 7, 5, 12},
                     new LevelType[]
                     {
-                        LevelType.Standard, LevelType.Cave, LevelType.Hive, LevelType.Mine, LevelType.Fortress,
+                        LevelType.Standard, LevelType.Cave, LevelType.Hive, LevelType.Mine,
+                        LevelType.Fortress,
                         LevelType.Sewer, LevelType.Garden, LevelType.Crypt
                     }); //hellish is handled elsewhere.
             }
@@ -544,7 +551,8 @@ namespace Forays
             IntLocationDelegate(int row,
                 int col); //todo: remove dijkstra from this file, use the one in Utility?  (do I have UpdateDijkstra in Utility?)
 
-        public static PosArray<int> GetDijkstraMap(int height, int width, BooleanLocationDelegate is_blocked,
+        public static PosArray<int> GetDijkstraMap(int height, int width,
+            BooleanLocationDelegate is_blocked,
             IntLocationDelegate get_cost, List<cell> sources)
         {
             PriorityQueue<cell> frontier = new PriorityQueue<cell>(c => -c.value);
@@ -577,7 +585,8 @@ namespace Forays
                 {
                     for (int t = -1; t <= 1; ++t)
                     {
-                        if (c.row + s >= 0 && c.row + s < height && c.col + t >= 0 && c.col + t < width)
+                        if (c.row + s >= 0 && c.row + s < height && c.col + t >= 0 &&
+                            c.col + t < width)
                         {
                             int cost = get_cost(c.row + s, c.col + t);
                             if (map[c.row + s, c.col + t] > c.value + cost)
@@ -647,7 +656,8 @@ namespace Forays
                 {
                     for (int t = -1; t <= 1; ++t)
                     {
-                        if (c.row + s >= 0 && c.row + s < height && c.col + t >= 0 && c.col + t < width)
+                        if (c.row + s >= 0 && c.row + s < height && c.col + t >= 0 &&
+                            c.col + t < width)
                         {
                             int cost = get_cost(c.row + s, c.col + t);
                             if (map[c.row + s, c.col + t] > c.value + cost)
@@ -663,7 +673,8 @@ namespace Forays
 
         public void CalculatePoppyDistanceMap()
         {
-            poppy_distance_map = tile.GetDijkstraMap(x => tile[x].passable && !tile[x].Is(TileType.POPPY_FIELD),
+            poppy_distance_map = tile.GetDijkstraMap(
+                x => tile[x].passable && !tile[x].Is(TileType.POPPY_FIELD),
                 x => !tile[x].Is(TileType.POPPY_FIELD));
         }
 
@@ -854,7 +865,8 @@ namespace Forays
                 }
 
                 Screen.UpdateGLBuffer(Global.MAP_OFFSET_ROWS, Global.MAP_OFFSET_COLS,
-                    Global.MAP_OFFSET_ROWS + Global.ROWS - 1, Global.MAP_OFFSET_COLS + Global.COLS - 1);
+                    Global.MAP_OFFSET_ROWS + Global.ROWS - 1,
+                    Global.MAP_OFFSET_COLS + Global.COLS - 1);
             }
             else
             {
@@ -915,7 +927,8 @@ namespace Forays
                 tile[r, c].seen = true;
                 if (tile[r, c].IsLit() || player.HasAttr(AttrType.SHADOWSIGHT))
                 {
-                    if (tile[r, c].IsKnownTrap() || tile[r, c].IsShrine() || tile[r, c].Is(TileType.RUINED_SHRINE))
+                    if (tile[r, c].IsKnownTrap() || tile[r, c].IsShrine() ||
+                        tile[r, c].Is(TileType.RUINED_SHRINE))
                     {
                         tile[r, c].revealed_by_light = true;
                     }
@@ -936,7 +949,8 @@ namespace Forays
                     }
 
                     last_seen[r, c] = ch;
-                    MouseUI.mouselook_objects[r + Global.MAP_OFFSET_ROWS, c + Global.MAP_OFFSET_COLS] = tile[r, c].inv;
+                    MouseUI.mouselook_objects[r + Global.MAP_OFFSET_ROWS,
+                        c + Global.MAP_OFFSET_COLS] = tile[r, c].inv;
                     UI.sidebar_objects.Add(tile[r, c].inv);
                     tile[r, c].UpdateStatusBarWithTile();
                     tile[r, c].UpdateStatusBarWithFeatures();
@@ -957,7 +971,8 @@ namespace Forays
                         if (ch.c == '#' && ch.color == Color.RandomGlowingFungus && !wiz_dark)
                         {
                             bool fungus_found = false;
-                            foreach (Tile t in tile[r, c].NonOpaqueNeighborsBetween(player.row, player.col))
+                            foreach (Tile t in tile[r, c]
+                                .NonOpaqueNeighborsBetween(player.row, player.col))
                             {
                                 if (t.type == TileType.GLOWING_FUNGUS)
                                 {
@@ -999,8 +1014,10 @@ namespace Forays
 
                         tile[r, c].UpdateStatusBarWithTile();
                         if (player.HasFeat(FeatType.DANGER_SENSE) && danger_sensed != null
-                                                                  && danger_sensed[r, c] && player.LightRadius() == 0
-                                                                  && !wiz_lite && !tile[r, c].IsKnownTrap() &&
+                                                                  && danger_sensed[r, c] &&
+                                                                  player.LightRadius() == 0
+                                                                  && !wiz_lite &&
+                                                                  !tile[r, c].IsKnownTrap() &&
                                                                   !tile[r, c].IsShrine())
                         {
                             if (tile[r, c].IsLit())
@@ -1023,13 +1040,15 @@ namespace Forays
                     ch.color = actor[r, c].color;
                     if (actor[r, c] != player)
                     {
-                        MouseUI.mouselook_objects[r + Global.MAP_OFFSET_ROWS, c + Global.MAP_OFFSET_COLS] = actor[r, c];
+                        MouseUI.mouselook_objects[r + Global.MAP_OFFSET_ROWS,
+                            c + Global.MAP_OFFSET_COLS] = actor[r, c];
                         UI.sidebar_objects.Add(actor[r, c]);
                     }
 
                     if (actor[r, c] == player)
                     {
-                        if (player.HasFeat(FeatType.DANGER_SENSE) && danger_sensed != null && danger_sensed[r, c]
+                        if (player.HasFeat(FeatType.DANGER_SENSE) && danger_sensed != null &&
+                            danger_sensed[r, c]
                             && player.LightRadius() == 0 && !wiz_lite)
                         {
                             if (tile[r, c].IsLit() && !player.HasAttr(AttrType.BLIND))
@@ -1053,7 +1072,8 @@ namespace Forays
                                 if (!tile[r, c].IsLit())
                                 {
                                     bool hidden_in_corner = false;
-                                    if (player.HasFeat(FeatType.CORNER_CLIMB) && !player.tile().IsLit())
+                                    if (player.HasFeat(FeatType.CORNER_CLIMB) &&
+                                        !player.tile().IsLit())
                                     {
                                         List<pos> valid_open_doors = new List<pos>();
                                         foreach (int dir in U.DiagonalDirections)
@@ -1064,10 +1084,14 @@ namespace Forays
                                             }
                                         }
 
-                                        if (SchismExtensionMethods.Extensions.ConsecutiveAdjacent(player.p,
-                                                x => valid_open_doors.Contains(x) || tile[x].Is(TileType.WALL,
-                                                         TileType.CRACKED_WALL, TileType.DOOR_C, TileType.HIDDEN_DOOR,
-                                                         TileType.STATUE, TileType.STONE_SLAB, TileType.WAX_WALL)) >= 5)
+                                        if (SchismExtensionMethods.Extensions.ConsecutiveAdjacent(
+                                                player.p,
+                                                x => valid_open_doors.Contains(x) || tile[x].Is(
+                                                         TileType.WALL,
+                                                         TileType.CRACKED_WALL, TileType.DOOR_C,
+                                                         TileType.HIDDEN_DOOR,
+                                                         TileType.STATUE, TileType.STONE_SLAB,
+                                                         TileType.WAX_WALL)) >= 5)
                                         {
                                             hidden_in_corner = true;
                                         }
@@ -1099,7 +1123,8 @@ namespace Forays
                     ch.color = actor[r, c].color;
                     if (actor[r, c] != player)
                     {
-                        MouseUI.mouselook_objects[r + Global.MAP_OFFSET_ROWS, c + Global.MAP_OFFSET_COLS] = actor[r, c];
+                        MouseUI.mouselook_objects[r + Global.MAP_OFFSET_ROWS,
+                            c + Global.MAP_OFFSET_COLS] = actor[r, c];
                         UI.sidebar_objects.Add(actor[r, c]);
                     }
                 }
@@ -1161,7 +1186,8 @@ namespace Forays
                 }
 
                 return new pos(R.Roll(ROWS - 2),
-                    R.Between(18, COLS - 8)); // don't return the leftmost or rightmost part of hellish levels.
+                    R.Between(18,
+                        COLS - 8)); // don't return the leftmost or rightmost part of hellish levels.
             }
 
             if (minDist2FromBorder)
@@ -1181,7 +1207,8 @@ namespace Forays
                 int rr = rp.row;
                 int rc = rp.col;
                 Tile t = tile[rr, rc];
-                if (t.passable && t.inv == null && t.type != TileType.CHEST && t.type != TileType.FIREPIT
+                if (t.passable && t.inv == null && t.type != TileType.CHEST &&
+                    t.type != TileType.FIREPIT
                     && t.type != TileType.STAIRS && !t.IsShrine())
                 {
                     return Item.Create(result, rr, rc);
@@ -1254,9 +1281,10 @@ namespace Forays
                 }
                 else
                 {
-                    if (!shallowOnly && R.OneIn(10) && (lt == LevelType.Cave || lt == LevelType.Crypt ||
-                                                        lt == LevelType.Hive || lt == LevelType.Mine ||
-                                                        lt == LevelType.Sewer))
+                    if (!shallowOnly && R.OneIn(10) &&
+                        (lt == LevelType.Cave || lt == LevelType.Crypt ||
+                         lt == LevelType.Hive || lt == LevelType.Mine ||
+                         lt == LevelType.Sewer))
                     {
                         result = ActorType.SPECIAL; // zombies in crypts, kobolds in mines, etc.
                     }
@@ -1295,7 +1323,8 @@ namespace Forays
                 if (wanderingOnly)
                 {
                     // now that we have a type, we check to see if it's valid.
-                    if (!Actor.Prototype(result).HasAttr(AttrType.IMMOBILE) && result != ActorType.MIMIC &&
+                    if (!Actor.Prototype(result).HasAttr(AttrType.IMMOBILE) &&
+                        result != ActorType.MIMIC &&
                         result != ActorType.MARBLE_HORROR && result != ActorType.POLTERGEIST)
                     {
                         return result;
@@ -1473,8 +1502,10 @@ namespace Forays
 
                     if (tiles.Count >= 15)
                     {
-                        Actor.tiebreakers.Add(null); //a placeholder for the poltergeist once it manifests
-                        Event e = new Event(null, tiles, (R.Roll(8) + 6) * 100, EventType.POLTERGEIST);
+                        Actor.tiebreakers
+                            .Add(null); //a placeholder for the poltergeist once it manifests
+                        Event e = new Event(null, tiles, (R.Roll(8) + 6) * 100,
+                            EventType.POLTERGEIST);
                         e.tiebreaker = Actor.tiebreakers.Count - 1;
                         Q.Add(e);
                         //return type;
@@ -1493,12 +1524,14 @@ namespace Forays
                     int rr = rp.row;
                     int rc = rp.col;
                     Tile t = tile[rr, rc];
-                    if (t.passable && t.inv == null && t.type != TileType.CHEST && t.type != TileType.FIREPIT
+                    if (t.passable && t.inv == null && t.type != TileType.CHEST &&
+                        t.type != TileType.FIREPIT
                         && t.type != TileType.STAIRS && !t.IsShrine())
                     {
                         Item item = Item.Create(Item.RandomItem(), rr, rc);
                         Actor.tiebreakers.Add(null); //placeholder
-                        Event e = new Event(item, new List<Tile> {t}, 100, EventType.MIMIC, AttrType.NO_ATTR, 0, "");
+                        Event e = new Event(item, new List<Tile> {t}, 100, EventType.MIMIC,
+                            AttrType.NO_ATTR, 0, "");
                         e.tiebreaker = Actor.tiebreakers.Count - 1;
                         Q.Add(e);
                         return null;
@@ -1648,7 +1681,8 @@ namespace Forays
                         }
                         else
                         {
-                            if (CurrentLevelType != LevelType.Final && monster_density[rr, rc] >= density_target_number)
+                            if (CurrentLevelType != LevelType.Final &&
+                                monster_density[rr, rc] >= density_target_number)
                             {
                                 if (monster_density[rr, rc] == density_target_number)
                                 {
@@ -1661,12 +1695,14 @@ namespace Forays
                                 {
                                     good = false;
                                     density_target_number =
-                                        2 + j / 100; //repeated failures will allow closer generation
+                                        2 + j /
+                                        100; //repeated failures will allow closer generation
                                 }
                             }
                         }
 
-                        if (good && tile[rr, rc].passable && !tile[rr, rc].Is(TileType.CHASM, TileType.FIRE_RIFT) &&
+                        if (good && tile[rr, rc].passable &&
+                            !tile[rr, rc].Is(TileType.CHASM, TileType.FIRE_RIFT) &&
                             actor[rr, rc] == null)
                         {
                             result = Actor.Create(final_type, rr, rc);
@@ -1712,7 +1748,8 @@ namespace Forays
                         List<Tile> empty_neighbors = new List<Tile>();
                         foreach (Tile neighbor in t.TilesAtDistance(1))
                         {
-                            if (neighbor.passable && !neighbor.Is(TileType.CHASM, TileType.FIRE_RIFT) &&
+                            if (neighbor.passable &&
+                                !neighbor.Is(TileType.CHASM, TileType.FIRE_RIFT) &&
                                 !neighbor.IsTrap() && neighbor.actor() == null)
                             {
                                 empty_neighbors.Add(neighbor);
@@ -1769,7 +1806,8 @@ namespace Forays
                 group = new List<Actor>();
             }
 
-            var dijkstra = tile.GetDijkstraMap(x => player.HasLOS(tile[x]) || player.HasLOE(tile[x]),
+            var dijkstra = tile.GetDijkstraMap(
+                x => player.HasLOS(tile[x]) || player.HasLOE(tile[x]),
                 x => !tile[x].passable);
             for (int i = 0; i < mobTypes.Count; ++i)
             {
@@ -1781,7 +1819,8 @@ namespace Forays
                         pos rp = GetRandomPosition(CurrentLevelType);
                         int rr = rp.row;
                         int rc = rp.col;
-                        if (!tile[rr, rc].IsTrap() && tile[rr, rc].passable && actor[rr, rc] == null &&
+                        if (!tile[rr, rc].IsTrap() && tile[rr, rc].passable &&
+                            actor[rr, rc] == null &&
                             dijkstra[rr, rc] >= 6)
                         {
                             result = Actor.Create(final_type, rr, rc);
@@ -1817,7 +1856,8 @@ namespace Forays
                         List<Tile> empty_neighbors = new List<Tile>();
                         foreach (Tile neighbor in t.TilesAtDistance(1))
                         {
-                            if (neighbor.passable && !neighbor.IsTrap() && neighbor.actor() == null &&
+                            if (neighbor.passable && !neighbor.IsTrap() &&
+                                neighbor.actor() == null &&
                                 dijkstra[neighbor.row, neighbor.col] >= 3)
                             {
                                 empty_neighbors.Add(neighbor);
@@ -1931,7 +1971,8 @@ namespace Forays
                             {
                                 d.CreateTwistyCave(true, 40);
                                 U.DefaultMetric = DistanceMetric.Manhattan;
-                                var dijk = d.map.GetDijkstraMap(x => !d.map[x].IsWall(), x => false);
+                                var dijk = d.map.GetDijkstraMap(x => !d.map[x].IsWall(),
+                                    x => false);
                                 for (int i = 1; i < ROWS - 1; ++i)
                                 {
                                     for (int j = 1; j < COLS - 1; ++j)
@@ -1953,7 +1994,8 @@ namespace Forays
                                                     }
 
                                                     List<pos> floors2 = new List<pos>();
-                                                    foreach (pos n2 in n.PositionsAtDistance(1, dijk))
+                                                    foreach (pos n2 in n.PositionsAtDistance(1,
+                                                        dijk))
                                                     {
                                                         if (dijk[n2] == 0 && !floors.Contains(n2))
                                                         {
@@ -1961,25 +2003,33 @@ namespace Forays
                                                         }
                                                     }
 
-                                                    if (floors.Count > 0 && floors2.Count > 0 && R.OneIn(5))
+                                                    if (floors.Count > 0 && floors2.Count > 0 &&
+                                                        R.OneIn(5))
                                                     {
                                                         //IIRC this checks each pair twice, so that affects the chance here
                                                         pos f1 = floors.Random();
                                                         pos f2 = floors2.Random();
                                                         U.DefaultMetric = DistanceMetric.Chebyshev;
                                                         int dist = d.map.PathingDistanceFrom(f1, f2,
-                                                            x => !d.map[x].IsPassable() && d.map[x] != CellType.Door);
+                                                            x => !d.map[x].IsPassable() &&
+                                                                 d.map[x] != CellType.Door);
                                                         if (dist > 22 || (dist > 8 && R.OneIn(4)))
                                                         {
                                                             CellType rubble = R.OneIn(8)
                                                                 ? CellType.Rubble
                                                                 : CellType.CorridorIntersection;
-                                                            d[p] = R.OneIn(3) ? rubble : CellType.CorridorIntersection;
-                                                            d[n] = R.OneIn(3) ? rubble : CellType.CorridorIntersection;
+                                                            d[p] = R.OneIn(3)
+                                                                ? rubble
+                                                                : CellType.CorridorIntersection;
+                                                            d[n] = R.OneIn(3)
+                                                                ? rubble
+                                                                : CellType.CorridorIntersection;
                                                             List<pos> neighbors = new List<pos>();
-                                                            foreach (pos nearby in p.PositionsAtDistance(1))
+                                                            foreach (pos nearby in p
+                                                                .PositionsAtDistance(1))
                                                             {
-                                                                if (nearby.BoundsCheck(d.map, false) &&
+                                                                if (nearby.BoundsCheck(d.map,
+                                                                        false) &&
                                                                     nearby.DistanceFrom(n) == 1)
                                                                 {
                                                                     neighbors.Add(nearby);
@@ -1988,13 +2038,16 @@ namespace Forays
 
                                                             while (neighbors.Count > 0)
                                                             {
-                                                                pos neighbor = neighbors.RemoveRandom();
+                                                                pos neighbor =
+                                                                    neighbors.RemoveRandom();
                                                                 if (R.OneIn(neighbors.Count + 3) &&
-                                                                    !d.SeparatesMultipleAreas(neighbor))
+                                                                    !d.SeparatesMultipleAreas(
+                                                                        neighbor))
                                                                 {
                                                                     d[neighbor] = R.OneIn(2)
                                                                         ? CellType.Rubble
-                                                                        : CellType.CorridorIntersection;
+                                                                        : CellType
+                                                                            .CorridorIntersection;
                                                                 }
                                                             }
                                                         }
@@ -2144,7 +2197,8 @@ namespace Forays
                         d.CaveWidenRooms(3, 20);
                         List<pos> thin_walls = d.map.AllPositions().Where(x =>
                             d.map[x].IsWall() &&
-                            x.HasOppositePairWhere(true, y => y.BoundsCheck(tile) && d.map[y].IsFloor()));
+                            x.HasOppositePairWhere(true,
+                                y => y.BoundsCheck(tile) && d.map[y].IsFloor()));
                         while (!d.IsFullyConnected() && thin_walls.Count > 0)
                         {
                             pos p = thin_walls.Random();
@@ -2431,7 +2485,8 @@ namespace Forays
                                     for (int j = 0; j < COLS; ++j)
                                     {
                                         if (d[i, j].IsRoomType() &&
-                                            new pos(i, j).ConsecutiveAdjacent(x => !d[x].IsRoomType()) >= 4)
+                                            new pos(i, j).ConsecutiveAdjacent(x =>
+                                                !d[x].IsRoomType()) >= 4)
                                         {
                                             d[i, j] = CellType.RoomCorner;
                                         }
@@ -2461,7 +2516,8 @@ namespace Forays
                         d.ConnectDiagonals();
                         d.RemoveDeadEndCorridors();
                         d.RemoveUnconnectedAreas();
-                        if (!d[big_room].IsPassable() || d.NumberOfFloors() < 420 || d.HasLargeUnusedSpaces(300))
+                        if (!d[big_room].IsPassable() || d.NumberOfFloors() < 420 ||
+                            d.HasLargeUnusedSpaces(300))
                         {
                             //todo: req too high?
                             d.Clear();
@@ -2469,7 +2525,8 @@ namespace Forays
                         else
                         {
                             bool central_pillar = R.CoinFlip();
-                            var wall_distance = d.map.GetDijkstraMap(x => d[x] == CellType.Wall, x => false);
+                            var wall_distance =
+                                d.map.GetDijkstraMap(x => d[x] == CellType.Wall, x => false);
                             for (int i = 0; i < ROWS; ++i)
                             {
                                 for (int j = 0; j < COLS; ++j)
@@ -2488,10 +2545,12 @@ namespace Forays
                                 }
                             }
 
-                            var water_distance_8way = d.map.GetDijkstraMap(x => d[x] == CellType.ShallowWater,
+                            var water_distance_8way = d.map.GetDijkstraMap(
+                                x => d[x] == CellType.ShallowWater,
                                 x => !d[x].IsPassable());
                             U.DefaultMetric = DistanceMetric.Manhattan;
-                            var water_distance_4way = d.map.GetDijkstraMap(x => d[x] == CellType.ShallowWater,
+                            var water_distance_4way = d.map.GetDijkstraMap(
+                                x => d[x] == CellType.ShallowWater,
                                 x => !d[x].IsPassable());
                             U.DefaultMetric = DistanceMetric.Chebyshev;
                             var noise = U.GetNoise(ROWS, COLS);
@@ -2531,14 +2590,16 @@ namespace Forays
                                         if (d[i, j].IsPassable())
                                         {
                                             //passable but not water
-                                            if (water_distance_4way[i, j] == 1 && R.OneIn(5) && noise[i, j] > -0.1)
+                                            if (water_distance_4way[i, j] == 1 && R.OneIn(5) &&
+                                                noise[i, j] > -0.1)
                                             {
                                                 //floor near water - not dry, turns to water
                                                 d[i, j] = CellType.ShallowWater;
                                             }
                                             else
                                             {
-                                                if (water_distance_8way[i, j] == 1 && noise[i, j] - avg > 0.1f)
+                                                if (water_distance_8way[i, j] == 1 &&
+                                                    noise[i, j] - avg > 0.1f)
                                                 {
                                                     //floor near water - wet, turns to water
                                                     d[i, j] = CellType.ShallowWater;
@@ -2584,7 +2645,8 @@ namespace Forays
                         d.RemoveDeadEndCorridors();
                         var dijkstra = d.map.GetDijkstraMap(x => d[x].IsPassable(), x => false);
                         List<pos> possible_room_centers = d.map.PositionsWhere(x =>
-                            dijkstra[x] == 3 && x.row > 1 && x.row < ROWS - 2 && x.col > 1 && x.col < COLS - 2);
+                            dijkstra[x] == 3 && x.row > 1 && x.row < ROWS - 2 && x.col > 1 &&
+                            x.col < COLS - 2);
                         int rooms = 0;
                         while (rooms < 6 && possible_room_centers.Count > 0)
                         {
@@ -2593,7 +2655,8 @@ namespace Forays
                             foreach (int dir in U.FourDirections)
                             {
                                 pos p2 = p.PosInDir(dir).PosInDir(dir).PosInDir(dir);
-                                if (p2.BoundsCheck(d.map) && d[p2].IsPassable() && d[p2] != CellType.RoomCorner)
+                                if (p2.BoundsCheck(d.map) && d[p2].IsPassable() &&
+                                    d[p2] != CellType.RoomCorner)
                                 {
                                     valid_dirs.Add(dir);
                                 }
@@ -2609,7 +2672,8 @@ namespace Forays
                                 possible_room_centers.RemoveWhere(x => p.DistanceFrom(x) <= 3);
                                 foreach (int dir in valid_dirs)
                                 {
-                                    d[p.PosInDir(dir).PosInDir(dir)] = CellType.CorridorIntersection;
+                                    d[p.PosInDir(dir).PosInDir(dir)] =
+                                        CellType.CorridorIntersection;
                                 }
 
                                 ++rooms;
@@ -2748,7 +2812,8 @@ namespace Forays
                                     {
                                         for (int j = start_c; j <= end_c; ++j)
                                         {
-                                            if (i == start_r || i == end_r || j == start_c || j == end_c)
+                                            if (i == start_r || i == end_r || j == start_c ||
+                                                j == end_c)
                                             {
                                                 //edges
                                                 if (statues && (i == start_r || i == end_r) &&
@@ -2760,7 +2825,8 @@ namespace Forays
                                                 else
                                                 {
                                                     pos p = new pos(i, j);
-                                                    if (!p.CardinalAdjacentPositions().Any(x => d[x].IsCorridorType()))
+                                                    if (!p.CardinalAdjacentPositions()
+                                                        .Any(x => d[x].IsCorridorType()))
                                                     {
                                                         d[i, j] = edge_type;
                                                     }
@@ -2768,7 +2834,8 @@ namespace Forays
                                             }
                                             else
                                             {
-                                                if (i == start_r + 1 || i == end_r - 1 || j == start_c + 1 ||
+                                                if (i == start_r + 1 || i == end_r - 1 ||
+                                                    j == start_c + 1 ||
                                                     j == end_c - 1)
                                                 {
                                                     //the path
@@ -2791,7 +2858,8 @@ namespace Forays
                                     {
                                         for (int j = start_c; j <= end_c; ++j)
                                         {
-                                            if (i == start_r || i == end_r || j == start_c || j == end_c)
+                                            if (i == start_r || i == end_r || j == start_c ||
+                                                j == end_c)
                                             {
                                                 if (gravel)
                                                 {
@@ -2806,7 +2874,8 @@ namespace Forays
                                     }
                                 }
 
-                                if (center_type == water_type && room_height % 2 == 1 && room_width % 2 == 1)
+                                if (center_type == water_type && room_height % 2 == 1 &&
+                                    room_width % 2 == 1)
                                 {
                                     statue_type = CellType.Statue;
                                     if (room_height <= 7 && room_width <= 7 && R.OneIn(12))
@@ -2848,7 +2917,8 @@ namespace Forays
                     while (true)
                     {
                         pos room1origin = new pos(ROWS / 2, R.Roll(COLS / 8 - 1) + COLS / 8 - 1);
-                        pos room2origin = new pos(ROWS / 2, R.Roll(COLS / 8 - 1) + (COLS * 6 / 8) - 1);
+                        pos room2origin = new pos(ROWS / 2,
+                            R.Roll(COLS / 8 - 1) + (COLS * 6 / 8) - 1);
                         while (!d.CreateRoom(room1origin.row, room1origin.col))
                         {
                         } //left half
@@ -2864,7 +2934,8 @@ namespace Forays
                             d.map.GetDijkstraMap(x => d.map[x] == CellType.Wall,
                                 x => false); //todo: among these Map dijkstra maps I have, like, 3 different ways of testing for walls. are these all correct?
                         int distance_from_walls = 3;
-                        List<pos> central_room = d.map.PositionsWhere(x => dijkstra[x] > distance_from_walls);
+                        List<pos> central_room =
+                            d.map.PositionsWhere(x => dijkstra[x] > distance_from_walls);
                         int required_consecutive = 3;
                         for (int i = 0; i < ROWS; ++i)
                         {
@@ -2911,7 +2982,8 @@ namespace Forays
                         }
 
                         central_room = d.map.GetFloodFillPositions(
-                            central_room.Where(x => x.PositionsWithinDistance(1).All(y => central_room.Contains(y))),
+                            central_room.Where(x =>
+                                x.PositionsWithinDistance(1).All(y => central_room.Contains(y))),
                             false, x => central_room.Contains(x));
                         List<pos> walls = new List<pos>();
                         foreach (pos p in central_room)
@@ -2936,7 +3008,8 @@ namespace Forays
                                 {
                                     if (d.map[p.PosInDir(dir)] == CellType.InterestingLocation &&
                                         d.map[p.PosInDir(dir.RotateDir(true, 4))].IsRoomType() &&
-                                        d.map[p.PosInDir(dir.RotateDir(true, 4))] != CellType.InterestingLocation)
+                                        d.map[p.PosInDir(dir.RotateDir(true, 4))] !=
+                                        CellType.InterestingLocation)
                                     {
                                         potential_doors.Add(p);
                                         break;
@@ -3005,14 +3078,16 @@ namespace Forays
                                         offsets[2].Add(new pos(i, j + 1));
                                     }
 
-                                    if (i + 1 <= end_r && j + 1 <= end_c && room.Contains(new pos(i + 1, j + 1)))
+                                    if (i + 1 <= end_r && j + 1 <= end_c &&
+                                        room.Contains(new pos(i + 1, j + 1)))
                                     {
                                         offsets[3].Add(new pos(i + 1, j + 1));
                                     }
                                 }
                             }
 
-                            List<pos> tombstones = offsets.WhereGreatest(x => x.Count).RandomOrDefault();
+                            List<pos> tombstones =
+                                offsets.WhereGreatest(x => x.Count).RandomOrDefault();
                             if (tombstones != null)
                             {
                                 foreach (pos p in tombstones)
@@ -3030,9 +3105,12 @@ namespace Forays
                                 if (d[i, j] == CellType.Door)
                                 {
                                     pos p = new pos(i, j);
-                                    List<pos> potential_statues = p.PositionsAtDistance(1, d.map).Where(x =>
-                                        !d[x].IsWall() && !central_room.Contains(x) && p.DirectionOf(x) % 2 != 0 &&
-                                        !x.PositionsAtDistance(1, d.map).Any(y => d[y].Is(CellType.Tombstone)));
+                                    List<pos> potential_statues = p.PositionsAtDistance(1, d.map)
+                                        .Where(x =>
+                                            !d[x].IsWall() && !central_room.Contains(x) &&
+                                            p.DirectionOf(x) % 2 != 0 &&
+                                            !x.PositionsAtDistance(1, d.map)
+                                                .Any(y => d[y].Is(CellType.Tombstone)));
                                     if (potential_statues.Count == 2)
                                     {
                                         d[potential_statues[0]] = CellType.Statue;
@@ -3050,7 +3128,8 @@ namespace Forays
                             {
                                 if (d[i, j] != CellType.Wall)
                                 {
-                                    room_one = d.map.GetFloodFillPositions(new pos(i, j), false, x => !d[x].IsWall());
+                                    room_one = d.map.GetFloodFillPositions(new pos(i, j), false,
+                                        x => !d[x].IsWall());
                                     break;
                                 }
                             }
@@ -3062,7 +3141,8 @@ namespace Forays
                             {
                                 if (d[i, j] != CellType.Wall)
                                 {
-                                    room_two = d.map.GetFloodFillPositions(new pos(i, j), false, x => !d[x].IsWall());
+                                    room_two = d.map.GetFloodFillPositions(new pos(i, j), false,
+                                        x => !d[x].IsWall());
                                     break;
                                 }
                             }
@@ -3154,7 +3234,8 @@ namespace Forays
                                 }
                             }
 
-                            if (room_one_valid_connections.Count > 0 && room_two_valid_connections.Count > 0)
+                            if (room_one_valid_connections.Count > 0 &&
+                                room_two_valid_connections.Count > 0)
                             {
                                 pos one = room_one_valid_connections.Random();
                                 while (true)
@@ -3332,7 +3413,8 @@ namespace Forays
                             foreach (int dir in U.FourDirections)
                             {
                                 pos neighbor = p.PosInDir(dir);
-                                if (d2.map.BoundsCheck(neighbor, true) && d2[neighbor] != CellType.Wall)
+                                if (d2.map.BoundsCheck(neighbor, true) &&
+                                    d2[neighbor] != CellType.Wall)
                                 {
                                     if (firstRoom == -1)
                                     {
@@ -3340,7 +3422,8 @@ namespace Forays
                                     }
                                     else
                                     {
-                                        if (!roomConnections.AreEquivalent(firstRoom, rooms[neighbor]))
+                                        if (!roomConnections.AreEquivalent(firstRoom,
+                                            rooms[neighbor]))
                                         {
                                             foreach (pos wallp in wall)
                                             {
@@ -3385,7 +3468,8 @@ namespace Forays
                             }
                         }
 
-                        pos stairPos = new pos(stairRoomRow + 1, COLS - stairRoomDistanceFromEdge + 3);
+                        pos stairPos = new pos(stairRoomRow + 1,
+                            COLS - stairRoomDistanceFromEdge + 3);
                         d[stairPos.row, stairPos.col - 1] = CellType.RoomFeature1;
                         d[stairPos] = CellType.Stairs;
                         d[stairPos.row, stairPos.col + 1] = CellType.RoomFeature1;
@@ -3393,10 +3477,12 @@ namespace Forays
                         d.RemoveDeadEndCorridors();
                         d.RemoveUnconnectedAreas();
                         d.AddDoors(40);
-                        var stairDist = d.map.GetDijkstraMap(new List<pos> {stairPos}, x => d[x].IsWall());
+                        var stairDist = d.map.GetDijkstraMap(new List<pos> {stairPos},
+                            x => d[x].IsWall());
                         List<pos> thin_walls = d.map.AllPositions().Where(x =>
                             d.map[x].IsWall() &&
-                            x.HasOppositePairWhere(true, y => y.BoundsCheck(tile) && d.map[y].IsFloor()));
+                            x.HasOppositePairWhere(true,
+                                y => y.BoundsCheck(tile) && d.map[y].IsFloor()));
                         foreach (pos p in thin_walls)
                         {
                             if (R.OneIn(10))
@@ -3409,7 +3495,8 @@ namespace Forays
                                     {
                                         if (stairDist[p1] > 32 && stairDist[p2] > 32)
                                         {
-                                            if (d.map.PathingDistanceFrom(p1, p2, x => d[x].IsWall()) > 15)
+                                            if (d.map.PathingDistanceFrom(p1, p2,
+                                                    x => d[x].IsWall()) > 15)
                                             {
                                                 d[p] = CellType.Door;
                                             }
@@ -3427,7 +3514,8 @@ namespace Forays
                             for (int j = 0; j < 18; ++j)
                             {
                                 //don't put anything at the first part of the level.
-                                if (d[i, j] == CellType.InterestingLocation) d[i, j] = CellType.RoomInterior;
+                                if (d[i, j] == CellType.InterestingLocation)
+                                    d[i, j] = CellType.RoomInterior;
                             }
                         }
 
@@ -3455,7 +3543,8 @@ namespace Forays
                             }
 
                             U.DefaultMetric = DistanceMetric.Manhattan;
-                            var demonstoneMap = d.map.GetDijkstraMap(demonstone, x => d[x].IsWall());
+                            var demonstoneMap =
+                                d.map.GetDijkstraMap(demonstone, x => d[x].IsWall());
                             U.DefaultMetric = DistanceMetric.Chebyshev;
                             int numBarrels = R.Between(2, 5);
                             if (R.OneIn(20)) numBarrels += R.Roll(10);
@@ -3699,7 +3788,8 @@ namespace Forays
 
                     if (tile[i, j] != null)
                     {
-                        if (tile[i, j].IsShrine() && shrinesFound[(int) (tile[i, j].type.GetAssociatedSkill())] < 2)
+                        if (tile[i, j].IsShrine() &&
+                            shrinesFound[(int) (tile[i, j].type.GetAssociatedSkill())] < 2)
                         {
                             shrinesFound[(int) (tile[i, j].type.GetAssociatedSkill())] = 2;
                         }
@@ -3811,7 +3901,8 @@ namespace Forays
                                 {
                                     CellType ch = map[p];
                                     if (ch.Is(CellType.SpecialFeature1, CellType.SpecialFeature2,
-                                        CellType.SpecialFeature3, CellType.SpecialFeature4, CellType.SpecialFeature5))
+                                        CellType.SpecialFeature3, CellType.SpecialFeature4,
+                                        CellType.SpecialFeature5))
                                     {
                                         good = false;
                                     }
@@ -3855,7 +3946,8 @@ namespace Forays
                             foreach (pos p in temp.PositionsWithinDistance(3, map))
                             {
                                 CellType ch = map[p];
-                                if (ch.Is(CellType.SpecialFeature1, CellType.SpecialFeature2, CellType.SpecialFeature3,
+                                if (ch.Is(CellType.SpecialFeature1, CellType.SpecialFeature2,
+                                    CellType.SpecialFeature3,
                                     CellType.SpecialFeature4, CellType.SpecialFeature5))
                                 {
                                     floors = false;
@@ -3932,7 +4024,8 @@ namespace Forays
                             foreach (pos p in temp.PositionsWithinDistance(2, map))
                             {
                                 CellType ch = map[p];
-                                if (ch.Is(CellType.SpecialFeature1, CellType.SpecialFeature2, CellType.SpecialFeature3,
+                                if (ch.Is(CellType.SpecialFeature1, CellType.SpecialFeature2,
+                                    CellType.SpecialFeature3,
                                     CellType.SpecialFeature4, CellType.SpecialFeature5))
                                 {
                                     good = false;
@@ -3982,7 +4075,8 @@ namespace Forays
                             foreach (pos p in temp.PositionsWithinDistance(2, map))
                             {
                                 CellType ch = map[p];
-                                if (ch.Is(CellType.SpecialFeature1, CellType.SpecialFeature2, CellType.SpecialFeature3,
+                                if (ch.Is(CellType.SpecialFeature1, CellType.SpecialFeature2,
+                                    CellType.SpecialFeature3,
                                     CellType.SpecialFeature4, CellType.SpecialFeature5))
                                 {
                                     no_good = true;
@@ -4255,7 +4349,8 @@ namespace Forays
 
                             int delay = ((minimum_value - 1) + R.Roll(number_of_values)) * 100;
                             Q.Add(new Event(tile[i, j], delay + 200, EventType.FIRE_GEYSER,
-                                (frequency * 10) + variance)); //notice the hacky way the value is stored
+                                (frequency * 10) +
+                                variance)); //notice the hacky way the value is stored
                             Q.Add(new Event(tile[i, j], delay, EventType.FIRE_GEYSER_ERUPTION, 2));
                             break;
                         case CellType.FogVent:
@@ -4271,7 +4366,8 @@ namespace Forays
                             Tile t = Tile.Create(TileType.TOMBSTONE, i, j);
                             if (R.OneIn(8))
                             {
-                                Q.Add(new Event(null, new List<Tile> {t}, 100, EventType.TOMBSTONE_GHOST));
+                                Q.Add(new Event(null, new List<Tile> {t}, 100,
+                                    EventType.TOMBSTONE_GHOST));
                             }
 
                             break;
@@ -4312,7 +4408,8 @@ namespace Forays
                             Tile.Create(TileType.GRAVE_DIRT, i, j);
                             if (grave_dirt_event == null)
                             {
-                                grave_dirt_event = new Event(new List<Tile> {tile[i, j]}, 100, EventType.GRAVE_DIRT);
+                                grave_dirt_event = new Event(new List<Tile> {tile[i, j]}, 100,
+                                    EventType.GRAVE_DIRT);
                                 Q.Add(grave_dirt_event);
                             }
                             else
@@ -4338,7 +4435,8 @@ namespace Forays
                             Tile.Create(TileType.POPPY_FIELD, i, j);
                             if (poppy_event == null)
                             {
-                                poppy_event = new Event(new List<Tile> {tile[i, j]}, 100, EventType.POPPIES);
+                                poppy_event = new Event(new List<Tile> {tile[i, j]}, 100,
+                                    EventType.POPPIES);
                                 Q.Add(poppy_event);
                             }
                             else
@@ -4412,7 +4510,8 @@ namespace Forays
             }
 
             if (CurrentLevelType == LevelType.Hellish || (currentLevelIdx + 1 < level_types.Count &&
-                                                          level_types[currentLevelIdx + 1] == LevelType.Hellish))
+                                                          level_types[currentLevelIdx + 1] ==
+                                                          LevelType.Hellish))
             {
                 foreach (int dir in new int[] {4, 6})
                 {
@@ -4469,7 +4568,8 @@ namespace Forays
             int num_monsters = R.Roll(2, 2) + 4;
             if (num_monsters == 6)
             {
-                num_monsters += R.Roll(3); //this works out to 7/12 seven, 4/12 eight, and 1/12 nine.
+                num_monsters +=
+                    R.Roll(3); //this works out to 7/12 seven, 4/12 eight, and 1/12 nine.
             }
 
             for (int i = num_monsters; i > 0; --i)
@@ -4505,7 +4605,8 @@ namespace Forays
                     {
                         if (type == ActorType.MARBLE_HORROR)
                         {
-                            Tile statue = AllTiles().Where(t => t.type == TileType.STATUE).RandomOrDefault();
+                            Tile statue = AllTiles().Where(t => t.type == TileType.STATUE)
+                                .RandomOrDefault();
                             if (!marble_horror_spawned && statue != null)
                             {
                                 SpawnMob(type);
@@ -4602,7 +4703,8 @@ namespace Forays
                                 }
                                 else
                                 {
-                                    if (a.AlwaysWanders() || (R.PercentChance(40) && a.CanWanderAtLevelGen()))
+                                    if (a.AlwaysWanders() ||
+                                        (R.PercentChance(40) && a.CanWanderAtLevelGen()))
                                     {
                                         a.attrs[AttrType.WANDERING]++;
                                     }
@@ -4650,7 +4752,8 @@ namespace Forays
                         {
                             if (type == ActorType.MARBLE_HORROR)
                             {
-                                Tile statue = AllTiles().Where(t => t.type == TileType.STATUE).RandomOrDefault();
+                                Tile statue = AllTiles().Where(t => t.type == TileType.STATUE)
+                                    .RandomOrDefault();
                                 if (!marble_horror_spawned && statue != null)
                                 {
                                     SpawnMob(type);
@@ -4746,7 +4849,8 @@ namespace Forays
                                     }
                                     else
                                     {
-                                        if (a.AlwaysWanders() || (R.PercentChance(40) && a.CanWanderAtLevelGen()))
+                                        if (a.AlwaysWanders() ||
+                                            (R.PercentChance(40) && a.CanWanderAtLevelGen()))
                                         {
                                             a.attrs[AttrType.WANDERING]++;
                                         }
@@ -4781,10 +4885,12 @@ namespace Forays
                 if (stairs != null)
                 {
                     distance_from_stairs =
-                        tile.GetDijkstraMap(new List<pos> {stairs.p}, x => tile[x].BlocksConnectivityOfMap());
+                        tile.GetDijkstraMap(new List<pos> {stairs.p},
+                            x => tile[x].BlocksConnectivityOfMap());
                     minimum_distance_from_stairs =
                         distance_from_stairs[
-                            distance_from_stairs.PositionsWhere(x => distance_from_stairs[x].IsValidDijkstraValue())
+                            distance_from_stairs.PositionsWhere(x =>
+                                    distance_from_stairs[x].IsValidDijkstraValue())
                                 .WhereGreatest(x => distance_from_stairs[x]).Random()] / 2;
                 }
 
@@ -4814,7 +4920,8 @@ namespace Forays
                         }
 
                         if (!tile[i, j].Is(TileType.FLOOR) || tile[i, j].Is(FeatureType.WEB) ||
-                            (stairs != null && distance_from_stairs[i, j] < minimum_distance_from_stairs))
+                            (stairs != null && distance_from_stairs[i, j] <
+                             minimum_distance_from_stairs))
                         {
                             rejectedLocations[i, j] = true;
                         }
@@ -4942,7 +5049,8 @@ namespace Forays
                         {
                             List<TileType> all_possible_traps = new List<TileType>
                             {
-                                TileType.GRENADE_TRAP, TileType.POISON_GAS_TRAP, TileType.PHANTOM_TRAP,
+                                TileType.GRENADE_TRAP, TileType.POISON_GAS_TRAP,
+                                TileType.PHANTOM_TRAP,
                                 TileType.FIRE_TRAP, TileType.SHOCK_TRAP, TileType.SCALDING_OIL_TRAP,
                                 TileType.FLING_TRAP, TileType.STONE_RAIN_TRAP
                             };
@@ -4982,7 +5090,8 @@ namespace Forays
                             foreach (int i in dirs)
                             {
                                 Tile t = tile[rr, rc].TileInDirection(i);
-                                int distance = -2; //distance of the corridor between traps and secret door
+                                int distance =
+                                    -2; //distance of the corridor between traps and secret door
                                 while (t.type == TileType.WALL)
                                 {
                                     ++distance;
@@ -5012,10 +5121,14 @@ namespace Forays
                                         t.color = Color.White;
                                         if (t.DistanceFrom(tile[rr, rc]) < distance + 2)
                                         {
-                                            Tile neighbor = t.TileInDirection(i.RotateDir(false, 2));
-                                            if (neighbor.TileInDirection(i.RotateDir(false, 1)).type == TileType.WALL
-                                                && neighbor.TileInDirection(i.RotateDir(false, 2)).type == TileType.WALL
-                                                && neighbor.TileInDirection(i.RotateDir(false, 3)).type ==
+                                            Tile neighbor =
+                                                t.TileInDirection(i.RotateDir(false, 2));
+                                            if (neighbor.TileInDirection(i.RotateDir(false, 1))
+                                                    .type == TileType.WALL
+                                                && neighbor.TileInDirection(i.RotateDir(false, 2))
+                                                    .type == TileType.WALL
+                                                && neighbor.TileInDirection(i.RotateDir(false, 3))
+                                                    .type ==
                                                 TileType.WALL)
                                             {
                                                 tt = TileType.FLOOR;
@@ -5027,7 +5140,8 @@ namespace Forays
                                                 neighbor.TransformTo(tt);
                                                 if (possible_traps.Contains(tt))
                                                 {
-                                                    neighbor.Name = Tile.Prototype(TileType.FLOOR).Name;
+                                                    neighbor.Name = Tile.Prototype(TileType.FLOOR)
+                                                        .Name;
                                                     neighbor.symbol = '.';
                                                     neighbor.color = Color.White;
                                                     hidden.Add(neighbor);
@@ -5035,9 +5149,12 @@ namespace Forays
                                             }
 
                                             neighbor = t.TileInDirection(i.RotateDir(true, 2));
-                                            if (neighbor.TileInDirection(i.RotateDir(true, 1)).type == TileType.WALL
-                                                && neighbor.TileInDirection(i.RotateDir(true, 2)).type == TileType.WALL
-                                                && neighbor.TileInDirection(i.RotateDir(true, 3)).type == TileType.WALL)
+                                            if (neighbor.TileInDirection(i.RotateDir(true, 1))
+                                                    .type == TileType.WALL
+                                                && neighbor.TileInDirection(i.RotateDir(true, 2))
+                                                    .type == TileType.WALL
+                                                && neighbor.TileInDirection(i.RotateDir(true, 3))
+                                                    .type == TileType.WALL)
                                             {
                                                 tt = TileType.FLOOR;
                                                 if (R.Roll(3) >= 2)
@@ -5048,7 +5165,8 @@ namespace Forays
                                                 neighbor.TransformTo(tt);
                                                 if (possible_traps.Contains(tt))
                                                 {
-                                                    neighbor.Name = Tile.Prototype(TileType.FLOOR).Name;
+                                                    neighbor.Name = Tile.Prototype(TileType.FLOOR)
+                                                        .Name;
                                                     neighbor.symbol = '.';
                                                     neighbor.color = Color.White;
                                                     hidden.Add(neighbor);
@@ -5081,7 +5199,9 @@ namespace Forays
                                 if (stone_slabs)
                                 {
                                     t.TransformTo(TileType.STONE_SLAB);
-                                    Q.Add(new Event(t, new List<Tile> {t.TileInDirection(i.RotateDir(true, 4))}, 100,
+                                    Q.Add(new Event(t,
+                                        new List<Tile> {t.TileInDirection(i.RotateDir(true, 4))},
+                                        100,
                                         EventType.STONE_SLAB));
                                 }
                                 else
@@ -5119,10 +5239,12 @@ namespace Forays
                                     hidden.Add(t);
                                 }
 
-                                tile[rr, rc].TileInDirection(dirs[0].RotateDir(true, 4)).TransformTo(TileType.CHEST);
+                                tile[rr, rc].TileInDirection(dirs[0].RotateDir(true, 4))
+                                    .TransformTo(TileType.CHEST);
                                 if (R.FractionalChance(Depth, 20))
                                 {
-                                    tile[rr, rc].TileInDirection(dirs[0].RotateDir(true, 4)).color = Color.Yellow;
+                                    tile[rr, rc].TileInDirection(dirs[0].RotateDir(true, 4)).color =
+                                        Color.Yellow;
                                 }
                             }
                             else
@@ -5178,12 +5300,14 @@ namespace Forays
                 {
                     for (int j = 0; j < COLS; ++j)
                     {
-                        if ((dijkstra[i, j] == 1 && !R.OneIn(20)) || (dijkstra[i, j] == 2 && R.CoinFlip()))
+                        if ((dijkstra[i, j] == 1 && !R.OneIn(20)) ||
+                            (dijkstra[i, j] == 2 && R.CoinFlip()))
                         {
                             if (i == 0 || j == 0 || i == ROWS - 1 || j == COLS - 1)
                             {
                                 tile[i, j].color = Color.DarkYellow;
-                                tile[i, j].Name = new Name("waxy wall"); //borders become waxy but don't burn
+                                tile[i, j].Name =
+                                    new Name("waxy wall"); //borders become waxy but don't burn
                             }
                             else
                             {
@@ -5196,7 +5320,8 @@ namespace Forays
 
             if (CurrentLevelType == LevelType.Fortress)
             {
-                foreach (pos p in tile.PositionsWhere(x => tile[x].Is(TileType.WALL, TileType.HIDDEN_DOOR)))
+                foreach (pos p in tile.PositionsWhere(x =>
+                    tile[x].Is(TileType.WALL, TileType.HIDDEN_DOOR)))
                 {
                     tile[p].color = Color.TerrainDarkGray;
                 }
@@ -5232,8 +5357,9 @@ namespace Forays
             }
             if (Depth == 1)
             {
-                B.Add("In the mountain pass where travelers vanish, a stone staircase leads downward... Welcome, " +
-                      Actor.player_name + "! ");
+                B.Add(
+                    "In the mountain pass where travelers vanish, a stone staircase leads downward... Welcome, " +
+                    Actor.player_name + "! ");
             }
             else
             {
@@ -5591,7 +5717,8 @@ namespace Forays
                     break;
                 case LevelType.Garden:
                 case LevelType.Sewer:
-                    rarity = new int[] {0, 0, 0, 0, 0, 0, 0}; //special handling, see GenerateLevel()
+                    rarity = new int[]
+                        {0, 0, 0, 0, 0, 0, 0}; //special handling, see GenerateLevel()
                     break;
                 default:
                     rarity = new int[] {2, 2, 4, 4, 6, 30, 10};
@@ -5690,10 +5817,12 @@ namespace Forays
                                         {
                                             if (map[neighbor].IsFloor())
                                             {
-                                                if (cell.Is(CellType.ShallowWater, CellType.Ice, CellType.GraveDirt))
+                                                if (cell.Is(CellType.ShallowWater, CellType.Ice,
+                                                    CellType.GraveDirt))
                                                 {
                                                     bool valid = true;
-                                                    foreach (pos p2 in neighbor.CardinalAdjacentPositions())
+                                                    foreach (pos p2 in neighbor
+                                                        .CardinalAdjacentPositions())
                                                     {
                                                         if (map[p2].IsCorridorType())
                                                         {
@@ -5715,13 +5844,16 @@ namespace Forays
                                             else
                                             {
                                                 if (cell.Is(CellType.ShallowWater, CellType.Gravel,
-                                                        CellType.GraveDirt) && neighbor.BoundsCheck(tile, false) &&
+                                                        CellType.GraveDirt) &&
+                                                    neighbor.BoundsCheck(tile, false) &&
                                                     map[neighbor].IsWall())
                                                 {
                                                     bool valid = true;
                                                     for (int ii = -1; ii <= 1; ++ii)
                                                     {
-                                                        if (!map[neighbor.PosInDir(dir.RotateDir(true, ii))].IsWall())
+                                                        if (!map[
+                                                            neighbor.PosInDir(
+                                                                dir.RotateDir(true, ii))].IsWall())
                                                         {
                                                             valid = false;
                                                             break;
@@ -5747,7 +5879,8 @@ namespace Forays
 
                         if (cell == CellType.GraveDirt)
                         {
-                            if (!new pos(rr, rc).PositionsAtDistance(1, map).Any(x => map[x] == CellType.Tombstone))
+                            if (!new pos(rr, rc).PositionsAtDistance(1, map)
+                                .Any(x => map[x] == CellType.Tombstone))
                             {
                                 map[rr, rc] = CellType.Tombstone;
                             }
@@ -5903,7 +6036,8 @@ namespace Forays
             if (result.Contains(DungeonFeature.CRACKED_WALL))
             {
                 thin_walls = map.AllPositions().Where(x =>
-                    map[x].IsWall() && x.HasOppositePairWhere(true, y => y.BoundsCheck(tile) && map[y].IsFloor()));
+                    map[x].IsWall() && x.HasOppositePairWhere(true,
+                        y => y.BoundsCheck(tile) && map[y].IsFloor()));
             }
 
             while (result.Count > 0)
@@ -6007,7 +6141,8 @@ namespace Forays
                                 for (int j = 1; j <= max_radius; ++j)
                                 {
                                     List<pos> added = new List<pos>();
-                                    foreach (pos p in new pos(rr, rc).PositionsWithinDistance(j, map))
+                                    foreach (pos p in new pos(rr, rc).PositionsWithinDistance(j,
+                                        map))
                                     {
                                         if (map[p] == cell)
                                         {
@@ -6067,7 +6202,8 @@ namespace Forays
                                 for (int j = 1; j <= max_radius; ++j)
                                 {
                                     List<pos> added = new List<pos>();
-                                    foreach (pos p in new pos(rr, rc).PositionsWithinDistance(j, map))
+                                    foreach (pos p in new pos(rr, rc).PositionsWithinDistance(j,
+                                        map))
                                     {
                                         if (map[p] == cell)
                                         {
@@ -6128,12 +6264,15 @@ namespace Forays
                             int rr = R.Roll(ROWS - 2);
                             int rc = R.Roll(COLS - 2);
                             pos p = new pos(rr, rc);
-                            if (map[p].IsRoomType() && p.HasAdjacentWhere(x => map.BoundsCheck(x) && map[x].IsWall()))
+                            if (map[p].IsRoomType() &&
+                                p.HasAdjacentWhere(x => map.BoundsCheck(x) && map[x].IsWall()))
                             {
                                 PosArray<bool> vine = map.GetFloodFillArray(p, false,
                                     x => map[x].IsRoomType() &&
-                                         x.HasAdjacentWhere(y => map.BoundsCheck(y) && map[y].IsWall()) &&
-                                         !R.OneIn(3)); //changed from one in 6 so vines won't fill caves so often
+                                         x.HasAdjacentWhere(y =>
+                                             map.BoundsCheck(y) && map[y].IsWall()) &&
+                                         !R.OneIn(
+                                             3)); //changed from one in 6 so vines won't fill caves so often
                                 rr = R.Roll(ROWS - 2);
                                 rc = R.Roll(COLS - 2);
                                 pos p2 = new pos(rr, rc);
@@ -6147,8 +6286,11 @@ namespace Forays
                                         if (possible_vine.BoundsCheck(new_vine, false))
                                         {
                                             found = true;
-                                            if (vine[possible_vine] && possible_vine.PositionsAtDistance(1, new_vine)
-                                                    .Where(x => new_vine[x] || map[x] == CellType.Vine).Count < 3)
+                                            if (vine[possible_vine] && possible_vine
+                                                    .PositionsAtDistance(1, new_vine)
+                                                    .Where(x =>
+                                                        new_vine[x] || map[x] == CellType.Vine)
+                                                    .Count < 3)
                                             {
                                                 new_vine[possible_vine] = true;
                                             }
@@ -6171,7 +6313,8 @@ namespace Forays
                                             pos neighbor = new pos(s, t);
                                             foreach (int dir in U.FourDirections)
                                             {
-                                                if (R.OneIn(6) && map[neighbor.PosInDir(dir)].IsFloor())
+                                                if (R.OneIn(6) && map[neighbor.PosInDir(dir)]
+                                                        .IsFloor())
                                                 {
                                                     added.AddUnique(neighbor.PosInDir(dir));
                                                 }
@@ -6269,7 +6412,8 @@ namespace Forays
             {
                 case LevelType.Standard:
                     messages.Add("You enter a complex of ancient rooms and hallways. ");
-                    messages.Add("Well-worn corridors suggest that these rooms are frequently used. ");
+                    messages.Add(
+                        "Well-worn corridors suggest that these rooms are frequently used. ");
                     //messages.Add("You find another network of hallways and rooms. ");
                     messages.Add("A web of tunnels stretches away in front of you. ");
                     messages.Add("The path leads you to another maze of dim tunnels. ");
@@ -6277,14 +6421,16 @@ namespace Forays
                 case LevelType.Cave:
                     messages.Add("You enter a large natural cave. ");
                     messages.Add("This cavern's rough walls shine with moisture. ");
-                    messages.Add("A cave opens up before you. A dry, dusty scent lingers in the ancient tunnels. ");
+                    messages.Add(
+                        "A cave opens up before you. A dry, dusty scent lingers in the ancient tunnels. ");
                     break;
                 case LevelType.Hive:
                     messages.Add(
                         "You enter an area made up of small chambers. The walls here seem to be made of wax. ");
                     messages.Add(
                         "As you enter the small chambers here, you hear a faint buzzing. It sounds like insects. ");
-                    messages.Add("You enter a network of dark and cramped chambers, made entirely of wax. ");
+                    messages.Add(
+                        "You enter a network of dark and cramped chambers, made entirely of wax. ");
                     break;
                 case LevelType.Mine:
                     messages.Add("You enter a system of mining tunnels. ");
@@ -6293,25 +6439,30 @@ namespace Forays
                     messages.Add("These tunnels are strewn with mining implements. ");
                     break;
                 case LevelType.Fortress:
-                    messages.Add("You pass through a broken gate and enter the remnants of a fortress. ");
+                    messages.Add(
+                        "You pass through a broken gate and enter the remnants of a fortress. ");
                     messages.Add("This area looks like it was intended to be a stronghold. ");
                     messages.Add("The remains of a fallen fortress appear before you. ");
                     break;
                 case LevelType.Crypt:
-                    messages.Add("A sudden wind chills you as you enter a huge underground crypt. ");
+                    messages.Add(
+                        "A sudden wind chills you as you enter a huge underground crypt. ");
                     messages.Add("A crypt stretches out in front of you. ");
                     messages.Add("Graves appear all around you as you come to a burial area. ");
                     break;
                 case LevelType.Garden:
                     messages.Add("The smell of flowers fills the air here. ");
-                    messages.Add("Neat rows of plants and small pools of water decorate the rooms here. ");
-                    messages.Add("You enter a cultivated area. Tiny insects occasionally fly past you. ");
+                    messages.Add(
+                        "Neat rows of plants and small pools of water decorate the rooms here. ");
+                    messages.Add(
+                        "You enter a cultivated area. Tiny insects occasionally fly past you. ");
                     messages.Add("Curiously, this area seems to be a well-maintained garden. ");
                     break;
                 case LevelType.Sewer:
                     messages.Add(
                         "Unwholesome water streams along the walls here, forming pools that froth and swirl. ");
-                    messages.Add("The rank odor of these slimy tunnels assaulted you before you reached them. ");
+                    messages.Add(
+                        "The rank odor of these slimy tunnels assaulted you before you reached them. ");
                     messages.Add("The sound of rushing water fills these tunnels. ");
                     break;
                 case LevelType.Hellish:
@@ -6334,7 +6485,8 @@ namespace Forays
 
             if (Depth > 1)
             {
-                string transition = TransitionMessage(level_types[currentLevelIdx - 1], CurrentLevelType);
+                string transition =
+                    TransitionMessage(level_types[currentLevelIdx - 1], CurrentLevelType);
                 if (transition != "")
                 {
                     messages.Add(transition);
@@ -6348,13 +6500,15 @@ namespace Forays
                         case LevelType.Garden:
                         case LevelType.Mine:
                         case LevelType.Sewer:
-                            messages.Add("You leave the " + level_types[currentLevelIdx - 1].ToString().ToLower() +
+                            messages.Add("You leave the " +
+                                         level_types[currentLevelIdx - 1].ToString().ToLower() +
                                          "s behind. ");
                             break;
                         case LevelType.Crypt:
                         case LevelType.Fortress:
                         case LevelType.Hive:
-                            messages.Add("You leave the " + level_types[currentLevelIdx - 1].ToString().ToLower() +
+                            messages.Add("You leave the " +
+                                         level_types[currentLevelIdx - 1].ToString().ToLower() +
                                          " behind. ");
                             break;
                     }
@@ -6390,7 +6544,8 @@ namespace Forays
                         case LevelType.Crypt:
                             return "A hush falls around you as you enter a large crypt. ";
                         case LevelType.Garden:
-                            return "Flowers and statues appear in well-kept rooms as you continue. ";
+                            return
+                                "Flowers and statues appear in well-kept rooms as you continue. ";
                         case LevelType.Sewer:
                             return
                                 "These low tunnels are more suited to carrying volumes of dirty water than to allowing easy passage. ";
@@ -6401,7 +6556,8 @@ namespace Forays
                     switch (to)
                     {
                         case LevelType.Standard:
-                            return "Leaving the cave behind, you again encounter signs of humanoid habitation. ";
+                            return
+                                "Leaving the cave behind, you again encounter signs of humanoid habitation. ";
                         /*case LevelType.Ruined:
                             return "The cave leads you to ruined corridors long abandoned by their creators. ";
                         case LevelType.Extravagant:
@@ -6416,7 +6572,8 @@ namespace Forays
                             return
                                 "A smashed set of double doors leads you out of the cave. This area seems to have been well-defended, once. ";
                         case LevelType.Crypt:
-                            return "It appears this part of the cave has been used as a burial ground for centuries. ";
+                            return
+                                "It appears this part of the cave has been used as a burial ground for centuries. ";
                         case LevelType.Garden:
                             return
                                 "Statues decorate the cave's exit. You follow them to a garden full of flowering plants. ";
@@ -6455,11 +6612,13 @@ namespace Forays
                             //return "Tools on the ground reveal that the rooms here are being made by humanoids rather than insects. ";
                             return "";
                         case LevelType.Fortress:
-                            return "A wide hole in the wall leads to a fortress, abandoned by its creators. ";
+                            return
+                                "A wide hole in the wall leads to a fortress, abandoned by its creators. ";
                         case LevelType.Crypt:
                             return "Leaving the narrow chambers, you encounter an ancient crypt. ";
                         case LevelType.Garden:
-                            return "Leaving the hive, you find well-kept paths through rooms full of plant life. ";
+                            return
+                                "Leaving the hive, you find well-kept paths through rooms full of plant life. ";
                     }
 
                     break;
@@ -6470,15 +6629,18 @@ namespace Forays
                             //return "You leave the mines behind and return to finished corridors and rooms. ";
                             return "";
                         case LevelType.Cave:
-                            return "The half-finished tunnels disappear as natural cave walls surround you. ";
+                            return
+                                "The half-finished tunnels disappear as natural cave walls surround you. ";
                         /*case LevelType.Ruined:
                             return "This area is collapsing and ruined. It looks much older than the mines you just left. ";
                         case LevelType.Extravagant:
                             return "As you walk, incomplete tunnels turn into luxurious carpeted hallways. ";*/
                         case LevelType.Hive:
-                            return "As you continue, signs of humanoid construction vanish and hive walls appear. ";
+                            return
+                                "As you continue, signs of humanoid construction vanish and hive walls appear. ";
                         case LevelType.Fortress:
-                            return "You reach a section that is not only complete but easily defensible. ";
+                            return
+                                "You reach a section that is not only complete but easily defensible. ";
                         case LevelType.Crypt:
                             return "Gravestones appear as you leave the mines behind. ";
                         case LevelType.Garden:
@@ -6496,7 +6658,8 @@ namespace Forays
                         case LevelType.Standard:
                             return "You enter a section outside the main area of the fortress. ";
                         case LevelType.Cave:
-                            return "You leave the fortress behind. The corridors open up into natural caves. ";
+                            return
+                                "You leave the fortress behind. The corridors open up into natural caves. ";
                         /*case LevelType.Ruined:
                             return "Unlike the fortress, this area has deteriorated immensely. ";
                         case LevelType.Extravagant:
@@ -6514,7 +6677,8 @@ namespace Forays
                             return
                                 "Beyond the protection of the fortress you find a garden full of well-maintained statues. ";
                         case LevelType.Sewer:
-                            return "Beyond the fortress you encounter halls full of polluted water. ";
+                            return
+                                "Beyond the fortress you encounter halls full of polluted water. ";
                     }
 
                     break;
@@ -6528,14 +6692,16 @@ namespace Forays
                             return
                                 "Natural formations appear, replacing the headstones that surrounded you previously. ";
                         case LevelType.Hive:
-                            return "The burial ground vanishes as wax walls appear all around you. ";
+                            return
+                                "The burial ground vanishes as wax walls appear all around you. ";
                         case LevelType.Mine:
                             return
                                 "Shovels, picks, and rubble appear as you continue. Is this an unfinished part of the crypt? ";
                         case LevelType.Fortress:
                             return "The tombstones disappear as you come to a crumbling fortress. ";
                         case LevelType.Garden:
-                            return "Life is suddenly all around you once more as you enter a cultivated garden. ";
+                            return
+                                "Life is suddenly all around you once more as you enter a cultivated garden. ";
                         case LevelType.Sewer:
                             return "This area of the crypt is flooded with fetid water. ";
                     }
@@ -6550,12 +6716,14 @@ namespace Forays
                         case LevelType.Cave:
                             return "The gardens end abruptly as you enter a natural cave. ";
                         case LevelType.Hive:
-                            return "Insects have conquered this part of the garden, turning it into a giant hive. ";
+                            return
+                                "Insects have conquered this part of the garden, turning it into a giant hive. ";
                         case LevelType.Mine:
                             return
                                 "You leave the orderly gardens behind and enter a twisted network of mining tunnels. ";
                         case LevelType.Fortress:
-                            return "Leaving the gardens through a broken door, you find a fortress in poor condition. ";
+                            return
+                                "Leaving the gardens through a broken door, you find a fortress in poor condition. ";
                         case LevelType.Crypt:
                             return "Stale air and decay replaces the scent of flowers. ";
                         case LevelType.Sewer:

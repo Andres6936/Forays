@@ -23,10 +23,15 @@ namespace Forays
 
     public class MessageBuffer
     {
+        /// <summary>
+        /// Instance of player.
+        /// </summary>
+        private readonly Actor player;
+
         //todo: move some of these fields and methods around for better organization.
-        public MessageBuffer(Game g)
+        public MessageBuffer(Actor player)
         {
-            game = g;
+            this.player = player;
             MessageVisibility = MessageVisibilityLevel.Default;
             MaxLength = Global.COLS;
             buffer = new StringWrapBuffer(NumLines, MaxLength, null, new char[] {' '});
@@ -39,10 +44,10 @@ namespace Forays
             interruptPlayer = false;
             HideRepeatCountStrings =
                 new List<string>
-                    {"You can't move!", "You're rooted to the ground!"}; //todo: is this the best place for these?
+                {
+                    "You can't move!", "You're rooted to the ground!"
+                }; //todo: is this the best place for these?
         }
-
-        public Game game;
 
         public void Add(string message, params PhysicalObject[] objs)
         {
@@ -53,7 +58,8 @@ namespace Forays
         {
             if (string.IsNullOrEmpty(message)
                 || MessageVisibility == MessageVisibilityLevel.None
-                || (MessageVisibility == MessageVisibilityLevel.ImportantOnly && importance != Priority.Important))
+                || (MessageVisibility == MessageVisibilityLevel.ImportantOnly &&
+                    importance != Priority.Important))
             {
                 return;
             }
@@ -67,7 +73,7 @@ namespace Forays
                     if (o != null)
                     {
                         sightChecked = true;
-                        if (game.Player.CanSee(o))
+                        if (player.CanSee(o))
                         {
                             seen = true;
                             break;
@@ -90,7 +96,7 @@ namespace Forays
             DisplayLines(buffer.Clear(), requireMorePrompt, true);
             if (interruptPlayer)
             {
-                game.Player.Interrupt();
+                player.Interrupt();
                 interruptPlayer = false;
             }
         }
@@ -148,7 +154,7 @@ namespace Forays
             //game.M.Draw(); //todo: necessary? and wouldn't it need to happen *before* the [more]?
             if (interruptPlayer)
             {
-                game.Player.Interrupt();
+                player.Interrupt();
                 interruptPlayer = false;
             }
         }
@@ -196,7 +202,8 @@ namespace Forays
             if (repeated) prevStartIdx++;
             for (int i = 0; i < numPrev; ++i)
             {
-                Screen.WriteString(i, Global.MAP_OFFSET_COLS, GetPreviousMessage(prevStartIdx - i).PadToMapSize(),
+                Screen.WriteString(i, Global.MAP_OFFSET_COLS,
+                    GetPreviousMessage(prevStartIdx - i).PadToMapSize(),
                     Color.DarkGray);
             }
 
