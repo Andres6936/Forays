@@ -22,7 +22,6 @@ namespace Forays.Scenes
         private bool saved_game;
 
         public Queue Queue;
-        public MessageBuffer MessageBuffer;
 
         // Construct
 
@@ -96,17 +95,18 @@ namespace Forays.Scenes
                         Actor.spells_in_order = new List<SpellType>();
                     }
 
-                    MapView.Map = new Map(PlayerView.Player, Queue, MessageBuffer);
-                    MessageBuffer = new MessageBuffer(PlayerView.Player);
-                    Queue = new Queue(MessageBuffer);
+                    MapView.Map = new Map(PlayerView.Player, Queue,
+                        MessageBufferView.MessageBuffer);
+                    MessageBufferView.MessageBuffer = new MessageBuffer(PlayerView.Player);
+                    Queue = new Queue(MessageBufferView.MessageBuffer);
                     Map.Q = Queue;
-                    Map.B = MessageBuffer;
+                    Map.B = MessageBufferView.MessageBuffer;
                     PhysicalObject.M = MapView.Map;
-                    PhysicalObject.B = MessageBuffer;
+                    PhysicalObject.B = MessageBufferView.MessageBuffer;
                     PhysicalObject.Q = Queue;
                     PhysicalObject.player = PlayerView.Player;
                     Event.Q = Queue;
-                    Event.B = MessageBuffer;
+                    Event.B = MessageBufferView.MessageBuffer;
                     Event.M = MapView.Map;
                     Event.player = PlayerView.Player;
                     Fire.fire_event = null;
@@ -748,7 +748,8 @@ namespace Forays.Scenes
                         }
 
                         int message_pos = b.ReadInt32();
-                        MessageBuffer.LoadMessagesAndPosition(messages, message_pos,
+                        MessageBufferView.MessageBuffer.LoadMessagesAndPosition(messages,
+                            message_pos,
                             num_messages);
                         b.Close();
                         file.Close();

@@ -286,7 +286,7 @@ namespace Forays.Scenes
 
                         file.WriteLine();
                         file.WriteLine("Last messages: ");
-                        foreach (string s in game.MessageBuffer.GetMessageLog())
+                        foreach (string s in MessageBufferView.MessageBuffer.GetMessageLog())
                         {
                             //todo, limit message log size?
                             if (s != "")
