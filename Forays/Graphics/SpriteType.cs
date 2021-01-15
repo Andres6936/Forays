@@ -40,9 +40,9 @@ namespace Forays
         public static void DefineSingleRowSprite(Surface surface, int width, int padding)
         {
             SpriteType s = new SpriteType();
-            float px_width = 1.0f / (float) surface.texture.TextureWidthPx;
-            float texcoord_width = (float) width * px_width;
-            float texcoord_start = texcoord_width + (float) padding * px_width;
+            float px_width = 1.0f / surface.texture.TextureWidthPx;
+            float texcoord_width = width * px_width;
+            float texcoord_start = texcoord_width + padding * px_width;
             s.X = idx => idx * texcoord_start;
             s.Y = idx => 0;
             s.SpriteWidth = texcoord_width;
