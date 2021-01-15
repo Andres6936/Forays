@@ -46,10 +46,6 @@ namespace GLDrawing
         public SurfaceUpdateMethod UpdatePositionsOnlyMethod = null;
         public SurfaceUpdateMethod UpdateOtherDataOnlyMethod = null;
 
-        protected Surface()
-        {
-        }
-
 
         public static Surface Create(OpenTk window_, string texture_filename,
             bool loadTextureFromEmbeddedResource,
