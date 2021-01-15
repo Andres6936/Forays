@@ -2,6 +2,15 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Forays.Graphics
 {
+    /// <summary>
+    /// A vertex buffer object (VBO) is an OpenGL feature that provides methods
+    /// for uploading vertex data (position, normal vector, color, etc.) to the
+    /// video device for non-immediate-mode rendering. VBOs offer substantial
+    /// performance gains over immediate mode rendering primarily because the
+    /// data reside in video device memory rather than system memory and so it
+    /// can be rendered directly by the video device. These are equivalent to
+    /// vertex buffers in Direct3D.
+    /// </summary>
     public class VertexBufferObject
     {
         // Member Variables
@@ -34,6 +43,8 @@ namespace Forays.Graphics
         private static VertexBufferObject Create()
         {
             var vertexBufferObject = new VertexBufferObject();
+            // The method 'GenBuffers' generates a new VBO and returns its ID
+            // number as an unsigned integer. Id 0 is reserved.
             GL.GenBuffers(1, out vertexBufferObject.PositionArrayBufferId);
             GL.GenBuffers(1, out vertexBufferObject.OtherArrayBufferId);
             GL.GenBuffers(1, out vertexBufferObject.ElementArrayBufferId);
