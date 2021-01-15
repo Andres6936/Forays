@@ -85,22 +85,27 @@ namespace Forays
         {
             AttrType.LIFESPAN,
 
-            AttrType.BURNING, AttrType.POISONED, AttrType.ACIDIFIED, AttrType.BLEEDING, //damage over time
+            AttrType.BURNING, AttrType.POISONED, AttrType.ACIDIFIED,
+            AttrType.BLEEDING, //damage over time
 
             AttrType.VULNERABLE, AttrType.SUSCEPTIBLE_TO_CRITS, AttrType.SWITCHING_ARMOR,
             AttrType.CHILLED, //extra damage opportunities
 
-            AttrType.PARALYZED, AttrType.ASLEEP, AttrType.STUNNED, AttrType.BLIND, AttrType.CONFUSED, AttrType.ENRAGED,
+            AttrType.PARALYZED, AttrType.ASLEEP, AttrType.STUNNED, AttrType.BLIND,
+            AttrType.CONFUSED, AttrType.ENRAGED,
             AttrType.SLOWED, AttrType.AMNESIA_STUN,
-            AttrType.DIM_VISION, AttrType.IMMOBILE, AttrType.AGGRAVATING, AttrType.POPPY_COUNTER, AttrType.GRABBED,
+            AttrType.DIM_VISION, AttrType.IMMOBILE, AttrType.AGGRAVATING, AttrType.POPPY_COUNTER,
+            AttrType.GRABBED,
             AttrType.GRABBING,
             AttrType.LIGHT_SENSITIVE, //'typical' statuses
 
-            AttrType.TELEPORTING, AttrType.SLIMED, AttrType.OIL_COVERED, AttrType.SHINING, AttrType.ROOTS,
+            AttrType.TELEPORTING, AttrType.SLIMED, AttrType.OIL_COVERED, AttrType.SHINING,
+            AttrType.ROOTS,
             AttrType.PSEUDO_VAMPIRIC, AttrType.STONEFORM,
             AttrType.SILENCED, AttrType.SILENCE_AURA, AttrType.FROZEN, //'neutral' statuses
 
-            AttrType.INVULNERABLE, AttrType.MECHANICAL_SHIELD, AttrType.SHIELDED, AttrType.REGENERATING,
+            AttrType.INVULNERABLE, AttrType.MECHANICAL_SHIELD, AttrType.SHIELDED,
+            AttrType.REGENERATING,
             AttrType.BANDAGED, AttrType.RESTING, //shields and healing
 
             AttrType.INVISIBLE, AttrType.SHADOW_CLOAK, //visibility modifiers
@@ -125,27 +130,32 @@ namespace Forays
                 string s = ("Health: " + player.curhp.ToString()).PadOuter(Global.STATUS_WIDTH);
                 int idx = GetStatusBarIndex(player.curhp, player.maxhp);
                 StatusWriteString(ref row,
-                    new ColorBufferString(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkRed),
+                    new ColorBufferString(
+                        new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkRed),
                         new ColorString(s.SafeSubstring(idx), Color.Gray, Color.Black)));
                 if (player.maxmp > 0)
                 {
                     s = ("Mana: " + player.curmp.ToString()).PadOuter(Global.STATUS_WIDTH);
                     idx = GetStatusBarIndex(player.curmp, player.maxmp);
                     StatusWriteString(ref row,
-                        new ColorBufferString(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkCyan),
+                        new ColorBufferString(
+                            new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkCyan),
                             new ColorString(s.SafeSubstring(idx), Color.Gray, Color.Black)));
                 }
 
                 if (player.exhaustion > 0)
                 {
-                    s = ("Exhaustion: " + player.exhaustion.ToString() + "%").PadOuter(Global.STATUS_WIDTH);
+                    s = ("Exhaustion: " + player.exhaustion.ToString() + "%").PadOuter(
+                        Global.STATUS_WIDTH);
                     idx = GetStatusBarIndex(player.exhaustion, 100);
                     StatusWriteString(ref row,
-                        new ColorBufferString(new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkYellow),
+                        new ColorBufferString(
+                            new ColorString(s.SafeSubstring(0, idx), Color.Gray, Color.DarkYellow),
                             new ColorString(s.SafeSubstring(idx), Color.Gray, Color.Black)));
                 }
 
-                Dictionary<AttrType, Event> events = Q.StatusEvents.ContainsKey(player) ? Q.StatusEvents[player] : null;
+                Dictionary<AttrType, Event> events =
+                    Q.StatusEvents.ContainsKey(player) ? Q.StatusEvents[player] : null;
                 foreach (AttrType attr in displayed_statuses)
                 {
                     if (player.HasAttr(attr) && !attr.StatusIsHidden(player))
@@ -153,7 +163,8 @@ namespace Forays
                         int value = 1;
                         int max = 1; // If no other data is found, a full bar (1/1) will be shown.
                         if (!attr.StatusByStrength(player,
-                            (events != null && events.ContainsKey(attr)) ? events[attr] : null, ref value, ref max))
+                            (events != null && events.ContainsKey(attr)) ? events[attr] : null,
+                            ref value, ref max))
                         {
                             if (events != null && events.ContainsKey(attr))
                             {
@@ -167,7 +178,8 @@ namespace Forays
                         string attr_name = attr.StatusName(player).PadOuter(Global.STATUS_WIDTH);
                         StatusWriteString(ref row,
                             new ColorBufferString(
-                                new ColorString(attr_name.SafeSubstring(0, attr_idx), Color.Gray, Color.DarkMagenta),
+                                new ColorString(attr_name.SafeSubstring(0, attr_idx), Color.Gray,
+                                    Color.DarkMagenta),
                                 new ColorString(attr_name.SafeSubstring(attr_idx), Color.Gray)));
                     }
                 }
@@ -181,13 +193,16 @@ namespace Forays
                     }
 
                     StatusWriteString(ref row,
-                        new ColorBufferString(webbed.PadOuter(Global.STATUS_WIDTH), Color.Gray, Color.DarkMagenta));
+                        new ColorBufferString(webbed.PadOuter(Global.STATUS_WIDTH), Color.Gray,
+                            Color.DarkMagenta));
                 }
 
-                if (player.IsSilencedHere() && !player.HasAttr(AttrType.SILENCED, AttrType.SILENCE_AURA))
+                if (player.IsSilencedHere() &&
+                    !player.HasAttr(AttrType.SILENCED, AttrType.SILENCE_AURA))
                 {
                     StatusWriteString(ref row,
-                        new ColorBufferString(AttrType.SILENCED.StatusName(player).PadOuter(Global.STATUS_WIDTH),
+                        new ColorBufferString(
+                            AttrType.SILENCED.StatusName(player).PadOuter(Global.STATUS_WIDTH),
                             Color.Gray,
                             Color.DarkMagenta));
                 }
@@ -199,7 +214,9 @@ namespace Forays
                     if (player.EquippedWeapon.status[(EquipmentStatus) i])
                     {
                         StatusWriteString(ref row,
-                            new ColorBufferString(Weapon.StatusName((EquipmentStatus) i).PadOuter(Global.STATUS_WIDTH),
+                            new ColorBufferString(
+                                Weapon.StatusName((EquipmentStatus) i)
+                                    .PadOuter(Global.STATUS_WIDTH),
                                 Color.Gray, Color.DarkBlue));
                     }
                 }
@@ -210,7 +227,9 @@ namespace Forays
                     if (player.EquippedArmor.status[(EquipmentStatus) i])
                     {
                         StatusWriteString(ref row,
-                            new ColorBufferString(Weapon.StatusName((EquipmentStatus) i).PadOuter(Global.STATUS_WIDTH),
+                            new ColorBufferString(
+                                Weapon.StatusName((EquipmentStatus) i)
+                                    .PadOuter(Global.STATUS_WIDTH),
                                 Color.Gray, Color.DarkBlue));
                     }
                 }
@@ -225,10 +244,12 @@ namespace Forays
                         int value = e.delay + e.time_created + 100 - Q.turn;
                         int max = e.delay;
                         int e_idx = UI.GetStatusBarIndex(value, max);
-                        string e_name = (M.wiz_dark ? "Darkness" : "Sunlight").PadOuter(Global.STATUS_WIDTH);
+                        string e_name =
+                            (M.wiz_dark ? "Darkness" : "Sunlight").PadOuter(Global.STATUS_WIDTH);
                         StatusWriteString(ref row,
                             new ColorBufferString(
-                                new ColorString(e_name.SafeSubstring(0, e_idx), Color.Gray, Color.DarkBlue),
+                                new ColorString(e_name.SafeSubstring(0, e_idx), Color.Gray,
+                                    Color.DarkBlue),
                                 new ColorString(e_name.SafeSubstring(e_idx), Color.Gray)));
                     }
                 }
@@ -277,7 +298,8 @@ namespace Forays
                             break;
                     }
 
-                    Screen.WriteStatsString(distFromTop + 2 + i * 2, 0, name.PadBetween(status, Global.STATUS_WIDTH),
+                    Screen.WriteStatsString(distFromTop + 2 + i * 2, 0,
+                        name.PadBetween(status, Global.STATUS_WIDTH),
                         color);
                     Screen.WriteStatsString(distFromTop + 2 + i * 2, 0, name);
                 }
@@ -349,21 +371,26 @@ namespace Forays
             {
                 Screen.WriteString(Global.SCREEN_H - 3, Global.MAP_OFFSET_COLS,
                     UI.GetEnvironmentalDescription().PadRight(Global.COLS),
-                    commands_darkened ? Color.DarkEnvironmentDescription : Color.EnvironmentDescription, Color.Black);
+                    commands_darkened
+                        ? Color.DarkEnvironmentDescription
+                        : Color.EnvironmentDescription, Color.Black);
                 Screen.WriteString(Global.SCREEN_H - 2, Global.MAP_OFFSET_COLS,
-                    "E[x]plore     [t]orch     [s]hoot bow    [r]est     Cast spell [z]".GetColorString(wordcolor,
-                        lettercolor));
+                    "E[x]plore     [t]orch     [s]hoot bow    [r]est     Cast spell [z]"
+                        .GetColorString(wordcolor,
+                            lettercolor));
                 if (Screen.GLMode)
                 {
                     Screen.WriteString(Global.SCREEN_H - 1, Global.MAP_OFFSET_COLS,
-                        "[i]nventory   [e]quipment [c]haracter    [m]ap              [Menu]".GetColorString(wordcolor,
-                            lettercolor));
+                        "[i]nventory   [e]quipment [c]haracter    [m]ap              [Menu]"
+                            .GetColorString(wordcolor,
+                                lettercolor));
                 }
                 else
                 {
                     Screen.WriteString(Global.SCREEN_H - 1, Global.MAP_OFFSET_COLS,
-                        "[i]nventory   [e]quipment [c]haracter    [m]ap                    ".GetColorString(wordcolor,
-                            lettercolor));
+                        "[i]nventory   [e]quipment [c]haracter    [m]ap                    "
+                            .GetColorString(wordcolor,
+                                lettercolor));
                 }
             }
 
@@ -444,7 +471,8 @@ namespace Forays
                         }
                         else
                         {
-                            if (o.p.Equals(UI.MapCursor) && (extra_objs == null || !extra_objs.Contains(o)) &&
+                            if (o.p.Equals(UI.MapCursor) &&
+                                (extra_objs == null || !extra_objs.Contains(o)) &&
                                 (MouseUI.Mode != MouseMode.Targeting || !o.p.Equals(player.p)))
                             {
                                 if (extra_objs == null)
@@ -511,7 +539,8 @@ namespace Forays
             if (max == 0) return 0;
             int adjustment =
                 Math.Max(0,
-                    max - Global.STATUS_WIDTH); // The adjustment prevents bars from looking empty until they're at 0.
+                    max - Global
+                        .STATUS_WIDTH); // The adjustment prevents bars from looking empty until they're at 0.
             int result = (Global.STATUS_WIDTH * value + adjustment) / max;
             if (result < 0) return 0;
             if (result > Global.STATUS_WIDTH) return Global.STATUS_WIDTH;
@@ -600,7 +629,8 @@ namespace Forays
             switch (attr)
             {
                 case AttrType.FLYING:
-                    return a.HasAttr(AttrType.FLYING_LEAP, AttrType.PSEUDO_VAMPIRIC, AttrType.DESCENDING);
+                    return a.HasAttr(AttrType.FLYING_LEAP, AttrType.PSEUDO_VAMPIRIC,
+                        AttrType.DESCENDING);
                 case AttrType.IMMUNE_BURNING:
                     return a.HasAttr(AttrType.STONEFORM);
                 case AttrType.NONLIVING:
@@ -621,7 +651,8 @@ namespace Forays
             }
         }
 
-        public static bool StatusByStrength(this AttrType attr, Actor a, Event e, ref int value, ref int max)
+        public static bool StatusByStrength(this AttrType attr, Actor a, Event e, ref int value,
+            ref int max)
         {
             switch (attr)
             {
@@ -773,7 +804,8 @@ namespace Forays
             });
         }
 
-        public static List<ColorBufferString> ItemDescriptionBox(Item item, bool lookmode, bool mouselook,
+        public static List<ColorBufferString> ItemDescriptionBox(Item item, bool lookmode,
+            bool mouselook,
             int max_string_length)
         {
             List<string> text = item.Description().GetWordWrappedList(max_string_length, false);
@@ -801,7 +833,8 @@ namespace Forays
 
             widest += 2; //one space on each side
             List<ColorBufferString> box = new List<ColorBufferString>();
-            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(widest, '-'), box_edge_color, "+",
+            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(widest, '-'),
+                box_edge_color, "+",
                 box_corner_color));
             if (!lookmode || mouselook)
             {
@@ -809,19 +842,22 @@ namespace Forays
                         item.GetName(true, Extra).PadOuter(widest).GetColorString(Color.White) +
                         new ColorBufferString("|", box_edge_color));
                 box.Add(
-                    new ColorBufferString("|", box_edge_color, "".PadRight(widest), Color.Gray, "|", box_edge_color));
+                    new ColorBufferString("|", box_edge_color, "".PadRight(widest), Color.Gray, "|",
+                        box_edge_color));
             }
 
             foreach (string s in text)
             {
-                box.Add(new ColorBufferString("|", box_edge_color) + s.PadOuter(widest).GetColorString(text_color) +
+                box.Add(new ColorBufferString("|", box_edge_color) +
+                        s.PadOuter(widest).GetColorString(text_color) +
                         new ColorBufferString("|", box_edge_color));
             }
 
             if (!mouselook)
             {
                 box.Add(
-                    new ColorBufferString("|", box_edge_color, "".PadRight(widest), Color.Gray, "|", box_edge_color));
+                    new ColorBufferString("|", box_edge_color, "".PadRight(widest), Color.Gray, "|",
+                        box_edge_color));
                 if (lookmode)
                 {
                     box.Add(new ColorBufferString("|", box_edge_color) +
@@ -837,7 +873,8 @@ namespace Forays
                 }
             }
 
-            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(widest, '-'), box_edge_color, "+",
+            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(widest, '-'),
+                box_edge_color, "+",
                 box_corner_color));
             return box;
         }
@@ -860,7 +897,8 @@ namespace Forays
                 {new ColorBufferString("".PadRight(COLS, '-'), text)};
             List<ColorBufferString> name = new List<ColorBufferString>
             {
-                (new ColorString("Name", c) + new ColorString(": " + Actor.player_name + "  ", text))
+                (new ColorString("Name", c) +
+                 new ColorString(": " + Actor.player_name + "  ", text))
                 .PadRight(COLS / 2) +
                 (new ColorString("Turns played", c) + new ColorString(": " + Q.turn / 100, text))
             };
@@ -882,7 +920,8 @@ namespace Forays
                 {
                     int skill_base = player.skills[sk];
                     int skill_mod = player.BonusSkill(sk);
-                    ColorBufferString skill_string = new ColorBufferString(" " + Skill.Name(sk) + "(", text,
+                    ColorBufferString skill_string = new ColorBufferString(
+                        " " + Skill.Name(sk) + "(", text,
                         skill_base.ToString(),
                         Color.White);
                     if (skill_mod > 0)
@@ -893,7 +932,8 @@ namespace Forays
                     {
                         if (skill_mod < 0)
                         {
-                            skill_string.strings.Add(new ColorString(skill_mod.ToString(), Color.Blue));
+                            skill_string.strings.Add(new ColorString(skill_mod.ToString(),
+                                Color.Blue));
                         }
                     }
 
@@ -994,7 +1034,8 @@ namespace Forays
 
             for (int i = 0; i < active_feats.Count; ++i)
             {
-                actives.Add(new ColorBufferString("  [", text, ((char) (i + 'a')).ToString(), Color.Cyan,
+                actives.Add(new ColorBufferString("  [", text, ((char) (i + 'a')).ToString(),
+                    Color.Cyan,
                     "] " + Feat.Name(active_feats[i]), text));
             }
 
@@ -1003,7 +1044,8 @@ namespace Forays
             const int total_height = Global.SCREEN_H - Global.MAP_OFFSET_ROWS;
             List<List<ColorBufferString>> all = new List<List<ColorBufferString>>
                 {top, name, skills, feats, spells, trinkets, divider, actives};
-            List<List<ColorBufferString>> some = new List<List<ColorBufferString>> {name, skills, feats, spells};
+            List<List<ColorBufferString>> some = new List<List<ColorBufferString>>
+                {name, skills, feats, spells};
             List<List<ColorBufferString>> top_titles = new List<List<ColorBufferString>>
                 {name, skills, feats, spells, trinkets};
             int rows_left = total_height - 1; // -1 for the bottom border
@@ -1049,7 +1091,8 @@ namespace Forays
             {
                 if (list.Last().Length() > 0)
                 {
-                    no_blank_line.Add(list); //this time, we try to put a space between each list and the next title.
+                    no_blank_line
+                        .Add(list); //this time, we try to put a space between each list and the next title.
                 }
             }
 
@@ -1101,7 +1144,8 @@ namespace Forays
             int result = -1;
             if (readkey)
             {
-                result = player.GetSelection("Character information: ", active_feats.Count, false, true,
+                result = player.GetSelection("Character information: ", active_feats.Count, false,
+                    true,
                     false); //todo, currently only feats.
             }
 
@@ -1128,7 +1172,8 @@ namespace Forays
                 int i = 0;
                 foreach (MagicTrinketType trinket in trinkets)
                 {
-                    MouseUI.CreateButton((ConsoleKey) (ConsoleKey.I + i), false, i + 1 + Global.MAP_OFFSET_ROWS,
+                    MouseUI.CreateButton((ConsoleKey) (ConsoleKey.I + i), false,
+                        i + 1 + Global.MAP_OFFSET_ROWS,
                         Global.MAP_OFFSET_COLS + 32, 1, 34);
                     ++i;
                 }
@@ -1143,7 +1188,8 @@ namespace Forays
             int line = 1;
             for (WeaponType w = WeaponType.SWORD; w <= WeaponType.BOW; ++w)
             {
-                Screen.WriteMapString(line, 2, "[ ] " + player.WeaponOfType(w).EquipmentScreenName());
+                Screen.WriteMapString(line, 2,
+                    "[ ] " + player.WeaponOfType(w).EquipmentScreenName());
                 ConsoleKey key = (ConsoleKey) (ConsoleKey.A + line - 1);
                 if (w == selectedWeapon)
                 {
@@ -1152,7 +1198,8 @@ namespace Forays
 
                 if (trinkets.Count >= line)
                 {
-                    MouseUI.CreateButton(key, false, line + Global.MAP_OFFSET_ROWS, Global.MAP_OFFSET_COLS, 1, 32);
+                    MouseUI.CreateButton(key, false, line + Global.MAP_OFFSET_ROWS,
+                        Global.MAP_OFFSET_COLS, 1, 32);
                 }
                 else
                 {
@@ -1165,7 +1212,8 @@ namespace Forays
             line = 8;
             for (ArmorType a = ArmorType.LEATHER; a <= ArmorType.FULL_PLATE; ++a)
             {
-                Screen.WriteMapString(line, 2, "[ ] " + player.ArmorOfType(a).EquipmentScreenName());
+                Screen.WriteMapString(line, 2,
+                    "[ ] " + player.ArmorOfType(a).EquipmentScreenName());
                 ConsoleKey key = (ConsoleKey) (ConsoleKey.A + line - 3);
                 if (a == selectedArmor)
                 {
@@ -1174,7 +1222,8 @@ namespace Forays
 
                 if (trinkets.Count >= line)
                 {
-                    MouseUI.CreateButton(key, false, line + Global.MAP_OFFSET_ROWS, Global.MAP_OFFSET_COLS, 1, 32);
+                    MouseUI.CreateButton(key, false, line + Global.MAP_OFFSET_ROWS,
+                        Global.MAP_OFFSET_COLS, 1, 32);
                 }
                 else
                 {
@@ -1262,9 +1311,11 @@ namespace Forays
                     ? trinkets[selectedTrinketIdx]
                     : MagicTrinketType.NO_MAGIC_TRINKET;
                 List<ColorBufferString> wStr = newWeapon.Description().GetColorStrings();
-                wStr[0] = new ColorBufferString("Weapon", Color.DarkRed, ": ", Color.Gray) + wStr[0];
+                wStr[0] = new ColorBufferString("Weapon", Color.DarkRed, ": ", Color.Gray) +
+                          wStr[0];
                 List<ColorBufferString> aStr = newArmor.Description().GetColorStrings();
-                aStr[0] = new ColorBufferString("Armor", Color.DarkCyan, ": ", Color.Gray) + aStr[0];
+                aStr[0] = new ColorBufferString("Armor", Color.DarkCyan, ": ", Color.Gray) +
+                          aStr[0];
                 {
                     string wEnch = newWeapon.DescriptionOfEnchantment();
                     string aEnch = newArmor.DescriptionOfEnchantment();
@@ -1278,8 +1329,11 @@ namespace Forays
                         aStr.Add(new ColorBufferString(aEnch, newArmor.EnchantmentColor()));
                     }
                 }
-                List<ColorBufferString> mStr = MagicTrinket.Description(selectedTrinket).GetColorStrings();
-                mStr[0] = new ColorBufferString("Magic trinket", Color.DarkGreen, ": ", Color.Gray) + mStr[0];
+                List<ColorBufferString> mStr = MagicTrinket.Description(selectedTrinket)
+                    .GetColorStrings();
+                mStr[0] =
+                    new ColorBufferString("Magic trinket", Color.DarkGreen, ": ", Color.Gray) +
+                    mStr[0];
                 if (mStr.Count > 1)
                 {
                     mStr[1] = "".PadRight(15) + mStr[1];
@@ -1387,7 +1441,8 @@ namespace Forays
                 }
 
                 int row = 12;
-                foreach (List<ColorBufferString> list in new List<List<ColorBufferString>> {top, wStr, aStr, mStr})
+                foreach (List<ColorBufferString> list in new List<List<ColorBufferString>>
+                    {top, wStr, aStr, mStr})
                 {
                     foreach (ColorBufferString cs in list)
                     {
@@ -1402,7 +1457,8 @@ namespace Forays
                 }
                 else
                 {
-                    if ((newWeapon != equippedWeapon && equippedWeapon.status[EquipmentStatus.STUCK]) ||
+                    if ((newWeapon != equippedWeapon &&
+                         equippedWeapon.status[EquipmentStatus.STUCK]) ||
                         (newArmor != equippedArmor && equippedArmor.status[EquipmentStatus.STUCK]))
                     {
                         Screen.WriteMapString(row, 0, "".PadRight(COLS, '-'));
@@ -1411,7 +1467,8 @@ namespace Forays
                     else
                     {
                         Screen.WriteMapString(row, 0,
-                            new ColorBufferString("[", Color.Gray, "Enter", Color.Magenta, "] to confirm", Color.Gray)
+                            new ColorBufferString("[", Color.Gray, "Enter", Color.Magenta,
+                                    "] to confirm", Color.Gray)
                                 .PadOuter(COLS, '-'));
                         MouseUI.CreateMapButton(ConsoleKey.Enter, false, row, 1);
                     }
@@ -1419,7 +1476,7 @@ namespace Forays
 
                 Screen.ResetColors();
                 UI.Display("Your equipment: ");
-                command = Input.ReadKey();
+                command = InputKey.ReadKey();
                 char ch = command.GetCommandChar();
                 switch (ch)
                 {
@@ -1457,8 +1514,10 @@ namespace Forays
                         if (num != (int) (selectedWeapon))
                         {
                             MouseUI.GetButton((int) (selectedWeapon) + 1 + Global.MAP_OFFSET_ROWS,
-                                Global.MAP_OFFSET_COLS).key = (ConsoleKey) (ConsoleKey.A + (int) selectedWeapon);
-                            MouseUI.GetButton(num + 1 + Global.MAP_OFFSET_ROWS, Global.MAP_OFFSET_COLS).key =
+                                    Global.MAP_OFFSET_COLS).key =
+                                (ConsoleKey) (ConsoleKey.A + (int) selectedWeapon);
+                            MouseUI.GetButton(num + 1 + Global.MAP_OFFSET_ROWS,
+                                    Global.MAP_OFFSET_COLS).key =
                                 ConsoleKey.Enter;
                             selectedWeapon = (WeaponType) num;
                         }
@@ -1489,8 +1548,10 @@ namespace Forays
                         if (num != (int) (selectedArmor))
                         {
                             MouseUI.GetButton((int) (selectedArmor) + 8 + Global.MAP_OFFSET_ROWS,
-                                Global.MAP_OFFSET_COLS).key = (ConsoleKey) (ConsoleKey.F + (int) selectedArmor);
-                            MouseUI.GetButton(num + 8 + Global.MAP_OFFSET_ROWS, Global.MAP_OFFSET_COLS).key =
+                                    Global.MAP_OFFSET_COLS).key =
+                                (ConsoleKey) (ConsoleKey.F + (int) selectedArmor);
+                            MouseUI.GetButton(num + 8 + Global.MAP_OFFSET_ROWS,
+                                    Global.MAP_OFFSET_COLS).key =
                                 ConsoleKey.Enter;
                             selectedArmor = (ArmorType) num;
                         }
@@ -1587,21 +1648,25 @@ namespace Forays
                             case FeatureType.POISON_GAS:
                             {
                                 if (t.Is(TileType.POISON_GAS_VENT)) return poisonVent;
-                                return "Thick poisonous gas swirls around you, drifting slowly downward.";
+                                return
+                                    "Thick poisonous gas swirls around you, drifting slowly downward.";
                             }
                             case FeatureType.SLIME:
                             {
-                                string s = $"A thick layer of slippery slime covers {t.GetName(The)}.";
+                                string s =
+                                    $"A thick layer of slippery slime covers {t.GetName(The)}.";
                                 if (s.Length > COLS)
                                 {
-                                    return "A thick layer of slippery slime covers every surface here.";
+                                    return
+                                        "A thick layer of slippery slime covers every surface here.";
                                 }
 
                                 return s;
                             }
                             case FeatureType.OIL:
                             {
-                                string s = $"Oil is puddled on {t.GetName(The)} here, awaiting a spark.";
+                                string s =
+                                    $"Oil is puddled on {t.GetName(The)} here, awaiting a spark.";
                                 if (s.Length > COLS)
                                 {
                                     return "Oil is puddled here, awaiting a spark.";
@@ -1617,7 +1682,8 @@ namespace Forays
                             case FeatureType.FIRE:
                                 return "Flames leap around you.";
                             case FeatureType.BONES:
-                                return "Threads of necromantic magic still hold these bones together.";
+                                return
+                                    "Threads of necromantic magic still hold these bones together.";
                             case FeatureType.WEB:
                                 return "Sticky threads embrace you.";
                             case FeatureType.PIXIE_DUST:
@@ -1643,7 +1709,8 @@ namespace Forays
                     case TileType.STAIRS:
                         if (t.color == Color.RandomDoom)
                         {
-                            return "The stairway is sealed by the infernal power of the demonic idols.";
+                            return
+                                "The stairway is sealed by the infernal power of the demonic idols.";
                         }
                         else
                         {
@@ -1786,8 +1853,10 @@ namespace Forays
         {
             player.Interrupt();
             MouseUI.PushButtonMap(MouseMode.YesNoPrompt);
-            MouseUI.CreateButton(ConsoleKey.Y, false, 2, Global.MAP_OFFSET_COLS + s.Length + 1, 1, 2);
-            MouseUI.CreateButton(ConsoleKey.N, false, 2, Global.MAP_OFFSET_COLS + s.Length + 4, 1, 2);
+            MouseUI.CreateButton(ConsoleKey.Y, false, 2, Global.MAP_OFFSET_COLS + s.Length + 1, 1,
+                2);
+            MouseUI.CreateButton(ConsoleKey.N, false, 2, Global.MAP_OFFSET_COLS + s.Length + 4, 1,
+                2);
             if (MouseUI.descend_hack)
             {
                 for (int i = 0; i < Global.SCREEN_H; ++i)
@@ -1813,7 +1882,7 @@ namespace Forays
             UI.Display(s + " (y/n): ");
             while (true)
             {
-                switch (Input.ReadKey().KeyChar)
+                switch (InputKey.ReadKey().KeyChar)
                 {
                     case 'y':
                     case 'Y':
@@ -1842,7 +1911,8 @@ namespace Forays
             for (int i = 0; i < 3 - wrapped.Count; ++i)
                 Screen.WriteString(i, Global.MAP_OFFSET_COLS, "".PadToMapSize());
             for (int i = 0; i < wrapped.Count; ++i)
-                Screen.WriteString(3 - wrapped.Count + i, Global.MAP_OFFSET_COLS, message.PadToMapSize());
+                Screen.WriteString(3 - wrapped.Count + i, Global.MAP_OFFSET_COLS,
+                    message.PadToMapSize());
             Screen.SetCursorPosition(Global.MAP_OFFSET_COLS + message.Length, 2);
         }
     }

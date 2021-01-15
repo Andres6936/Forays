@@ -122,14 +122,16 @@ namespace Forays
             {
                 Screen.WriteString(i + topic_start_row, 1, "[ ]");
                 Screen.WriteChar(i + topic_start_row, 2, (char) (i + 'a'), Color.Cyan);
-                MouseUI.CreateButton((ConsoleKey) (ConsoleKey.A + i), false, i + topic_start_row, 0, 1, text_col - 1);
+                MouseUI.CreateButton((ConsoleKey) (ConsoleKey.A + i), false, i + topic_start_row, 0,
+                    1, text_col - 1);
             }
 
             Screen.WriteString(num_topics + topic_start_row, 5, "Quit");
             const int text_width = 64;
             const int text_height = 26;
             MouseUI.CreateButton(ConsoleKey.OemMinus, false, 0, text_col, 1, text_width);
-            MouseUI.CreateButton(ConsoleKey.OemPlus, false, Global.SCREEN_H - 1, text_col, 1, text_width);
+            MouseUI.CreateButton(ConsoleKey.OemPlus, false, Global.SCREEN_H - 1, text_col, 1,
+                text_width);
             Screen.WriteString(0, text_col, "".PadRight(text_width - 3, '-'));
             Screen.WriteString(Global.SCREEN_H - 1, text_col, "".PadRight(text_width - 3, '-'));
             List<string> text = HelpText(h);
@@ -142,19 +144,22 @@ namespace Forays
                 {
                     if (h == help)
                     {
-                        Screen.WriteString((int) help + topic_start_row, 5, Enum.GetName(typeof(HelpTopic), help),
+                        Screen.WriteString((int) help + topic_start_row, 5,
+                            Enum.GetName(typeof(HelpTopic), help),
                             Color.Yellow);
                     }
                     else
                     {
-                        Screen.WriteString((int) help + topic_start_row, 5, Enum.GetName(typeof(HelpTopic), help));
+                        Screen.WriteString((int) help + topic_start_row, 5,
+                            Enum.GetName(typeof(HelpTopic), help));
                     }
                 }
 
                 if (startline > 0)
                 {
                     Screen.WriteString(0, text_col + text_width - 3,
-                        new ColorBufferString("[", Color.Yellow, "-", Color.Cyan, "]", Color.Yellow));
+                        new ColorBufferString("[", Color.Yellow, "-", Color.Cyan, "]",
+                            Color.Yellow));
                 }
                 else
                 {
@@ -170,7 +175,8 @@ namespace Forays
                 if (more)
                 {
                     Screen.WriteString(Global.SCREEN_H - 1, text_col + text_width - 3,
-                        new ColorBufferString("[", Color.Yellow, "+", Color.Cyan, "]", Color.Yellow));
+                        new ColorBufferString("[", Color.Yellow, "+", Color.Cyan, "]",
+                            Color.Yellow));
                 }
                 else
                 {
@@ -185,11 +191,12 @@ namespace Forays
                     }
                     else
                     {
-                        Screen.WriteString(i, text_col, text[i + startline - 1].PadRight(text_width));
+                        Screen.WriteString(i, text_col,
+                            text[i + startline - 1].PadRight(text_width));
                     }
                 }
 
-                command = Input.ReadKey(false);
+                command = InputKey.ReadKey(false);
                 ConsoleKey ck = command.Key;
                 switch (ck)
                 {
@@ -440,15 +447,18 @@ namespace Forays
             Color box_edge_color = Color.Blue;
             Color box_corner_color = Color.Yellow;
             List<ColorBufferString> box = new List<ColorBufferString>();
-            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(width - 2, '-'), box_edge_color, "+",
+            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(width - 2, '-'),
+                box_edge_color, "+",
                 box_corner_color));
             for (int i = 0; i < height - 2; ++i)
             {
-                box.Add(new ColorBufferString("|", box_edge_color, "".PadRight(width - 2), Color.Gray, "|",
+                box.Add(new ColorBufferString("|", box_edge_color, "".PadRight(width - 2),
+                    Color.Gray, "|",
                     box_edge_color));
             }
 
-            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(width - 2, '-'), box_edge_color, "+",
+            box.Add(new ColorBufferString("+", box_corner_color, "".PadRight(width - 2, '-'),
+                box_edge_color, "+",
                 box_corner_color));
             return box;
         }
@@ -458,7 +468,8 @@ namespace Forays
             return
                 previous_width -
                 (previous_width * 2 /
-                 previous_height); //2 lines are removed, so the width loses 2/height to keep similar dimensions
+                 previous_height
+                ); //2 lines are removed, so the width loses 2/height to keep similar dimensions
         }
 
         public static void TutorialTip(TutorialTopic topic)
@@ -492,18 +503,24 @@ namespace Forays
             int boxwidth = stringwidth + 2;
             int boxheight = text.Length + 5;
             ColorBufferString[]
-                box = new ColorBufferString[boxheight]; //maybe i should make this a list to match the others
-            box[0] = new ColorBufferString("+", box_corner_color, "".PadRight(stringwidth, '-'), box_edge_color, "+",
+                box = new ColorBufferString
+                    [boxheight]; //maybe i should make this a list to match the others
+            box[0] = new ColorBufferString("+", box_corner_color, "".PadRight(stringwidth, '-'),
+                box_edge_color, "+",
                 box_corner_color);
-            box[text.Length + 1] = new ColorBufferString("|", box_edge_color, "".PadRight(stringwidth), Color.Gray, "|",
+            box[text.Length + 1] = new ColorBufferString("|", box_edge_color,
+                "".PadRight(stringwidth), Color.Gray, "|",
                 box_edge_color);
             box[text.Length + 2] = new ColorBufferString("|", box_edge_color) +
-                                   "[Press any key to continue]".PadOuter(stringwidth).GetColorString(text_color) +
+                                   "[Press any key to continue]".PadOuter(stringwidth)
+                                       .GetColorString(text_color) +
                                    new ColorBufferString("|", box_edge_color);
             box[text.Length + 3] = new ColorBufferString("|", box_edge_color) +
-                                   "[=] Stop showing tips".PadOuter(stringwidth).GetColorString(text_color) +
+                                   "[=] Stop showing tips".PadOuter(stringwidth)
+                                       .GetColorString(text_color) +
                                    new ColorBufferString("|", box_edge_color);
-            box[text.Length + 4] = new ColorBufferString("+", box_corner_color, "".PadRight(stringwidth, '-'),
+            box[text.Length + 4] = new ColorBufferString("+", box_corner_color,
+                "".PadRight(stringwidth, '-'),
                 box_edge_color,
                 "+", box_corner_color);
             int pos = 1;
@@ -516,7 +533,8 @@ namespace Forays
                 {
                     box[pos] = new ColorBufferString();
                     box[pos].strings.Add(new ColorString("|", box_edge_color));
-                    box[pos].strings.Add(new ColorString(s.PadOuter(stringwidth), first_line_color));
+                    box[pos].strings
+                        .Add(new ColorString(s.PadOuter(stringwidth), first_line_color));
                     box[pos].strings.Add(new ColorString("|", box_edge_color));
                 }
 
@@ -526,15 +544,18 @@ namespace Forays
             int y = (Global.SCREEN_H - boxheight) / 2;
             int x = (Global.SCREEN_W - boxwidth) / 2;
             int spaces_on_left = stringwidth - 27;
-            MouseUI.CreateButton(ConsoleKey.A, false, y + boxheight - 3, x + 1 + spaces_on_left / 2, 1, 27);
+            MouseUI.CreateButton(ConsoleKey.A, false, y + boxheight - 3, x + 1 + spaces_on_left / 2,
+                1, 27);
             spaces_on_left = stringwidth - 21;
-            MouseUI.CreateButton(ConsoleKey.OemPlus, false, y + boxheight - 2, x + 1 + spaces_on_left / 2, 1, 21);
+            MouseUI.CreateButton(ConsoleKey.OemPlus, false, y + boxheight - 2,
+                x + 1 + spaces_on_left / 2, 1, 21);
             ColorChar[,] memory = Screen.GetCurrentRect(y, x, boxheight, boxwidth);
             List<List<ColorBufferString>> frames = new List<List<ColorBufferString>>();
             frames.Add(BoxAnimationFrame(boxheight - 2, FrameWidth(boxheight, boxwidth)));
             for (int i = boxheight - 4; i > 0; i -= 2)
             {
-                frames.Add(BoxAnimationFrame(i, FrameWidth(frames.Last().Count, frames.Last()[0].Length())));
+                frames.Add(BoxAnimationFrame(i,
+                    FrameWidth(frames.Last().Count, frames.Last()[0].Length())));
             }
 
             UI.DisplayStats();
@@ -563,13 +584,13 @@ namespace Forays
             MouseUI.IgnoreMouseMovement = false;
             Screen.GLUpdate();
             Thread.Sleep(500);
-            Input.FlushInput();
+            InputKey.FlushInput();
             if (!Actor.player.HasAttr(AttrType.RESTING))
             {
                 Actor.player.Interrupt();
             }
 
-            if (Input.ReadKey(false).KeyChar == '=')
+            if (InputKey.ReadKey(false).KeyChar == '=')
             {
                 Global.Options[OptionType.NEVER_DISPLAY_TIPS] = true;
             }

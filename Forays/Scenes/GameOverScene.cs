@@ -175,7 +175,7 @@ namespace Forays.Scenes
                         PlayerView.Player.Select("In your pack: ", postMortemInventoryList, true,
                             false,
                             false);
-                        Input.ReadKey();
+                        InputKey.ReadKey();
                         MouseUI.PopButtonMap();
                         break;
                     case 4:
@@ -190,7 +190,7 @@ namespace Forays.Scenes
                     {
                         UI.Display("Enter file name: ");
                         MouseUI.PushButtonMap();
-                        string filename = Input.EnterString(40);
+                        string filename = InputKey.EnterString(40);
                         MouseUI.PopButtonMap();
                         if (filename == "")
                         {

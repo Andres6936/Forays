@@ -71,7 +71,8 @@ namespace Forays
             sprite_offset = new pos(0, 1);
         }
 
-        public PhysicalObject(string name_, char symbol_, Color color_) : this(new Name(name_), symbol_, color_)
+        public PhysicalObject(string name_, char symbol_, Color color_) : this(new Name(name_),
+            symbol_, color_)
         {
         }
 
@@ -143,7 +144,9 @@ namespace Forays
             Color text = UI.darken_status_bar ? Colors.status_darken : Color.Gray;
             if (p.Equals(UI.MapCursor))
             {
-                text = UI.darken_status_bar ? Colors.status_highlight_darken : Colors.status_highlight;
+                text = UI.darken_status_bar
+                    ? Colors.status_highlight_darken
+                    : Colors.status_highlight;
             }
 
             foreach (string s in this.GetName().GetWordWrappedList(17, true))
@@ -171,7 +174,8 @@ namespace Forays
             {
                 if (Name.Singular == "troll bloodwitch corpse")
                 {
-                    result.Add(new ColorBufferString("Regenerating 3".PadOuter(Global.STATUS_WIDTH), text,
+                    result.Add(new ColorBufferString("Regenerating 3".PadOuter(Global.STATUS_WIDTH),
+                        text,
                         Color.StatusEffectBar));
                 }
             }
@@ -278,7 +282,8 @@ namespace Forays
                     if (a != player)
                     {
                         //let the player hear sounds with a message?
-                        if (a.target_location == null && !a.CanSee(player) && (actor() == null || !a.CanSee(actor())) &&
+                        if (a.target_location == null && !a.CanSee(player) &&
+                            (actor() == null || !a.CanSee(actor())) &&
                             !a.HasAttr(AttrType.AMNESIA_STUN))
                         {
                             //if they already have an idea of where the player is/was, they won't bother
@@ -336,7 +341,8 @@ namespace Forays
             return KnockObjectBack(a, line, knockback_strength, damage_source);
         }
 
-        public bool KnockObjectBack(Actor a, List<Tile> line, int knockback_strength, Actor damage_source)
+        public bool KnockObjectBack(Actor a, List<Tile> line, int knockback_strength,
+            Actor damage_source)
         {
             if (knockback_strength == 0)
             {
@@ -364,7 +370,8 @@ namespace Forays
 
             bool immobile = a.MovementPrevented(line[0]);
             string knocked_back_message = "";
-            if (!a.HasAttr(AttrType.TELEKINETICALLY_THROWN, AttrType.SELF_TK_NO_DAMAGE) && !immobile &&
+            if (!a.HasAttr(AttrType.TELEKINETICALLY_THROWN, AttrType.SELF_TK_NO_DAMAGE) &&
+                !immobile &&
                 player.CanSee(a))
             {
                 //if the player can see it now, don't check CanSee later.
@@ -408,7 +415,8 @@ namespace Forays
                         return true;
                     }
 
-                    return a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6), damage_source,
+                    return a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6),
+                        damage_source,
                         "crashing into the floor");
                 }
 
@@ -427,7 +435,8 @@ namespace Forays
 
                         if (player.CanSee(a.tile()))
                         {
-                            B.Add(a.GetName(true, The, Are) + " knocked through " + tilename + ". ", a, t);
+                            B.Add(a.GetName(true, The, Are) + " knocked through " + tilename + ". ",
+                                a, t);
                         }
                         else
                         {
@@ -437,10 +446,12 @@ namespace Forays
                         knocked_back_message = "";
                         //knockback_strength -= 2; //removing the distance modification for now
                         t.Toggle(null);
-                        a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6), damage_source,
+                        a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6),
+                            damage_source,
                             "slamming into " + deathstringname);
                         a.Move(t.row, t.col);
-                        if (a.HasAttr(AttrType.BLEEDING) && !a.HasAttr(AttrType.SHIELDED, AttrType.INVULNERABLE,
+                        if (a.HasAttr(AttrType.BLEEDING) && !a.HasAttr(AttrType.SHIELDED,
+                                AttrType.INVULNERABLE,
                                 AttrType.SELF_TK_NO_DAMAGE))
                         {
                             if (a.type == ActorType.HOMUNCULUS)
@@ -463,7 +474,9 @@ namespace Forays
                     {
                         if (player.CanSee(a.tile()))
                         {
-                            B.Add(a.GetName(true, The, Are) + " knocked into " + t.GetName(true, The) + ". ", a, t);
+                            B.Add(
+                                a.GetName(true, The, Are) + " knocked into " +
+                                t.GetName(true, The) + ". ", a, t);
                         }
                         else
                         {
@@ -475,12 +488,14 @@ namespace Forays
                         {
                             Color blood = a.BloodColor();
                             if (blood != Color.Black && R.CoinFlip() && t.Is(TileType.WALL) &&
-                                !a.HasAttr(AttrType.SHIELDED, AttrType.INVULNERABLE, AttrType.SELF_TK_NO_DAMAGE))
+                                !a.HasAttr(AttrType.SHIELDED, AttrType.INVULNERABLE,
+                                    AttrType.SELF_TK_NO_DAMAGE))
                             {
                                 t.color = blood;
                             }
 
-                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6), damage_source,
+                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6),
+                                damage_source,
                                 "slamming into " + deathstringname);
                         }
 
@@ -499,7 +514,9 @@ namespace Forays
                     {
                         if (player.CanSee(a.tile()) || player.CanSee(t))
                         {
-                            B.Add(a.GetName(true, The, Are) + " knocked into " + t.actor().GetName(true, The) + ". ", a,
+                            B.Add(
+                                a.GetName(true, The, Are) + " knocked into " +
+                                t.actor().GetName(true, The) + ". ", a,
                                 t.actor());
                         }
                         else
@@ -510,15 +527,18 @@ namespace Forays
                         knocked_back_message = "";
                         string actorname = t.actor().GetName(false, An);
                         string actorname2 = a.GetName(false, An);
-                        if (t.actor().type != ActorType.SPORE_POD && !t.actor().HasAttr(AttrType.SELF_TK_NO_DAMAGE))
+                        if (t.actor().type != ActorType.SPORE_POD &&
+                            !t.actor().HasAttr(AttrType.SELF_TK_NO_DAMAGE))
                         {
                             t.actor().TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL,
-                                R.Roll(damage_dice_to_other, 6), damage_source, "colliding with " + actorname2);
+                                R.Roll(damage_dice_to_other, 6), damage_source,
+                                "colliding with " + actorname2);
                         }
 
                         if (a.type != ActorType.SPORE_POD)
                         {
-                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6), damage_source,
+                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6),
+                                damage_source,
                                 "colliding with " + actorname);
                         }
 
@@ -539,7 +559,8 @@ namespace Forays
                             knockback_strength = 0;
                         }
 
-                        if (a.HasAttr(AttrType.BLEEDING) && !a.HasAttr(AttrType.SHIELDED, AttrType.INVULNERABLE,
+                        if (a.HasAttr(AttrType.BLEEDING) && !a.HasAttr(AttrType.SHIELDED,
+                                AttrType.INVULNERABLE,
                                 AttrType.SELF_TK_NO_DAMAGE))
                         {
                             if (a.type == ActorType.HOMUNCULUS)
@@ -589,7 +610,8 @@ namespace Forays
                         return true;
                     }
 
-                    return a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6), damage_source,
+                    return a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6),
+                        damage_source,
                         "crashing into the floor");
                 }
 
@@ -608,7 +630,8 @@ namespace Forays
 
                         if (player.CanSee(a.tile()))
                         {
-                            B.Add(a.GetName(true, The, Are) + " knocked through " + tilename + ". ", a, t);
+                            B.Add(a.GetName(true, The, Are) + " knocked through " + tilename + ". ",
+                                a, t);
                         }
                         else
                         {
@@ -617,10 +640,12 @@ namespace Forays
 
                         knocked_back_message = "";
                         t.Toggle(null);
-                        a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6), damage_source,
+                        a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6),
+                            damage_source,
                             "slamming into " + deathstringname);
                         a.Move(t.row, t.col);
-                        if (a.HasAttr(AttrType.BLEEDING) && !a.HasAttr(AttrType.SHIELDED, AttrType.INVULNERABLE,
+                        if (a.HasAttr(AttrType.BLEEDING) && !a.HasAttr(AttrType.SHIELDED,
+                                AttrType.INVULNERABLE,
                                 AttrType.SELF_TK_NO_DAMAGE))
                         {
                             if (a.type == ActorType.HOMUNCULUS)
@@ -645,7 +670,9 @@ namespace Forays
                     {
                         if (player.CanSee(a.tile()))
                         {
-                            B.Add(a.GetName(true, The, Are) + " knocked into " + t.GetName(true, The) + ". ", a, t);
+                            B.Add(
+                                a.GetName(true, The, Are) + " knocked into " +
+                                t.GetName(true, The) + ". ", a, t);
                         }
                         else
                         {
@@ -657,12 +684,14 @@ namespace Forays
                         {
                             Color blood = a.BloodColor();
                             if (blood != Color.Black && R.CoinFlip() && t.Is(TileType.WALL) &&
-                                !a.HasAttr(AttrType.SHIELDED, AttrType.INVULNERABLE, AttrType.SELF_TK_NO_DAMAGE))
+                                !a.HasAttr(AttrType.SHIELDED, AttrType.INVULNERABLE,
+                                    AttrType.SELF_TK_NO_DAMAGE))
                             {
                                 t.color = blood;
                             }
 
-                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6), damage_source,
+                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6),
+                                damage_source,
                                 "slamming into " + deathstringname);
                         }
 
@@ -681,7 +710,9 @@ namespace Forays
                     {
                         if (player.CanSee(a.tile()) || player.CanSee(t))
                         {
-                            B.Add(a.GetName(true, The, Are) + " knocked into " + t.actor().GetName(true, The) + ". ", a,
+                            B.Add(
+                                a.GetName(true, The, Are) + " knocked into " +
+                                t.actor().GetName(true, The) + ". ", a,
                                 t.actor());
                         }
                         else
@@ -692,15 +723,18 @@ namespace Forays
                         knocked_back_message = "";
                         string actorname = t.actor().GetName(false, An);
                         string actorname2 = a.GetName(false, An);
-                        if (t.actor().type != ActorType.SPORE_POD && !t.actor().HasAttr(AttrType.SELF_TK_NO_DAMAGE))
+                        if (t.actor().type != ActorType.SPORE_POD &&
+                            !t.actor().HasAttr(AttrType.SELF_TK_NO_DAMAGE))
                         {
                             t.actor().TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL,
-                                R.Roll(damage_dice_to_other, 6), damage_source, "colliding with " + actorname2);
+                                R.Roll(damage_dice_to_other, 6), damage_source,
+                                "colliding with " + actorname2);
                         }
 
                         if (a.type != ActorType.SPORE_POD)
                         {
-                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6), damage_source,
+                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(dice, 6),
+                                damage_source,
                                 "colliding with " + actorname);
                         }
 
@@ -728,7 +762,8 @@ namespace Forays
                                 extra_slip_tiles--;
                             }
 
-                            if (extra_slip_tiles == -1 && a.HasAttr(AttrType.SLIMED, AttrType.OIL_COVERED) &&
+                            if (extra_slip_tiles == -1 &&
+                                a.HasAttr(AttrType.SLIMED, AttrType.OIL_COVERED) &&
                                 !t.IsWater())
                             {
                                 B.Add(knocked_back_message);
@@ -792,7 +827,8 @@ namespace Forays
                         }
 
                         a.Move(t.row, t.col);
-                        if (a.HasAttr(AttrType.BLEEDING) && !a.HasAttr(AttrType.SHIELDED, AttrType.INVULNERABLE,
+                        if (a.HasAttr(AttrType.BLEEDING) && !a.HasAttr(AttrType.SHIELDED,
+                                AttrType.INVULNERABLE,
                                 AttrType.SELF_TK_NO_DAMAGE))
                         {
                             if (a.type == ActorType.HOMUNCULUS)
@@ -896,7 +932,8 @@ namespace Forays
                         if (a != null)
                         {
                             a.attrs[AttrType.TURN_INTO_CORPSE]++;
-                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(damage_dice, 6), damage_source,
+                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL,
+                                R.Roll(damage_dice, 6), damage_source,
                                 cause_of_death);
                             if (a.curhp > 0 || !a.HasAttr(AttrType.NO_CORPSE_KNOCKBACK))
                             {
@@ -967,7 +1004,8 @@ namespace Forays
             {
                 if (t.p.BoundsCheck(M.tile, false))
                 {
-                    if (t.Is(TileType.CRACKED_WALL, TileType.DOOR_C, TileType.DOOR_O, TileType.RUBBLE,
+                    if (t.Is(TileType.CRACKED_WALL, TileType.DOOR_C, TileType.DOOR_O,
+                        TileType.RUBBLE,
                         TileType.WAX_WALL, TileType.STATUE, TileType.STALAGMITE, TileType.VINE))
                     {
                         t.Toggle(null, TileType.FLOOR);
@@ -1244,7 +1282,8 @@ namespace Forays
             }
 
             int count = 0;
-            int idx = 0; //note that the first position is thrown out, as it is assumed to be the origin of the line
+            int
+                idx = 0; //note that the first position is thrown out, as it is assumed to be the origin of the line
             foreach (Tile t in line)
             {
                 if (idx != 0)
@@ -3090,7 +3129,8 @@ compare this number to 1/2:  if less than 1/2, major.
             return HasBresenhamLineWithCondition(o.row, o.col, allow_checking_neighbors, condition);
         }
 
-        public bool HasBresenhamLineWithCondition(int r, int c, bool allow_checking_neighbors, TileDelegate condition)
+        public bool HasBresenhamLineWithCondition(int r, int c, bool allow_checking_neighbors,
+            TileDelegate condition)
         {
             if (allow_checking_neighbors)
             {
@@ -3101,7 +3141,8 @@ compare this number to 1/2:  if less than 1/2, major.
 
                 if (!condition(M.tile[r, c]))
                 {
-                    foreach (Tile t in M.tile[r, c].NeighborsBetweenWithCondition(row, col, condition))
+                    foreach (Tile t in M.tile[r, c]
+                        .NeighborsBetweenWithCondition(row, col, condition))
                     {
                         if (HasBresenhamLineWithCondition(t.row, t.col, false, condition))
                         {
@@ -4478,12 +4519,14 @@ compare this number to 1/2:  if less than 1/2, major.
                 pos target = p;
                 for (int i = 0; i < 6; ++i)
                 {
-                    target = target.PosInDir(direction); //make target the position 6 away in that direction
+                    target = target.PosInDir(
+                        direction); //make target the position 6 away in that direction
                 }
 
                 if (direction % 2 == 0)
                 {
-                    result = TilesWithinDistance(distance).Where(x => target.ManhattanDistanceFromX10(x.p) <= 60);
+                    result = TilesWithinDistance(distance)
+                        .Where(x => target.ManhattanDistanceFromX10(x.p) <= 60);
                 }
                 else
                 {
@@ -4501,9 +4544,11 @@ compare this number to 1/2:  if less than 1/2, major.
             }
         }
 
-        public List<Tile> GetTargetTile(int max_distance, int radius, bool no_line, bool start_at_interesting_target)
+        public List<Tile> GetTargetTile(int max_distance, int radius, bool no_line,
+            bool start_at_interesting_target)
         {
-            TargetInfo info = GetTarget(false, max_distance, radius, no_line, false, start_at_interesting_target, "");
+            TargetInfo info = GetTarget(false, max_distance, radius, no_line, false,
+                start_at_interesting_target, "");
             if (info == null)
             {
                 return null;
@@ -4523,7 +4568,8 @@ compare this number to 1/2:  if less than 1/2, major.
             return info.line;
         }
 
-        public TargetInfo GetTarget(bool lookmode, int max_distance, int radius, bool no_line, bool extend_line,
+        public TargetInfo GetTarget(bool lookmode, int max_distance, int radius, bool no_line,
+            bool extend_line,
             bool start_at_interesting_target, string always_displayed)
         {
             TargetInfo result = new TargetInfo(max_distance);
@@ -4550,14 +4596,17 @@ compare this number to 1/2:  if less than 1/2, major.
 
             bool hide_descriptions = false;
             List<PhysicalObject> interesting_targets = new List<PhysicalObject>();
-            for (int i = 1; (i <= max_distance || max_distance == -1) && i <= Math.Max(ROWS, COLS); ++i)
+            for (int i = 1;
+                (i <= max_distance || max_distance == -1) && i <= Math.Max(ROWS, COLS);
+                ++i)
             {
                 foreach (Actor a in ActorsAtDistance(i))
                 {
                     if (player.CanSee(a))
                     {
                         //if(lookmode || ((player.IsWithinSightRangeOf(a) || a.tile().IsLit(player.row,player.col,false)) && player.HasLOE(a))){
-                        if (lookmode || player.GetBestLineOfEffect(a).All(x => x.passable || !x.seen))
+                        if (lookmode || player.GetBestLineOfEffect(a)
+                                .All(x => x.passable || !x.seen))
                         {
                             interesting_targets.Add(a);
                         }
@@ -4567,19 +4616,26 @@ compare this number to 1/2:  if less than 1/2, major.
 
             if (lookmode)
             {
-                for (int i = 1; (i <= max_distance || max_distance == -1) && i <= Math.Max(ROWS, COLS); ++i)
+                for (int i = 1;
+                    (i <= max_distance || max_distance == -1) && i <= Math.Max(ROWS, COLS);
+                    ++i)
                 {
                     foreach (Tile t in TilesAtDistance(i))
                     {
-                        if (t.Is(TileType.STAIRS, TileType.CHEST, TileType.FIREPIT, TileType.FIRE_GEYSER,
+                        if (t.Is(TileType.STAIRS, TileType.CHEST, TileType.FIREPIT,
+                                TileType.FIRE_GEYSER,
                                 TileType.FOG_VENT, TileType.POISON_GAS_VENT,
-                                TileType.POOL_OF_RESTORATION, TileType.BLAST_FUNGUS, TileType.BARREL,
-                                TileType.STANDING_TORCH, TileType.POISON_BULB, TileType.DEMONIC_IDOL)
+                                TileType.POOL_OF_RESTORATION, TileType.BLAST_FUNGUS,
+                                TileType.BARREL,
+                                TileType.STANDING_TORCH, TileType.POISON_BULB,
+                                TileType.DEMONIC_IDOL)
                             || t.Is(FeatureType.GRENADE, FeatureType.FIRE, FeatureType.TROLL_CORPSE,
                                 FeatureType.TROLL_BLOODWITCH_CORPSE, FeatureType.BONES,
-                                FeatureType.INACTIVE_TELEPORTAL, FeatureType.STABLE_TELEPORTAL, FeatureType.TELEPORTAL,
+                                FeatureType.INACTIVE_TELEPORTAL, FeatureType.STABLE_TELEPORTAL,
+                                FeatureType.TELEPORTAL,
                                 FeatureType.POISON_GAS,
-                                FeatureType.FOG, FeatureType.PIXIE_DUST, FeatureType.SPORES, FeatureType.WEB,
+                                FeatureType.FOG, FeatureType.PIXIE_DUST, FeatureType.SPORES,
+                                FeatureType.WEB,
                                 FeatureType.CONFUSION_GAS, FeatureType.THICK_DUST)
                             || t.IsShrine() || t.inv != null || t.IsKnownTrap())
                         {
@@ -4649,7 +4705,8 @@ compare this number to 1/2:  if less than 1/2, major.
             }
             else
             {
-                if (player.target == null || !player.CanSee(player.target) || !player.HasLOE(player.target)
+                if (player.target == null || !player.CanSee(player.target) ||
+                    !player.HasLOE(player.target)
                     || (max_distance > 0 && player.DistanceFrom(player.target) > max_distance))
                 {
                     if (!start_at_interesting_target || interesting_targets.Count == 0)
@@ -4678,7 +4735,8 @@ compare this number to 1/2:  if less than 1/2, major.
             {
                 Screen.ResetColors();
                 tc = M.tile[r, c];
-                Targeting_DisplayContents(tc, always_displayed, unseen_area_message, true, first_iteration);
+                Targeting_DisplayContents(tc, always_displayed, unseen_area_message, true,
+                    first_iteration);
                 if (!lookmode)
                 {
                     bool blocked = false;
@@ -4700,7 +4758,8 @@ compare this number to 1/2:  if less than 1/2, major.
                     else
                     {
                         line = new List<Tile> {M.tile[r, c]};
-                        if (!player.HasBresenhamLineWithCondition(r, c, true, x => !(x.seen && x.opaque)))
+                        if (!player.HasBresenhamLineWithCondition(r, c, true,
+                            x => !(x.seen && x.opaque)))
                         {
                             //"player" here might be better as "this"
                             blocked = true;
@@ -4714,7 +4773,8 @@ compare this number to 1/2:  if less than 1/2, major.
                             return true;
                         }
 
-                        if (x.actor() != null && player.CanSee(x.actor()) && !no_line && x != line.LastOrDefault() &&
+                        if (x.actor() != null && player.CanSee(x.actor()) && !no_line &&
+                            x != line.LastOrDefault() &&
                             x != line[0])
                         {
                             return true;
@@ -4753,7 +4813,8 @@ compare this number to 1/2:  if less than 1/2, major.
 
                     if (!hide_descriptions)
                     {
-                        if (M.actor[r, c] != null && M.actor[r, c] != this && player.CanSee(M.actor[r, c]))
+                        if (M.actor[r, c] != null && M.actor[r, c] != this &&
+                            player.CanSee(M.actor[r, c]))
                         {
                             bool description_on_right = false;
                             int max_length = 29;
@@ -4769,7 +4830,8 @@ compare this number to 1/2:  if less than 1/2, major.
                             }
 
                             List<ColorBufferString>
-                                desc = Actor.MonsterDescriptionBox(M.actor[r, c], false, max_length);
+                                desc = Actor.MonsterDescriptionBox(M.actor[r, c], false,
+                                    max_length);
                             if (description_on_right)
                             {
                                 int start_c = COLS - desc[0].Length();
@@ -4814,7 +4876,8 @@ compare this number to 1/2:  if less than 1/2, major.
                                 }
 
                                 List<ColorBufferString> desc =
-                                    UI.ItemDescriptionBox(M.tile[r, c].inv, true, false, max_length);
+                                    UI.ItemDescriptionBox(M.tile[r, c].inv, true, false,
+                                        max_length);
                                 if (description_on_right)
                                 {
                                     int start_c = COLS - desc[0].Length();
@@ -4860,9 +4923,10 @@ compare this number to 1/2:  if less than 1/2, major.
 
                 first_iteration = false;
                 M.tile[r, c].Cursor();
-                command = Input.ReadKey().GetAction();
+                command = InputKey.ReadKey().GetAction();
                 char ch = command.GetCommandChar();
-                if (!Targeting_HandleCommonCommands(command, ch, ref r, ref c, interesting_targets, ref done, minrow,
+                if (!Targeting_HandleCommonCommands(command, ch, ref r, ref c, interesting_targets,
+                    ref done, minrow,
                     maxrow, mincol, maxcol, !lookmode))
                 {
                     switch (ch)
@@ -4876,7 +4940,8 @@ compare this number to 1/2:  if less than 1/2, major.
                             break;
                         case (char) 13:
                         case 's':
-                            if (M.actor[r, c] != null && M.actor[r, c] != this && player.CanSee(M.actor[r, c]) &&
+                            if (M.actor[r, c] != null && M.actor[r, c] != this &&
+                                player.CanSee(M.actor[r, c]) &&
                                 player.HasLOE(M.actor[r, c]))
                             {
                                 player.target = M.actor[r, c];
@@ -4887,26 +4952,37 @@ compare this number to 1/2:  if less than 1/2, major.
                             done = true;
                             break;
                         case 'X':
-                            if (lookmode && this == player && UI.YesOrNoPrompt("Travel to this location?"))
+                            if (lookmode && this == player &&
+                                UI.YesOrNoPrompt("Travel to this location?"))
                             {
                                 //player.path = player.GetPath(r,c);
                                 Tile nearest = M.tile[r, c];
-                                PosArray<bool> known_reachable = M.tile.GetFloodFillArray(this.p, false,
-                                    x => (M.tile[x].passable || M.tile[x].IsDoorType(false)) && M.tile[x].seen);
+                                PosArray<bool> known_reachable = M.tile.GetFloodFillArray(this.p,
+                                    false,
+                                    x => (M.tile[x].passable || M.tile[x].IsDoorType(false)) &&
+                                         M.tile[x].seen);
                                 PosArray<int> distance_to_nearest_known_passable =
                                     M.tile.GetDijkstraMap(
-                                        y => M.tile[y].seen && (M.tile[y].passable || M.tile[y].IsDoorType(false)) &&
-                                             !M.tile[y].IsKnownTrap() && known_reachable[y], x => false);
-                                if (!nearest.seen || nearest.IsKnownTrap() || !nearest.TilesWithinDistance(1)
+                                        y => M.tile[y].seen &&
+                                             (M.tile[y].passable || M.tile[y].IsDoorType(false)) &&
+                                             !M.tile[y].IsKnownTrap() && known_reachable[y],
+                                        x => false);
+                                if (!nearest.seen || nearest.IsKnownTrap() || !nearest
+                                        .TilesWithinDistance(1)
                                         .Any(x => x.passable && known_reachable[x.p]))
                                 {
-                                    nearest = nearest.TilesAtDistance(distance_to_nearest_known_passable[r, c])
-                                        .Where(x => x.seen && (x.passable || x.IsDoorType(false)) && !x.IsKnownTrap() &&
-                                                    known_reachable[x.p]).WhereLeast(x =>
-                                            x.ApproximateEuclideanDistanceFromX10(r, c)).LastOrDefault();
+                                    nearest = nearest
+                                        .TilesAtDistance(distance_to_nearest_known_passable[r, c])
+                                        .Where(x =>
+                                            x.seen && (x.passable || x.IsDoorType(false)) &&
+                                            !x.IsKnownTrap() &&
+                                            known_reachable[x.p]).WhereLeast(x =>
+                                            x.ApproximateEuclideanDistanceFromX10(r, c))
+                                        .LastOrDefault();
                                 }
 
-                                player.path = player.GetPath(nearest.row, nearest.col, -1, true, true,
+                                player.path = player.GetPath(nearest.row, nearest.col, -1, true,
+                                    true,
                                     Actor.UnknownTilePathingPreference.UnknownTilesAreClosed);
                                 player.path.StopAtBlockingTerrain();
                                 Actor.interrupted_path = new pos(-1, -1);
@@ -4935,7 +5011,8 @@ compare this number to 1/2:  if less than 1/2, major.
             return result;
         }
 
-        public static void Targeting_DisplayContents(Tile tc, string always_displayed, string unseen_area_message,
+        public static void Targeting_DisplayContents(Tile tc, string always_displayed,
+            string unseen_area_message,
             bool include_monsters, bool first_iteration)
         {
             if (always_displayed == "")
@@ -5018,7 +5095,8 @@ compare this number to 1/2:  if less than 1/2, major.
                     {
                         if (include_monsters && tc.actor() != null && player.CanSee(tc.actor()))
                         {
-                            UI.Display("You sense " + tc.actor().GetName(An) + " " + tc.actor().WoundStatus() + ". ");
+                            UI.Display("You sense " + tc.actor().GetName(An) + " " +
+                                       tc.actor().WoundStatus() + ". ");
                         }
                         else
                         {
@@ -5036,12 +5114,14 @@ compare this number to 1/2:  if less than 1/2, major.
                                     }
                                     else
                                     {
-                                        UI.Display("You can no longer see this " + tc.GetName(true) + ". ");
+                                        UI.Display("You can no longer see this " +
+                                                   tc.GetName(true) + ". ");
                                     }
                                 }
                                 else
                                 {
-                                    UI.Display("You can no longer see this " + tc.GetName(true) + ". ");
+                                    UI.Display("You can no longer see this " + tc.GetName(true) +
+                                               ". ");
                                 }
                             }
                             else
@@ -5058,7 +5138,8 @@ compare this number to 1/2:  if less than 1/2, major.
             }
         }
 
-        public static void Targeting_ShowLine(Tile tc, int radius, ColorChar[,] mem, List<Tile> line,
+        public static void Targeting_ShowLine(Tile tc, int radius, ColorChar[,] mem,
+            List<Tile> line,
             List<Tile> oldline, ref bool blocked, TileDelegate is_blocking)
         {
             foreach (Tile t in line)
@@ -5161,8 +5242,10 @@ compare this number to 1/2:  if less than 1/2, major.
             }
         }
 
-        public bool Targeting_HandleCommonCommands(ConsoleKeyInfo command, char ch, ref int r, ref int c,
-            List<PhysicalObject> interesting_targets, ref bool done, int minrow, int maxrow, int mincol, int maxcol,
+        public bool Targeting_HandleCommonCommands(ConsoleKeyInfo command, char ch, ref int r,
+            ref int c,
+            List<PhysicalObject> interesting_targets, ref bool done, int minrow, int maxrow,
+            int mincol, int maxcol,
             bool jump_to_origin_on_mouse_leave_event)
         {
             int move_value = 1;
@@ -5209,7 +5292,8 @@ compare this number to 1/2:  if less than 1/2, major.
                     {
                         if (interesting_targets.Count > 0)
                         {
-                            List<PhysicalObject> reversed_targets = new List<PhysicalObject>(interesting_targets);
+                            List<PhysicalObject> reversed_targets =
+                                new List<PhysicalObject>(interesting_targets);
                             reversed_targets.Reverse();
                             int idx = 0;
                             int dist = DistanceFrom(r, c);
@@ -5219,7 +5303,9 @@ compare this number to 1/2:  if less than 1/2, major.
                             {
                                 if (o.row == r && o.col == c)
                                 {
-                                    int prev_idx = idx + 1; //this goes backwards because the list goes backwards
+                                    int prev_idx =
+                                        idx +
+                                        1; //this goes backwards because the list goes backwards
                                     if (prev_idx == reversed_targets.Count)
                                     {
                                         prev_idx = 0;
@@ -5356,7 +5442,8 @@ compare this number to 1/2:  if less than 1/2, major.
             return result;
         }
 
-        public static void Targeting_RemoveLine(Tile tc, bool done, List<Tile> line, ColorChar[,] mem, int radius)
+        public static void Targeting_RemoveLine(Tile tc, bool done, List<Tile> line,
+            ColorChar[,] mem, int radius)
         {
             if (done)
             {

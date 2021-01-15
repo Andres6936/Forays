@@ -77,7 +77,7 @@ namespace Forays.Scenes
                     Color.DarkGray);
                 Screen.WriteString(Global.SCREEN_H - 2, Global.SCREEN_W - 19, "by Derrick Creamer ",
                     Color.DarkGray);
-                Input.ReadKey(false);
+                InputKey.ReadKey(false);
             }
         }
 
@@ -87,7 +87,7 @@ namespace Forays.Scenes
 
         public override NextScene ProcessInput()
         {
-            Input.ReadKey(false);
+            InputKey.ReadKey(false);
             Screen.gl.Surfaces.Remove(logo);
             return NextScene.Play;
         }

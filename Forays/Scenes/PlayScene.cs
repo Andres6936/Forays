@@ -78,7 +78,7 @@ namespace Forays.Scenes
 
         public override NextScene ProcessInput()
         {
-            command = Input.ReadKey(false);
+            command = InputKey.ReadKey(false);
 
             switch (command.KeyChar)
             {
@@ -226,7 +226,7 @@ namespace Forays.Scenes
                                 MouseUI.CreateButton(ConsoleKey.F24, false,
                                     18 + Global.MAP_OFFSET_ROWS, 0, 1,
                                     Global.SCREEN_W);
-                                command = Input.ReadKey();
+                                command = InputKey.ReadKey();
                                 if ((command.KeyChar >= '!' && command.KeyChar <= '~') ||
                                     command.KeyChar == ' ')
                                 {
@@ -769,7 +769,7 @@ namespace Forays.Scenes
                         Screen.WriteString(12, 0,
                             "  An error has occured. See error.txt for more details. Press any key to quit."
                                 .PadOuter(Global.SCREEN_W));
-                        Input.ReadKey(false);
+                        InputKey.ReadKey(false);
                         Global.Quit();
                     }
 
@@ -1027,7 +1027,7 @@ namespace Forays.Scenes
                         ++line;
                     }
 
-                    Input.ReadKey(false);
+                    InputKey.ReadKey(false);
                     MouseUI.PopButtonMap();
                     break;
                 }

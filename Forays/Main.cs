@@ -63,7 +63,7 @@ namespace Forays
                         Console.Write("         Current dimensions are {0}x{1}.".PadRight(57),
                             Console.BufferWidth,
                             Console.BufferHeight);
-                        Input.ReadKey(false);
+                        InputKey.ReadKey(false);
                         Screen.SetCursorPosition(0, 0);
                         if (Console.BufferWidth < Global.SCREEN_W ||
                             Console.BufferHeight < Global.SCREEN_H)
@@ -105,13 +105,13 @@ namespace Forays
                     .GetManifestResourceStream(Global.ForaysImageResources + "forays.ico"));
                 Screen.gl.ResizingPreference = ResizeOption.SnapWindow;
                 Screen.gl.ResizingFullScreenPreference = ResizeOption.AddBorder;
-                Screen.gl.KeyDown += Input.KeyDownHandler;
-                Screen.gl.Mouse.Move += Input.MouseMoveHandler;
-                Screen.gl.Mouse.ButtonUp += Input.MouseClickHandler;
-                Screen.gl.Mouse.WheelChanged += Input.MouseWheelHandler;
-                Screen.gl.MouseLeave += Input.MouseLeaveHandler;
-                Screen.gl.Closing += Input.OnClosing;
-                Screen.gl.FinalResize += Input.HandleResize;
+                Screen.gl.KeyDown += InputKey.KeyDownHandler;
+                Screen.gl.Mouse.Move += InputKey.MouseMoveHandler;
+                Screen.gl.Mouse.ButtonUp += InputKey.MouseClickHandler;
+                Screen.gl.Mouse.WheelChanged += InputKey.MouseWheelHandler;
+                Screen.gl.MouseLeave += InputKey.MouseLeaveHandler;
+                Screen.gl.Closing += InputKey.OnClosing;
+                Screen.gl.FinalResize += InputKey.HandleResize;
                 Screen.textSurface = Surface.Create(Screen.gl,
                     Global.ForaysImageResources + "font8x16.png", true,
                     Shader.AAFontFS(), false, 2, 4, 4);
@@ -150,7 +150,7 @@ namespace Forays
 
             Nym.Verbs.Register("feel",
                 "looks"); //Useful for generating messages like "You feel stronger" / "The foo looks stronger".
-            Input.LoadKeyRebindings();
+            InputKey.LoadKeyRebindings();
 
             var manager = new SceneManager();
 

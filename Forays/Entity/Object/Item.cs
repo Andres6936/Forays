@@ -25,16 +25,22 @@ namespace Forays
         public int charges;
         public int other_data;
         public bool ignored; //whether autoexplore and autopickup should ignore this item
-        public bool do_not_stack; //whether the item should be combined with other stacks. used for mimic items too.
+
+        public bool
+            do_not_stack; //whether the item should be combined with other stacks. used for mimic items too.
+
         public bool revealed_by_light;
         public new int Quantity => quantity;
         public new Func<string> GetExtraInfo => GetExtraItemInfo;
 
-        public static Dictionary<ConsumableType, Named> unIDedFlavors = new Dictionary<ConsumableType, Named>();
+        public static Dictionary<ConsumableType, Named> unIDedFlavors =
+            new Dictionary<ConsumableType, Named>();
+
         public static Hash<ConsumableType> tried = new Hash<ConsumableType>();
         public static Hash<ConsumableType> identified = new Hash<ConsumableType>();
 
-        public static Dictionary<ConsumableType, Item> proto = new Dictionary<ConsumableType, Item>();
+        public static Dictionary<ConsumableType, Item> proto =
+            new Dictionary<ConsumableType, Item>();
 
         public static Item Prototype(ConsumableType type)
         {
@@ -47,7 +53,8 @@ namespace Forays
             Define(ConsumableType.REGENERATION, "potion~ of regeneration", '!', Color.White);
             Define(ConsumableType.STONEFORM, "potion~ of stoneform", '!', Color.White);
             Define(ConsumableType.VAMPIRISM, "potion~ of vampirism", '!', Color.White);
-            Define(ConsumableType.BRUTISH_STRENGTH, "potion~ of brutish strength", '!', Color.White);
+            Define(ConsumableType.BRUTISH_STRENGTH, "potion~ of brutish strength", '!',
+                Color.White);
             Define(ConsumableType.ROOTS, "potion~ of roots", '!', Color.White);
             Define(ConsumableType.HASTE, "potion~ of haste", '!', Color.White);
             Define(ConsumableType.SILENCE, "potion~ of silence", '!', Color.White);
@@ -108,7 +115,8 @@ namespace Forays
         {
         }
 
-        public Item(ConsumableType type_, string name_, char symbol_, Color color_) : this(type_, new Name(name_),
+        public Item(ConsumableType type_, string name_, char symbol_, Color color_) : this(type_,
+            new Name(name_),
             symbol_, color_)
         {
         }
@@ -243,14 +251,15 @@ namespace Forays
             return false;
         }
 
-        private static Dictionary<ConsumableClass, Name> UnknownItemNames = new Dictionary<ConsumableClass, Name>()
-        {
-            [ConsumableClass.POTION] = new Name("potion"),
-            [ConsumableClass.SCROLL] = new Name("scroll"),
-            [ConsumableClass.ORB] = new Name("orb"),
-            [ConsumableClass.WAND] = new Name("wand"),
-            [ConsumableClass.OTHER] = new Name("item")
-        };
+        private static Dictionary<ConsumableClass, Name> UnknownItemNames =
+            new Dictionary<ConsumableClass, Name>()
+            {
+                [ConsumableClass.POTION] = new Name("potion"),
+                [ConsumableClass.SCROLL] = new Name("scroll"),
+                [ConsumableClass.ORB] = new Name("orb"),
+                [ConsumableClass.WAND] = new Name("wand"),
+                [ConsumableClass.OTHER] = new Name("item")
+            };
 
         public string GetName(bool checkIdentification, params NameElement[] elements)
         {
@@ -283,7 +292,9 @@ namespace Forays
             Color text = UI.darken_status_bar ? Colors.status_darken : Color.Gray;
             if (p.Equals(UI.MapCursor))
             {
-                text = UI.darken_status_bar ? Colors.status_highlight_darken : Colors.status_highlight;
+                text = UI.darken_status_bar
+                    ? Colors.status_highlight_darken
+                    : Colors.status_highlight;
             }
 
             foreach (string s in GetName(true, Extra).GetWordWrappedList(17, true))
@@ -318,7 +329,8 @@ namespace Forays
                 {
                     //other_data tracks the number of times the wand has been used
                     case -1:
-                        return " (" + charges.ToString() + ")"; // -1 means "number of charges is known"
+                        return " (" + charges.ToString() +
+                               ")"; // -1 means "number of charges is known"
                     case 0:
                         return "";
                     case 1:
@@ -568,12 +580,14 @@ namespace Forays
             tried = new Hash<ConsumableType>();
             List<string> potion_flavors = new List<string>
             {
-                "vermilion", "cerulean", "emerald", "fuchsia", "aquamarine", "goldenrod", "violet", "silver", "indigo",
+                "vermilion", "cerulean", "emerald", "fuchsia", "aquamarine", "goldenrod", "violet",
+                "silver", "indigo",
                 "crimson"
             };
             List<Color> potion_colors = new List<Color>
             {
-                Color.Red, Color.Blue, Color.Green, Color.Magenta, Color.Cyan, Color.Yellow, Color.DarkMagenta,
+                Color.Red, Color.Blue, Color.Green, Color.Magenta, Color.Cyan, Color.Yellow,
+                Color.DarkMagenta,
                 Color.Gray, Color.DarkBlue, Color.DarkRed
             };
             List<pos> potion_sprites = new List<pos>();
@@ -584,17 +598,21 @@ namespace Forays
 
             List<string> orb_flavors = new List<string>
             {
-                "flickering", "iridescent", "sparkling", "chromatic", "psychedelic", "scintillating", "glittering",
+                "flickering", "iridescent", "sparkling", "chromatic", "psychedelic",
+                "scintillating", "glittering",
                 "glimmering", "shimmering", "kaleidoscopic"
             };
             List<Color> orb_colors = new List<Color>
             {
-                Color.RandomRGB, Color.RandomCMY, Color.RandomDRGB, Color.RandomDCMY, Color.RandomRGBW,
-                Color.RandomCMYW, Color.RandomRainbow, Color.RandomBright, Color.RandomDark, Color.RandomAny
+                Color.RandomRGB, Color.RandomCMY, Color.RandomDRGB, Color.RandomDCMY,
+                Color.RandomRGBW,
+                Color.RandomCMYW, Color.RandomRainbow, Color.RandomBright, Color.RandomDark,
+                Color.RandomAny
             };
             List<string> wand_flavors = new List<string>
             {
-                "runed", "bone", "crystal", "brittle", "twisted", "slender", "bent", "serpentine", "carved", "tapered"
+                "runed", "bone", "crystal", "brittle", "twisted", "slender", "bent", "serpentine",
+                "carved", "tapered"
             }; //...etched sturdy smooth flexible inscribed banded polished thick gilded
             foreach (ConsumableType type in Enum.GetValues(typeof(ConsumableType)))
             {
@@ -611,7 +629,8 @@ namespace Forays
                         potion_sprites.RemoveAt(num);
                         break;
                     case ConsumableClass.SCROLL:
-                        unIDedFlavors[type] = new Named("scroll~ labeled '" + GenerateScrollName() + "'", 1,
+                        unIDedFlavors[type] = new Named(
+                            "scroll~ labeled '" + GenerateScrollName() + "'", 1,
                             () => tried[type] ? " {tried}" : "");
                         proto[type].sprite_offset = new pos(2, 48);
                         break;
@@ -620,7 +639,8 @@ namespace Forays
                             () => tried[type] ? " {tried}" : "");
                         int color_num = R.Roll(orb_colors.Count) - 1;
                         proto[type].color =
-                            orb_colors[color_num]; //note that color isn't tied to name for orbs. they're all random.
+                            orb_colors
+                                [color_num]; //note that color isn't tied to name for orbs. they're all random.
                         orb_colors.RemoveAt(color_num);
                         proto[type].sprite_offset = new pos(3, 48 + color_num);
                         if (type == ConsumableType.TELEPORTAL)
@@ -662,14 +682,18 @@ namespace Forays
             //List<string> consonant = new List<string>{"r","t","s","rr","m","n","w","b","c","d","f","g","l","ss","v"}; //some kinda Gaelic-inspired
             List<string> vowel = new List<string>
             {
-                "a", "e", "i", "o", "u", "ea", "ei", "io", "a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "a", "e",
+                "a", "e", "i", "o", "u", "ea", "ei", "io", "a", "e", "i", "o", "u", "a", "e", "i",
+                "o", "u", "a", "e",
                 "i", "o", "oo", "ee", "a", "e", "o"
             }; //the result of a bunch of tweaking
             List<string> consonant = new List<string>
             {
-                "k", "s", "t", "n", "h", "m", "y", "r", "w", "g", "d", "p", "b", "f", "l", "v", "z", "ch", "br", "cr",
-                "dr", "fr", "gr", "kr", "pr", "tr", "th", "sc", "sh", "sk", "sl", "sm", "sn", "sp", "st", "k", "s", "t",
-                "n", "m", "r", "g", "d", "p", "b", "l", "k", "s", "t", "n", "m", "r", "d", "p", "b", "l",
+                "k", "s", "t", "n", "h", "m", "y", "r", "w", "g", "d", "p", "b", "f", "l", "v", "z",
+                "ch", "br", "cr",
+                "dr", "fr", "gr", "kr", "pr", "tr", "th", "sc", "sh", "sk", "sl", "sm", "sn", "sp",
+                "st", "k", "s", "t",
+                "n", "m", "r", "g", "d", "p", "b", "l", "k", "s", "t", "n", "m", "r", "d", "p", "b",
+                "l",
             };
             int syllables = 0;
             List<int> syllable_count = null;
@@ -709,7 +733,8 @@ namespace Forays
                     syllable_count.Add(s);
                     syllables -= s;
                 }
-            } while (!syllable_count.Any(x => x != 1)); // if every word has only 1 syllable, try again
+            } while (!syllable_count.Any(x => x != 1)
+            ); // if every word has only 1 syllable, try again
 
             string result = "";
             while (syllable_count.Count > 0)
@@ -752,20 +777,23 @@ namespace Forays
             bool IDed = true;
             if (GetItemClass(type) == ConsumableClass.SCROLL)
             {
-                B.Add(user.GetName(false, The, Verb("read")) + " " + GetName(true, The) + ". ", user);
+                B.Add(user.GetName(false, The, Verb("read")) + " " + GetName(true, The) + ". ",
+                    user);
                 user.MakeNoise(6);
             }
 
             if (GetItemClass(type) == ConsumableClass.POTION)
             {
-                B.Add(user.GetName(false, The, Verb("drink")) + " " + GetName(true, The) + ". ", user);
+                B.Add(user.GetName(false, The, Verb("drink")) + " " + GetName(true, The) + ". ",
+                    user);
             }
 
             switch (type)
             {
                 case ConsumableType.HEALING:
                     user.curhp = user.maxhp;
-                    B.Add(user.GetName(false, The, Possessive) + " wounds are healed completely. ", user);
+                    B.Add(user.GetName(false, The, Possessive) + " wounds are healed completely. ",
+                        user);
                     break;
                 case ConsumableType.REGENERATION:
                 {
@@ -785,11 +813,14 @@ namespace Forays
                 }
                 case ConsumableType.STONEFORM:
                 {
-                    B.Add(user.GetName(false, The, Verb("transform")) + " into a being of animated stone. ", user);
+                    B.Add(
+                        user.GetName(false, The, Verb("transform")) +
+                        " into a being of animated stone. ", user);
                     int duration = R.Roll(2, 20) + 20;
                     List<AttrType> attributes = new List<AttrType>
                     {
-                        AttrType.REGENERATING, AttrType.BRUTISH_STRENGTH, AttrType.VIGOR, AttrType.SILENCE_AURA,
+                        AttrType.REGENERATING, AttrType.BRUTISH_STRENGTH, AttrType.VIGOR,
+                        AttrType.SILENCE_AURA,
                         AttrType.SHADOW_CLOAK, AttrType.CAN_DODGE, AttrType.MENTAL_IMMUNITY,
                         AttrType.DETECTING_MONSTERS, AttrType.MYSTIC_MIND
                     };
@@ -803,23 +834,34 @@ namespace Forays
                             switch (at)
                             {
                                 case AttrType.REGENERATING:
-                                    B.Add(user.GetName(false, The, Verb("no longer regenerate")) + ". ", user);
+                                    B.Add(
+                                        user.GetName(false, The, Verb("no longer regenerate")) +
+                                        ". ", user);
                                     break;
                                 case AttrType.BRUTISH_STRENGTH:
-                                    B.Add(user.GetName(false, The, Possessive) + " brutish strength fades. ", user);
+                                    B.Add(
+                                        user.GetName(false, The, Possessive) +
+                                        " brutish strength fades. ", user);
                                     break;
                                 case AttrType.VIGOR:
-                                    B.Add(user.GetName(false, The, Possessive) + " extraordinary speed fades. ", user);
+                                    B.Add(
+                                        user.GetName(false, The, Possessive) +
+                                        " extraordinary speed fades. ", user);
                                     break;
                                 case AttrType.SILENCED:
-                                    B.Add(user.GetName(false, The, Verb("no longer radiate")) + " an aura of silence. ",
+                                    B.Add(
+                                        user.GetName(false, The, Verb("no longer radiate")) +
+                                        " an aura of silence. ",
                                         user);
                                     break;
                                 case AttrType.SHADOW_CLOAK:
-                                    B.Add(user.GetName(false, The, Are) + " no longer cloaked. ", user);
+                                    B.Add(user.GetName(false, The, Are) + " no longer cloaked. ",
+                                        user);
                                     break;
                                 case AttrType.MYSTIC_MIND:
-                                    B.Add(user.GetName(false, The, Possessive) + " consciousness returns to normal. ",
+                                    B.Add(
+                                        user.GetName(false, The, Possessive) +
+                                        " consciousness returns to normal. ",
                                         user);
                                     break;
                             }
@@ -843,11 +885,14 @@ namespace Forays
                         {
                             if (e.target == user && !e.dead)
                             {
-                                if (e.attr == AttrType.IMMOBILE && e.msg.Contains("rooted to the ground"))
+                                if (e.attr == AttrType.IMMOBILE &&
+                                    e.msg.Contains("rooted to the ground"))
                                 {
                                     e.dead = true;
                                     user.attrs[AttrType.IMMOBILE]--;
-                                    B.Add(user.GetName(false, The, Are) + " no longer rooted to the ground. ", user);
+                                    B.Add(
+                                        user.GetName(false, The, Are) +
+                                        " no longer rooted to the ground. ", user);
                                 }
                                 else
                                 {
@@ -882,7 +927,8 @@ namespace Forays
                     user.attrs[AttrType.NONLIVING]++;
                     Q.Add(new Event(user, duration * 100, AttrType.NONLIVING));
                     user.RefreshDuration(AttrType.STONEFORM, duration * 100,
-                        user.GetName(false, The, Possessive) + " rocky form reverts to flesh. ", user);
+                        user.GetName(false, The, Possessive) + " rocky form reverts to flesh. ",
+                        user);
                     if (user == player)
                     {
                         Help.TutorialTip(TutorialTopic.Stoneform);
@@ -919,7 +965,8 @@ namespace Forays
                     }
 
                     user.RefreshDuration(AttrType.BRUTISH_STRENGTH, (R.Roll(3, 6) + 16) * 100,
-                        user.GetName(false, The, Possessive) + " incredible strength wears off. ", user);
+                        user.GetName(false, The, Possessive) + " incredible strength wears off. ",
+                        user);
                     if (user == player)
                     {
                         Help.TutorialTip(TutorialTopic.BrutishStrength);
@@ -935,7 +982,8 @@ namespace Forays
                         {
                             if (e.target == user && !e.dead)
                             {
-                                if (e.attr == AttrType.IMMOBILE && e.msg.Contains("rooted to the ground"))
+                                if (e.attr == AttrType.IMMOBILE &&
+                                    e.msg.Contains("rooted to the ground"))
                                 {
                                     e.dead = true;
                                     user.attrs[AttrType.IMMOBILE]--;
@@ -960,11 +1008,15 @@ namespace Forays
                             }
                         }
 
-                        B.Add(user.GetName(false, The, Possessive) + " roots extend deeper into the ground. ", user);
+                        B.Add(
+                            user.GetName(false, The, Possessive) +
+                            " roots extend deeper into the ground. ", user);
                     }
                     else
                     {
-                        B.Add(user.GetName(false, The, Verb("grow")) + " roots and a hard shell of bark. ", user);
+                        B.Add(
+                            user.GetName(false, The, Verb("grow")) +
+                            " roots and a hard shell of bark. ", user);
                     }
 
                     int duration = R.Roll(20) + 20;
@@ -988,11 +1040,14 @@ namespace Forays
                 }
                 case ConsumableType.HASTE:
                 {
-                    B.Add(user.GetName(false, The, Verb("start")) + " moving with extraordinary speed. ", user);
+                    B.Add(
+                        user.GetName(false, The, Verb("start")) +
+                        " moving with extraordinary speed. ", user);
                     int duration = (R.Roll(2, 10) + 10) * 100;
                     user.RefreshDuration(AttrType.CAN_DODGE, duration);
                     user.RefreshDuration(AttrType.VIGOR, duration,
-                        user.GetName(false, The, Possessive) + " extraordinary speed fades. ", user);
+                        user.GetName(false, The, Possessive) + " extraordinary speed fades. ",
+                        user);
                     if (user == player)
                     {
                         Help.TutorialTip(TutorialTopic.IncreasedSpeed);
@@ -1005,7 +1060,8 @@ namespace Forays
                 {
                     B.Add("A hush falls around " + user.GetName(The) + ". ", user);
                     user.RefreshDuration(AttrType.SILENCE_AURA, (R.Roll(2, 20) + 20) * 100,
-                        user.GetName(false, The, Verb("no longer radiate")) + " an aura of silence. ", user);
+                        user.GetName(false, The, Verb("no longer radiate")) +
+                        " an aura of silence. ", user);
                     if (user == player)
                     {
                         Help.TutorialTip(TutorialTopic.Silenced);
@@ -1027,7 +1083,8 @@ namespace Forays
                     }
                     else
                     {
-                        B.Add(user.GetName(false, The, Verb("fade")) + " away in the darkness. ", user);
+                        B.Add(user.GetName(false, The, Verb("fade")) + " away in the darkness. ",
+                            user);
                     }
 
                     user.RefreshDuration(AttrType.SHADOW_CLOAK, (R.Roll(2, 20) + 30) * 100,
@@ -1045,7 +1102,8 @@ namespace Forays
                     user.RefreshDuration(AttrType.MENTAL_IMMUNITY, duration * 100);
                     user.RefreshDuration(AttrType.DETECTING_MONSTERS, duration * 100);
                     user.RefreshDuration(AttrType.MYSTIC_MIND, duration * 100,
-                        user.GetName(false, The, Possessive) + " consciousness returns to normal. ", user);
+                        user.GetName(false, The, Possessive) + " consciousness returns to normal. ",
+                        user);
                     if (user == player)
                     {
                         Help.TutorialTip(TutorialTopic.MysticMind);
@@ -1056,11 +1114,14 @@ namespace Forays
                 case ConsumableType.BLINKING:
                 {
                     List<Tile> tiles = user.TilesWithinDistance(8).Where(x =>
-                        x.passable && x.actor() == null && user.ApproximateEuclideanDistanceFromX10(x) >= 45);
+                        x.passable && x.actor() == null &&
+                        user.ApproximateEuclideanDistanceFromX10(x) >= 45);
                     if (tiles.Count > 0 && !user.HasAttr(AttrType.IMMOBILE))
                     {
                         Tile t = tiles.Random();
-                        B.Add(user.GetName(false, The, Verb("step")) + " through a rip in reality. ", M.tile[user.p],
+                        B.Add(
+                            user.GetName(false, The, Verb("step")) + " through a rip in reality. ",
+                            M.tile[user.p],
                             t);
                         user.AnimateStorm(2, 3, 4, '*', Color.DarkMagenta);
                         user.Move(t.row, t.col);
@@ -1088,12 +1149,14 @@ namespace Forays
                     foreach (int dir in U.FourDirections)
                     {
                         Tile t = user.TileInDirection(dir);
-                        if (t != null && t.Is(TileType.WALL, TileType.CRACKED_WALL, TileType.WAX_WALL, TileType.DOOR_C,
+                        if (t != null && t.Is(TileType.WALL, TileType.CRACKED_WALL,
+                                TileType.WAX_WALL, TileType.DOOR_C,
                                 TileType.HIDDEN_DOOR, TileType.STONE_SLAB))
                         {
                             while (!t.passable)
                             {
-                                if (t.row == 0 || t.row == Global.ROWS - 1 || t.col == 0 || t.col == Global.COLS - 1)
+                                if (t.row == 0 || t.row == Global.ROWS - 1 || t.col == 0 ||
+                                    t.col == Global.COLS - 1)
                                 {
                                     break;
                                 }
@@ -1139,7 +1202,7 @@ namespace Forays
                             t = t.TileInDirection(dir);
                         }
 
-                        Input.FlushInput();
+                        InputKey.FlushInput();
                         if (t.actor() == null)
                         {
                             int r = user.row;
@@ -1155,8 +1218,10 @@ namespace Forays
                                 Thread.Sleep(35);
                             }
 
-                            Input.FlushInput();
-                            B.Add(user.GetName(false, The, Verb("travel")) + " through the passage. ", user, t);
+                            InputKey.FlushInput();
+                            B.Add(
+                                user.GetName(false, The, Verb("travel")) + " through the passage. ",
+                                user, t);
                         }
                         else
                         {
@@ -1169,7 +1234,8 @@ namespace Forays
                             }
                             else
                             {
-                                foreach (Tile tile in M.ReachableTilesByDistance(t.row, t.col, false))
+                                foreach (Tile tile in M.ReachableTilesByDistance(t.row, t.col,
+                                    false))
                                 {
                                     if (tile.actor() == null)
                                     {
@@ -1195,8 +1261,10 @@ namespace Forays
                                     Thread.Sleep(35);
                                 }
 
-                                Input.FlushInput();
-                                B.Add(user.GetName(false, The, Verb("travel")) + " through the passage. ", user,
+                                InputKey.FlushInput();
+                                B.Add(
+                                    user.GetName(false, The, Verb("travel")) +
+                                    " through the passage. ", user,
                                     destination);
                             }
                             else
@@ -1222,7 +1290,8 @@ namespace Forays
                     }
                     else
                     {
-                        B.Add(Priority.Important, "Time warps around " + user.GetName(The) + "! ", user);
+                        B.Add(Priority.Important, "Time warps around " + user.GetName(The) + "! ",
+                            user);
                     }
 
                     if (Fire.fire_event == null)
@@ -1252,8 +1321,10 @@ namespace Forays
 
                         int max_dist = 0;
                         List<Tile> last_tiles = new List<Tile>();
-                        foreach (Tile t in M.ReachableTilesByDistance(user.row, user.col, true, TileType.STONE_SLAB,
-                            TileType.DOOR_C, TileType.STALAGMITE, TileType.RUBBLE, TileType.HIDDEN_DOOR))
+                        foreach (Tile t in M.ReachableTilesByDistance(user.row, user.col, true,
+                            TileType.STONE_SLAB,
+                            TileType.DOOR_C, TileType.STALAGMITE, TileType.RUBBLE,
+                            TileType.HIDDEN_DOOR))
                         {
                             if (t.type != TileType.FLOOR)
                             {
@@ -1321,7 +1392,8 @@ namespace Forays
                                     while (last_tiles.Count > 0)
                                     {
                                         Tile t2 = last_tiles.RemoveRandom();
-                                        Screen.WriteMapChar(t2.row, t2.col, M.last_seen[t2.row, t2.col]);
+                                        Screen.WriteMapChar(t2.row, t2.col,
+                                            M.last_seen[t2.row, t2.col]);
                                         //Screen.WriteMapChar(t2.row,t2.col,M.VisibleColorChar(t2.row,t2.col));
                                     }
                                 }
@@ -1416,12 +1488,15 @@ namespace Forays
 
                     if (repaired)
                     {
-                        B.Add(user.GetName(false, The, Possessive) + " equipment looks as good as new! ", user);
+                        B.Add(
+                            user.GetName(false, The, Possessive) +
+                            " equipment looks as good as new! ", user);
                     }
 
                     if (user.HasAttr(AttrType.SLIMED))
                     {
-                        B.Add(user.GetName(false, The, Are) + " no longer covered in slime. ", user);
+                        B.Add(user.GetName(false, The, Are) + " no longer covered in slime. ",
+                            user);
                         user.attrs[AttrType.SLIMED] = 0;
                     }
 
@@ -1445,11 +1520,15 @@ namespace Forays
                     {
                         if (recharged == 1)
                         {
-                            B.Add("The glow charges " + user.GetName(false, The, Possessive) + " wand. ", user);
+                            B.Add(
+                                "The glow charges " + user.GetName(false, The, Possessive) +
+                                " wand. ", user);
                         }
                         else
                         {
-                            B.Add("The glow charges " + user.GetName(false, The, Possessive) + " wands. ", user);
+                            B.Add(
+                                "The glow charges " + user.GetName(false, The, Possessive) +
+                                " wands. ", user);
                         }
                     }
 
@@ -1476,7 +1555,8 @@ namespace Forays
                                     break;
                                 }
 
-                                foreach (Tile t in M.ReachableTilesByDistance(user.row, user.col, false))
+                                foreach (Tile t in M.ReachableTilesByDistance(user.row, user.col,
+                                    false))
                                 {
                                     if (t.actor() == null)
                                     {
@@ -1508,11 +1588,13 @@ namespace Forays
 
                             if (!found)
                             {
-                                foreach (Tile t in M.ReachableTilesByDistance(user.row, user.col, false))
+                                foreach (Tile t in M.ReachableTilesByDistance(user.row, user.col,
+                                    false))
                                 {
                                     if (t.actor() == null)
                                     {
-                                        B.Add("The scroll calls you to " + user.GetName(true, The) + ". ");
+                                        B.Add("The scroll calls you to " + user.GetName(true, The) +
+                                              ". ");
                                         player.Move(t.row, t.col);
                                         found = true;
                                         break;
@@ -1610,9 +1692,11 @@ namespace Forays
                             ench = (EnchantmentType) R.Between(0, 4);
                         }
 
-                        B.Add("Your " + user.EquippedWeapon.NameWithEnchantment() + " glows brightly! ");
+                        B.Add("Your " + user.EquippedWeapon.NameWithEnchantment() +
+                              " glows brightly! ");
                         user.EquippedWeapon.enchantment = ench;
-                        B.Add("Your " + user.EquippedWeapon.NameWithoutEnchantment() + " is now a " +
+                        B.Add("Your " + user.EquippedWeapon.NameWithoutEnchantment() +
+                              " is now a " +
                               user.EquippedWeapon.NameWithEnchantment() + "! ");
                     }
                     else
@@ -1849,97 +1933,100 @@ namespace Forays
                 }
                 case ConsumableType.FREEZING:
                 {
-                    ItemUseResult orb_result = UseOrb(2, false, user, line, (t, LOE_tile, results) =>
-                    {
-                        Screen.AnimateExplosion(t, 2, new ColorChar('*', Color.RandomIce));
-                        List<Tile> targets = new List<Tile>();
-                        foreach (Tile t2 in t.TilesWithinDistance(2))
+                    ItemUseResult orb_result = UseOrb(2, false, user, line,
+                        (t, LOE_tile, results) =>
                         {
-                            if (LOE_tile.HasLOE(t2))
+                            Screen.AnimateExplosion(t, 2, new ColorChar('*', Color.RandomIce));
+                            List<Tile> targets = new List<Tile>();
+                            foreach (Tile t2 in t.TilesWithinDistance(2))
                             {
-                                targets.Add(t2);
+                                if (LOE_tile.HasLOE(t2))
+                                {
+                                    targets.Add(t2);
+                                }
                             }
-                        }
 
-                        while (targets.Count > 0)
-                        {
-                            Tile t2 = targets.RemoveRandom();
-                            t2.ApplyEffect(DamageType.COLD);
-                            Actor ac = t2.actor();
-                            if (ac != null)
+                            while (targets.Count > 0)
                             {
-                                ac.ApplyFreezing();
+                                Tile t2 = targets.RemoveRandom();
+                                t2.ApplyEffect(DamageType.COLD);
+                                Actor ac = t2.actor();
+                                if (ac != null)
+                                {
+                                    ac.ApplyFreezing();
+                                }
                             }
-                        }
-                    });
+                        });
                     used = orb_result.used;
                     IDed = orb_result.IDed;
                     break;
                 }
                 case ConsumableType.FLAMES:
                 {
-                    ItemUseResult orb_result = UseOrb(2, false, user, line, (t, LOE_tile, results) =>
-                    {
-                        List<Tile> area = new List<Tile>();
-                        List<pos> cells = new List<pos>();
-                        foreach (Tile tile in t.TilesWithinDistance(2))
+                    ItemUseResult orb_result = UseOrb(2, false, user, line,
+                        (t, LOE_tile, results) =>
                         {
-                            if (LOE_tile.HasLOE(tile))
+                            List<Tile> area = new List<Tile>();
+                            List<pos> cells = new List<pos>();
+                            foreach (Tile tile in t.TilesWithinDistance(2))
                             {
-                                if (tile.passable)
+                                if (LOE_tile.HasLOE(tile))
                                 {
-                                    tile.AddFeature(FeatureType.FIRE);
-                                }
-                                else
-                                {
-                                    tile.ApplyEffect(DamageType.FIRE);
-                                }
+                                    if (tile.passable)
+                                    {
+                                        tile.AddFeature(FeatureType.FIRE);
+                                    }
+                                    else
+                                    {
+                                        tile.ApplyEffect(DamageType.FIRE);
+                                    }
 
-                                if (tile.Is(FeatureType.FIRE))
-                                {
-                                    area.Add(tile);
-                                }
+                                    if (tile.Is(FeatureType.FIRE))
+                                    {
+                                        area.Add(tile);
+                                    }
 
-                                cells.Add(tile.p);
+                                    cells.Add(tile.p);
+                                }
                             }
-                        }
 
-                        Screen.AnimateMapCells(cells, new ColorChar('&', Color.RandomFire));
-                    });
+                            Screen.AnimateMapCells(cells, new ColorChar('&', Color.RandomFire));
+                        });
                     used = orb_result.used;
                     IDed = orb_result.IDed;
                     break;
                 }
                 case ConsumableType.FOG:
                 {
-                    ItemUseResult orb_result = UseOrb(3, false, user, line, (t, LOE_tile, results) =>
-                    {
-                        List<Tile> area = new List<Tile>();
-                        List<pos> cells = new List<pos>();
-                        ColorChar cch = new ColorChar('*', Color.Gray);
-                        for (int i = 0; i <= 3; ++i)
+                    ItemUseResult orb_result = UseOrb(3, false, user, line,
+                        (t, LOE_tile, results) =>
                         {
-                            foreach (Tile tile in t.TilesAtDistance(i))
+                            List<Tile> area = new List<Tile>();
+                            List<pos> cells = new List<pos>();
+                            ColorChar cch = new ColorChar('*', Color.Gray);
+                            for (int i = 0; i <= 3; ++i)
                             {
-                                if (tile.passable && LOE_tile.HasLOE(tile))
+                                foreach (Tile tile in t.TilesAtDistance(i))
                                 {
-                                    tile.AddFeature(FeatureType.FOG);
-                                    area.Add(tile);
-                                    cells.Add(tile.p);
-                                    if (tile.seen)
+                                    if (tile.passable && LOE_tile.HasLOE(tile))
                                     {
-                                        M.last_seen[tile.row, tile.col] = cch;
+                                        tile.AddFeature(FeatureType.FOG);
+                                        area.Add(tile);
+                                        cells.Add(tile.p);
+                                        if (tile.seen)
+                                        {
+                                            M.last_seen[tile.row, tile.col] = cch;
+                                        }
                                     }
                                 }
+
+                                Screen.AnimateMapCells(cells, cch, 40);
                             }
 
-                            Screen.AnimateMapCells(cells, cch, 40);
-                        }
-
-                        Q.RemoveTilesFromEventAreas(area, EventType.REMOVE_GAS);
-                        Event.RemoveGas(area, 800, FeatureType.FOG, 25);
-                        //Q.Add(new Event(area,600,EventType.FOG,25));
-                    });
+                            Q.RemoveTilesFromEventAreas(area, EventType.REMOVE_GAS);
+                            Event.RemoveGas(area, 800, FeatureType.FOG, 25);
+                            //Q.Add(new Event(area,600,EventType.FOG,25));
+                        });
                     used = orb_result.used;
                     IDed = orb_result.IDed;
                     break;
@@ -1947,67 +2034,74 @@ namespace Forays
                 case ConsumableType.DETONATION:
                 {
                     ItemUseResult orb_result = UseOrb(3, false, user, line,
-                        (t, LOE_tile, results) => { LOE_tile.ApplyExplosion(3, user, "an orb of detonation"); });
+                        (t, LOE_tile, results) =>
+                        {
+                            LOE_tile.ApplyExplosion(3, user, "an orb of detonation");
+                        });
                     used = orb_result.used;
                     IDed = orb_result.IDed;
                     break;
                 }
                 case ConsumableType.BREACHING:
                 {
-                    ItemUseResult orb_result = UseOrb(5, false, user, line, (t, LOE_tile, results) =>
-                    {
-                        int max_dist = -1;
-                        foreach (Tile t2 in M.TilesByDistance(t.row, t.col, false, true))
+                    ItemUseResult orb_result = UseOrb(5, false, user, line,
+                        (t, LOE_tile, results) =>
                         {
-                            if (t.DistanceFrom(t2) > 5)
+                            int max_dist = -1;
+                            foreach (Tile t2 in M.TilesByDistance(t.row, t.col, false, true))
                             {
-                                break;
+                                if (t.DistanceFrom(t2) > 5)
+                                {
+                                    break;
+                                }
+
+                                if (t2.Is(TileType.WALL, TileType.WAX_WALL, TileType.STALAGMITE,
+                                    TileType.CRACKED_WALL,
+                                    TileType.DOOR_C))
+                                {
+                                    Screen.WriteMapChar(t2.row, t2.col, t2.symbol,
+                                        Color.RandomBreached);
+                                    if (t.DistanceFrom(t2) > max_dist)
+                                    {
+                                        max_dist = t.DistanceFrom(t2);
+                                        Screen
+                                            .GLUpdate(); //todo: stalagmites - if I add them to caves, they should no longer always vanish. check for an event, maybe?
+                                        Thread.Sleep(50);
+                                    }
+                                }
                             }
 
-                            if (t2.Is(TileType.WALL, TileType.WAX_WALL, TileType.STALAGMITE, TileType.CRACKED_WALL,
-                                TileType.DOOR_C))
+                            List<Tile> area = new List<Tile>();
+                            foreach (Tile tile in t.TilesWithinDistance(5))
                             {
-                                Screen.WriteMapChar(t2.row, t2.col, t2.symbol, Color.RandomBreached);
-                                if (t.DistanceFrom(t2) > max_dist)
+                                if (tile.Is(TileType.WALL, TileType.WAX_WALL, TileType.STALAGMITE,
+                                        TileType.CRACKED_WALL,
+                                        TileType.DOOR_C) && tile.p.BoundsCheck(M.tile, false))
                                 {
-                                    max_dist = t.DistanceFrom(t2);
-                                    Screen
-                                        .GLUpdate(); //todo: stalagmites - if I add them to caves, they should no longer always vanish. check for an event, maybe?
-                                    Thread.Sleep(50);
+                                    TileType prev_type = tile.type;
+                                    if (tile.Is(TileType.STALAGMITE))
+                                    {
+                                        tile.Toggle(null, TileType.FLOOR);
+                                    }
+                                    else
+                                    {
+                                        tile.Toggle(null, TileType.BREACHED_WALL);
+                                        tile.toggles_into = prev_type;
+                                        area.Add(tile);
+                                    }
+
+                                    foreach (Tile neighbor in tile.TilesWithinDistance(1))
+                                    {
+                                        neighbor.solid_rock = false;
+                                    }
                                 }
                             }
-                        }
 
-                        List<Tile> area = new List<Tile>();
-                        foreach (Tile tile in t.TilesWithinDistance(5))
-                        {
-                            if (tile.Is(TileType.WALL, TileType.WAX_WALL, TileType.STALAGMITE, TileType.CRACKED_WALL,
-                                    TileType.DOOR_C) && tile.p.BoundsCheck(M.tile, false))
+                            if (area.Count > 0)
                             {
-                                TileType prev_type = tile.type;
-                                if (tile.Is(TileType.STALAGMITE))
-                                {
-                                    tile.Toggle(null, TileType.FLOOR);
-                                }
-                                else
-                                {
-                                    tile.Toggle(null, TileType.BREACHED_WALL);
-                                    tile.toggles_into = prev_type;
-                                    area.Add(tile);
-                                }
-
-                                foreach (Tile neighbor in tile.TilesWithinDistance(1))
-                                {
-                                    neighbor.solid_rock = false;
-                                }
+                                Q.Add(new Event(t, area, 500, EventType.BREACH));
                             }
-                        }
-
-                        if (area.Count > 0)
-                        {
-                            Q.Add(new Event(t, area, 500, EventType.BREACH));
-                        }
-                    });
+                        });
                     used = orb_result.used;
                     IDed = orb_result.IDed;
                     break;
@@ -2029,7 +2123,8 @@ namespace Forays
                                     if (!tile.actor().HasAttr(AttrType.SHIELDED))
                                     {
                                         tile.actor().attrs[AttrType.SHIELDED] = 1;
-                                        B.Add(tile.actor().GetName(false, The, Are) + " shielded. ", tile.actor());
+                                        B.Add(tile.actor().GetName(false, The, Are) + " shielded. ",
+                                            tile.actor());
                                     }
 
                                     if (player.CanSee(tile.actor()))
@@ -2078,388 +2173,426 @@ namespace Forays
                 }
                 case ConsumableType.TELEPORTAL:
                 {
-                    ItemUseResult orb_result = UseOrb(0, false, user, line, (t, LOE_tile, results) =>
-                    {
-                        LOE_tile.AddFeature(FeatureType.TELEPORTAL);
-                        if (LOE_tile.Is(FeatureType.TELEPORTAL))
+                    ItemUseResult orb_result = UseOrb(0, false, user, line,
+                        (t, LOE_tile, results) =>
                         {
-                            Q.Add(new Event(LOE_tile, 0, EventType.TELEPORTAL, 100));
-                        }
-                    });
+                            LOE_tile.AddFeature(FeatureType.TELEPORTAL);
+                            if (LOE_tile.Is(FeatureType.TELEPORTAL))
+                            {
+                                Q.Add(new Event(LOE_tile, 0, EventType.TELEPORTAL, 100));
+                            }
+                        });
                     used = orb_result.used;
                     IDed = orb_result.IDed;
                     break;
                 }
                 case ConsumableType.PAIN:
                 {
-                    ItemUseResult orb_result = UseOrb(5, false, user, line, (t, LOE_tile, results) =>
-                    {
-                        List<pos> cells = new List<pos>();
-                        List<ColorChar> symbols = new List<ColorChar>();
-                        foreach (Tile tile in t.TilesWithinDistance(5))
+                    ItemUseResult orb_result = UseOrb(5, false, user, line,
+                        (t, LOE_tile, results) =>
                         {
-                            if (LOE_tile.HasLOE(tile))
+                            List<pos> cells = new List<pos>();
+                            List<ColorChar> symbols = new List<ColorChar>();
+                            foreach (Tile tile in t.TilesWithinDistance(5))
                             {
-                                Actor a = tile.actor();
-                                if (a != null)
+                                if (LOE_tile.HasLOE(tile))
                                 {
-                                    if (a.TakeDamage(DamageType.MAGIC, DamageClass.MAGICAL, R.Roll(2, 6), user,
-                                        "an orb of pain"))
+                                    Actor a = tile.actor();
+                                    if (a != null)
                                     {
-                                        a.ApplyStatus(AttrType.VULNERABLE, (R.Roll(2, 6) + 6) * 100);
-                                        if (a == player)
+                                        if (a.TakeDamage(DamageType.MAGIC, DamageClass.MAGICAL,
+                                            R.Roll(2, 6), user,
+                                            "an orb of pain"))
                                         {
-                                            Help.TutorialTip(TutorialTopic.Vulnerable);
+                                            a.ApplyStatus(AttrType.VULNERABLE,
+                                                (R.Roll(2, 6) + 6) * 100);
+                                            if (a == player)
+                                            {
+                                                Help.TutorialTip(TutorialTopic.Vulnerable);
+                                            }
                                         }
                                     }
-                                }
 
-                                symbols.Add(new ColorChar('*', Color.RandomDoom));
-                                /*if(tile.DistanceFrom(t) % 2 == 0){
-                                    symbols.Add(new colorchar('*',Color.DarkMagenta));
+                                    symbols.Add(new ColorChar('*', Color.RandomDoom));
+                                    /*if(tile.DistanceFrom(t) % 2 == 0){
+                                        symbols.Add(new colorchar('*',Color.DarkMagenta));
+                                    }
+                                    else{
+                                        symbols.Add(new colorchar('*',Color.DarkRed));
+                                    }*/
+                                    cells.Add(tile.p);
                                 }
-                                else{
-                                    symbols.Add(new colorchar('*',Color.DarkRed));
-                                }*/
-                                cells.Add(tile.p);
                             }
-                        }
 
-                        player.AnimateVisibleMapCells(cells, symbols, 80);
-                    });
+                            player.AnimateVisibleMapCells(cells, symbols, 80);
+                        });
                     used = orb_result.used;
                     IDed = orb_result.IDed;
                     break;
                 }
                 case ConsumableType.CONFUSION:
                 {
-                    ItemUseResult orb_result = UseOrb(2, false, user, line, (t, LOE_tile, results) =>
-                    {
-                        List<Tile> area = new List<Tile>();
-                        List<pos> cells = new List<pos>();
-                        ColorChar cch = new ColorChar('*', Color.RandomConfusion);
-                        for (int i = 0; i <= 2; ++i)
+                    ItemUseResult orb_result = UseOrb(2, false, user, line,
+                        (t, LOE_tile, results) =>
                         {
-                            foreach (Tile tile in t.TilesAtDistance(i))
+                            List<Tile> area = new List<Tile>();
+                            List<pos> cells = new List<pos>();
+                            ColorChar cch = new ColorChar('*', Color.RandomConfusion);
+                            for (int i = 0; i <= 2; ++i)
                             {
-                                if (tile.passable && LOE_tile.HasLOE(tile))
+                                foreach (Tile tile in t.TilesAtDistance(i))
                                 {
-                                    tile.AddFeature(FeatureType.CONFUSION_GAS);
-                                    area.Add(tile);
-                                    cells.Add(tile.p);
-                                    if (tile.seen)
+                                    if (tile.passable && LOE_tile.HasLOE(tile))
                                     {
-                                        M.last_seen[tile.row, tile.col] = cch;
+                                        tile.AddFeature(FeatureType.CONFUSION_GAS);
+                                        area.Add(tile);
+                                        cells.Add(tile.p);
+                                        if (tile.seen)
+                                        {
+                                            M.last_seen[tile.row, tile.col] = cch;
+                                        }
                                     }
                                 }
+
+                                Screen.AnimateMapCells(cells, cch, 40);
                             }
 
-                            Screen.AnimateMapCells(cells, cch, 40);
-                        }
-
-                        Q.RemoveTilesFromEventAreas(area, EventType.REMOVE_GAS);
-                        Event.RemoveGas(area, R.Between(7, 9) * 100, FeatureType.CONFUSION_GAS, 20);
-                    });
+                            Q.RemoveTilesFromEventAreas(area, EventType.REMOVE_GAS);
+                            Event.RemoveGas(area, R.Between(7, 9) * 100, FeatureType.CONFUSION_GAS,
+                                20);
+                        });
                     used = orb_result.used;
                     IDed = orb_result.IDed;
                     break;
                 }
                 case ConsumableType.BLADES:
                 {
-                    ItemUseResult orb_result = UseOrb(1, false, user, line, (t, LOE_tile, results) =>
-                    {
-                        List<Tile> targets = new List<Tile>();
-                        foreach (Tile t2 in t.TilesWithinDistance(1))
+                    ItemUseResult orb_result = UseOrb(1, false, user, line,
+                        (t, LOE_tile, results) =>
                         {
-                            if (t2.passable && t2.actor() == null && LOE_tile.HasLOE(t2))
+                            List<Tile> targets = new List<Tile>();
+                            foreach (Tile t2 in t.TilesWithinDistance(1))
                             {
-                                targets.Add(t2);
+                                if (t2.passable && t2.actor() == null && LOE_tile.HasLOE(t2))
+                                {
+                                    targets.Add(t2);
+                                }
                             }
-                        }
 
-                        targets.Randomize();
-                        foreach (Tile t2 in targets)
-                        {
-                            Actor a = Actor.Create(ActorType.BLADE, t2.row, t2.col);
-                            if (a != null)
+                            targets.Randomize();
+                            foreach (Tile t2 in targets)
                             {
-                                a.speed = 50;
+                                Actor a = Actor.Create(ActorType.BLADE, t2.row, t2.col);
+                                if (a != null)
+                                {
+                                    a.speed = 50;
+                                }
                             }
-                        }
-                    });
+                        });
                     used = orb_result.used;
                     IDed = orb_result.IDed;
                     break;
                 }
                 case ConsumableType.DUST_STORM:
                 {
-                    ItemUseResult wand_result = UseWand(true, false, user, line, (LOE_tile, targeting, results) =>
-                    {
-                        List<Tile> area = new List<Tile>();
-                        List<pos> cells = new List<pos>();
-                        foreach (Tile neighbor in LOE_tile.TilesWithinDistance(1))
+                    ItemUseResult wand_result = UseWand(true, false, user, line,
+                        (LOE_tile, targeting, results) =>
                         {
-                            if (neighbor.passable)
+                            List<Tile> area = new List<Tile>();
+                            List<pos> cells = new List<pos>();
+                            foreach (Tile neighbor in LOE_tile.TilesWithinDistance(1))
                             {
-                                area.Add(neighbor);
-                            }
-                        }
-
-                        List<Tile> added = new List<Tile>();
-                        foreach (Tile n1 in area)
-                        {
-                            foreach (int dir in U.FourDirections)
-                            {
-                                if (R.CoinFlip() && n1.TileInDirection(dir).passable)
+                                if (neighbor.passable)
                                 {
-                                    added.Add(n1.TileInDirection(dir));
+                                    area.Add(neighbor);
                                 }
                             }
-                        }
 
-                        foreach (Tile n1 in added)
-                        {
-                            area.AddUnique(n1);
-                        }
-
-                        ColorChar cch = new ColorChar('*', Color.TerrainDarkGray);
-                        foreach (Tile t2 in area)
-                        {
-                            t2.AddFeature(FeatureType.THICK_DUST);
-                            cells.Add(t2.p);
-                            if (t2.seen)
+                            List<Tile> added = new List<Tile>();
+                            foreach (Tile n1 in area)
                             {
-                                M.last_seen[t2.row, t2.col] = cch;
-                            }
-
-                            Actor a = t2.actor();
-                            if (a != null && t2.Is(FeatureType.THICK_DUST))
-                            {
-                                if (!a.HasAttr(AttrType.NONLIVING, AttrType.PLANTLIKE, AttrType.BLINDSIGHT))
+                                foreach (int dir in U.FourDirections)
                                 {
-                                    if (a == player)
+                                    if (R.CoinFlip() && n1.TileInDirection(dir).passable)
                                     {
-                                        B.Add("Thick dust fills the air! ");
+                                        added.Add(n1.TileInDirection(dir));
                                     }
-
-                                    a.ApplyStatus(AttrType.BLIND, R.Between(1, 3) * 100);
                                 }
                             }
-                        }
 
-                        Screen.AnimateMapCells(cells, cch, 80);
-                        Q.RemoveTilesFromEventAreas(area, EventType.REMOVE_GAS);
-                        Event.RemoveGas(area, R.Between(20, 25) * 100, FeatureType.THICK_DUST, 8);
-                    });
+                            foreach (Tile n1 in added)
+                            {
+                                area.AddUnique(n1);
+                            }
+
+                            ColorChar cch = new ColorChar('*', Color.TerrainDarkGray);
+                            foreach (Tile t2 in area)
+                            {
+                                t2.AddFeature(FeatureType.THICK_DUST);
+                                cells.Add(t2.p);
+                                if (t2.seen)
+                                {
+                                    M.last_seen[t2.row, t2.col] = cch;
+                                }
+
+                                Actor a = t2.actor();
+                                if (a != null && t2.Is(FeatureType.THICK_DUST))
+                                {
+                                    if (!a.HasAttr(AttrType.NONLIVING, AttrType.PLANTLIKE,
+                                        AttrType.BLINDSIGHT))
+                                    {
+                                        if (a == player)
+                                        {
+                                            B.Add("Thick dust fills the air! ");
+                                        }
+
+                                        a.ApplyStatus(AttrType.BLIND, R.Between(1, 3) * 100);
+                                    }
+                                }
+                            }
+
+                            Screen.AnimateMapCells(cells, cch, 80);
+                            Q.RemoveTilesFromEventAreas(area, EventType.REMOVE_GAS);
+                            Event.RemoveGas(area, R.Between(20, 25) * 100, FeatureType.THICK_DUST,
+                                8);
+                        });
                     used = wand_result.used;
                     IDed = wand_result.IDed;
                     break;
                 }
                 case ConsumableType.FLESH_TO_FIRE:
                 {
-                    ItemUseResult wand_result = UseWand(true, false, user, line, (LOE_tile, targeting, results) =>
-                    {
-                        Actor a = targeting.targeted.actor();
-                        if (a != null)
+                    ItemUseResult wand_result = UseWand(true, false, user, line,
+                        (LOE_tile, targeting, results) =>
                         {
-                            B.Add("Jets of flame erupt from " + a.GetName(true, The) + ". ", a, targeting.targeted);
-                            Screen.AnimateMapCell(a.row, a.col, new ColorChar('&', Color.RandomFire));
-                            int dmg = (a.curhp + 1) / 2;
-                            if (a.TakeDamage(DamageType.MAGIC, DamageClass.MAGICAL, dmg, user,
-                                "a wand of flesh to fire"))
+                            Actor a = targeting.targeted.actor();
+                            if (a != null)
                             {
-                                a.ApplyBurning();
-                            }
-                        }
-                        else
-                        {
-                            if (targeting.targeted.Is(FeatureType.TROLL_CORPSE))
-                            {
-                                B.Add("Jets of flame erupt from the troll corpse. ", a, targeting.targeted);
-                                targeting.targeted.ApplyEffect(DamageType.FIRE);
-                                if (targeting.targeted.Is(FeatureType.TROLL_CORPSE))
+                                B.Add("Jets of flame erupt from " + a.GetName(true, The) + ". ", a,
+                                    targeting.targeted);
+                                Screen.AnimateMapCell(a.row, a.col,
+                                    new ColorChar('&', Color.RandomFire));
+                                int dmg = (a.curhp + 1) / 2;
+                                if (a.TakeDamage(DamageType.MAGIC, DamageClass.MAGICAL, dmg, user,
+                                    "a wand of flesh to fire"))
                                 {
-                                    //if it's still there because of thick gas, it still gets destroyed.
-                                    targeting.targeted.RemoveFeature(FeatureType.TROLL_CORPSE);
-                                    B.Add("The troll corpse burns to ashes! ", targeting.targeted);
+                                    a.ApplyBurning();
                                 }
                             }
                             else
                             {
-                                if (targeting.targeted.Is(FeatureType.TROLL_BLOODWITCH_CORPSE))
+                                if (targeting.targeted.Is(FeatureType.TROLL_CORPSE))
                                 {
-                                    B.Add("Jets of flame erupt from the troll bloodwitch corpse. ", a,
+                                    B.Add("Jets of flame erupt from the troll corpse. ", a,
                                         targeting.targeted);
                                     targeting.targeted.ApplyEffect(DamageType.FIRE);
-                                    if (targeting.targeted.Is(FeatureType.TROLL_BLOODWITCH_CORPSE))
+                                    if (targeting.targeted.Is(FeatureType.TROLL_CORPSE))
                                     {
                                         //if it's still there because of thick gas, it still gets destroyed.
-                                        targeting.targeted.RemoveFeature(FeatureType.TROLL_BLOODWITCH_CORPSE);
-                                        B.Add("The troll bloodwitch corpse burns to ashes! ", targeting.targeted);
+                                        targeting.targeted.RemoveFeature(FeatureType.TROLL_CORPSE);
+                                        B.Add("The troll corpse burns to ashes! ",
+                                            targeting.targeted);
                                     }
                                 }
                                 else
                                 {
-                                    B.Add("Nothing happens. ", user);
-                                    results.IDed = false;
+                                    if (targeting.targeted.Is(FeatureType.TROLL_BLOODWITCH_CORPSE))
+                                    {
+                                        B.Add(
+                                            "Jets of flame erupt from the troll bloodwitch corpse. ",
+                                            a,
+                                            targeting.targeted);
+                                        targeting.targeted.ApplyEffect(DamageType.FIRE);
+                                        if (targeting.targeted.Is(FeatureType
+                                            .TROLL_BLOODWITCH_CORPSE))
+                                        {
+                                            //if it's still there because of thick gas, it still gets destroyed.
+                                            targeting.targeted.RemoveFeature(FeatureType
+                                                .TROLL_BLOODWITCH_CORPSE);
+                                            B.Add("The troll bloodwitch corpse burns to ashes! ",
+                                                targeting.targeted);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        B.Add("Nothing happens. ", user);
+                                        results.IDed = false;
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
                     used = wand_result.used;
                     IDed = wand_result.IDed;
                     break;
                 }
                 case ConsumableType.INVISIBILITY:
                 {
-                    ItemUseResult wand_result = UseWand(false, false, user, line, (LOE_tile, targeting, results) =>
-                    {
-                        Actor a = targeting.targeted.actor();
-                        if (a != null)
+                    ItemUseResult wand_result = UseWand(false, false, user, line,
+                        (LOE_tile, targeting, results) =>
                         {
-                            B.Add(a.GetName(false, The, Verb("vanish")) + " from view. ", a);
-                            if (a.light_radius > 0 && !M.wiz_dark && !M.wiz_lite)
+                            Actor a = targeting.targeted.actor();
+                            if (a != null)
                             {
-                                B.Add(
-                                    a.GetName(false, The, Possessive) + " light still reveals " +
-                                    a.GetName(false, The, Possessive) + " location. ", a);
-                            }
+                                B.Add(a.GetName(false, The, Verb("vanish")) + " from view. ", a);
+                                if (a.light_radius > 0 && !M.wiz_dark && !M.wiz_lite)
+                                {
+                                    B.Add(
+                                        a.GetName(false, The, Possessive) +
+                                        " light still reveals " +
+                                        a.GetName(false, The, Possessive) + " location. ", a);
+                                }
 
-                            a.RefreshDuration(AttrType.INVISIBLE, (R.Between(2, 20) + 30) * 100,
-                                a.GetName(false, The, Are) + " no longer invisible. ", a);
-                        }
-                        else
-                        {
-                            B.Add("Nothing happens. ", user);
-                            results.IDed = false;
-                        }
-                    });
+                                a.RefreshDuration(AttrType.INVISIBLE, (R.Between(2, 20) + 30) * 100,
+                                    a.GetName(false, The, Are) + " no longer invisible. ", a);
+                            }
+                            else
+                            {
+                                B.Add("Nothing happens. ", user);
+                                results.IDed = false;
+                            }
+                        });
                     used = wand_result.used;
                     IDed = wand_result.IDed;
                     break;
                 }
                 case ConsumableType.REACH:
                 {
-                    ItemUseResult wand_result = UseWand(true, false, user, line, (LOE_tile, targeting, results) =>
-                    {
-                        Actor a = targeting.targeted.actor();
-                        if (a != null && a != user)
+                    ItemUseResult wand_result = UseWand(true, false, user, line,
+                        (LOE_tile, targeting, results) =>
                         {
-                            user.Attack(0, a, true);
-                        }
-                        else
-                        {
-                            B.Add("Nothing happens. ", user);
-                            results.IDed = false;
-                        }
-                    });
+                            Actor a = targeting.targeted.actor();
+                            if (a != null && a != user)
+                            {
+                                user.Attack(0, a, true);
+                            }
+                            else
+                            {
+                                B.Add("Nothing happens. ", user);
+                                results.IDed = false;
+                            }
+                        });
                     used = wand_result.used;
                     IDed = wand_result.IDed;
                     break;
                 }
                 case ConsumableType.SLUMBER:
                 {
-                    ItemUseResult wand_result = UseWand(true, false, user, line, (LOE_tile, targeting, results) =>
-                    {
-                        Actor a = targeting.targeted.actor();
-                        if (a != null)
+                    ItemUseResult wand_result = UseWand(true, false, user, line,
+                        (LOE_tile, targeting, results) =>
                         {
-                            if (a.HasAttr(AttrType.MENTAL_IMMUNITY))
+                            Actor a = targeting.targeted.actor();
+                            if (a != null)
                             {
-                                if (a.HasAttr(AttrType.NONLIVING, AttrType.PLANTLIKE))
+                                if (a.HasAttr(AttrType.MENTAL_IMMUNITY))
                                 {
-                                    B.Add(a.GetName(false, The, Verb("resist")) + " becoming dormant. ", a);
+                                    if (a.HasAttr(AttrType.NONLIVING, AttrType.PLANTLIKE))
+                                    {
+                                        B.Add(
+                                            a.GetName(false, The, Verb("resist")) +
+                                            " becoming dormant. ", a);
+                                    }
+                                    else
+                                    {
+                                        B.Add(
+                                            a.GetName(false, The, Verb("resist")) +
+                                            " falling asleep. ", a);
+                                    }
                                 }
                                 else
                                 {
-                                    B.Add(a.GetName(false, The, Verb("resist")) + " falling asleep. ", a);
+                                    if (a.ResistedBySpirit())
+                                    {
+                                        if (player.HasLOS(a))
+                                        {
+                                            if (a.HasAttr(AttrType.NONLIVING, AttrType.PLANTLIKE))
+                                            {
+                                                B.Add(
+                                                    a.GetName(false, The, Verb("resist")) +
+                                                    " becoming dormant. ", a);
+                                            }
+                                            else
+                                            {
+                                                B.Add(
+                                                    a.GetName(false, The, Verb("almost fall")) +
+                                                    " asleep. ", a);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (player.HasLOS(a))
+                                        {
+                                            if (a.HasAttr(AttrType.NONLIVING, AttrType.PLANTLIKE))
+                                            {
+                                                B.Add(
+                                                    a.GetName(false, The, Verb("become")) +
+                                                    " dormant. ", a);
+                                            }
+                                            else
+                                            {
+                                                B.Add(
+                                                    a.GetName(false, The, Verb("fall")) +
+                                                    " asleep. ", a);
+                                            }
+                                        }
+
+                                        a.attrs[AttrType.ASLEEP] = 6 + R.Roll(4, 6);
+                                    }
                                 }
                             }
                             else
                             {
-                                if (a.ResistedBySpirit())
-                                {
-                                    if (player.HasLOS(a))
-                                    {
-                                        if (a.HasAttr(AttrType.NONLIVING, AttrType.PLANTLIKE))
-                                        {
-                                            B.Add(a.GetName(false, The, Verb("resist")) + " becoming dormant. ", a);
-                                        }
-                                        else
-                                        {
-                                            B.Add(a.GetName(false, The, Verb("almost fall")) + " asleep. ", a);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    if (player.HasLOS(a))
-                                    {
-                                        if (a.HasAttr(AttrType.NONLIVING, AttrType.PLANTLIKE))
-                                        {
-                                            B.Add(a.GetName(false, The, Verb("become")) + " dormant. ", a);
-                                        }
-                                        else
-                                        {
-                                            B.Add(a.GetName(false, The, Verb("fall")) + " asleep. ", a);
-                                        }
-                                    }
-
-                                    a.attrs[AttrType.ASLEEP] = 6 + R.Roll(4, 6);
-                                }
+                                B.Add("Nothing happens. ", user);
+                                results.IDed = false;
                             }
-                        }
-                        else
-                        {
-                            B.Add("Nothing happens. ", user);
-                            results.IDed = false;
-                        }
-                    });
+                        });
                     used = wand_result.used;
                     IDed = wand_result.IDed;
                     break;
                 }
                 case ConsumableType.TELEKINESIS:
                 {
-                    ItemUseResult wand_result = UseWand(true, false, user, line, (LOE_tile, targeting, results) =>
-                    {
-                        if (!SharedEffect.Telekinesis(false, user, targeting.targeted))
+                    ItemUseResult wand_result = UseWand(true, false, user, line,
+                        (LOE_tile, targeting, results) =>
                         {
-                            results.used = false;
-                        }
-                    });
+                            if (!SharedEffect.Telekinesis(false, user, targeting.targeted))
+                            {
+                                results.used = false;
+                            }
+                        });
                     used = wand_result.used;
                     IDed = wand_result.IDed;
                     break;
                 }
                 case ConsumableType.WEBS:
                 {
-                    ItemUseResult wand_result = UseWand(true, true, user, line, (LOE_tile, targeting, results) =>
-                    {
-                        if (targeting.targeted == user.tile())
+                    ItemUseResult wand_result = UseWand(true, true, user, line,
+                        (LOE_tile, targeting, results) =>
                         {
-                            B.Add("Nothing happens. ", user);
-                            results.IDed = false;
-                        }
-                        else
-                        {
-                            foreach (Tile t in targeting.line_to_targeted)
+                            if (targeting.targeted == user.tile())
                             {
-                                if (t.passable && t != user.tile())
+                                B.Add("Nothing happens. ", user);
+                                results.IDed = false;
+                            }
+                            else
+                            {
+                                foreach (Tile t in targeting.line_to_targeted)
                                 {
-                                    t.AddFeature(FeatureType.WEB);
-                                    if (t.seen)
+                                    if (t.passable && t != user.tile())
                                     {
-                                        Screen.WriteMapChar(t.row, t.col, ';', Color.White);
-                                        Screen.GLUpdate();
-                                        Thread.Sleep(15);
+                                        t.AddFeature(FeatureType.WEB);
+                                        if (t.seen)
+                                        {
+                                            Screen.WriteMapChar(t.row, t.col, ';', Color.White);
+                                            Screen.GLUpdate();
+                                            Thread.Sleep(15);
+                                        }
                                     }
                                 }
-                            }
 
-                            M.Draw();
-                        }
-                    });
+                                M.Draw();
+                            }
+                        });
                     used = wand_result.used;
                     IDed = wand_result.IDed;
                     break;
@@ -2477,7 +2610,8 @@ namespace Forays
                         ignored = true;
                         Tile t = line.LastBeforeSolidTile();
                         Actor first = user.FirstActorInLine(line);
-                        B.Add(user.GetName(false, The, Verb("fling")) + " " + GetName(true, The) + ". ");
+                        B.Add(user.GetName(false, The, Verb("fling")) + " " + GetName(true, The) +
+                              ". ");
                         if (first != null && first != user)
                         {
                             t = first.tile();
@@ -2566,7 +2700,8 @@ namespace Forays
                     if (dir != -1)
                     {
                         Tile t = user.TileInDirection(dir);
-                        B.Add(user.GetName(false, The, Verb("use")) + " your flint & steel. ", user);
+                        B.Add(user.GetName(false, The, Verb("use")) + " your flint & steel. ",
+                            user);
                         if (t.actor() != null && t.actor().HasAttr(AttrType.OIL_COVERED) &&
                             !t.Is(FeatureType.POISON_GAS, FeatureType.THICK_DUST))
                         {
@@ -2646,7 +2781,8 @@ namespace Forays
                         --other_data;
                         if (user != null && other_data == 0)
                         {
-                            B.Add(user.GetName(false, The, Verb("use")) + " your last bandage. ", user);
+                            B.Add(user.GetName(false, The, Verb("use")) + " your last bandage. ",
+                                user);
                             user.inv.Remove(this);
                         }
                     }
@@ -2725,7 +2861,8 @@ namespace Forays
 
         private delegate void OrbTargetingDelegate(Tile t, Tile LOE_tile, ItemUseResult result);
 
-        private ItemUseResult UseOrb(int radius, bool never_target_enemies, Actor user, List<Tile> line,
+        private ItemUseResult UseOrb(int radius, bool never_target_enemies, Actor user,
+            List<Tile> line,
             OrbTargetingDelegate orb_effect)
         {
             ItemUseResult result = new ItemUseResult(true, true);
@@ -2736,7 +2873,8 @@ namespace Forays
                     radius = 0;
                 }
 
-                line = user.GetTargetTile(12, radius, false, !(never_target_enemies && identified[type]));
+                line = user.GetTargetTile(12, radius, false,
+                    !(never_target_enemies && identified[type]));
             }
 
             if (line != null)
@@ -2748,7 +2886,8 @@ namespace Forays
                 if (user != null)
                 {
                     first = user.FirstActorInLine(line);
-                    B.Add(user.GetName(false, The, Verb("fling")) + " " + GetName(true, The) + ". ", user);
+                    B.Add(user.GetName(false, The, Verb("fling")) + " " + GetName(true, The) + ". ",
+                        user);
                     if (first != null && first != user)
                     {
                         trigger_trap = false;
@@ -2810,9 +2949,11 @@ namespace Forays
             return result;
         }
 
-        private delegate void WandTargetingDelegate(Tile LOE_tile, TargetInfo targeting, ItemUseResult result);
+        private delegate void WandTargetingDelegate(Tile LOE_tile, TargetInfo targeting,
+            ItemUseResult result);
 
-        private ItemUseResult UseWand(bool targets_enemies, bool visible_line, Actor user, List<Tile> line,
+        private ItemUseResult UseWand(bool targets_enemies, bool visible_line, Actor user,
+            List<Tile> line,
             WandTargetingDelegate wand_effect)
         {
             ItemUseResult result = new ItemUseResult(true, true);
@@ -2893,7 +3034,8 @@ namespace Forays
                         prev = t;
                     }
 
-                    B.Add(user.GetName(false, The, Verb("aim")) + " " + GetName(true, The) + ". ", user);
+                    B.Add(user.GetName(false, The, Verb("aim")) + " " + GetName(true, The) + ". ",
+                        user);
                     wand_effect(LOE_tile, info, result);
                 }
             }
@@ -2919,7 +3061,8 @@ namespace Forays
         {
             if (!revealed_by_light)
             {
-                return "You can't see what type of " + UnknownItemNames[GetItemClass(type)].Singular + " this is.";
+                return "You can't see what type of " +
+                       UnknownItemNames[GetItemClass(type)].Singular + " this is.";
             }
             else
             {
@@ -2976,7 +3119,8 @@ namespace Forays
                         return
                             "This potion will cover you in shadows, causing you to fade to invisibility while in darkness.";
                     case ConsumableType.DARKNESS:
-                        return "This scroll covers the dungeon in a blanket of darkness that suppresses all light.";
+                        return
+                            "This scroll covers the dungeon in a blanket of darkness that suppresses all light.";
                     case ConsumableType.MYSTIC_MIND:
                         return
                             "This potion will expand your mind, allowing you to sense foes no matter where they are, and granting immunity to stuns, sleep, rage, confusion, and fear.";
@@ -3002,11 +3146,14 @@ namespace Forays
                         return
                             "Reading this scroll will grant knowledge of the items in your pack, and of the current level, including secret doors and traps.";
                     case ConsumableType.PAIN:
-                        return "Anything caught in this orb's area of effect will become vulnerable to extra damage.";
+                        return
+                            "Anything caught in this orb's area of effect will become vulnerable to extra damage.";
                     case ConsumableType.PASSAGE:
-                        return "This scroll will move you to the other side of an adjacent wall (but not diagonally).";
+                        return
+                            "This scroll will move you to the other side of an adjacent wall (but not diagonally).";
                     case ConsumableType.REGENERATION:
-                        return "The potent healing magic in this potion will steadily grant you health for 100 turns.";
+                        return
+                            "The potent healing magic in this potion will steadily grant you health for 100 turns.";
                     case ConsumableType.RENEWAL:
                         return
                             "This scroll's magic will strip negative effects from your weapons & armor, charge any wands in your possession, and remove any slime or oil covering you.";
@@ -3023,7 +3170,8 @@ namespace Forays
                         return
                             "This potion will change you temporarily to unliving stone, granting a slight resistance to all damage. You'll no longer be able to catch fire, and no toxin, gas, or potion will affect you.";
                     case ConsumableType.SUNLIGHT:
-                        return "This scroll fills the level with sunlight, illuminating every corner of the dungeon.";
+                        return
+                            "This scroll fills the level with sunlight, illuminating every corner of the dungeon.";
                     case ConsumableType.TELEPORTAL:
                         return
                             "Releasing this orb's energy will create an unstable rift. Creatures stepping into the rift will be transported elsewhere in the dungeon.";
@@ -3031,7 +3179,8 @@ namespace Forays
                         return
                             "Reading this scroll will halt the flow of time for a single turn, allowing you to take an extra action.";
                     case ConsumableType.TRAP_CLEARING:
-                        return "This scroll will cause all traps within 12 spaces to be triggered simultaneously.";
+                        return
+                            "This scroll will cause all traps within 12 spaces to be triggered simultaneously.";
                     case ConsumableType.VAMPIRISM:
                         return
                             "Consuming this potion will grant many of the powers of a true vampire. You'll fly and drain life from living enemies, but light will leave you vulnerable.";
@@ -3212,13 +3361,15 @@ namespace Forays
             if (IsEnchanted())
             {
                 ColorBufferString cs = new ColorBufferString("+", EnchantmentColor());
-                return new ColorBufferString("-- ", cs, NameWithoutEnchantment().Capitalize(), cs, " --").PadOuter(
+                return new ColorBufferString("-- ", cs, NameWithoutEnchantment().Capitalize(), cs,
+                    " --").PadOuter(
                     Global.STATUS_WIDTH);
             }
             else
             {
                 return new ColorBufferString(
-                    ("-- " + NameWithoutEnchantment().Capitalize() + " --").PadOuter(Global.STATUS_WIDTH), Color.Gray);
+                    ("-- " + NameWithoutEnchantment().Capitalize() + " --").PadOuter(
+                        Global.STATUS_WIDTH), Color.Gray);
             }
         }
 
@@ -3299,7 +3450,8 @@ namespace Forays
             {
                 EquipmentStatus st = list[i];
                 string comma = (i == list.Count - 1) ? "" : ",";
-                ColorBufferString statusString = new ColorBufferString(" " + StatusName(st) + comma, StatusColor(st));
+                ColorBufferString statusString =
+                    new ColorBufferString(" " + StatusName(st) + comma, StatusColor(st));
                 result.AddWithWrap(statusString, Global.COLS - 2, 1);
             }
 
@@ -3337,15 +3489,20 @@ namespace Forays
             switch (enchantment)
             {
                 case EnchantmentType.ECHOES:
-                    return "Successful hits will also attack anything behind the target.".PadOuter(Global.COLS);
+                    return "Successful hits will also attack anything behind the target.".PadOuter(
+                        Global.COLS);
                 case EnchantmentType.CHILLING:
-                    return "Deals 1 extra cold damage. This damage doubles on each hit.".PadOuter(Global.COLS);
+                    return "Deals 1 extra cold damage. This damage doubles on each hit.".PadOuter(
+                        Global.COLS);
                 case EnchantmentType.PRECISION:
-                    return "This weapon is twice as likely to score critical hits.".PadOuter(Global.COLS);
+                    return "This weapon is twice as likely to score critical hits.".PadOuter(
+                        Global.COLS);
                 case EnchantmentType.DISRUPTION:
-                    return "Nonliving foes will lose 20% of their maximum health on each hit.".PadOuter(Global.COLS);
+                    return "Nonliving foes will lose 20% of their maximum health on each hit."
+                        .PadOuter(Global.COLS);
                 case EnchantmentType.VICTORY:
-                    return "Defeating an enemy with this weapon will restore 5 HP.".PadOuter(Global.COLS);
+                    return "Defeating an enemy with this weapon will restore 5 HP.".PadOuter(
+                        Global.COLS);
             }
 
             return "";
@@ -3375,7 +3532,8 @@ namespace Forays
     {
         public WeaponType type;
 
-        public Weapon(WeaponType type_, EnchantmentType enchantment_ = EnchantmentType.NO_ENCHANTMENT)
+        public Weapon(WeaponType type_,
+            EnchantmentType enchantment_ = EnchantmentType.NO_ENCHANTMENT)
         {
             type = type_;
             enchantment = enchantment_;
@@ -3617,7 +3775,8 @@ namespace Forays
                 case MagicTrinketType.CLOAK_OF_SAFETY:
                     return new List<string>
                     {
-                        "Cloak of safety -- Lets you escape to safety", "if your health falls too low. Works only once."
+                        "Cloak of safety -- Lets you escape to safety",
+                        "if your health falls too low. Works only once."
                     };
                 case MagicTrinketType.BELT_OF_WARDING:
                     return new List<string>
@@ -3626,10 +3785,14 @@ namespace Forays
                         "damage at once, this item reduces the amount to 15."
                     };
                 case MagicTrinketType.BRACERS_OF_ARROW_DEFLECTION:
-                    return new List<string> {"Bracers of arrow deflection -- Blocks every arrow", "fired at you."};
+                    return new List<string>
+                        {"Bracers of arrow deflection -- Blocks every arrow", "fired at you."};
                 case MagicTrinketType.CIRCLET_OF_THE_THIRD_EYE:
                     return new List<string>
-                        {"Circlet of the third eye -- Grants a vision of", "your surroundings when you rest."};
+                    {
+                        "Circlet of the third eye -- Grants a vision of",
+                        "your surroundings when you rest."
+                    };
                 case MagicTrinketType.LENS_OF_SCRYING:
                     return new List<string>
                     {
@@ -3637,7 +3800,8 @@ namespace Forays
                         "from your pack when you descend to a new depth."
                     };
                 case MagicTrinketType.RING_OF_KEEN_SIGHT:
-                    return new List<string> {"Ring of keen sight -- Doubles your chance to", "find traps."};
+                    return new List<string>
+                        {"Ring of keen sight -- Doubles your chance to", "find traps."};
                 case MagicTrinketType.RING_OF_THE_LETHARGIC_FLAME:
                     return new List<string>
                     {
@@ -3646,7 +3810,10 @@ namespace Forays
                     };
                 case MagicTrinketType.BOOTS_OF_GRIPPING:
                     return new List<string>
-                        {"Boots of gripping -- Lets you walk across slippery", "surfaces without losing traction."};
+                    {
+                        "Boots of gripping -- Lets you walk across slippery",
+                        "surfaces without losing traction."
+                    };
                 default:
                     return new List<string> {"(none)"};
             }

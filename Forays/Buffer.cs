@@ -243,7 +243,7 @@ namespace Forays
                 Screen.WriteString(NumLines - 1, extraIdx, more, Color.Yellow);
                 MouseUI.PushButtonMap();
                 Screen.SetCursorPosition(extraIdx + more.Length - 1, NumLines - 1);
-                Input.ReadKey();
+                InputKey.ReadKey();
                 MouseUI.PopButtonMap();
             }
         }

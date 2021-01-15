@@ -58,26 +58,34 @@ namespace Forays
             const int width = 25;
             List<ConsumableType> potion_order = new List<ConsumableType>
             {
-                ConsumableType.STONEFORM, ConsumableType.CLOAKING, ConsumableType.VAMPIRISM, ConsumableType.HEALING,
-                ConsumableType.MYSTIC_MIND, ConsumableType.SILENCE, ConsumableType.REGENERATION, ConsumableType.ROOTS,
+                ConsumableType.STONEFORM, ConsumableType.CLOAKING, ConsumableType.VAMPIRISM,
+                ConsumableType.HEALING,
+                ConsumableType.MYSTIC_MIND, ConsumableType.SILENCE, ConsumableType.REGENERATION,
+                ConsumableType.ROOTS,
                 ConsumableType.BRUTISH_STRENGTH, ConsumableType.HASTE
             };
             List<ConsumableType> scroll_order = new List<ConsumableType>
             {
-                ConsumableType.SUNLIGHT, ConsumableType.DARKNESS, ConsumableType.BLINKING, ConsumableType.RENEWAL,
-                ConsumableType.FIRE_RING, ConsumableType.CALLING, ConsumableType.KNOWLEDGE, ConsumableType.PASSAGE,
-                ConsumableType.THUNDERCLAP, ConsumableType.RAGE, ConsumableType.ENCHANTMENT, ConsumableType.TIME,
+                ConsumableType.SUNLIGHT, ConsumableType.DARKNESS, ConsumableType.BLINKING,
+                ConsumableType.RENEWAL,
+                ConsumableType.FIRE_RING, ConsumableType.CALLING, ConsumableType.KNOWLEDGE,
+                ConsumableType.PASSAGE,
+                ConsumableType.THUNDERCLAP, ConsumableType.RAGE, ConsumableType.ENCHANTMENT,
+                ConsumableType.TIME,
                 ConsumableType.TRAP_CLEARING
             };
             List<ConsumableType> orb_order = new List<ConsumableType>
             {
-                ConsumableType.BREACHING, ConsumableType.FREEZING, ConsumableType.SHIELDING, ConsumableType.BLADES,
-                ConsumableType.CONFUSION, ConsumableType.FLAMES, ConsumableType.DETONATION, ConsumableType.PAIN,
+                ConsumableType.BREACHING, ConsumableType.FREEZING, ConsumableType.SHIELDING,
+                ConsumableType.BLADES,
+                ConsumableType.CONFUSION, ConsumableType.FLAMES, ConsumableType.DETONATION,
+                ConsumableType.PAIN,
                 ConsumableType.TELEPORTAL, ConsumableType.FOG
             };
             List<ConsumableType> wand_order = new List<ConsumableType>
             {
-                ConsumableType.DUST_STORM, ConsumableType.SLUMBER, ConsumableType.TELEKINESIS, ConsumableType.REACH,
+                ConsumableType.DUST_STORM, ConsumableType.SLUMBER, ConsumableType.TELEKINESIS,
+                ConsumableType.REACH,
                 ConsumableType.INVISIBILITY, ConsumableType.WEBS, ConsumableType.FLESH_TO_FIRE
             };
             List<ColorBufferString> potions = new List<ColorBufferString>();
@@ -112,7 +120,8 @@ namespace Forays
                     }
 
                     int num_spaces = width - (names[0].Length + names[1].Length);
-                    string_lists[list_idx].Add(new ColorBufferString(names[0], ided_color[0], "".PadRight(num_spaces),
+                    string_lists[list_idx].Add(new ColorBufferString(names[0], ided_color[0],
+                        "".PadRight(num_spaces),
                         Color.Black, names[1], ided_color[1]));
                     item_idx += 2;
                 }
@@ -120,7 +129,8 @@ namespace Forays
                 if (item_list.Count % 2 == 1)
                 {
                     ConsumableType ct = item_list.Last();
-                    string n = (ct.ToString()[0] + ct.ToString().Substring(1).ToLower()).Replace('_', ' ');
+                    string n =
+                        (ct.ToString()[0] + ct.ToString().Substring(1).ToLower()).Replace('_', ' ');
                     //name = name[i].Replace('_',' ');
                     Color ided_color = Color.DarkGray;
                     if (IDed[ct])
@@ -130,7 +140,8 @@ namespace Forays
 
                     int num_spaces = width - n.Length;
                     string_lists[list_idx]
-                        .Add(new ColorBufferString(n, ided_color, "".PadRight(num_spaces), Color.Black));
+                        .Add(new ColorBufferString(n, ided_color, "".PadRight(num_spaces),
+                            Color.Black));
                 }
 
                 ++list_idx;
@@ -147,8 +158,10 @@ namespace Forays
             const int first_column_offset = 2;
             const int second_column_offset = first_column_offset + 35;
             const int first_item_row = 4;
-            Screen.WriteMapString(first_item_row - 1, 8 + first_column_offset, "- Potions -", label_color);
-            Screen.WriteMapString(first_item_row - 1, 7 + second_column_offset, "- Scrolls -", label_color);
+            Screen.WriteMapString(first_item_row - 1, 8 + first_column_offset, "- Potions -",
+                label_color);
+            Screen.WriteMapString(first_item_row - 1, 7 + second_column_offset, "- Scrolls -",
+                label_color);
             int line = first_item_row;
             foreach (ColorBufferString s in potions)
             {
@@ -164,8 +177,10 @@ namespace Forays
             }
 
             const int second_item_row = first_item_row + 11;
-            Screen.WriteMapString(second_item_row - 1, 9 + first_column_offset, "- Orbs -", label_color);
-            Screen.WriteMapString(second_item_row - 1, 8 + second_column_offset, "- Wands -", label_color);
+            Screen.WriteMapString(second_item_row - 1, 9 + first_column_offset, "- Orbs -",
+                label_color);
+            Screen.WriteMapString(second_item_row - 1, 8 + second_column_offset, "- Wands -",
+                label_color);
             line = second_item_row;
             foreach (ColorBufferString s in orbs)
             {
@@ -181,7 +196,7 @@ namespace Forays
             }
 
             UI.Display("Discovered item types: ");
-            Input.ReadKey();
+            InputKey.ReadKey();
             MouseUI.PopButtonMap();
             UI.draw_bottom_commands = true;
             UI.darken_status_bar = false;
@@ -206,7 +221,8 @@ namespace Forays
                 if (startline > 0)
                 {
                     Screen.WriteMapString(0, COLS - 3,
-                        new ColorBufferString("[", Color.Yellow, "-", Color.Cyan, "]", Color.Yellow));
+                        new ColorBufferString("[", Color.Yellow, "-", Color.Cyan, "]",
+                            Color.Yellow));
                 }
                 else
                 {
@@ -222,7 +238,8 @@ namespace Forays
                 if (more)
                 {
                     Screen.WriteMapString(text_height + 1, COLS - 3,
-                        new ColorBufferString("[", Color.Yellow, "+", Color.Cyan, "]", Color.Yellow));
+                        new ColorBufferString("[", Color.Yellow, "+", Color.Cyan, "]",
+                            Color.Yellow));
                 }
                 else
                 {
@@ -242,7 +259,7 @@ namespace Forays
                 }
 
                 UI.Display("Previous messages: ");
-                command = Input.ReadKey();
+                command = InputKey.ReadKey();
                 ConsoleKey ck = command.Key;
                 switch (ck)
                 {
@@ -328,10 +345,12 @@ namespace Forays
                 }
             }
 
-            if (show_footsteps && player.HasAttr(AttrType.DETECTING_MOVEMENT) && Actor.previous_footsteps.Count > 0)
+            if (show_footsteps && player.HasAttr(AttrType.DETECTING_MOVEMENT) &&
+                Actor.previous_footsteps.Count > 0)
             {
                 M.Draw();
-                Screen.AnimateMapCells(Actor.previous_footsteps, new ColorChar('!', Color.Red), 150);
+                Screen.AnimateMapCells(Actor.previous_footsteps, new ColorChar('!', Color.Red),
+                    150);
             }
 
             MouseUI.PopButtonMap();
@@ -360,8 +379,10 @@ namespace Forays
                 if (user != player && t == player.tile())
                 {
                     var fires = user.TilesWithinDistance(12).Where(x =>
-                        x.passable && x.actor() == null && x.Is(FeatureType.FIRE) && user.CanSee(x) &&
-                        player.HasBresenhamLineWithCondition(x, false, y => y.passable && y.actor() == null));
+                        x.passable && x.actor() == null && x.Is(FeatureType.FIRE) &&
+                        user.CanSee(x) &&
+                        player.HasBresenhamLineWithCondition(x, false,
+                            y => y.passable && y.actor() == null));
                     if (fires.Count > 0)
                     {
                         ai_line = player.GetBestExtendedLineOfEffect(fires.Random());
@@ -385,7 +406,9 @@ namespace Forays
                     t.Is(FeatureType.TROLL_CORPSE, FeatureType.TROLL_BLOODWITCH_CORPSE))
                 {
                     ActorType troll_type =
-                        t.Is(FeatureType.TROLL_CORPSE) ? ActorType.TROLL : ActorType.TROLL_BLOODWITCH;
+                        t.Is(FeatureType.TROLL_CORPSE)
+                            ? ActorType.TROLL
+                            : ActorType.TROLL_BLOODWITCH;
                     FeatureType troll_corpse = t.Is(FeatureType.TROLL_CORPSE)
                         ? FeatureType.TROLL_CORPSE
                         : FeatureType.TROLL_BLOODWITCH_CORPSE;
@@ -451,7 +474,8 @@ namespace Forays
                         {
                             B.Add(user.GetName(false, The, Verb("cast")) + " telekinesis. ", user);
                             user.MakeNoise(6); //should match spellVolume, hack
-                            if (a.type == ActorType.ALASI_BATTLEMAGE && !a.HasSpell(SpellType.TELEKINESIS))
+                            if (a.type == ActorType.ALASI_BATTLEMAGE &&
+                                !a.HasSpell(SpellType.TELEKINESIS))
                             {
                                 a.curmp += Spell.Tier(SpellType.TELEKINESIS);
                                 if (a.curmp > a.maxmp)
@@ -475,12 +499,15 @@ namespace Forays
                             if (line.Count == 1)
                             {
                                 B.Add(
-                                    user.GetName(true, The, Verb("throw")) + " " + a.GetName(true, The) +
+                                    user.GetName(true, The, Verb("throw")) + " " +
+                                    a.GetName(true, The) +
                                     " into the ceiling. ", user, a);
                             }
                             else
                             {
-                                B.Add(user.GetName(true, The, Verb("throw")) + " " + a.GetName(true, The) + ". ", user,
+                                B.Add(
+                                    user.GetName(true, The, Verb("throw")) + " " +
+                                    a.GetName(true, The) + ". ", user,
                                     a);
                             }
                         }
@@ -491,7 +518,8 @@ namespace Forays
                         a.attrs[AttrType.TURN_INTO_CORPSE]++;
                         if (line.Count == 1)
                         {
-                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(3, 6), user,
+                            a.TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL, R.Roll(3, 6),
+                                user,
                                 "colliding with the ceiling");
                             a.CollideWith(a.tile());
                         }
@@ -532,7 +560,8 @@ namespace Forays
                 else
                 {
                     bool blast_fungus = false;
-                    if (t.type == TileType.BLAST_FUNGUS && !t.Is(FeatureType.GRENADE, FeatureType.WEB,
+                    if (t.type == TileType.BLAST_FUNGUS && !t.Is(FeatureType.GRENADE,
+                            FeatureType.WEB,
                             FeatureType.FORASECT_EGG, FeatureType.BONES))
                     {
                         blast_fungus = true;
@@ -575,7 +604,8 @@ namespace Forays
 
                             if (cast)
                             {
-                                B.Add(user.GetName(false, The, Verb("cast")) + " telekinesis. ", user);
+                                B.Add(user.GetName(false, The, Verb("cast")) + " telekinesis. ",
+                                    user);
                                 user.MakeNoise(6); //should match spellVolume
                             }
 
@@ -590,18 +620,23 @@ namespace Forays
                                     i.other_data = 3;
                                     i.revealed_by_light = true;
                                     Q.Add(new Event(i, 100, EventType.BLAST_FUNGUS));
-                                    Screen.AnimateMapCell(t.row, t.col, new ColorChar('3', Color.Red), 100);
+                                    Screen.AnimateMapCell(t.row, t.col,
+                                        new ColorChar('3', Color.Red), 100);
                                 }
                             }
 
                             if (line.Count == 1)
                             {
-                                B.Add(user.GetName(true, The, Verb("throw")) + " " + itemname + " into the ceiling. ",
+                                B.Add(
+                                    user.GetName(true, The, Verb("throw")) + " " + itemname +
+                                    " into the ceiling. ",
                                     user, t);
                             }
                             else
                             {
-                                B.Add(user.GetName(true, The, Verb("throw")) + " " + itemname + ". ", user, t);
+                                B.Add(
+                                    user.GetName(true, The, Verb("throw")) + " " + itemname + ". ",
+                                    user, t);
                             }
 
                             B.DisplayContents();
@@ -735,12 +770,14 @@ namespace Forays
                     else
                     {
                         if (!t.Is(FeatureType.GRENADE) &&
-                            (t.Is(TileType.DOOR_C, TileType.DOOR_O, TileType.POISON_BULB) || t.Is(FeatureType.WEB,
+                            (t.Is(TileType.DOOR_C, TileType.DOOR_O, TileType.POISON_BULB) || t.Is(
+                                 FeatureType.WEB,
                                  FeatureType.FORASECT_EGG, FeatureType.BONES)))
                         {
                             if (cast)
                             {
-                                B.Add(user.GetName(false, The, Verb("cast")) + " telekinesis. ", user);
+                                B.Add(user.GetName(false, The, Verb("cast")) + " telekinesis. ",
+                                    user);
                                 user.MakeNoise(6); //should match spellVolume
                             }
 
@@ -851,7 +888,8 @@ namespace Forays
                             List<Tile> line = null;
                             if (user == player)
                             {
-                                TargetInfo info = t.GetTarget(false, 12, 0, false, true, false, msg);
+                                TargetInfo info = t.GetTarget(false, 12, 0, false, true, false,
+                                    msg);
                                 if (info != null)
                                 {
                                     line = info.extended_line;
@@ -871,19 +909,23 @@ namespace Forays
                             {
                                 if (cast)
                                 {
-                                    B.Add(user.GetName(false, The, Verb("cast")) + " telekinesis. ", user);
+                                    B.Add(user.GetName(false, The, Verb("cast")) + " telekinesis. ",
+                                        user);
                                     user.MakeNoise(6); //should match spellVolume
                                 }
 
                                 if (line.Count == 1)
                                 {
                                     B.Add(
-                                        user.GetName(true, The, Verb("throw")) + " the " + feature_name +
+                                        user.GetName(true, The, Verb("throw")) + " the " +
+                                        feature_name +
                                         " into the ceiling. ", user, t);
                                 }
                                 else
                                 {
-                                    B.Add(user.GetName(true, The, Verb("throw")) + " the " + feature_name + ". ", user,
+                                    B.Add(
+                                        user.GetName(true, The, Verb("throw")) + " the " +
+                                        feature_name + ". ", user,
                                         t);
                                 }
 
@@ -951,7 +993,8 @@ namespace Forays
                                     line.RemoveAt(0);
                                     if (!t2.passable)
                                     {
-                                        if (t2.Is(TileType.CRACKED_WALL, TileType.DOOR_C, TileType.HIDDEN_DOOR) &&
+                                        if (t2.Is(TileType.CRACKED_WALL, TileType.DOOR_C,
+                                                TileType.HIDDEN_DOOR) &&
                                             impact_damage_dice > 0)
                                         {
                                             string tilename = t2.GetName(true, The);
@@ -961,18 +1004,23 @@ namespace Forays
                                                 t2.Toggle(null);
                                             }
 
-                                            B.Add("The " + feature_name + " flies into " + tilename + ". ", t2);
+                                            B.Add(
+                                                "The " + feature_name + " flies into " + tilename +
+                                                ". ", t2);
                                             t2.Toggle(null);
                                             Screen.WriteMapChar(current_row, current_col,
                                                 mem[current_row, current_col]);
                                         }
                                         else
                                         {
-                                            B.Add("The " + feature_name + " flies into " + t2.GetName(true, The) + ". ",
+                                            B.Add(
+                                                "The " + feature_name + " flies into " +
+                                                t2.GetName(true, The) + ". ",
                                                 t2);
                                             if (impact_damage_dice > 0)
                                             {
-                                                t2.Bump(M.tile[current_row, current_col].DirectionOf(t2));
+                                                t2.Bump(M.tile[current_row, current_col]
+                                                    .DirectionOf(t2));
                                             }
 
                                             Screen.WriteMapChar(current_row, current_col,
@@ -987,12 +1035,14 @@ namespace Forays
                                         if (t2.actor() != null)
                                         {
                                             B.Add(
-                                                "The " + feature_name + " flies into " + t2.actor().GetName(true, The) +
+                                                "The " + feature_name + " flies into " +
+                                                t2.actor().GetName(true, The) +
                                                 ". ", t2);
                                             if (t2.actor().type != ActorType.SPORE_POD &&
                                                 !t2.actor().HasAttr(AttrType.SELF_TK_NO_DAMAGE))
                                             {
-                                                t2.actor().TakeDamage(DamageType.NORMAL, DamageClass.PHYSICAL,
+                                                t2.actor().TakeDamage(DamageType.NORMAL,
+                                                    DamageClass.PHYSICAL,
                                                     R.Roll(impact_damage_dice, 6), user,
                                                     "colliding with a " + feature_name);
                                             }
@@ -1037,7 +1087,8 @@ namespace Forays
                                 if (barrel)
                                 {
                                     B.Add("The barrel smashes! ", current);
-                                    List<Tile> cone = current.TilesWithinDistance(1).Where(x => x.passable);
+                                    List<Tile> cone = current.TilesWithinDistance(1)
+                                        .Where(x => x.passable);
                                     List<Tile> added = new List<Tile>();
                                     foreach (Tile t3 in cone)
                                     {
@@ -1055,7 +1106,8 @@ namespace Forays
                                     {
                                         t3.AddFeature(FeatureType.OIL);
                                         if (t3.actor() != null &&
-                                            !t3.actor().HasAttr(AttrType.OIL_COVERED, AttrType.SLIMED))
+                                            !t3.actor().HasAttr(AttrType.OIL_COVERED,
+                                                AttrType.SLIMED))
                                         {
                                             if (t3.actor().IsBurning())
                                             {
@@ -1064,7 +1116,9 @@ namespace Forays
                                             else
                                             {
                                                 t3.actor().attrs[AttrType.OIL_COVERED] = 1;
-                                                B.Add(t3.actor().GetName(false, The, Are) + " covered in oil. ",
+                                                B.Add(
+                                                    t3.actor().GetName(false, The, Are) +
+                                                    " covered in oil. ",
                                                     t3.actor());
                                                 if (t3.actor() == player)
                                                 {
@@ -1116,7 +1170,7 @@ namespace Forays
                 Screen.WriteMapChar(p.row, p.col, '!', Color.Red);
             }
 
-            Input.ReadKey();
+            InputKey.ReadKey();
             Screen.WriteArray(0, 0, temp);
         }
 
@@ -1181,7 +1235,7 @@ namespace Forays
                 }
             }
 
-            Input.ReadKey();
+            InputKey.ReadKey();
         }
     }
 }

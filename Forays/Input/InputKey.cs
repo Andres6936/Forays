@@ -20,7 +20,7 @@ using GLDrawing;
 
 namespace Forays
 {
-    public static class Input
+    public static class InputKey
     {
         public static bool KeyPressed = false;
         public static ConsoleKeyInfo LastKey;
@@ -972,9 +972,9 @@ namespace Forays
 
         public static void KeyDownHandler(object sender, KeyboardKeyEventArgs args)
         {
-            if (!Input.KeyPressed)
+            if (!InputKey.KeyPressed)
             {
-                ConsoleKey ck = Input.GetConsoleKey(args.Key);
+                ConsoleKey ck = InputKey.GetConsoleKey(args.Key);
                 if (ck != ConsoleKey.NoName)
                 {
                     bool alt = Screen.gl.KeyIsDown(Key.LAlt) || Screen.gl.KeyIsDown(Key.RAlt);
@@ -996,8 +996,9 @@ namespace Forays
                     }
                     else
                     {
-                        Input.KeyPressed = true;
-                        Input.LastKey = new ConsoleKeyInfo(Input.GetChar(ck, shift), ck, shift, alt,
+                        InputKey.KeyPressed = true;
+                        InputKey.LastKey = new ConsoleKeyInfo(InputKey.GetChar(ck, shift), ck,
+                            shift, alt,
                             ctrl);
                     }
                 }
@@ -1053,14 +1054,15 @@ namespace Forays
                     }
                     else
                     {
-                        if (!Input.KeyPressed)
+                        if (!InputKey.KeyPressed)
                         {
                             if (!MouseUI.mouselook_objects.BoundsCheck(row, col))
                             {
                                 //UI.MapCursor = new pos(-1,-1);
-                                Input.KeyPressed = true;
+                                InputKey.KeyPressed = true;
                                 const ConsoleKey key = ConsoleKey.F22;
-                                Input.LastKey = new ConsoleKeyInfo(Input.GetChar(key, false), key,
+                                InputKey.LastKey = new ConsoleKeyInfo(InputKey.GetChar(key, false),
+                                    key,
                                     false, false, false);
                             }
                             else
@@ -1071,10 +1073,10 @@ namespace Forays
                                     if (map_row != UI.MapCursor.row || map_col != UI.MapCursor.col)
                                     {
                                         UI.MapCursor = new pos(map_row, map_col);
-                                        Input.KeyPressed = true;
+                                        InputKey.KeyPressed = true;
                                         const ConsoleKey key = ConsoleKey.F21;
-                                        Input.LastKey = new ConsoleKeyInfo(
-                                            Input.GetChar(key, false), key, false, false,
+                                        InputKey.LastKey = new ConsoleKeyInfo(
+                                            InputKey.GetChar(key, false), key, false, false,
                                             false);
                                     }
                                 }
@@ -1086,10 +1088,10 @@ namespace Forays
                                         if (!o.p.Equals(UI.MapCursor))
                                         {
                                             UI.SetMapCursor(o.p, map_col < 0);
-                                            Input.KeyPressed = true;
+                                            InputKey.KeyPressed = true;
                                             const ConsoleKey key = ConsoleKey.F21;
-                                            Input.LastKey = new ConsoleKeyInfo(
-                                                Input.GetChar(key, false), key, false,
+                                            InputKey.LastKey = new ConsoleKeyInfo(
+                                                InputKey.GetChar(key, false), key, false,
                                                 false, false);
                                         }
                                     }
@@ -1100,10 +1102,10 @@ namespace Forays
                                             map_col != UI.MapCursor.col)
                                         {
                                             //UI.MapCursor = new pos(map_row,map_col);
-                                            Input.KeyPressed = true;
+                                            InputKey.KeyPressed = true;
                                             const ConsoleKey key = ConsoleKey.F22;
-                                            Input.LastKey = new ConsoleKeyInfo(
-                                                Input.GetChar(key, false), key, false,
+                                            InputKey.LastKey = new ConsoleKeyInfo(
+                                                InputKey.GetChar(key, false), key, false,
                                                 false, false);
                                         }
                                     }
@@ -1412,13 +1414,13 @@ namespace Forays
             }
 
             Button b = MouseUI.GetButton(row, col);
-            if (!Input.KeyPressed)
+            if (!InputKey.KeyPressed)
             {
-                Input.KeyPressed = true;
+                InputKey.KeyPressed = true;
                 if (b != null)
                 {
                     bool shifted = (b.mods & ConsoleModifiers.Shift) == ConsoleModifiers.Shift;
-                    Input.LastKey = new ConsoleKeyInfo(Input.GetChar(b.key, shifted), b.key,
+                    InputKey.LastKey = new ConsoleKeyInfo(InputKey.GetChar(b.key, shifted), b.key,
                         shifted, false, false);
                 }
                 else
@@ -1455,14 +1457,14 @@ namespace Forays
                                                 TileType.BLAST_FUNGUS) ||
                                             t.IsShrine())
                                         {
-                                            Input.LastKey = new ConsoleKeyInfo('g', ConsoleKey.G,
+                                            InputKey.LastKey = new ConsoleKeyInfo('g', ConsoleKey.G,
                                                 false, false, false);
                                         }
                                         else
                                         {
                                             if (t.Is(TileType.STAIRS))
                                             {
-                                                Input.LastKey = new ConsoleKeyInfo('>',
+                                                InputKey.LastKey = new ConsoleKeyInfo('>',
                                                     ConsoleKey.OemPeriod, true,
                                                     false, false);
                                             }
@@ -1470,7 +1472,7 @@ namespace Forays
                                             {
                                                 if (t.Is(TileType.POOL_OF_RESTORATION))
                                                 {
-                                                    Input.LastKey = new ConsoleKeyInfo('d',
+                                                    InputKey.LastKey = new ConsoleKeyInfo('d',
                                                         ConsoleKey.D, false, false,
                                                         false);
                                                 }
@@ -1484,7 +1486,8 @@ namespace Forays
 
                                     if (!done)
                                     {
-                                        Input.LastKey = new ConsoleKeyInfo('5', ConsoleKey.NumPad5,
+                                        InputKey.LastKey = new ConsoleKeyInfo('5',
+                                            ConsoleKey.NumPad5,
                                             false, false,
                                             false);
                                     }
@@ -1527,8 +1530,8 @@ namespace Forays
                                                               Actor.M.tile[
                                                                   Actor.player.row + rowchange,
                                                                   Actor.player.col + colchange]));
-                                        Input.LastKey = new ConsoleKeyInfo(
-                                            Input.GetChar(dir_key, false), dir_key,
+                                        InputKey.LastKey = new ConsoleKeyInfo(
+                                            InputKey.GetChar(dir_key, false), dir_key,
                                             false, false, false);
                                     }
                                     else
@@ -1546,8 +1549,8 @@ namespace Forays
                                                     (ConsoleKey) (ConsoleKey.NumPad0 +
                                                                   Actor.player.DirectionOf(
                                                                       Actor.player.path[0]));
-                                                Input.LastKey = new ConsoleKeyInfo(
-                                                    Input.GetChar(path_key, false),
+                                                InputKey.LastKey = new ConsoleKeyInfo(
+                                                    InputKey.GetChar(path_key, false),
                                                     path_key, false, false, false);
                                                 Actor.player.path.RemoveAt(0);
                                                 if (nearest.inv != null ||
@@ -1558,7 +1561,7 @@ namespace Forays
                                             }
                                             else
                                             {
-                                                Input.LastKey = new ConsoleKeyInfo(' ',
+                                                InputKey.LastKey = new ConsoleKeyInfo(' ',
                                                     ConsoleKey.Spacebar, false,
                                                     false, false);
                                             }
@@ -1598,8 +1601,8 @@ namespace Forays
                                                     (ConsoleKey) (ConsoleKey.NumPad0 +
                                                                   Actor.player.DirectionOf(
                                                                       Actor.player.path[0]));
-                                                Input.LastKey = new ConsoleKeyInfo(
-                                                    Input.GetChar(path_key, false),
+                                                InputKey.LastKey = new ConsoleKeyInfo(
+                                                    InputKey.GetChar(path_key, false),
                                                     path_key, false, false, false);
                                                 Actor.player.path.RemoveAt(0);
                                                 if (nearest.inv != null ||
@@ -1610,7 +1613,7 @@ namespace Forays
                                             }
                                             else
                                             {
-                                                Input.LastKey = new ConsoleKeyInfo(' ',
+                                                InputKey.LastKey = new ConsoleKeyInfo(' ',
                                                     ConsoleKey.Spacebar, false,
                                                     false, false);
                                             }
@@ -1620,7 +1623,7 @@ namespace Forays
                             }
                             else
                             {
-                                Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
+                                InputKey.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
                                     false, false, false);
                             }
 
@@ -1642,14 +1645,14 @@ namespace Forays
                                     bool shifted =
                                         (dir_b.mods & ConsoleModifiers.Shift) ==
                                         ConsoleModifiers.Shift;
-                                    Input.LastKey = new ConsoleKeyInfo(
-                                        Input.GetChar(dir_b.key, shifted), dir_b.key,
+                                    InputKey.LastKey = new ConsoleKeyInfo(
+                                        InputKey.GetChar(dir_b.key, shifted), dir_b.key,
                                         shifted, false, false);
                                 }
                             }
                             else
                             {
-                                Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape,
+                                InputKey.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape,
                                     false, false, false);
                             }
 
@@ -1662,7 +1665,7 @@ namespace Forays
                             if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 &&
                                 map_col < Global.COLS)
                             {
-                                Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
+                                InputKey.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
                                     false, false, false);
                             }
                             else
@@ -1670,13 +1673,15 @@ namespace Forays
                                 if (MouseUI.mouselook_objects.BoundsCheck(row, col) &&
                                     MouseUI.mouselook_objects[row, col] != null)
                                 {
-                                    Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
+                                    InputKey.LastKey = new ConsoleKeyInfo((char) 13,
+                                        ConsoleKey.Enter,
                                         false, false,
                                         false);
                                 }
                                 else
                                 {
-                                    Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape,
+                                    InputKey.LastKey = new ConsoleKeyInfo((char) 27,
+                                        ConsoleKey.Escape,
                                         false, false,
                                         false);
                                 }
@@ -1685,28 +1690,30 @@ namespace Forays
                             break;
                         }
                         case MouseMode.YesNoPrompt:
-                            Input.LastKey =
+                            InputKey.LastKey =
                                 new ConsoleKeyInfo('y', ConsoleKey.Y, false, false, false);
                             break;
                         case MouseMode.Inventory:
-                            Input.LastKey =
+                            InputKey.LastKey =
                                 new ConsoleKeyInfo('a', ConsoleKey.A, false, false, false);
                             break;
                         case MouseMode.ScrollableMenu:
                             if (AnyModifierHeld())
                             {
-                                Input.LastKey = new ConsoleKeyInfo((char) 8, ConsoleKey.Backspace,
+                                InputKey.LastKey = new ConsoleKeyInfo((char) 8,
+                                    ConsoleKey.Backspace,
                                     false, false, false);
                             }
                             else
                             {
-                                Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
+                                InputKey.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
                                     false, false, false);
                             }
 
                             break;
                         default:
-                            Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter, false,
+                            InputKey.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
+                                false,
                                 false, false);
                             break;
                     }
@@ -1719,19 +1726,21 @@ namespace Forays
 
         public static void HandleRightClick()
         {
-            if (!Input.KeyPressed)
+            if (!InputKey.KeyPressed)
             {
-                Input.KeyPressed = true;
+                InputKey.KeyPressed = true;
                 switch (MouseUI.Mode)
                 {
                     case MouseMode.YesNoPrompt:
-                        Input.LastKey = new ConsoleKeyInfo('n', ConsoleKey.N, false, false, false);
+                        InputKey.LastKey =
+                            new ConsoleKeyInfo('n', ConsoleKey.N, false, false, false);
                         break;
                     case MouseMode.Map:
-                        Input.LastKey = new ConsoleKeyInfo('i', ConsoleKey.I, false, false, false);
+                        InputKey.LastKey =
+                            new ConsoleKeyInfo('i', ConsoleKey.I, false, false, false);
                         break;
                     default:
-                        Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape, false,
+                        InputKey.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape, false,
                             false, false);
                         break;
                 }
@@ -1743,19 +1752,21 @@ namespace Forays
 
         public static void HandleMiddleClick()
         {
-            if (!Input.KeyPressed)
+            if (!InputKey.KeyPressed)
             {
-                Input.KeyPressed = true;
+                InputKey.KeyPressed = true;
                 switch (MouseUI.Mode)
                 {
                     case MouseMode.Map:
-                        Input.LastKey = new ConsoleKeyInfo('v', ConsoleKey.V, false, false, false);
+                        InputKey.LastKey =
+                            new ConsoleKeyInfo('v', ConsoleKey.V, false, false, false);
                         break;
                     case MouseMode.Targeting:
-                        Input.LastKey = new ConsoleKeyInfo('X', ConsoleKey.X, true, false, false);
+                        InputKey.LastKey =
+                            new ConsoleKeyInfo('X', ConsoleKey.X, true, false, false);
                         break;
                     default:
-                        Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape, false,
+                        InputKey.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape, false,
                             false, false);
                         break;
                 }
@@ -1767,35 +1778,36 @@ namespace Forays
 
         public static void MouseWheelHandler(object sender, MouseWheelEventArgs args)
         {
-            if (!Input.KeyPressed)
+            if (!InputKey.KeyPressed)
             {
                 if (args.Delta > 0)
                 {
                     switch (MouseUI.Mode)
                     {
                         case MouseMode.ScrollableMenu:
-                            Input.KeyPressed = true;
+                            InputKey.KeyPressed = true;
                             if (AnyModifierHeld())
                             {
-                                Input.LastKey = new ConsoleKeyInfo(
-                                    Input.GetChar(ConsoleKey.PageUp, false),
+                                InputKey.LastKey = new ConsoleKeyInfo(
+                                    InputKey.GetChar(ConsoleKey.PageUp, false),
                                     ConsoleKey.PageUp, false, false, false);
                             }
                             else
                             {
-                                Input.LastKey = new ConsoleKeyInfo('8', ConsoleKey.NumPad8, false,
+                                InputKey.LastKey = new ConsoleKeyInfo('8', ConsoleKey.NumPad8,
+                                    false,
                                     false, false);
                             }
 
                             break;
                         case MouseMode.Targeting:
-                            Input.KeyPressed = true;
-                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, true,
+                            InputKey.KeyPressed = true;
+                            InputKey.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, true,
                                 false, false);
                             break;
                         case MouseMode.Map:
-                            Input.KeyPressed = true;
-                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false,
+                            InputKey.KeyPressed = true;
+                            InputKey.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false,
                                 false, false);
                             break;
                     }
@@ -1806,28 +1818,29 @@ namespace Forays
                     switch (MouseUI.Mode)
                     {
                         case MouseMode.ScrollableMenu:
-                            Input.KeyPressed = true;
+                            InputKey.KeyPressed = true;
                             if (AnyModifierHeld())
                             {
-                                Input.LastKey = new ConsoleKeyInfo(
-                                    Input.GetChar(ConsoleKey.PageDown, false),
+                                InputKey.LastKey = new ConsoleKeyInfo(
+                                    InputKey.GetChar(ConsoleKey.PageDown, false),
                                     ConsoleKey.PageDown, false, false, false);
                             }
                             else
                             {
-                                Input.LastKey = new ConsoleKeyInfo('2', ConsoleKey.NumPad2, false,
+                                InputKey.LastKey = new ConsoleKeyInfo('2', ConsoleKey.NumPad2,
+                                    false,
                                     false, false);
                             }
 
                             break;
                         case MouseMode.Targeting:
-                            Input.KeyPressed = true;
-                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false,
+                            InputKey.KeyPressed = true;
+                            InputKey.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false,
                                 false, false);
                             break;
                         case MouseMode.Map:
-                            Input.KeyPressed = true;
-                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false,
+                            InputKey.KeyPressed = true;
+                            InputKey.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false,
                                 false, false);
                             break;
                     }
@@ -1845,10 +1858,10 @@ namespace Forays
 
         public static void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Screen.gl.NoClose && !Input.KeyPressed && MouseUI.Mode == MouseMode.Map)
+            if (Screen.gl.NoClose && !InputKey.KeyPressed && MouseUI.Mode == MouseMode.Map)
             {
-                Input.KeyPressed = true;
-                Input.LastKey = new ConsoleKeyInfo('q', ConsoleKey.Q, false, false, false);
+                InputKey.KeyPressed = true;
+                InputKey.LastKey = new ConsoleKeyInfo('q', ConsoleKey.Q, false, false, false);
             }
         }
 
