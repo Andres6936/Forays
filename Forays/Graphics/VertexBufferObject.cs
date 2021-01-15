@@ -23,28 +23,24 @@ namespace Forays
 
         public int OtherDataSize = 0;
 
-        protected VertexBufferObject()
-        {
-        }
-
         public static VertexBufferObject Create()
         {
-            VertexBufferObject v = new VertexBufferObject();
-            GL.GenBuffers(1, out v.PositionArrayBufferID);
-            GL.GenBuffers(1, out v.OtherArrayBufferID);
-            GL.GenBuffers(1, out v.ElementArrayBufferID);
-            return v;
+            var vertexBufferObject = new VertexBufferObject();
+            GL.GenBuffers(1, out vertexBufferObject.PositionArrayBufferID);
+            GL.GenBuffers(1, out vertexBufferObject.OtherArrayBufferID);
+            GL.GenBuffers(1, out vertexBufferObject.ElementArrayBufferID);
+            return vertexBufferObject;
         }
 
         public static VertexBufferObject Create(int position_dimensions, VertexAttributes attribs)
         {
-            VertexBufferObject v = new VertexBufferObject();
-            GL.GenBuffers(1, out v.PositionArrayBufferID);
-            GL.GenBuffers(1, out v.OtherArrayBufferID);
-            GL.GenBuffers(1, out v.ElementArrayBufferID);
-            v.PositionDimensions = position_dimensions;
-            v.VertexAttribs = attribs;
-            return v;
+            var vertexBufferObject = new VertexBufferObject();
+            GL.GenBuffers(1, out vertexBufferObject.PositionArrayBufferID);
+            GL.GenBuffers(1, out vertexBufferObject.OtherArrayBufferID);
+            GL.GenBuffers(1, out vertexBufferObject.ElementArrayBufferID);
+            vertexBufferObject.PositionDimensions = position_dimensions;
+            vertexBufferObject.VertexAttribs = attribs;
+            return vertexBufferObject;
         }
     }
 }
