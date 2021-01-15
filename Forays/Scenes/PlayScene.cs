@@ -889,7 +889,7 @@ namespace Forays.Scenes
 
                     if (!Global.QUITTING && !Global.SAVING)
                     {
-                        GameOverScreen(game);
+                        return NextScene.GameOver;
                     }
 
                     break;
@@ -1053,6 +1053,8 @@ namespace Forays.Scenes
                 default:
                     break;
             }
+
+            return NextScene.None;
         }
     }
 }

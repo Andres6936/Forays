@@ -6,5 +6,6 @@ namespace Forays.Scenes
         Play,
         Exit,
         Pause,
+        GameOver,
     }
 }
