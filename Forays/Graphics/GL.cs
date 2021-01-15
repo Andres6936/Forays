@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using Forays;
 using Forays.Renderer;
+using Forays.Graphics;
 
 namespace GLDrawing
 {

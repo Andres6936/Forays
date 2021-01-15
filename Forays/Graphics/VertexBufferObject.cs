@@ -1,6 +1,6 @@
 using OpenTK.Graphics.OpenGL;
 
-namespace Forays
+namespace Forays.Graphics
 {
     public class VertexBufferObject
     {
