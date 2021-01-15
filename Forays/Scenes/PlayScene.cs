@@ -9,7 +9,7 @@ using Utilities;
 
 namespace Forays.Scenes
 {
-    public class PlayScene : IScene
+    public class PlayScene : Scene
     {
         // Member Variable
 
@@ -36,7 +36,7 @@ namespace Forays.Scenes
 
         // Methods Public
 
-        public void Draw()
+        public override void Draw()
         {
             int row = 8;
             int col = (Global.SCREEN_W - 28) /
@@ -71,12 +71,12 @@ namespace Forays.Scenes
             Screen.SetCursorPosition(Global.MAP_OFFSET_COLS, Global.MAP_OFFSET_ROWS + 8);
         }
 
-        public void Clear()
+        public override void Clear()
         {
             Screen.Blank();
         }
 
-        public NextScene ProcessInput()
+        public override NextScene ProcessInput()
         {
             command = Input.ReadKey(false);
 

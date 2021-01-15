@@ -8,9 +8,9 @@ using Utilities;
 
 namespace Forays.Scenes
 {
-    public class GameOverScene : IScene
+    public class GameOverScene : Scene
     {
-        public void Draw()
+        public override void Draw()
         {
             MouseUI.PushButtonMap();
             PlayerView.Player.attrs[AttrType.BLIND] =
@@ -329,11 +329,11 @@ namespace Forays.Scenes
             MouseUI.PopButtonMap();
         }
 
-        public void Clear()
+        public override void Clear()
         {
         }
 
-        public NextScene ProcessInput()
+        public override NextScene ProcessInput()
         {
             return NextScene.None;
         }

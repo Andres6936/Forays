@@ -2,7 +2,7 @@ using GLDrawing;
 
 namespace Forays.Scenes
 {
-    public class TitleScene : IScene
+    public class TitleScene : Scene
     {
         // Member Variables
 
@@ -29,7 +29,7 @@ namespace Forays.Scenes
 
         // Methods Public
 
-        public void Draw()
+        public override void Draw()
         {
             if (Screen.GLMode)
             {
@@ -81,11 +81,11 @@ namespace Forays.Scenes
             }
         }
 
-        public void Clear()
+        public override void Clear()
         {
         }
 
-        public NextScene ProcessInput()
+        public override NextScene ProcessInput()
         {
             Input.ReadKey(false);
             Screen.gl.Surfaces.Remove(logo);

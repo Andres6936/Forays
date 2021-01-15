@@ -11,16 +11,16 @@ namespace Forays.Scenes
         /// <summary>
         /// A point to current scene.
         /// </summary>
-        private IScene current;
+        private Scene current;
 
-        private IScene playScene;
+        private Scene playScene;
 
-        private IScene gameOverScene;
+        private Scene gameOverScene;
 
         /// <summary>
         /// First scene rendered to execute the app.
         /// </summary>
-        private readonly IScene titleScene = new TitleScene();
+        private readonly Scene titleScene = new TitleScene();
 
         // Constructs
 
