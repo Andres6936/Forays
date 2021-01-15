@@ -59,8 +59,8 @@ namespace GLDrawing
                 // of vertex buffer object.
                 VertexBufferObject = VertexBufferObject.Create(hasDepth ? 3 : 2,
                     VertexAttributes.Create(vertexAttributeCounts)),
-                texture = Texture.Create(textureFilename, null,
-                    loadTextureFromEmbeddedResource),
+                texture = Texture.Create(Global.ForaysImageResources + textureFilename,
+                    null, loadTextureFromEmbeddedResource),
                 shader = Shader.Create(fragShader)
             };
 

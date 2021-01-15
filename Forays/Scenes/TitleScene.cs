@@ -18,7 +18,7 @@ namespace Forays.Scenes
 
             const int logoW = 512;
             const int logoH = 412;
-            logo = Surface.Create(Screen.gl, Global.ForaysImageResources + "logo.png",
+            logo = Surface.Create(Screen.gl, "logo.png",
                 true,
                 Shader.DefaultFS(), false, 2);
             SpriteType.DefineSingleRowSprite(logo, logoW);

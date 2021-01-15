@@ -102,8 +102,7 @@ namespace Forays
                 int width_px = Global.SCREEN_W * 8;
                 Screen.gl = new OpenTk(width_px, height_px, "Forays into Norrendrin");
 
-                Screen.textSurface = Surface.Create(Screen.gl,
-                    Global.ForaysImageResources + "font8x16.png", true,
+                Screen.textSurface = Surface.Create(Screen.gl, "font8x16.png", true,
                     Shader.AAFontFS(), false, 2, 4, 4);
                 SpriteType.DefineSingleRowSprite(Screen.textSurface, 8, 1);
                 CellLayout.CreateGrid(Screen.textSurface, Global.SCREEN_H, Global.SCREEN_W, 16, 8,
@@ -117,8 +116,7 @@ namespace Forays
                     new List<float>(Color.Black.GetFloatValues()));
                 Screen.textSurface.DefaultUpdateOtherData();
 
-                Screen.cursorSurface = Surface.Create(Screen.gl,
-                    Global.ForaysImageResources + "font8x16.png", true,
+                Screen.cursorSurface = Surface.Create(Screen.gl, "font8x16.png", true,
                     Shader.AAFontFS(), false, 2, 4, 4);
                 Screen.cursorSurface.texture = Screen.textSurface.texture;
                 CellLayout.CreateGrid(Screen.cursorSurface, 1, 1, 2, 8, 0, 0);
