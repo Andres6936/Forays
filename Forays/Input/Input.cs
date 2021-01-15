@@ -1,4 +1,4 @@
-/*Copyright (c) 2015  Derrick Creamer
+﻿/*Copyright (c) 2015  Derrick Creamer
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish,
 distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -786,7 +786,8 @@ namespace Forays
 
                     if (key.Count == 1)
                     {
-                        cki[idx] = new ConsoleKeyInfo(GetChar(key[0], shift), key[0], shift, alt, ctrl);
+                        cki[idx] = new ConsoleKeyInfo(GetChar(key[0], shift), key[0], shift, alt,
+                            ctrl);
                         idx++;
                         if (idx == 2)
                         {
@@ -797,9 +798,11 @@ namespace Forays
                                     bool shift2 = (i & 1) == 1;
                                     bool alt2 = (i & 2) == 2;
                                     bool ctrl2 = (i & 4) == 4;
-                                    ConsoleKeyInfo all_key = new ConsoleKeyInfo(GetChar(cki[0].Key, shift2), cki[0].Key,
+                                    ConsoleKeyInfo all_key = new ConsoleKeyInfo(
+                                        GetChar(cki[0].Key, shift2), cki[0].Key,
                                         shift2, alt2, ctrl2);
-                                    ConsoleKeyInfo all_value = new ConsoleKeyInfo(GetChar(cki[1].Key, shift2),
+                                    ConsoleKeyInfo all_value = new ConsoleKeyInfo(
+                                        GetChar(cki[1].Key, shift2),
                                         cki[1].Key, shift2, alt2, ctrl2);
                                     if (!rebindings.ContainsKey(all_key))
                                     {
@@ -976,7 +979,8 @@ namespace Forays
                 {
                     bool alt = Screen.gl.KeyIsDown(Key.LAlt) || Screen.gl.KeyIsDown(Key.RAlt);
                     bool shift = Screen.gl.KeyIsDown(Key.LShift) || Screen.gl.KeyIsDown(Key.RShift);
-                    bool ctrl = Screen.gl.KeyIsDown(Key.LControl) || Screen.gl.KeyIsDown(Key.RControl);
+                    bool ctrl = Screen.gl.KeyIsDown(Key.LControl) ||
+                                Screen.gl.KeyIsDown(Key.RControl);
                     if (ck == ConsoleKey.Enter && alt)
                     {
                         if (Screen.gl.FullScreen)
@@ -993,7 +997,8 @@ namespace Forays
                     else
                     {
                         Input.KeyPressed = true;
-                        Input.LastKey = new ConsoleKeyInfo(Input.GetChar(ck, shift), ck, shift, alt, ctrl);
+                        Input.LastKey = new ConsoleKeyInfo(Input.GetChar(ck, shift), ck, shift, alt,
+                            ctrl);
                     }
                 }
 
@@ -1055,18 +1060,21 @@ namespace Forays
                                 //UI.MapCursor = new pos(-1,-1);
                                 Input.KeyPressed = true;
                                 const ConsoleKey key = ConsoleKey.F22;
-                                Input.LastKey = new ConsoleKeyInfo(Input.GetChar(key, false), key, false, false, false);
+                                Input.LastKey = new ConsoleKeyInfo(Input.GetChar(key, false), key,
+                                    false, false, false);
                             }
                             else
                             {
-                                if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 && map_col < Global.COLS)
+                                if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 &&
+                                    map_col < Global.COLS)
                                 {
                                     if (map_row != UI.MapCursor.row || map_col != UI.MapCursor.col)
                                     {
                                         UI.MapCursor = new pos(map_row, map_col);
                                         Input.KeyPressed = true;
                                         const ConsoleKey key = ConsoleKey.F21;
-                                        Input.LastKey = new ConsoleKeyInfo(Input.GetChar(key, false), key, false, false,
+                                        Input.LastKey = new ConsoleKeyInfo(
+                                            Input.GetChar(key, false), key, false, false,
                                             false);
                                     }
                                 }
@@ -1080,19 +1088,22 @@ namespace Forays
                                             UI.SetMapCursor(o.p, map_col < 0);
                                             Input.KeyPressed = true;
                                             const ConsoleKey key = ConsoleKey.F21;
-                                            Input.LastKey = new ConsoleKeyInfo(Input.GetChar(key, false), key, false,
+                                            Input.LastKey = new ConsoleKeyInfo(
+                                                Input.GetChar(key, false), key, false,
                                                 false, false);
                                         }
                                     }
                                     else
                                     {
                                         // off the map, and not hovering over a status bar object
-                                        if (map_row != UI.MapCursor.row || map_col != UI.MapCursor.col)
+                                        if (map_row != UI.MapCursor.row ||
+                                            map_col != UI.MapCursor.col)
                                         {
                                             //UI.MapCursor = new pos(map_row,map_col);
                                             Input.KeyPressed = true;
                                             const ConsoleKey key = ConsoleKey.F22;
-                                            Input.LastKey = new ConsoleKeyInfo(Input.GetChar(key, false), key, false,
+                                            Input.LastKey = new ConsoleKeyInfo(
+                                                Input.GetChar(key, false), key, false,
                                                 false, false);
                                         }
                                     }
@@ -1120,7 +1131,8 @@ namespace Forays
                 {
                     int map_row = row - Global.MAP_OFFSET_ROWS;
                     int map_col = col - Global.MAP_OFFSET_COLS;
-                    if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 && map_col < Global.COLS)
+                    if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 &&
+                        map_col < Global.COLS)
                     {
                         int dir = Actor.player.DirectionOf(new pos(map_row, map_col));
                         pos p = Actor.player.p.PosInDir(dir);
@@ -1135,7 +1147,8 @@ namespace Forays
                         {
                             MouseUI.Highlighted = dir_b;
                             ColorChar[,] array = new ColorChar[1, 1];
-                            array[0, 0] = Screen.Char(Global.MAP_OFFSET_ROWS + p.row, Global.MAP_OFFSET_COLS + p.col);
+                            array[0, 0] = Screen.Char(Global.MAP_OFFSET_ROWS + p.row,
+                                Global.MAP_OFFSET_COLS + p.col);
                             array[0, 0].bgcolor = Color.Blue;
                             Screen.UpdateGLBuffer(dir_b.row, dir_b.col, array);
                         }
@@ -1193,7 +1206,8 @@ namespace Forays
                             int map_col = col - Global.MAP_OFFSET_COLS;
                             if (MouseUI.VisiblePath && o == null)
                             {
-                                if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 && map_col < Global.COLS)
+                                if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 &&
+                                    map_col < Global.COLS)
                                 {
                                     o = Actor.M.tile[map_row, map_col];
                                 }
@@ -1234,7 +1248,8 @@ namespace Forays
                                         Item i = o as Item;
                                         if (i != null)
                                         {
-                                            desc_box = UI.ItemDescriptionBox(i, true, true, max_length);
+                                            desc_box = UI.ItemDescriptionBox(i, true, true,
+                                                max_length);
                                         }
                                     }
 
@@ -1243,7 +1258,8 @@ namespace Forays
                                         int h = desc_box.Count;
                                         int w = desc_box[0].Length();
                                         MouseUI.mouselook_current_desc_area =
-                                            new System.Drawing.Rectangle(description_on_right ? Global.COLS - w : 0, 0,
+                                            new System.Drawing.Rectangle(
+                                                description_on_right ? Global.COLS - w : 0, 0,
                                                 w, h);
                                         int player_r = Actor.player.row;
                                         int player_c = Actor.player.col;
@@ -1255,10 +1271,12 @@ namespace Forays
                                                 for (int j = 0; j < w; ++j)
                                                 {
                                                     array[i, j] = desc_box[i][j];
-                                                    if (i == player_r && j + Global.COLS - w == player_c)
+                                                    if (i == player_r &&
+                                                        j + Global.COLS - w == player_c)
                                                     {
                                                         Screen.CursorVisible = false;
-                                                        player_r = -1; //to prevent further attempts to set CV to false
+                                                        player_r =
+                                                            -1; //to prevent further attempts to set CV to false
                                                     }
                                                 }
                                             }
@@ -1281,7 +1299,8 @@ namespace Forays
                                                 }
                                             }
 
-                                            Screen.UpdateGLBuffer(Global.MAP_OFFSET_ROWS, Global.MAP_OFFSET_COLS,
+                                            Screen.UpdateGLBuffer(Global.MAP_OFFSET_ROWS,
+                                                Global.MAP_OFFSET_COLS,
                                                 array);
                                         }
                                     }
@@ -1294,14 +1313,17 @@ namespace Forays
                                         }
                                         else
                                         {
-                                            MouseUI.mouse_path = Actor.player.GetPlayerTravelPath(o.p);
+                                            MouseUI.mouse_path =
+                                                Actor.player.GetPlayerTravelPath(o.p);
                                             if (MouseUI.mouse_path.Count == 0)
                                             {
-                                                foreach (Tile t in Actor.M.TilesByDistance(o.row, o.col, true, true))
+                                                foreach (Tile t in Actor.M.TilesByDistance(o.row,
+                                                    o.col, true, true))
                                                 {
                                                     if (t.passable)
                                                     {
-                                                        MouseUI.mouse_path = Actor.player.GetPlayerTravelPath(t.p);
+                                                        MouseUI.mouse_path =
+                                                            Actor.player.GetPlayerTravelPath(t.p);
                                                         break;
                                                     }
                                                 }
@@ -1324,7 +1346,8 @@ namespace Forays
                                         foreach (pos p in MouseUI.mouse_path)
                                         {
                                             if (desc_box != null && p.row < box_start.row + box_h &&
-                                                p.row >= box_start.row && p.col < box_start.col + box_w &&
+                                                p.row >= box_start.row &&
+                                                p.col < box_start.col + box_w &&
                                                 p.col >= box_start.col)
                                             {
                                                 continue;
@@ -1340,11 +1363,14 @@ namespace Forays
                                             //Game.gl.UpdateVertexArray(p.row+Global.MAP_OFFSET_ROWS,p.col+Global.MAP_OFFSET_COLS,text_surface,0,(int)cch.c,cch.color.GetFloatValues(),cch.bgcolor.GetFloatValues());
                                             Screen.gl.UpdateOtherSingleVertex(Screen.textSurface,
                                                 U.Get1DIndex(p.row + Global.MAP_OFFSET_ROWS,
-                                                    p.col + Global.MAP_OFFSET_COLS, Global.SCREEN_W), (int) cch.c, 0,
-                                                cch.color.GetFloatValues(), cch.bgcolor.GetFloatValues());
+                                                    p.col + Global.MAP_OFFSET_COLS,
+                                                    Global.SCREEN_W), (int) cch.c, 0,
+                                                cch.color.GetFloatValues(),
+                                                cch.bgcolor.GetFloatValues());
                                         }
 
-                                        if (MouseUI.mouse_path != null && MouseUI.mouse_path.Count == 0)
+                                        if (MouseUI.mouse_path != null &&
+                                            MouseUI.mouse_path.Count == 0)
                                         {
                                             MouseUI.mouse_path = null;
                                         }
@@ -1392,7 +1418,8 @@ namespace Forays
                 if (b != null)
                 {
                     bool shifted = (b.mods & ConsoleModifiers.Shift) == ConsoleModifiers.Shift;
-                    Input.LastKey = new ConsoleKeyInfo(Input.GetChar(b.key, shifted), b.key, shifted, false, false);
+                    Input.LastKey = new ConsoleKeyInfo(Input.GetChar(b.key, shifted), b.key,
+                        shifted, false, false);
                 }
                 else
                 {
@@ -1414,7 +1441,8 @@ namespace Forays
                                 map_col = MouseUI.mouselook_objects[row, col].col;
                             }
 
-                            if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 && map_col < Global.COLS)
+                            if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 &&
+                                map_col < Global.COLS)
                             {
                                 if (map_row == Actor.player.row && map_col == Actor.player.col)
                                 {
@@ -1423,23 +1451,27 @@ namespace Forays
                                     {
                                         done = true;
                                         Tile t = Actor.M.tile[map_row, map_col];
-                                        if (t.inv != null || t.Is(TileType.CHEST, TileType.BLAST_FUNGUS) ||
+                                        if (t.inv != null || t.Is(TileType.CHEST,
+                                                TileType.BLAST_FUNGUS) ||
                                             t.IsShrine())
                                         {
-                                            Input.LastKey = new ConsoleKeyInfo('g', ConsoleKey.G, false, false, false);
+                                            Input.LastKey = new ConsoleKeyInfo('g', ConsoleKey.G,
+                                                false, false, false);
                                         }
                                         else
                                         {
                                             if (t.Is(TileType.STAIRS))
                                             {
-                                                Input.LastKey = new ConsoleKeyInfo('>', ConsoleKey.OemPeriod, true,
+                                                Input.LastKey = new ConsoleKeyInfo('>',
+                                                    ConsoleKey.OemPeriod, true,
                                                     false, false);
                                             }
                                             else
                                             {
                                                 if (t.Is(TileType.POOL_OF_RESTORATION))
                                                 {
-                                                    Input.LastKey = new ConsoleKeyInfo('d', ConsoleKey.D, false, false,
+                                                    Input.LastKey = new ConsoleKeyInfo('d',
+                                                        ConsoleKey.D, false, false,
                                                         false);
                                                 }
                                                 else
@@ -1452,7 +1484,8 @@ namespace Forays
 
                                     if (!done)
                                     {
-                                        Input.LastKey = new ConsoleKeyInfo('5', ConsoleKey.NumPad5, false, false,
+                                        Input.LastKey = new ConsoleKeyInfo('5', ConsoleKey.NumPad5,
+                                            false, false,
                                             false);
                                     }
                                 }
@@ -1491,15 +1524,18 @@ namespace Forays
                                         ConsoleKey dir_key =
                                             (ConsoleKey) (ConsoleKey.NumPad0 +
                                                           Actor.player.DirectionOf(
-                                                              Actor.M.tile[Actor.player.row + rowchange,
+                                                              Actor.M.tile[
+                                                                  Actor.player.row + rowchange,
                                                                   Actor.player.col + colchange]));
-                                        Input.LastKey = new ConsoleKeyInfo(Input.GetChar(dir_key, false), dir_key,
+                                        Input.LastKey = new ConsoleKeyInfo(
+                                            Input.GetChar(dir_key, false), dir_key,
                                             false, false, false);
                                     }
                                     else
                                     {
                                         Tile nearest = Actor.M.tile[map_row, map_col];
-                                        Actor.player.path = Actor.player.GetPlayerTravelPath(nearest.p);
+                                        Actor.player.path =
+                                            Actor.player.GetPlayerTravelPath(nearest.p);
                                         if (Actor.player.path.Count > 0)
                                         {
                                             Actor.player.path.StopAtBlockingTerrain();
@@ -1508,18 +1544,22 @@ namespace Forays
                                                 Actor.interrupted_path = new pos(-1, -1);
                                                 ConsoleKey path_key =
                                                     (ConsoleKey) (ConsoleKey.NumPad0 +
-                                                                  Actor.player.DirectionOf(Actor.player.path[0]));
-                                                Input.LastKey = new ConsoleKeyInfo(Input.GetChar(path_key, false),
+                                                                  Actor.player.DirectionOf(
+                                                                      Actor.player.path[0]));
+                                                Input.LastKey = new ConsoleKeyInfo(
+                                                    Input.GetChar(path_key, false),
                                                     path_key, false, false, false);
                                                 Actor.player.path.RemoveAt(0);
-                                                if (nearest.inv != null || nearest.Is(TileType.CHEST))
+                                                if (nearest.inv != null ||
+                                                    nearest.Is(TileType.CHEST))
                                                 {
                                                     Actor.grab_item_at_end_of_path = true;
                                                 }
                                             }
                                             else
                                             {
-                                                Input.LastKey = new ConsoleKeyInfo(' ', ConsoleKey.Spacebar, false,
+                                                Input.LastKey = new ConsoleKeyInfo(' ',
+                                                    ConsoleKey.Spacebar, false,
                                                     false, false);
                                             }
                                         }
@@ -1527,16 +1567,19 @@ namespace Forays
                                         {
                                             //int distance_of_first_passable = -1;
                                             //List<Tile> passable_tiles = new List<Tile>();
-                                            foreach (Tile t in Actor.M.TilesByDistance(map_row, map_col, true, true))
+                                            foreach (Tile t in Actor.M.TilesByDistance(map_row,
+                                                map_col, true, true))
                                             {
                                                 //if(distance_of_first_passable != -1 && nearest.DistanceFrom(t) > distance_of_first_passable){
                                                 //nearest = passable_tiles.Last();
                                                 if (t.passable)
                                                 {
                                                     nearest = t;
-                                                    Actor.player.path = Actor.player.GetPath(nearest.row, nearest.col,
+                                                    Actor.player.path = Actor.player.GetPath(
+                                                        nearest.row, nearest.col,
                                                         -1, true, true,
-                                                        Actor.UnknownTilePathingPreference.UnknownTilesAreOpen);
+                                                        Actor.UnknownTilePathingPreference
+                                                            .UnknownTilesAreOpen);
                                                     Actor.player.path.StopAtBlockingTerrain();
                                                     break;
                                                 }
@@ -1553,18 +1596,22 @@ namespace Forays
                                                 Actor.interrupted_path = new pos(-1, -1);
                                                 ConsoleKey path_key =
                                                     (ConsoleKey) (ConsoleKey.NumPad0 +
-                                                                  Actor.player.DirectionOf(Actor.player.path[0]));
-                                                Input.LastKey = new ConsoleKeyInfo(Input.GetChar(path_key, false),
+                                                                  Actor.player.DirectionOf(
+                                                                      Actor.player.path[0]));
+                                                Input.LastKey = new ConsoleKeyInfo(
+                                                    Input.GetChar(path_key, false),
                                                     path_key, false, false, false);
                                                 Actor.player.path.RemoveAt(0);
-                                                if (nearest.inv != null || nearest.Is(TileType.CHEST))
+                                                if (nearest.inv != null ||
+                                                    nearest.Is(TileType.CHEST))
                                                 {
                                                     Actor.grab_item_at_end_of_path = true;
                                                 }
                                             }
                                             else
                                             {
-                                                Input.LastKey = new ConsoleKeyInfo(' ', ConsoleKey.Spacebar, false,
+                                                Input.LastKey = new ConsoleKeyInfo(' ',
+                                                    ConsoleKey.Spacebar, false,
                                                     false, false);
                                             }
                                         }
@@ -1573,7 +1620,8 @@ namespace Forays
                             }
                             else
                             {
-                                Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter, false, false, false);
+                                Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
+                                    false, false, false);
                             }
 
                             break;
@@ -1582,7 +1630,8 @@ namespace Forays
                         {
                             int map_row = row - Global.MAP_OFFSET_ROWS;
                             int map_col = col - Global.MAP_OFFSET_COLS;
-                            if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 && map_col < Global.COLS)
+                            if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 &&
+                                map_col < Global.COLS)
                             {
                                 int dir = Actor.player.DirectionOf(new pos(map_row, map_col));
                                 pos p = Actor.player.p.PosInDir(dir);
@@ -1590,14 +1639,18 @@ namespace Forays
                                     Global.MAP_OFFSET_COLS + p.col);
                                 if (dir_b != null)
                                 {
-                                    bool shifted = (dir_b.mods & ConsoleModifiers.Shift) == ConsoleModifiers.Shift;
-                                    Input.LastKey = new ConsoleKeyInfo(Input.GetChar(dir_b.key, shifted), dir_b.key,
+                                    bool shifted =
+                                        (dir_b.mods & ConsoleModifiers.Shift) ==
+                                        ConsoleModifiers.Shift;
+                                    Input.LastKey = new ConsoleKeyInfo(
+                                        Input.GetChar(dir_b.key, shifted), dir_b.key,
                                         shifted, false, false);
                                 }
                             }
                             else
                             {
-                                Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape, false, false, false);
+                                Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape,
+                                    false, false, false);
                             }
 
                             break;
@@ -1606,21 +1659,25 @@ namespace Forays
                         {
                             int map_row = row - Global.MAP_OFFSET_ROWS;
                             int map_col = col - Global.MAP_OFFSET_COLS;
-                            if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 && map_col < Global.COLS)
+                            if (map_row >= 0 && map_row < Global.ROWS && map_col >= 0 &&
+                                map_col < Global.COLS)
                             {
-                                Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter, false, false, false);
+                                Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
+                                    false, false, false);
                             }
                             else
                             {
                                 if (MouseUI.mouselook_objects.BoundsCheck(row, col) &&
                                     MouseUI.mouselook_objects[row, col] != null)
                                 {
-                                    Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter, false, false,
+                                    Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
+                                        false, false,
                                         false);
                                 }
                                 else
                                 {
-                                    Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape, false, false,
+                                    Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape,
+                                        false, false,
                                         false);
                                 }
                             }
@@ -1628,24 +1685,29 @@ namespace Forays
                             break;
                         }
                         case MouseMode.YesNoPrompt:
-                            Input.LastKey = new ConsoleKeyInfo('y', ConsoleKey.Y, false, false, false);
+                            Input.LastKey =
+                                new ConsoleKeyInfo('y', ConsoleKey.Y, false, false, false);
                             break;
                         case MouseMode.Inventory:
-                            Input.LastKey = new ConsoleKeyInfo('a', ConsoleKey.A, false, false, false);
+                            Input.LastKey =
+                                new ConsoleKeyInfo('a', ConsoleKey.A, false, false, false);
                             break;
                         case MouseMode.ScrollableMenu:
                             if (AnyModifierHeld())
                             {
-                                Input.LastKey = new ConsoleKeyInfo((char) 8, ConsoleKey.Backspace, false, false, false);
+                                Input.LastKey = new ConsoleKeyInfo((char) 8, ConsoleKey.Backspace,
+                                    false, false, false);
                             }
                             else
                             {
-                                Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter, false, false, false);
+                                Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter,
+                                    false, false, false);
                             }
 
                             break;
                         default:
-                            Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter, false, false, false);
+                            Input.LastKey = new ConsoleKeyInfo((char) 13, ConsoleKey.Enter, false,
+                                false, false);
                             break;
                     }
                 }
@@ -1669,7 +1731,8 @@ namespace Forays
                         Input.LastKey = new ConsoleKeyInfo('i', ConsoleKey.I, false, false, false);
                         break;
                     default:
-                        Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape, false, false, false);
+                        Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape, false,
+                            false, false);
                         break;
                 }
             }
@@ -1692,7 +1755,8 @@ namespace Forays
                         Input.LastKey = new ConsoleKeyInfo('X', ConsoleKey.X, true, false, false);
                         break;
                     default:
-                        Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape, false, false, false);
+                        Input.LastKey = new ConsoleKeyInfo((char) 27, ConsoleKey.Escape, false,
+                            false, false);
                         break;
                 }
             }
@@ -1713,22 +1777,26 @@ namespace Forays
                             Input.KeyPressed = true;
                             if (AnyModifierHeld())
                             {
-                                Input.LastKey = new ConsoleKeyInfo(Input.GetChar(ConsoleKey.PageUp, false),
+                                Input.LastKey = new ConsoleKeyInfo(
+                                    Input.GetChar(ConsoleKey.PageUp, false),
                                     ConsoleKey.PageUp, false, false, false);
                             }
                             else
                             {
-                                Input.LastKey = new ConsoleKeyInfo('8', ConsoleKey.NumPad8, false, false, false);
+                                Input.LastKey = new ConsoleKeyInfo('8', ConsoleKey.NumPad8, false,
+                                    false, false);
                             }
 
                             break;
                         case MouseMode.Targeting:
                             Input.KeyPressed = true;
-                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, true, false, false);
+                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, true,
+                                false, false);
                             break;
                         case MouseMode.Map:
                             Input.KeyPressed = true;
-                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false, false, false);
+                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false,
+                                false, false);
                             break;
                     }
                 }
@@ -1741,22 +1809,26 @@ namespace Forays
                             Input.KeyPressed = true;
                             if (AnyModifierHeld())
                             {
-                                Input.LastKey = new ConsoleKeyInfo(Input.GetChar(ConsoleKey.PageDown, false),
+                                Input.LastKey = new ConsoleKeyInfo(
+                                    Input.GetChar(ConsoleKey.PageDown, false),
                                     ConsoleKey.PageDown, false, false, false);
                             }
                             else
                             {
-                                Input.LastKey = new ConsoleKeyInfo('2', ConsoleKey.NumPad2, false, false, false);
+                                Input.LastKey = new ConsoleKeyInfo('2', ConsoleKey.NumPad2, false,
+                                    false, false);
                             }
 
                             break;
                         case MouseMode.Targeting:
                             Input.KeyPressed = true;
-                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false, false, false);
+                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false,
+                                false, false);
                             break;
                         case MouseMode.Map:
                             Input.KeyPressed = true;
-                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false, false, false);
+                            Input.LastKey = new ConsoleKeyInfo((char) 9, ConsoleKey.Tab, false,
+                                false, false);
                             break;
                     }
                 }
@@ -1808,7 +1880,8 @@ namespace Forays
                 }
             }
 
-            if (Screen.cellHeight != fontHeights[selectedIdx] || Screen.cellWidth != fontWidths[selectedIdx])
+            if (Screen.cellHeight != fontHeights[selectedIdx] ||
+                Screen.cellWidth != fontWidths[selectedIdx])
             {
                 //change font if needed
                 Screen.cellHeight = fontHeights[selectedIdx];
@@ -1821,7 +1894,8 @@ namespace Forays
                 SpriteType.DefineSingleRowSprite(Screen.textSurface, Screen.cellWidth, fontPadding);
                 Screen.cursorSurface.texture = Screen.textSurface.texture;
                 Screen.textSurface.layouts.Clear();
-                CellLayout.CreateGrid(Screen.textSurface, Global.SCREEN_H, Global.SCREEN_W, Screen.cellHeight,
+                CellLayout.CreateGrid(Screen.textSurface, Global.SCREEN_H, Global.SCREEN_W,
+                    Screen.cellHeight,
                     Screen.cellWidth, 0, 0);
                 Screen.cursorSurface.layouts.Clear();
                 CellLayout.CreateGrid(Screen.cursorSurface, 1, 1, 2, Screen.cellWidth, 0, 0);
@@ -1830,8 +1904,10 @@ namespace Forays
             if (Screen.gl.FullScreen || forceBorder)
             {
                 //then, was fullscreen toggled?
-                int xOffset = (Screen.gl.ClientRectangle.Width - Screen.cellWidth * Global.SCREEN_W) / 2;
-                int yOffset = (Screen.gl.ClientRectangle.Height - Screen.cellHeight * Global.SCREEN_H) / 2;
+                int xOffset =
+                    (Screen.gl.ClientRectangle.Width - Screen.cellWidth * Global.SCREEN_W) / 2;
+                int yOffset =
+                    (Screen.gl.ClientRectangle.Height - Screen.cellHeight * Global.SCREEN_H) / 2;
                 Screen.gl.SetViewport(xOffset, yOffset, Screen.cellWidth * Global.SCREEN_W,
                     Screen.cellHeight * Global.SCREEN_H);
             }
@@ -1839,7 +1915,8 @@ namespace Forays
             {
                 Screen.gl.ClientSize = new System.Drawing.Size(Screen.cellWidth * Global.SCREEN_W,
                     Screen.cellHeight * Global.SCREEN_H);
-                Screen.gl.SetViewport(0, 0, Screen.gl.ClientRectangle.Width, Screen.gl.ClientRectangle.Height);
+                Screen.gl.SetViewport(0, 0, Screen.gl.ClientRectangle.Width,
+                    Screen.gl.ClientRectangle.Height);
             }
 
             Screen.cursorSurface.DefaultUpdatePositions();
