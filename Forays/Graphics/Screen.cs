@@ -359,9 +359,17 @@ namespace Forays
             }
         }
 
+        /// <summary>
+        /// Update the OpenGL Buffer.
+        /// </summary>
+        /// <param name="start_row">Start coordinate in the axis X.</param>
+        /// <param name="start_col">Start coordinate in the axis Y.</param>
+        /// <param name="end_row">End coordinate in the axis X.</param>
+        /// <param name="end_col">End coordinate in the axus Y.</param>
         public static void UpdateGLBuffer(int start_row, int start_col, int end_row, int end_col)
         {
-            int num_positions = ((end_col + end_row * Global.SCREEN_W) - (start_col + start_row * Global.SCREEN_W)) + 1;
+            int num_positions = ((end_col + end_row * Global.SCREEN_W) -
+                                 (start_col + start_row * Global.SCREEN_W)) + 1;
             int row = start_row;
             int col = start_col;
             int[] sprite_rows = new int[num_positions];
@@ -395,7 +403,8 @@ namespace Forays
 
             //int idx = (start_col + start_row*Global.SCREEN_W) * 48;
             //GL.BufferSubData(BufferTarget.ArrayBuffer,new IntPtr(sizeof(float)*idx),new IntPtr(sizeof(float)*48*num_positions),values.ToArray());
-            gl.UpdateOtherVertexArray(textSurface, U.Get1DIndex(start_row, start_col, Global.SCREEN_W), sprite_cols,
+            gl.UpdateOtherVertexArray(textSurface,
+                U.Get1DIndex(start_row, start_col, Global.SCREEN_W), sprite_cols,
                 null, color_info);
             //Game.gl.UpdateVertexArray(start_row,start_col,GLGame.text_surface,sprite_rows,sprite_cols,color_info);
         }
@@ -403,7 +412,8 @@ namespace Forays
         public static void UpdateGLBuffer(int row, int col)
         {
             ColorChar cch = memory[row, col];
-            gl.UpdateOtherSingleVertex(textSurface, U.Get1DIndex(row, col, Global.SCREEN_W), (int) cch.c, 0,
+            gl.UpdateOtherSingleVertex(textSurface, U.Get1DIndex(row, col, Global.SCREEN_W),
+                (int) cch.c, 0,
                 cch.color.GetFloatValues(), cch.bgcolor.GetFloatValues());
             //Game.gl.UpdateVertexArray(row,col,GLGame.text_surface,0,(int)cch.c,cch.color.GetFloatValues(),cch.bgcolor.GetFloatValues());
         }
@@ -414,7 +424,8 @@ namespace Forays
             {
                 //todo: this line probably breaks in graphical mode sometimes.
                 cursorSurface.Disabled = false;
-                cursorSurface.SetOffsetInPixels(cursor_left * cellWidth, cursor_top * cellHeight + cellHeight * 7 / 8);
+                cursorSurface.SetOffsetInPixels(cursor_left * cellWidth,
+                    cursor_top * cellHeight + cellHeight * 7 / 8);
             }
             else
             {
@@ -440,9 +451,10 @@ namespace Forays
             {
                 int row = (n + start_col) / Global.SCREEN_W + start_row; //screen coords
                 int col = (n + start_col) % Global.SCREEN_W;
-                ColorChar cch = (row >= start_row && row <= end_row && col >= start_col && col <= end_col)
-                    ? array[row - start_row, col - start_col]
-                    : memory[row, col];
+                ColorChar cch =
+                    (row >= start_row && row <= end_row && col >= start_col && col <= end_col)
+                        ? array[row - start_row, col - start_col]
+                        : memory[row, col];
                 Color4 color = Colors.ConvertColor(cch.color);
                 Color4 bgcolor = Colors.ConvertColor(cch.bgcolor);
                 //sprite_rows[n] = 0;
@@ -730,7 +742,8 @@ namespace Forays
                                             break;
                                     }
 
-                                    MouseUI.CreateButton(key, shifted, r, c + start, 1, end - start + 1);
+                                    MouseUI.CreateButton(key, shifted, r, c + start, 1,
+                                        end - start + 1);
                                     brace = -1;
                                     start = -1;
                                     end = -1;
@@ -907,11 +920,14 @@ namespace Forays
                                                 key = ConsoleKey.OemPlus;
                                                 break;
                                             default: //all others should be lowercase letters
-                                                key = (ConsoleKey) (ConsoleKey.A + ((int) cs[start + 1].c - (int) 'a'));
+                                                key = (ConsoleKey) (ConsoleKey.A +
+                                                                    ((int) cs[start + 1].c -
+                                                                     (int) 'a'));
                                                 break;
                                         }
 
-                                        MouseUI.CreateButton(key, shifted, r, c + start, 1, end - start + 1);
+                                        MouseUI.CreateButton(key, shifted, r, c + start, 1,
+                                            end - start + 1);
                                         brace = -1;
                                         start = -1;
                                         end = -1;
@@ -952,11 +968,13 @@ namespace Forays
                                         key = ConsoleKey.OemPlus;
                                         break;
                                     default: //all others should be lowercase letters
-                                        key = (ConsoleKey) (ConsoleKey.A + ((int) cs[start + 1].c - (int) 'a'));
+                                        key = (ConsoleKey) (ConsoleKey.A +
+                                                            ((int) cs[start + 1].c - (int) 'a'));
                                         break;
                                 }
 
-                                MouseUI.CreateButton(key, shifted, r, c + start, 1, end - start + 1);
+                                MouseUI.CreateButton(key, shifted, r, c + start, 1,
+                                    end - start + 1);
                             }
 
                             break;
@@ -1095,7 +1113,8 @@ namespace Forays
 
                 if (MouseUI.AutomaticButtonsFromStrings && GLMode)
                 {
-                    int idx = s.Text.IndexOf('['); //for now I'm only checking for a single brace here.
+                    int idx = s.Text
+                        .IndexOf('['); //for now I'm only checking for a single brace here.
                     if (idx != -1 && idx + 1 < s.Text.Length)
                     {
                         ConsoleKey key = ConsoleKey.A;
@@ -1118,7 +1137,8 @@ namespace Forays
                                 key = ConsoleKey.OemPlus;
                                 break;
                             default: //all others should be lowercase letters
-                                key = (ConsoleKey) (ConsoleKey.A + ((int) s.Text[idx + 1] - (int) 'a'));
+                                key = (ConsoleKey) (ConsoleKey.A +
+                                                    ((int) s.Text[idx + 1] - (int) 'a'));
                                 break;
                         }
 
@@ -1234,7 +1254,8 @@ namespace Forays
                                 key = ConsoleKey.OemPlus;
                                 break;
                             default: //all others should be lowercase letters
-                                key = (ConsoleKey) (ConsoleKey.A + ((int) cs[idx + 1].c - (int) 'a'));
+                                key = (ConsoleKey)
+                                    (ConsoleKey.A + ((int) cs[idx + 1].c - (int) 'a'));
                                 break;
                         }
 
@@ -1345,7 +1366,8 @@ namespace Forays
 
                 if (MouseUI.AutomaticButtonsFromStrings && GLMode)
                 {
-                    int idx = s.Text.IndexOf('['); //for now I'm only checking for a single brace here.
+                    int idx = s.Text
+                        .IndexOf('['); //for now I'm only checking for a single brace here.
                     if (idx != -1 && idx + 1 < s.Text.Length)
                     {
                         ConsoleKey key = ConsoleKey.A;
@@ -1368,7 +1390,8 @@ namespace Forays
                                 key = ConsoleKey.OemPlus;
                                 break;
                             default: //all others should be lowercase letters
-                                key = (ConsoleKey) (ConsoleKey.A + ((int) s.Text[idx + 1] - (int) 'a'));
+                                key = (ConsoleKey) (ConsoleKey.A +
+                                                    ((int) s.Text[idx + 1] - (int) 'a'));
                                 break;
                         }
 
@@ -1378,7 +1401,8 @@ namespace Forays
             }
         }
 
-        public static void MapDrawWithStrings(ColorChar[,] array, int row, int col, int height, int width)
+        public static void MapDrawWithStrings(ColorChar[,] array, int row, int col, int height,
+            int width)
         {
             ColorString s;
             s.Text = "";
@@ -1564,17 +1588,20 @@ namespace Forays
             AnimateExplosion(obj, radius, ch, 50, false);
         }
 
-        public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch, bool single_frame)
+        public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch,
+            bool single_frame)
         {
             AnimateExplosion(obj, radius, ch, 50, single_frame);
         }
 
-        public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch, int duration)
+        public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch,
+            int duration)
         {
             AnimateExplosion(obj, radius, ch, duration, false);
         }
 
-        public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch, int duration,
+        public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch,
+            int duration,
             bool single_frame)
         {
             CursorVisible = false;
@@ -1706,12 +1733,14 @@ namespace Forays
             CursorVisible = true;
         }
 
-        public static void AnimateStorm(pos origin, int radius, int num_frames, int num_per_frame, char c, Color color)
+        public static void AnimateStorm(pos origin, int radius, int num_frames, int num_per_frame,
+            char c, Color color)
         {
             AnimateStorm(origin, radius, num_frames, num_per_frame, new ColorChar(c, color));
         }
 
-        public static void AnimateStorm(pos origin, int radius, int num_frames, int num_per_frame, ColorChar ch)
+        public static void AnimateStorm(pos origin, int radius, int num_frames, int num_per_frame,
+            ColorChar ch)
         {
             for (int i = 0; i < num_frames; ++i)
             {
