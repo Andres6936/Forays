@@ -32,14 +32,14 @@ namespace Forays
             return vertexBufferObject;
         }
 
-        public static VertexBufferObject Create(int position_dimensions, VertexAttributes attribs)
+        public static VertexBufferObject Create(int positionDimensions, VertexAttributes attributes)
         {
             var vertexBufferObject = new VertexBufferObject();
             GL.GenBuffers(1, out vertexBufferObject.PositionArrayBufferID);
             GL.GenBuffers(1, out vertexBufferObject.OtherArrayBufferID);
             GL.GenBuffers(1, out vertexBufferObject.ElementArrayBufferID);
-            vertexBufferObject.PositionDimensions = position_dimensions;
-            vertexBufferObject.VertexAttribs = attribs;
+            vertexBufferObject.PositionDimensions = positionDimensions;
+            vertexBufferObject.VertexAttribs = attributes;
             return vertexBufferObject;
         }
     }
