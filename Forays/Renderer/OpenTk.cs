@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Linq;
 using GLDrawing;
 using OpenTK;
 using OpenTK.Graphics;
@@ -18,14 +19,16 @@ namespace Forays.Renderer
         protected bool Resizing = false;
 
         public int
-            SnapWidth = 1; //if EnforceRatio is true, the AddBorder and SnapWindow options will require that the new multiples of SnapHeight and SnapWidth be equal.
+            SnapWidth =
+                1; //if EnforceRatio is true, the AddBorder and SnapWindow options will require that the new multiples of SnapHeight and SnapWidth be equal.
 
         public int
             SnapHeight =
                 1; //Assuming SnapW is 100 and SnapH is 50:  If EnforceRatio is true, the valid sizes are 100x50, 200x100, 300x150, and so on.
 
         public bool
-            EnforceRatio = false; //If EnforceRatio is false, 100x750 is a valid size, as are 900x50 and 200x200.
+            EnforceRatio =
+                false; //If EnforceRatio is false, 100x750 is a valid size, as are 900x50 and 200x200.
 
         public bool NoClose = false;
         public bool FullScreen = false;
@@ -58,7 +61,8 @@ namespace Forays.Renderer
         {
             VSync = VSyncMode.On;
             GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-            GL.EnableVertexAttribArray(0); //these 2 attrib arrays are always on, for position and texcoords.
+            GL.EnableVertexAttribArray(
+                0); //these 2 attrib arrays are always on, for position and texcoords.
             GL.EnableVertexAttribArray(1);
             KeyDown += KeyDownHandler;
             KeyUp += KeyUpHandler;
@@ -119,7 +123,8 @@ namespace Forays.Renderer
             switch (pref)
             {
                 case ResizeOption.StretchToFit:
-                    SetViewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
+                    SetViewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width,
+                        ClientRectangle.Height);
                     break;
                 case ResizeOption.AddBorder
                     : //should AddBorder allow the screen to be resized below SnapWidth x SnapHeight? Maybe an option?
@@ -145,11 +150,13 @@ namespace Forays.Renderer
 
                     int view_height = SnapHeight * height_multiple;
                     int view_width = SnapWidth * width_multiple;
-                    SetViewport((ClientRectangle.Width - view_width) / 2, (ClientRectangle.Height - view_height) / 2,
+                    SetViewport((ClientRectangle.Width - view_width) / 2,
+                        (ClientRectangle.Height - view_height) / 2,
                         view_width, view_height);
                     break;
                 }
-                case ResizeOption.SnapWindow: //you probably don't want to use this option for fullscreen.
+                case ResizeOption.SnapWindow
+                    : //you probably don't want to use this option for fullscreen.
                 {
                     int height_multiple = ClientRectangle.Height / SnapHeight;
                     int width_multiple = ClientRectangle.Width / SnapWidth;
@@ -172,7 +179,8 @@ namespace Forays.Renderer
 
                     Height = SnapHeight * height_multiple;
                     Width = SnapWidth * width_multiple;
-                    SetViewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
+                    SetViewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width,
+                        ClientRectangle.Height);
                     break;
                 }
                 case ResizeOption.NoResize:
@@ -199,7 +207,8 @@ namespace Forays.Renderer
                 WindowState = WindowState.Normal;
             }
 
-            Resizing = true; //todo: changed this to simply set Resizing instead of actually calling resizing methods.
+            Resizing =
+                true; //todo: changed this to simply set Resizing instead of actually calling resizing methods.
         }
 
         public bool WindowUpdate()
@@ -225,56 +234,57 @@ namespace Forays.Renderer
         {
             base.OnRenderFrame(render_args);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            foreach (Surface s in Surfaces)
+            foreach (var s in Surfaces.Where(s => !s.Disabled))
             {
-                if (!s.Disabled)
+                if (DepthTestEnabled != s.UseDepthBuffer)
                 {
-                    if (DepthTestEnabled != s.UseDepthBuffer)
+                    if (s.UseDepthBuffer)
                     {
-                        if (s.UseDepthBuffer)
-                        {
-                            GL.Enable(EnableCap.DepthTest);
-                        }
-                        else
-                        {
-                            GL.Disable(EnableCap.DepthTest);
-                        }
-
-                        DepthTestEnabled = s.UseDepthBuffer;
+                        GL.Enable(EnableCap.DepthTest);
+                    }
+                    else
+                    {
+                        GL.Disable(EnableCap.DepthTest);
                     }
 
-                    if (LastShaderID != s.shader.ShaderProgramID)
-                    {
-                        GL.UseProgram(s.shader.ShaderProgramID);
-                        LastShaderID = s.shader.ShaderProgramID;
-                    }
+                    DepthTestEnabled = s.UseDepthBuffer;
+                }
 
-                    GL.Uniform2(s.shader.OffsetUniformLocation, s.raw_x_offset, s.raw_y_offset);
-                    GL.Uniform1(s.shader.TextureUniformLocation, s.texture.TextureIndex);
-                    GL.BindBuffer(BufferTarget.ElementArrayBuffer, s.vbo.ElementArrayBufferID);
-                    GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.PositionArrayBufferID);
-                    GL.VertexAttribPointer(0, s.vbo.PositionDimensions, VertexAttribPointerType.Float, false,
-                        sizeof(float) * s.vbo.PositionDimensions, new IntPtr(0)); //position
-                    GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.OtherArrayBufferID);
-                    int stride = sizeof(float) * s.vbo.VertexAttribs.TotalSize;
-                    GL.VertexAttribPointer(1, s.vbo.VertexAttribs.Size[0], VertexAttribPointerType.Float, false, stride,
-                        new IntPtr(0)); //texcoords
-                    int total_of_previous_attribs = s.vbo.VertexAttribs.Size[0];
-                    for (int i = 1; i < s.vbo.VertexAttribs.Size.Length; ++i)
-                    {
-                        GL.EnableVertexAttribArray(
-                            i + 1); //i+1 because 0 and 1 are always on (for position & texcoords)
-                        GL.VertexAttribPointer(i + 1, s.vbo.VertexAttribs.Size[i], VertexAttribPointerType.Float, false,
-                            stride, new IntPtr(sizeof(float) * total_of_previous_attribs));
-                        total_of_previous_attribs += s.vbo.VertexAttribs.Size[i];
-                    }
+                if (LastShaderID != s.shader.ShaderProgramID)
+                {
+                    GL.UseProgram(s.shader.ShaderProgramID);
+                    LastShaderID = s.shader.ShaderProgramID;
+                }
 
-                    GL.DrawElements(PrimitiveType.Triangles, s.vbo.NumElements, DrawElementsType.UnsignedInt,
-                        IntPtr.Zero);
-                    for (int i = 1; i < s.vbo.VertexAttribs.Size.Length; ++i)
-                    {
-                        GL.DisableVertexAttribArray(i + 1);
-                    }
+                GL.Uniform2(s.shader.OffsetUniformLocation, s.raw_x_offset, s.raw_y_offset);
+                GL.Uniform1(s.shader.TextureUniformLocation, s.texture.TextureIndex);
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, s.vbo.ElementArrayBufferID);
+                GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.PositionArrayBufferID);
+                GL.VertexAttribPointer(0, s.vbo.PositionDimensions, VertexAttribPointerType.Float,
+                    false,
+                    sizeof(float) * s.vbo.PositionDimensions, new IntPtr(0)); //position
+                GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.OtherArrayBufferID);
+                int stride = sizeof(float) * s.vbo.VertexAttribs.TotalSize;
+                GL.VertexAttribPointer(1, s.vbo.VertexAttribs.Size[0],
+                    VertexAttribPointerType.Float, false, stride,
+                    new IntPtr(0)); //texcoords
+                int total_of_previous_attribs = s.vbo.VertexAttribs.Size[0];
+                for (int i = 1; i < s.vbo.VertexAttribs.Size.Length; ++i)
+                {
+                    GL.EnableVertexAttribArray(
+                        i + 1); //i+1 because 0 and 1 are always on (for position & texcoords)
+                    GL.VertexAttribPointer(i + 1, s.vbo.VertexAttribs.Size[i],
+                        VertexAttribPointerType.Float, false,
+                        stride, new IntPtr(sizeof(float) * total_of_previous_attribs));
+                    total_of_previous_attribs += s.vbo.VertexAttribs.Size[i];
+                }
+
+                GL.DrawElements(PrimitiveType.Triangles, s.vbo.NumElements,
+                    DrawElementsType.UnsignedInt,
+                    IntPtr.Zero);
+                for (int i = 1; i < s.vbo.VertexAttribs.Size.Length; ++i)
+                {
+                    GL.DisableVertexAttribArray(i + 1);
                 }
             }
 
@@ -295,7 +305,8 @@ namespace Forays.Renderer
             GL.TexParameter(TextureTarget.Texture2D,TextureParameterName.TextureMinFilter,(int)TextureMinFilter.Nearest);
             GL.TexParameter(TextureTarget.Texture2D,TextureParameterName.TextureMagFilter,(int)TextureMagFilter.Nearest);
         }*/
-        public void UpdatePositionVertexArray(Surface s, IList<int> index_list, IList<int> layout_list = null)
+        public void UpdatePositionVertexArray(Surface s, IList<int> index_list,
+            IList<int> layout_list = null)
         {
             UpdatePositionVertexArray(s, -1, index_list, layout_list);
         }
@@ -310,7 +321,9 @@ namespace Forays.Renderer
             }
 
             float[] values =
-                new float[count * 4 * s.vbo.PositionDimensions]; //2 or 3 dimensions for 4 vertices for each tile
+                new float[count * 4 *
+                          s.vbo
+                              .PositionDimensions]; //2 or 3 dimensions for 4 vertices for each tile
             int[] indices = null;
             if (start_index < 0 && s.vbo.NumElements != count * 6)
             {
@@ -327,7 +340,8 @@ namespace Forays.Renderer
                             "Error: start_index + count is bigger than VBO size. To always replace the previous data, set start_index to -1.");
                     } //todo: I could also just ignore the start_index if there's too much data.
 
-                    if ((start_index + count) * 4 * s.vbo.PositionDimensions > s.vbo.PositionDataSize &&
+                    if ((start_index + count) * 4 * s.vbo.PositionDimensions >
+                        s.vbo.PositionDataSize &&
                         s.vbo.PositionDataSize > 0)
                     {
                         throw new ArgumentException(
@@ -388,9 +402,11 @@ namespace Forays.Renderer
             }
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.PositionArrayBufferID);
-            if ((start_index < 0 && s.vbo.PositionDataSize != values.Length) || s.vbo.PositionDataSize == 0)
+            if ((start_index < 0 && s.vbo.PositionDataSize != values.Length) ||
+                s.vbo.PositionDataSize == 0)
             {
-                GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * values.Length), values,
+                GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * values.Length),
+                    values,
                     BufferUsageHint.StreamDraw);
                 s.vbo.PositionDataSize = values.Length;
             }
@@ -411,14 +427,16 @@ namespace Forays.Renderer
             if (indices != null)
             {
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, s.vbo.ElementArrayBufferID);
-                GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(sizeof(int) * indices.Length), indices,
+                GL.BufferData(BufferTarget.ElementArrayBuffer,
+                    new IntPtr(sizeof(int) * indices.Length), indices,
                     BufferUsageHint.StaticDraw);
             }
         }
 
         public void UpdatePositionSingleVertex(Surface s, int index, int layout = 0)
         {
-            float[] values = new float[4 * s.vbo.PositionDimensions]; //2 or 3 dimensions for 4 vertices
+            float[] values =
+                new float[4 * s.vbo.PositionDimensions]; //2 or 3 dimensions for 4 vertices
             float width_ratio = 2.0f / (float) Viewport.Width;
             float height_ratio = 2.0f / (float) Viewport.Height;
             float x_offset = (float) s.layouts[layout].HorizontalOffsetPx;
@@ -452,23 +470,27 @@ namespace Forays.Renderer
             }
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.PositionArrayBufferID);
-            GL.BufferSubData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * 4 * s.vbo.PositionDimensions * index),
+            GL.BufferSubData(BufferTarget.ArrayBuffer,
+                new IntPtr(sizeof(float) * 4 * s.vbo.PositionDimensions * index),
                 new IntPtr(sizeof(float) * values.Length), values);
         }
 
-        public void UpdateOtherVertexArray(Surface s, IList<int> sprite_index, params IList<float>[] vertex_attributes)
+        public void UpdateOtherVertexArray(Surface s, IList<int> sprite_index,
+            params IList<float>[] vertex_attributes)
         {
             UpdateOtherVertexArray(s, -1, sprite_index, new int[sprite_index.Count],
                 vertex_attributes); //default to sprite type 0.
         } //should I add more overloads here?
 
-        public void UpdateOtherVertexArray(Surface s, int start_index, IList<int> sprite_index, IList<int> sprite_type,
+        public void UpdateOtherVertexArray(Surface s, int start_index, IList<int> sprite_index,
+            IList<int> sprite_type,
             params IList<float>[] vertex_attributes)
         {
             int count = sprite_index.Count;
             int a = s.vbo.VertexAttribs.TotalSize;
             int a4 = a * 4;
-            if (start_index >= 0 && (start_index + count) * a4 > s.vbo.OtherDataSize && s.vbo.OtherDataSize > 0)
+            if (start_index >= 0 && (start_index + count) * a4 > s.vbo.OtherDataSize &&
+                s.vbo.OtherDataSize > 0)
             {
                 throw new ArgumentException(
                     "Error: (start_index + count) * total_attrib_size is bigger than VBO size. To always replace the previous data, set start_index to -1.");
@@ -522,7 +544,8 @@ namespace Forays.Renderer
             GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.OtherArrayBufferID);
             if ((start_index < 0 && s.vbo.OtherDataSize != a4 * count) || s.vbo.OtherDataSize == 0)
             {
-                GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * a4 * count), all_values,
+                GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * a4 * count),
+                    all_values,
                     BufferUsageHint.StreamDraw);
                 s.vbo.OtherDataSize = a4 * count;
             }
