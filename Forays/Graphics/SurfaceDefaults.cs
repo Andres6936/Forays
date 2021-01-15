@@ -4,19 +4,18 @@ namespace Forays
 {
     public class SurfaceDefaults
     {
+        public int fill_count = -1;
+        public int single_layout = -1;
+        public int single_sprite = -1;
+        public int single_position = -1;
+        public int single_sprite_type = -1;
+
         public List<int> positions;
         public List<int> layouts;
         public List<int> sprites;
         public List<int> sprite_types;
         public List<float>[] other_data;
-
-        public int single_position = -1;
-        public int single_layout = -1;
-        public int single_sprite = -1;
-        public int single_sprite_type = -1;
         public List<float>[] single_other_data;
-
-        public int fill_count = -1;
 
         public SurfaceDefaults()
         {
