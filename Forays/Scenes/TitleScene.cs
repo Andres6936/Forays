@@ -12,8 +12,6 @@ namespace Forays.Scenes
 
         public TitleScene()
         {
-            int height_px = Global.SCREEN_H * 16;
-            int width_px = Global.SCREEN_W * 8;
             // The responsibility of initialize Renderer lies with us (the Title
             // scene to be the first scene in to be rendered).
             Renderer = Screen.gl;
