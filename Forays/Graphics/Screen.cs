@@ -67,12 +67,9 @@ namespace Forays
 
         public static bool GLUpdate()
         {
-            if (gl != null)
-            {
-                return gl.WindowUpdate();
-            }
-
-            return true;
+            gl.ProcessInput();
+            gl.Draw();
+            return gl.IsRunning();
         }
 
         public static bool CursorVisible

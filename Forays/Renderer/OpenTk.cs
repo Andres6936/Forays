@@ -212,85 +212,6 @@ namespace Forays.Renderer
                 true; //todo: changed this to simply set Resizing instead of actually calling resizing methods.
         }
 
-        public bool WindowUpdate()
-        {
-            ProcessEvents();
-            if (IsExiting)
-            {
-                return false;
-            }
-
-            if (Resizing)
-            {
-                //HandleResize();
-                FinalResize?.Invoke();
-                Resizing = false;
-            }
-
-            DrawSurfaces();
-            return true;
-        }
-
-        public void DrawSurfaces()
-        {
-            base.OnRenderFrame(render_args);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            foreach (var s in Surfaces.Where(s => !s.Disabled))
-            {
-                if (DepthTestEnabled != s.UseDepthBuffer)
-                {
-                    if (s.UseDepthBuffer)
-                    {
-                        GL.Enable(EnableCap.DepthTest);
-                    }
-                    else
-                    {
-                        GL.Disable(EnableCap.DepthTest);
-                    }
-
-                    DepthTestEnabled = s.UseDepthBuffer;
-                }
-
-                if (LastShaderID != s.shader.ShaderProgramID)
-                {
-                    GL.UseProgram(s.shader.ShaderProgramID);
-                    LastShaderID = s.shader.ShaderProgramID;
-                }
-
-                GL.Uniform2(s.shader.OffsetUniformLocation, s.raw_x_offset, s.raw_y_offset);
-                GL.Uniform1(s.shader.TextureUniformLocation, s.texture.TextureIndex);
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, s.vbo.ElementArrayBufferID);
-                GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.PositionArrayBufferID);
-                GL.VertexAttribPointer(0, s.vbo.PositionDimensions, VertexAttribPointerType.Float,
-                    false,
-                    sizeof(float) * s.vbo.PositionDimensions, new IntPtr(0)); //position
-                GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.OtherArrayBufferID);
-                int stride = sizeof(float) * s.vbo.VertexAttribs.TotalSize;
-                GL.VertexAttribPointer(1, s.vbo.VertexAttribs.Size[0],
-                    VertexAttribPointerType.Float, false, stride,
-                    new IntPtr(0)); //texcoords
-                int total_of_previous_attribs = s.vbo.VertexAttribs.Size[0];
-                for (int i = 1; i < s.vbo.VertexAttribs.Size.Length; ++i)
-                {
-                    GL.EnableVertexAttribArray(
-                        i + 1); //i+1 because 0 and 1 are always on (for position & texcoords)
-                    GL.VertexAttribPointer(i + 1, s.vbo.VertexAttribs.Size[i],
-                        VertexAttribPointerType.Float, false,
-                        stride, new IntPtr(sizeof(float) * total_of_previous_attribs));
-                    total_of_previous_attribs += s.vbo.VertexAttribs.Size[i];
-                }
-
-                GL.DrawElements(PrimitiveType.Triangles, s.vbo.NumElements,
-                    DrawElementsType.UnsignedInt,
-                    IntPtr.Zero);
-                for (int i = 1; i < s.vbo.VertexAttribs.Size.Length; ++i)
-                {
-                    GL.DisableVertexAttribArray(i + 1);
-                }
-            }
-
-            SwapBuffers();
-        }
 
         /*public static void ReplaceTexture(int texture_unit,string filename){ //binds a texture to the given texture unit, replacing the texture that's already there
             if(String.IsNullOrEmpty(filename)){
@@ -614,7 +535,63 @@ namespace Forays.Renderer
 
         public void Draw()
         {
-            throw new NotImplementedException();
+            base.OnRenderFrame(render_args);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            foreach (var s in Surfaces.Where(s => !s.Disabled))
+            {
+                if (DepthTestEnabled != s.UseDepthBuffer)
+                {
+                    if (s.UseDepthBuffer)
+                    {
+                        GL.Enable(EnableCap.DepthTest);
+                    }
+                    else
+                    {
+                        GL.Disable(EnableCap.DepthTest);
+                    }
+
+                    DepthTestEnabled = s.UseDepthBuffer;
+                }
+
+                if (LastShaderID != s.shader.ShaderProgramID)
+                {
+                    GL.UseProgram(s.shader.ShaderProgramID);
+                    LastShaderID = s.shader.ShaderProgramID;
+                }
+
+                GL.Uniform2(s.shader.OffsetUniformLocation, s.raw_x_offset, s.raw_y_offset);
+                GL.Uniform1(s.shader.TextureUniformLocation, s.texture.TextureIndex);
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, s.vbo.ElementArrayBufferID);
+                GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.PositionArrayBufferID);
+                GL.VertexAttribPointer(0, s.vbo.PositionDimensions, VertexAttribPointerType.Float,
+                    false,
+                    sizeof(float) * s.vbo.PositionDimensions, new IntPtr(0)); //position
+                GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.OtherArrayBufferID);
+                int stride = sizeof(float) * s.vbo.VertexAttribs.TotalSize;
+                GL.VertexAttribPointer(1, s.vbo.VertexAttribs.Size[0],
+                    VertexAttribPointerType.Float, false, stride,
+                    new IntPtr(0)); //texcoords
+                int total_of_previous_attribs = s.vbo.VertexAttribs.Size[0];
+                for (int i = 1; i < s.vbo.VertexAttribs.Size.Length; ++i)
+                {
+                    GL.EnableVertexAttribArray(
+                        i + 1); //i+1 because 0 and 1 are always on (for position & texcoords)
+                    GL.VertexAttribPointer(i + 1, s.vbo.VertexAttribs.Size[i],
+                        VertexAttribPointerType.Float, false,
+                        stride, new IntPtr(sizeof(float) * total_of_previous_attribs));
+                    total_of_previous_attribs += s.vbo.VertexAttribs.Size[i];
+                }
+
+                GL.DrawElements(PrimitiveType.Triangles, s.vbo.NumElements,
+                    DrawElementsType.UnsignedInt,
+                    IntPtr.Zero);
+                for (int i = 1; i < s.vbo.VertexAttribs.Size.Length; ++i)
+                {
+                    GL.DisableVertexAttribArray(i + 1);
+                }
+            }
+
+            SwapBuffers();
         }
 
         public void Clear()
@@ -639,7 +616,16 @@ namespace Forays.Renderer
 
         public NextScene ProcessInput()
         {
-            throw new NotImplementedException();
+            ProcessEvents();
+
+            if (Resizing)
+            {
+                //HandleResize();
+                FinalResize?.Invoke();
+                Resizing = false;
+            }
+
+            return NextScene.None;
         }
     }
 }
