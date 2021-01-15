@@ -47,22 +47,24 @@ namespace GLDrawing
         public SurfaceUpdateMethod UpdateOtherDataOnlyMethod = null;
 
 
-        public static Surface Create(OpenTk window_, string texture_filename,
+        public static Surface Create(OpenTk window, string textureFilename,
             bool loadTextureFromEmbeddedResource,
-            string frag_shader, bool has_depth, params int[] vertex_attrib_counts)
+            string fragShader, bool hasDepth, params int[] vertexAttributeCounts)
         {
-            Surface s = new Surface();
-            s.window = window_;
-            int dims = has_depth ? 3 : 2;
-            s.UseDepthBuffer = has_depth;
-            VertexAttributes attribs = VertexAttributes.Create(vertex_attrib_counts);
-            s.VertexBufferObject = VertexBufferObject.Create(dims, attribs);
-            s.texture = Texture.Create(texture_filename, null, loadTextureFromEmbeddedResource);
-            s.shader = Shader.Create(frag_shader);
-            if (window_ != null)
+            var s = new Surface
             {
-                window_.Surfaces.Add(s);
-            }
+                window = window,
+                UseDepthBuffer = hasDepth,
+                // hasDepth ? 3 : 2 - This section of code determine the dimensions
+                // of vertex buffer object.
+                VertexBufferObject = VertexBufferObject.Create(hasDepth ? 3 : 2,
+                    VertexAttributes.Create(vertexAttributeCounts)),
+                texture = Texture.Create(textureFilename, null,
+                    loadTextureFromEmbeddedResource),
+                shader = Shader.Create(fragShader)
+            };
+
+            window?.Surfaces.Add(s);
 
             return s;
         }
