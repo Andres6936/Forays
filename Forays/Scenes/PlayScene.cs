@@ -1044,10 +1044,8 @@ namespace Forays.Scenes
                     break;
                 }
                 case 'd':
-                    Global.Quit();
-                    break;
-                default:
-                    break;
+                    // The user want to exit the application.
+                    return NextScene.Exit;
             }
 
             return NextScene.None;
