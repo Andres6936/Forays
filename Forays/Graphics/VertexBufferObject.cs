@@ -27,6 +27,10 @@ namespace Forays
 
         // Methods Private
 
+        /// <summary>
+        /// Create and return a instance for default of Vertex Buffer Object.
+        /// </summary>
+        /// <returns>Instance for default of Vertex Buffer Object.</returns>
         private static VertexBufferObject Create()
         {
             var vertexBufferObject = new VertexBufferObject();
