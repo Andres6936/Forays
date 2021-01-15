@@ -10,18 +10,11 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
-using Forays.Entity;
-using Forays.Enums;
-using Forays.Loader;
 using Forays.Renderer;
 using Forays.Scenes;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using Utilities;
-using static Nym.NameElement;
-using PosArrays;
 using GLDrawing;
 
 namespace Forays
