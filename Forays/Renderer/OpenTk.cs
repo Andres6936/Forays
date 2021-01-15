@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Forays.Scenes;
 using Forays.Graphics;
 using GLDrawing;
@@ -70,6 +71,17 @@ namespace Forays.Renderer
             KeyUp += KeyUpHandler;
             Keyboard.KeyRepeat = true;
             internalViewport = new Rectangle(0, 0, w, h);
+            Icon = new Icon(Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream(Global.ForaysImageResources + "forays.ico"));
+            ResizingPreference = ResizeOption.SnapWindow;
+            ResizingFullScreenPreference = ResizeOption.AddBorder;
+            FinalResize += InputKey.HandleResize;
+            Closing += InputKey.OnClosing;
+            KeyDown += InputKey.KeyDownHandler;
+            MouseLeave += InputKey.MouseLeaveHandler;
+            Mouse.Move += InputKey.MouseMoveHandler;
+            Mouse.ButtonUp += InputKey.MouseClickHandler;
+            Mouse.WheelChanged += InputKey.MouseWheelHandler;
         }
 
         protected virtual void KeyDownHandler(object sender, KeyboardKeyEventArgs args)

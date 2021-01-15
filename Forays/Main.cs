@@ -101,17 +101,6 @@ namespace Forays
                 int height_px = Global.SCREEN_H * 16;
                 int width_px = Global.SCREEN_W * 8;
                 Screen.gl = new OpenTk(width_px, height_px, "Forays into Norrendrin");
-                Screen.gl.Icon = new System.Drawing.Icon(Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream(Global.ForaysImageResources + "forays.ico"));
-                Screen.gl.ResizingPreference = ResizeOption.SnapWindow;
-                Screen.gl.ResizingFullScreenPreference = ResizeOption.AddBorder;
-                Screen.gl.KeyDown += InputKey.KeyDownHandler;
-                Screen.gl.Mouse.Move += InputKey.MouseMoveHandler;
-                Screen.gl.Mouse.ButtonUp += InputKey.MouseClickHandler;
-                Screen.gl.Mouse.WheelChanged += InputKey.MouseWheelHandler;
-                Screen.gl.MouseLeave += InputKey.MouseLeaveHandler;
-                Screen.gl.Closing += InputKey.OnClosing;
-                Screen.gl.FinalResize += InputKey.HandleResize;
                 Screen.textSurface = Surface.Create(Screen.gl,
                     Global.ForaysImageResources + "font8x16.png", true,
                     Shader.AAFontFS(), false, 2, 4, 4);
