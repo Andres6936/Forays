@@ -6,10 +6,10 @@ namespace Forays
     {
         // Member Variables
 
-        public int PositionArrayBufferID;
-        public int OtherArrayBufferID;
-        public int ElementArrayBufferID;
-        public VertexAttributes VertexAttribs;
+        public int PositionArrayBufferId;
+        public int OtherArrayBufferId;
+        public int ElementArrayBufferId;
+        public VertexAttributes VertexAttributes;
 
         /// <summary>
         /// This value controls whether 2 or 3 values are stored for position.
@@ -30,9 +30,9 @@ namespace Forays
         private static VertexBufferObject Create()
         {
             var vertexBufferObject = new VertexBufferObject();
-            GL.GenBuffers(1, out vertexBufferObject.PositionArrayBufferID);
-            GL.GenBuffers(1, out vertexBufferObject.OtherArrayBufferID);
-            GL.GenBuffers(1, out vertexBufferObject.ElementArrayBufferID);
+            GL.GenBuffers(1, out vertexBufferObject.PositionArrayBufferId);
+            GL.GenBuffers(1, out vertexBufferObject.OtherArrayBufferId);
+            GL.GenBuffers(1, out vertexBufferObject.ElementArrayBufferId);
             return vertexBufferObject;
         }
 
@@ -42,7 +42,7 @@ namespace Forays
         {
             var vertexBufferObject = Create();
             vertexBufferObject.PositionDimensions = positionDimensions;
-            vertexBufferObject.VertexAttribs = attributes;
+            vertexBufferObject.VertexAttributes = attributes;
             return vertexBufferObject;
         }
     }
