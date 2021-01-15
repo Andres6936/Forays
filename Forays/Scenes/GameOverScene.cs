@@ -110,17 +110,18 @@ namespace Forays.Scenes
                         MouseUI.PushButtonMap();
                         Dictionary<Actor, ColorChar> old_ch = new Dictionary<Actor, ColorChar>();
                         List<Actor> drawn = new List<Actor>();
-                        foreach (Actor a in game.map.AllActors())
+                        foreach (Actor a in MapView.Map.AllActors())
                         {
                             if (PlayerView.Player.CanSee(a))
                             {
-                                old_ch.Add(a, game.map.last_seen[a.row, a.col]);
-                                game.map.last_seen[a.row, a.col] = new ColorChar(a.symbol, a.color);
+                                old_ch.Add(a, MapView.Map.last_seen[a.row, a.col]);
+                                MapView.Map.last_seen[a.row, a.col] =
+                                    new ColorChar(a.symbol, a.color);
                                 drawn.Add(a);
                             }
                         }
 
-                        Screen.MapDrawWithStrings(game.map.last_seen, 0, 0, Global.ROWS,
+                        Screen.MapDrawWithStrings(MapView.Map.last_seen, 0, 0, Global.ROWS,
                             Global.COLS);
                         PlayerView.Player.GetTarget(true, -1, -1, true, false, false, "");
                         //game.UI.Display("Press any key to continue. ");
@@ -128,10 +129,10 @@ namespace Forays.Scenes
                         MouseUI.PopButtonMap();
                         foreach (Actor a in drawn)
                         {
-                            game.map.last_seen[a.row, a.col] = old_ch[a];
+                            MapView.Map.last_seen[a.row, a.col] = old_ch[a];
                         }
 
-                        game.map.Redraw();
+                        MapView.Map.Redraw();
                         /*foreach(Tile t in game.M.AllTiles()){
                             if(t.type != TileType.FLOOR && !t.IsTrap()){
                                 bool good = false;
@@ -244,7 +245,7 @@ namespace Forays.Scenes
                         }
 
                         file.WriteLine();
-                        foreach (Tile t in game.map.AllTiles())
+                        foreach (Tile t in MapView.Map.AllTiles())
                         {
                             if (t.type != TileType.FLOOR && !t.IsTrap())
                             {
@@ -266,7 +267,7 @@ namespace Forays.Scenes
 
                         Screen.WriteMapChar(0, 0,
                             '-'); //todo: this was a hack. can now be replaced with the proper Redraw method, I think.
-                        game.map.Draw();
+                        MapView.Map.Draw();
                         int col = 0;
                         foreach (ColorChar cch in Screen.GetCurrentMap())
                         {

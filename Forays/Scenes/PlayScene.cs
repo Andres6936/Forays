@@ -21,7 +21,6 @@ namespace Forays.Scenes
         bool on_highscore_list = false;
         private bool saved_game;
 
-        private Map map;
         public Queue Queue;
         public MessageBuffer MessageBuffer;
 
@@ -97,18 +96,18 @@ namespace Forays.Scenes
                         Actor.spells_in_order = new List<SpellType>();
                     }
 
-                    map = new Map(PlayerView.Player, Queue, MessageBuffer);
+                    MapView.Map = new Map(PlayerView.Player, Queue, MessageBuffer);
                     MessageBuffer = new MessageBuffer(PlayerView.Player);
                     Queue = new Queue(MessageBuffer);
                     Map.Q = Queue;
                     Map.B = MessageBuffer;
-                    PhysicalObject.M = map;
+                    PhysicalObject.M = MapView.Map;
                     PhysicalObject.B = MessageBuffer;
                     PhysicalObject.Q = Queue;
                     PhysicalObject.player = PlayerView.Player;
                     Event.Q = Queue;
                     Event.B = MessageBuffer;
-                    Event.M = map;
+                    Event.M = MapView.Map;
                     Event.player = PlayerView.Player;
                     Fire.fire_event = null;
                     Fire.burning_objects = new List<PhysicalObject>();
@@ -329,8 +328,8 @@ namespace Forays.Scenes
                             Queue.Add(e);
                         }
                         Item.GenerateUnIDedNames();
-                        map.GenerateLevelTypes();
-                        map.GenerateLevel();
+                        MapView.Map.GenerateLevelTypes();
+                        MapView.Map.GenerateLevel();
                         PlayerView.Player.UpdateRadius(0, 6, true);
                         Item.Create(ConsumableType.BANDAGES, PlayerView.Player).other_data = 5;
                         Item.Create(ConsumableType.FLINT_AND_STEEL, PlayerView.Player).other_data =
@@ -356,21 +355,21 @@ namespace Forays.Scenes
                         // 1. Player Name (String)
                         Actor.player_name = binaryLoader.NamePlayer;
                         // 2. Current Level (Int32)
-                        map.currentLevelIdx = binaryLoader.CurrentLevelId;
-                        map.level_types = binaryLoader.LevelTypes;
+                        MapView.Map.currentLevelIdx = binaryLoader.CurrentLevelId;
+                        MapView.Map.level_types = binaryLoader.LevelTypes;
 
                         // 4. Wiz Lite (Boolean)
-                        map.wiz_lite = binaryLoader.WizLite;
+                        MapView.Map.wiz_lite = binaryLoader.WizLite;
                         // 5. Wiz Dark (Boolean)
-                        map.wiz_dark = binaryLoader.WizDark;
-                        map.last_seen = binaryLoader.LastSeen;
+                        MapView.Map.wiz_dark = binaryLoader.WizDark;
+                        MapView.Map.last_seen = binaryLoader.LastSeen;
                         // 9. Final Level Cultist Count (Int32)
-                        map.final_level_cultist_count =
+                        MapView.Map.final_level_cultist_count =
                             binaryLoader.FinalLevelCultistCount;
                         // 10. Final Level Demon Count (Int32)
-                        map.final_level_demon_count = binaryLoader.FinalLevelDemonCount;
+                        MapView.Map.final_level_demon_count = binaryLoader.FinalLevelDemonCount;
                         // 11. Final Level Clock (Int32)
-                        map.final_level_clock = binaryLoader.FinalLevelClock;
+                        MapView.Map.final_level_clock = binaryLoader.FinalLevelClock;
 
                         Actor.feats_in_order = binaryLoader.FeatTypes;
                         Actor.spells_in_order = binaryLoader.SpellTypes;
@@ -381,7 +380,7 @@ namespace Forays.Scenes
                             if (tiebreaker.row >= 0 && tiebreaker.row < Global.ROWS &&
                                 tiebreaker.col >= 0 && tiebreaker.col < Global.COLS)
                             {
-                                map.actor[tiebreaker.row, tiebreaker.col] = tiebreaker;
+                                MapView.Map.actor[tiebreaker.row, tiebreaker.col] = tiebreaker;
                             }
 
                             if (tiebreaker.type == ActorType.PLAYER)
@@ -438,7 +437,7 @@ namespace Forays.Scenes
                             t.row = b.ReadInt32();
                             // 16.3 Column Tile (Int32)
                             t.col = b.ReadInt32();
-                            map.tile[t.row, t.col] = t;
+                            MapView.Map.tile[t.row, t.col] = t;
                             //todo name
                             // 16.4 Symbol Tile (Char)
                             t.symbol = b.ReadChar();
@@ -665,8 +664,8 @@ namespace Forays.Scenes
                         Actor.interrupted_path.row = b.ReadInt32();
                         Actor.interrupted_path.col = b.ReadInt32();
                         UI.viewing_commands_idx = b.ReadInt32();
-                        map.feat_gained_this_level = b.ReadBoolean();
-                        map.extra_danger = b.ReadInt32();
+                        MapView.Map.feat_gained_this_level = b.ReadBoolean();
+                        MapView.Map.extra_danger = b.ReadInt32();
                         int num_unIDed = b.ReadInt32();
                         for (int i = 0; i < num_unIDed; ++i)
                         {
@@ -705,33 +704,33 @@ namespace Forays.Scenes
                             }
                         }
 
-                        map.aesthetics =
+                        MapView.Map.aesthetics =
                             new PosArray<AestheticFeature>(Global.ROWS, Global.COLS);
                         for (int i = 0; i < Global.ROWS; ++i)
                         {
                             for (int j = 0; j < Global.COLS; ++j)
                             {
-                                map.aesthetics[i, j] = (AestheticFeature) b.ReadInt32();
+                                MapView.Map.aesthetics[i, j] = (AestheticFeature) b.ReadInt32();
                             }
                         }
 
-                        map.dungeonDescription = b.ReadString();
+                        MapView.Map.dungeonDescription = b.ReadString();
                         if (b.ReadBoolean())
                         {
                             int numShrines = b.ReadInt32();
-                            map.nextLevelShrines =
+                            MapView.Map.nextLevelShrines =
                                 new List<SchismDungeonGenerator.CellType>();
                             for (int i = 0; i < numShrines; ++i)
                             {
-                                map.nextLevelShrines.Add(
+                                MapView.Map.nextLevelShrines.Add(
                                     (SchismDungeonGenerator.CellType) b.ReadInt32());
                             }
                         }
 
-                        map.shrinesFound = new int[5];
+                        MapView.Map.shrinesFound = new int[5];
                         for (int i = 0; i < 5; ++i)
                         {
-                            map.shrinesFound[i] = b.ReadInt32();
+                            MapView.Map.shrinesFound[i] = b.ReadInt32();
                         }
 
                         Tile.spellbooks_generated = b.ReadInt32();
@@ -756,8 +755,8 @@ namespace Forays.Scenes
                         File.Delete("forays.sav");
                         Tile.Feature(FeatureType.TELEPORTAL).color =
                             Item.Prototype(ConsumableType.TELEPORTAL).color;
-                        map.CalculatePoppyDistanceMap();
-                        map.UpdateDangerValues();
+                        MapView.Map.CalculatePoppyDistanceMap();
+                        MapView.Map.UpdateDangerValues();
                     }
 
                     Screen.NoClose = true;
@@ -790,7 +789,7 @@ namespace Forays.Scenes
                     MouseUI.IgnoreMouseMovement = false;
                     Screen.NoClose = false;
                     Global.SaveOptions();
-                    recentdepth = map.Depth;
+                    recentdepth = MapView.Map.Depth;
                     recentname = Actor.player_name;
                     recentwin = Global.BOSS_KILLED ? 'W' : '-';
                     recentcause = Global.KILLED_BY;
@@ -820,7 +819,7 @@ namespace Forays.Scenes
                                     {
                                         char symbol = Global.BOSS_KILLED ? 'W' : '-';
                                         newhighscores.Add(
-                                            $"{map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
+                                            $"{MapView.Map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
                                         //newhighscores.Add(game.M.current_level.ToString() + " " + symbol + " " + Actor.player_name + " -- " + Global.KILLED_BY);
                                         on_highscore_list = true;
                                     }
@@ -833,14 +832,14 @@ namespace Forays.Scenes
                                 {
                                     string[] tokens = s.Split(' ');
                                     int dlev = Convert.ToInt32(tokens[0]);
-                                    if (dlev < map.Depth ||
-                                        (dlev == map.Depth && Global.BOSS_KILLED))
+                                    if (dlev < MapView.Map.Depth ||
+                                        (dlev == MapView.Map.Depth && Global.BOSS_KILLED))
                                     {
                                         if (!added)
                                         {
                                             char symbol = Global.BOSS_KILLED ? 'W' : '-';
                                             newhighscores.Add(
-                                                $"{map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
+                                                $"{MapView.Map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
                                             //newhighscores.Add(game.M.current_level.ToString() + " " + symbol + " " + Actor.player_name + " -- " + Global.KILLED_BY);
                                             ++num_scores;
                                             added = true;
@@ -869,7 +868,7 @@ namespace Forays.Scenes
                             newhighscores.Add("--");
                             char symbol = Global.BOSS_KILLED ? 'W' : '-';
                             newhighscores.Add(
-                                $"{map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
+                                $"{MapView.Map.Depth} {symbol} {Actor.player_name} -- {Global.KILLED_BY}");
                             //newhighscores.Add(game.M.current_level.ToString() + " " + symbol + " " + Actor.player_name + " -- " + Global.KILLED_BY);
                             newhighscores.Add("--");
                             on_highscore_list = true;
