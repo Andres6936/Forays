@@ -114,7 +114,7 @@ namespace Forays
                 Screen.textSurface.SetDefaultOtherData(new List<float>(Color.Gray.GetFloatValues()),
                     new List<float>(Color.Black.GetFloatValues()));
                 Screen.textSurface.DefaultUpdateOtherData();
-                Screen.gl.Surfaces.Add(Screen.textSurface);
+
                 Screen.cursorSurface = Surface.Create(Screen.gl,
                     Global.ForaysImageResources + "font8x16.png", true,
                     Shader.AAFontFS(), false, 2, 4, 4);
@@ -128,7 +128,7 @@ namespace Forays
                     new List<float>(Color.Black.GetFloatValues()),
                     new List<float>(Color.Gray.GetFloatValues()));
                 Screen.cursorSurface.DefaultUpdateOtherData();
-                Screen.gl.Surfaces.Add(Screen.cursorSurface);
+
                 GL.Enable(EnableCap.Blend);
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 Screen.gl.Visible = true;
