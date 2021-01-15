@@ -50,12 +50,6 @@ namespace GLDrawing
         {
         }
 
-        public static Surface Create(OpenTk window_, string texture_filename,
-            params int[] vertex_attrib_counts)
-        {
-            return Create(window_, texture_filename, false, Shader.DefaultFS(), false,
-                vertex_attrib_counts);
-        }
 
         public static Surface Create(OpenTk window_, string texture_filename,
             bool loadTextureFromEmbeddedResource,
