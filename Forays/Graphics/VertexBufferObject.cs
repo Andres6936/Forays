@@ -4,6 +4,8 @@ namespace Forays
 {
     public class VertexBufferObject
     {
+        // Member Variables
+
         public int PositionArrayBufferID;
         public int OtherArrayBufferID;
         public int ElementArrayBufferID;
@@ -23,7 +25,9 @@ namespace Forays
 
         public int OtherDataSize = 0;
 
-        public static VertexBufferObject Create()
+        // Methods Private
+
+        private static VertexBufferObject Create()
         {
             var vertexBufferObject = new VertexBufferObject();
             GL.GenBuffers(1, out vertexBufferObject.PositionArrayBufferID);
@@ -32,12 +36,11 @@ namespace Forays
             return vertexBufferObject;
         }
 
+        // Methods Public
+
         public static VertexBufferObject Create(int positionDimensions, VertexAttributes attributes)
         {
-            var vertexBufferObject = new VertexBufferObject();
-            GL.GenBuffers(1, out vertexBufferObject.PositionArrayBufferID);
-            GL.GenBuffers(1, out vertexBufferObject.OtherArrayBufferID);
-            GL.GenBuffers(1, out vertexBufferObject.ElementArrayBufferID);
+            var vertexBufferObject = Create();
             vertexBufferObject.PositionDimensions = positionDimensions;
             vertexBufferObject.VertexAttribs = attributes;
             return vertexBufferObject;
