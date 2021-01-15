@@ -24,7 +24,6 @@ namespace Forays.Scenes
         private Map map;
         public Queue Queue;
         public MessageBuffer MessageBuffer;
-        public Actor Player;
 
         // Construct
 
@@ -94,26 +93,23 @@ namespace Forays.Scenes
                     };
                     if (!saved_game)
                     {
-                        Player = new Player(
-                            new Nym.Name("you", noArticles: true, secondPerson: true), 0,
-                            AttrType.HUMANOID_INTELLIGENCE);
                         Actor.feats_in_order = new List<FeatType>();
                         Actor.spells_in_order = new List<SpellType>();
                     }
 
-                    map = new Map(Player, Queue, MessageBuffer);
-                    MessageBuffer = new MessageBuffer(Player);
+                    map = new Map(PlayerView.Player, Queue, MessageBuffer);
+                    MessageBuffer = new MessageBuffer(PlayerView.Player);
                     Queue = new Queue(MessageBuffer);
                     Map.Q = Queue;
                     Map.B = MessageBuffer;
                     PhysicalObject.M = map;
                     PhysicalObject.B = MessageBuffer;
                     PhysicalObject.Q = Queue;
-                    PhysicalObject.player = Player;
+                    PhysicalObject.player = PlayerView.Player;
                     Event.Q = Queue;
                     Event.B = MessageBuffer;
                     Event.M = map;
-                    Event.player = Player;
+                    Event.player = PlayerView.Player;
                     Fire.fire_event = null;
                     Fire.burning_objects = new List<PhysicalObject>();
                     if (!saved_game)
@@ -328,18 +324,19 @@ namespace Forays.Scenes
                         }
 
                         {
-                            Event e = new Event(Player, 0, EventType.MOVE);
+                            Event e = new Event(PlayerView.Player, 0, EventType.MOVE);
                             e.tiebreaker = 0;
                             Queue.Add(e);
                         }
                         Item.GenerateUnIDedNames();
                         map.GenerateLevelTypes();
                         map.GenerateLevel();
-                        Player.UpdateRadius(0, 6, true);
-                        Item.Create(ConsumableType.BANDAGES, Player).other_data = 5;
-                        Item.Create(ConsumableType.FLINT_AND_STEEL, Player).other_data = 3;
-                        Player.inv[0].revealed_by_light = true;
-                        Player.inv[1].revealed_by_light = true;
+                        PlayerView.Player.UpdateRadius(0, 6, true);
+                        Item.Create(ConsumableType.BANDAGES, PlayerView.Player).other_data = 5;
+                        Item.Create(ConsumableType.FLINT_AND_STEEL, PlayerView.Player).other_data =
+                            3;
+                        PlayerView.Player.inv[0].revealed_by_light = true;
+                        PlayerView.Player.inv[1].revealed_by_light = true;
                     }
                     else
                     {
@@ -389,7 +386,7 @@ namespace Forays.Scenes
 
                             if (tiebreaker.type == ActorType.PLAYER)
                             {
-                                Player = tiebreaker;
+                                PlayerView.Player = tiebreaker;
                                 Actor.player = tiebreaker;
                                 Item.player = tiebreaker;
                                 Map.player = tiebreaker;
@@ -642,7 +639,7 @@ namespace Forays.Scenes
                         Queue.turn = game_turn;
                         foreach (Event e in Queue.list)
                         {
-                            if (e.type == EventType.MOVE && e.target == Player)
+                            if (e.type == EventType.MOVE && e.target == PlayerView.Player)
                             {
                                 Queue.current_event = e;
                                 break;

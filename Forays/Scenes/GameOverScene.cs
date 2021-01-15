@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Forays.Entity;
 using Forays.Enums;
 using Utilities;
 
@@ -11,9 +12,10 @@ namespace Forays.Scenes
         public void Draw()
         {
             MouseUI.PushButtonMap();
-            game.Player.attrs[AttrType.BLIND] = 0; //make sure the player can actually view the map
-            game.Player.attrs[AttrType.BURNING] = 0;
-            game.Player.attrs[AttrType.FROZEN] = 0; //...without borders
+            PlayerView.Player.attrs[AttrType.BLIND] =
+                0; //make sure the player can actually view the map
+            PlayerView.Player.attrs[AttrType.BURNING] = 0;
+            PlayerView.Player.attrs[AttrType.FROZEN] = 0; //...without borders
             //game.M.Draw();
             ColorChar[,] mem = null;
             UI.DisplayStats();
@@ -21,7 +23,7 @@ namespace Forays.Scenes
             if (Global.KILLED_BY != "gave up" &&
                 !Help.displayed[TutorialTopic.IdentifiedConsumables])
             {
-                if (game.Player.inv.Where(item =>
+                if (PlayerView.Player.inv.Where(item =>
                         Item.identified[item.type] &&
                         item.Is(ConsumableType.HEALING, ConsumableType.TIME)).Count > 0)
                 {
@@ -44,7 +46,7 @@ namespace Forays.Scenes
                 }
 
                 if (known_count < 2 &&
-                    game.Player.inv.Where(item => !Item.identified[item.type]).Count > 2)
+                    PlayerView.Player.inv.Where(item => !Item.identified[item.type]).Count > 2)
                 {
                     Help.TutorialTip(TutorialTopic.UnidentifiedConsumables);
                     Global.SaveOptions();
@@ -58,7 +60,7 @@ namespace Forays.Scenes
             }
 
             List<string> postMortemInventoryList = new List<string>();
-            foreach (Item i in game.Player.inv)
+            foreach (Item i in PlayerView.Player.inv)
             {
                 if (i.ItemClass == ConsumableClass.WAND) i.other_data = -1;
                 if (knownAtTimeOfDeath[i.type])
@@ -94,10 +96,11 @@ namespace Forays.Scenes
                     Screen.MapDrawWithStrings(mem, 0, 0, Global.ROWS, Global.COLS);
                 }
 
-                game.Player.Select("Would you like to examine your character! ",
+                PlayerView.Player.Select("Would you like to examine your character! ",
                     "".PadRight(Global.COLS),
                     "".PadRight(Global.COLS), ls, true, false, false);
-                int sel = game.Player.GetSelection("Would you like to examine your character? ",
+                int sel = PlayerView.Player.GetSelection(
+                    "Would you like to examine your character? ",
                     ls.Count, true, false,
                     false);
                 mem = Screen.GetCurrentMap();
@@ -109,7 +112,7 @@ namespace Forays.Scenes
                         List<Actor> drawn = new List<Actor>();
                         foreach (Actor a in game.map.AllActors())
                         {
-                            if (game.Player.CanSee(a))
+                            if (PlayerView.Player.CanSee(a))
                             {
                                 old_ch.Add(a, game.map.last_seen[a.row, a.col]);
                                 game.map.last_seen[a.row, a.col] = new ColorChar(a.symbol, a.color);
@@ -119,7 +122,7 @@ namespace Forays.Scenes
 
                         Screen.MapDrawWithStrings(game.map.last_seen, 0, 0, Global.ROWS,
                             Global.COLS);
-                        game.Player.GetTarget(true, -1, -1, true, false, false, "");
+                        PlayerView.Player.GetTarget(true, -1, -1, true, false, false, "");
                         //game.UI.Display("Press any key to continue. ");
                         //Input.ReadKey();
                         MouseUI.PopButtonMap();
@@ -164,7 +167,8 @@ namespace Forays.Scenes
                         }
 
                         MouseUI.AutomaticButtonsFromStrings = false;
-                        game.Player.Select("In your pack: ", postMortemInventoryList, true, false,
+                        PlayerView.Player.Select("In your pack: ", postMortemInventoryList, true,
+                            false,
                             false);
                         Input.ReadKey();
                         MouseUI.PopButtonMap();
@@ -322,12 +326,11 @@ namespace Forays.Scenes
 
         public void Clear()
         {
-            throw new System.NotImplementedException();
         }
 
         public NextScene ProcessInput()
         {
-            throw new System.NotImplementedException();
+            return NextScene.None;
         }
     }
 }
