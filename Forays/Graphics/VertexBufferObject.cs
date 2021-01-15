@@ -9,14 +9,17 @@ namespace Forays
         public int ElementArrayBufferID;
         public VertexAttributes VertexAttribs;
 
-        public int
-            PositionDimensions =
-                2; //this value controls whether 2 or 3 values are stored for position.
+        /// <summary>
+        /// This value controls whether 2 or 3 values are stored for position.
+        /// </summary>
+        public int PositionDimensions = 2;
 
         public int NumElements = 0;
 
-        public int
-            PositionDataSize = 0; //these 2 values track the number of float values in the VBOs.
+        /// <summary>
+        /// These 2 values track the number of float values in the VBOs.
+        /// </summary>
+        public int PositionDataSize = 0;
 
         public int OtherDataSize = 0;
 
