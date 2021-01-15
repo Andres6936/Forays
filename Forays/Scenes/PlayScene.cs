@@ -13,15 +13,14 @@ namespace Forays.Scenes
     {
         // Member Variable
 
-        ConsoleKeyInfo command;
-        string recentname = "".PadRight(30);
-        int recentdepth = -1;
-        char recentwin = '-';
-        string recentcause = "";
-        bool on_highscore_list = false;
+        private int recentdepth = -1;
+        private char recentwin = '-';
         private bool saved_game;
-
-        public Queue Queue;
+        private bool on_highscore_list = false;
+        private string recentcause = "";
+        private string recentname = "".PadRight(30);
+        private Queue Queue;
+        private ConsoleKeyInfo command;
 
         // Construct
 
