@@ -571,15 +571,15 @@ namespace Forays.Renderer
                 GL.VertexAttribPointer(1, s.vbo.VertexAttribs.Size[0],
                     VertexAttribPointerType.Float, false, stride,
                     new IntPtr(0)); //texcoords
-                int total_of_previous_attribs = s.vbo.VertexAttribs.Size[0];
+                int totalOfPreviousAttribs = s.vbo.VertexAttribs.Size[0];
                 for (int i = 1; i < s.vbo.VertexAttribs.Size.Length; ++i)
                 {
                     GL.EnableVertexAttribArray(
                         i + 1); //i+1 because 0 and 1 are always on (for position & texcoords)
                     GL.VertexAttribPointer(i + 1, s.vbo.VertexAttribs.Size[i],
                         VertexAttribPointerType.Float, false,
-                        stride, new IntPtr(sizeof(float) * total_of_previous_attribs));
-                    total_of_previous_attribs += s.vbo.VertexAttribs.Size[i];
+                        stride, new IntPtr(sizeof(float) * totalOfPreviousAttribs));
+                    totalOfPreviousAttribs += s.vbo.VertexAttribs.Size[i];
                 }
 
                 GL.DrawElements(PrimitiveType.Triangles, s.vbo.NumElements,
