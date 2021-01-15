@@ -89,7 +89,7 @@ namespace Forays.Scenes
         {
             Input.ReadKey(false);
             Screen.gl.Surfaces.Remove(logo);
-            return NextScene.Exit;
+            return NextScene.Play;
         }
     }
 }
