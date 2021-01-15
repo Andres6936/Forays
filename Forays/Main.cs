@@ -16,6 +16,7 @@ using Forays.Entity;
 using Forays.Enums;
 using Forays.Loader;
 using Forays.Renderer;
+using Forays.Scenes;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Utilities;
@@ -62,17 +63,22 @@ namespace Forays
                 if (Global.LINUX)
                 {
                     Screen.CursorVisible = false;
-                    Screen.SetCursorPosition(0, 0); //todo: this should still work fine but it's worth a verification.
-                    if (Console.BufferWidth < Global.SCREEN_W || Console.BufferHeight < Global.SCREEN_H)
+                    Screen.SetCursorPosition(0,
+                        0); //todo: this should still work fine but it's worth a verification.
+                    if (Console.BufferWidth < Global.SCREEN_W ||
+                        Console.BufferHeight < Global.SCREEN_H)
                     {
-                        Console.Write("Please resize your terminal to {0}x{1}, then press any key.", Global.SCREEN_W,
+                        Console.Write("Please resize your terminal to {0}x{1}, then press any key.",
+                            Global.SCREEN_W,
                             Global.SCREEN_H);
                         Screen.SetCursorPosition(0, 1);
-                        Console.Write("         Current dimensions are {0}x{1}.".PadRight(57), Console.BufferWidth,
+                        Console.Write("         Current dimensions are {0}x{1}.".PadRight(57),
+                            Console.BufferWidth,
                             Console.BufferHeight);
                         Input.ReadKey(false);
                         Screen.SetCursorPosition(0, 0);
-                        if (Console.BufferWidth < Global.SCREEN_W || Console.BufferHeight < Global.SCREEN_H)
+                        if (Console.BufferWidth < Global.SCREEN_W ||
+                            Console.BufferHeight < Global.SCREEN_H)
                         {
                             Screen.CursorVisible = true;
                             Environment.Exit(0);
@@ -118,10 +124,12 @@ namespace Forays
                 Screen.gl.MouseLeave += Input.MouseLeaveHandler;
                 Screen.gl.Closing += Input.OnClosing;
                 Screen.gl.FinalResize += Input.HandleResize;
-                Screen.textSurface = Surface.Create(Screen.gl, Global.ForaysImageResources + "font8x16.png", true,
+                Screen.textSurface = Surface.Create(Screen.gl,
+                    Global.ForaysImageResources + "font8x16.png", true,
                     Shader.AAFontFS(), false, 2, 4, 4);
                 SpriteType.DefineSingleRowSprite(Screen.textSurface, 8, 1);
-                CellLayout.CreateGrid(Screen.textSurface, Global.SCREEN_H, Global.SCREEN_W, 16, 8, 0, 0);
+                CellLayout.CreateGrid(Screen.textSurface, Global.SCREEN_H, Global.SCREEN_W, 16, 8,
+                    0, 0);
                 Screen.textSurface.SetEasyLayoutCounts(Global.SCREEN_H * Global.SCREEN_W);
                 Screen.textSurface.DefaultUpdatePositions();
                 Screen.textSurface.SetDefaultSpriteType(0);
@@ -130,7 +138,8 @@ namespace Forays
                     new List<float>(Color.Black.GetFloatValues()));
                 Screen.textSurface.DefaultUpdateOtherData();
                 Screen.gl.Surfaces.Add(Screen.textSurface);
-                Screen.cursorSurface = Surface.Create(Screen.gl, Global.ForaysImageResources + "font8x16.png", true,
+                Screen.cursorSurface = Surface.Create(Screen.gl,
+                    Global.ForaysImageResources + "font8x16.png", true,
                     Shader.AAFontFS(), false, 2, 4, 4);
                 Screen.cursorSurface.texture = Screen.textSurface.texture;
                 CellLayout.CreateGrid(Screen.cursorSurface, 1, 1, 2, 8, 0, 0);
@@ -138,7 +147,8 @@ namespace Forays
                 Screen.cursorSurface.DefaultUpdatePositions();
                 Screen.cursorSurface.SetDefaultSpriteType(0);
                 Screen.cursorSurface.SetDefaultSprite(32);
-                Screen.cursorSurface.SetDefaultOtherData(new List<float>(Color.Black.GetFloatValues()),
+                Screen.cursorSurface.SetDefaultOtherData(
+                    new List<float>(Color.Black.GetFloatValues()),
                     new List<float>(Color.Gray.GetFloatValues()));
                 Screen.cursorSurface.DefaultUpdateOtherData();
                 Screen.gl.Surfaces.Add(Screen.cursorSurface);
@@ -153,6 +163,16 @@ namespace Forays
             Nym.Verbs.Register("feel",
                 "looks"); //Useful for generating messages like "You feel stronger" / "The foo looks stronger".
             Input.LoadKeyRebindings();
+
+            var manager = new SceneManager();
+
+            while (manager.IsRunning())
+            {
+                manager.Clear();
+                manager.Draw();
+                manager.ProcessInput();
+            }
+
             TitleScreen();
             MainMenu();
         }
@@ -163,18 +183,22 @@ namespace Forays
             {
                 const int logoW = 512;
                 const int logoH = 412;
-                Surface logo = Surface.Create(Screen.gl, Global.ForaysImageResources + "logo.png", true,
+                Surface logo = Surface.Create(Screen.gl, Global.ForaysImageResources + "logo.png",
+                    true,
                     Shader.DefaultFS(), false, 2);
                 SpriteType.DefineSingleRowSprite(logo, logoW);
-                CellLayout.CreateGrid(logo, 1, 1, logoH, logoW, (Screen.gl.ClientRectangle.Height - logoH) / 16,
+                CellLayout.CreateGrid(logo, 1, 1, logoH, logoW,
+                    (Screen.gl.ClientRectangle.Height - logoH) / 16,
                     (Screen.gl.ClientRectangle.Width - logoW) / 2);
                 logo.SetEasyLayoutCounts(1);
                 logo.SetDefaultSpriteType(0);
                 logo.SetDefaultSprite(0);
                 logo.DefaultUpdate();
-                Screen.WriteString(Global.SCREEN_H - 2, Global.SCREEN_W - 14, "version " + Global.VERSION + " ",
+                Screen.WriteString(Global.SCREEN_H - 2, Global.SCREEN_W - 14,
+                    "version " + Global.VERSION + " ",
                     Color.DarkGray);
-                Screen.WriteString(Global.SCREEN_H - 1, Global.SCREEN_W - 19, "by Derrick Creamer ", Color.DarkGray);
+                Screen.WriteString(Global.SCREEN_H - 1, Global.SCREEN_W - 19, "by Derrick Creamer ",
+                    Color.DarkGray);
                 Screen.WriteString(Global.SCREEN_H - 1, 0, "logo by Soundlust", Color.DarkerGray);
                 Input.ReadKey(false);
                 Screen.gl.Surfaces.Remove(logo);
@@ -191,11 +215,13 @@ namespace Forays
                             const int col_offset = 19;
                             if (Global.title[0][i][j] == '#' && (!Global.LINUX || Screen.GLMode))
                             {
-                                Screen.WriteChar(i + row_offset, j + col_offset, ' ', Color.Black, Color.Yellow);
+                                Screen.WriteChar(i + row_offset, j + col_offset, ' ', Color.Black,
+                                    Color.Yellow);
                             }
                             else
                             {
-                                Screen.WriteChar(i + row_offset, j + col_offset, Global.title[0][i][j], Color.Yellow);
+                                Screen.WriteChar(i + row_offset, j + col_offset,
+                                    Global.title[0][i][j], Color.Yellow);
                             }
                         }
                     }
@@ -209,9 +235,11 @@ namespace Forays
                     }
                 }
 
-                Screen.WriteString(Global.SCREEN_H - 3, Global.SCREEN_W - 14, "version " + Global.VERSION + " ",
+                Screen.WriteString(Global.SCREEN_H - 3, Global.SCREEN_W - 14,
+                    "version " + Global.VERSION + " ",
                     Color.DarkGray);
-                Screen.WriteString(Global.SCREEN_H - 2, Global.SCREEN_W - 19, "by Derrick Creamer ", Color.DarkGray);
+                Screen.WriteString(Global.SCREEN_H - 2, Global.SCREEN_W - 19, "by Derrick Creamer ",
+                    Color.DarkGray);
                 Input.ReadKey(false);
             }
         }
@@ -229,7 +257,8 @@ namespace Forays
             {
                 Screen.Blank();
                 int row = 8;
-                int col = (Global.SCREEN_W - 28) / 2; //centering "Forays into Norrendrin x.y.z", which is 28 chars.
+                int col = (Global.SCREEN_W - 28) /
+                          2; //centering "Forays into Norrendrin x.y.z", which is 28 chars.
                 Screen.WriteString(row++, col,
                     new ColorString("Forays into Norrendrin " + Global.VERSION, Color.Yellow));
                 Screen.WriteString(row++, col, new ColorString("".PadRight(28, '-'), Color.Green));
@@ -250,8 +279,10 @@ namespace Forays
                 Screen.WriteString(row++, col, "[d] Quit");
                 for (int i = 0; i < 4; ++i)
                 {
-                    Screen.WriteChar(i + row - 4, col + 1, new ColorChar(Color.Cyan, (char) (i + 'a')));
-                    MouseUI.CreateButton((ConsoleKey) (i + ConsoleKey.A), false, i + row - 4, 0, 1, Global.SCREEN_W);
+                    Screen.WriteChar(i + row - 4, col + 1,
+                        new ColorChar(Color.Cyan, (char) (i + 'a')));
+                    MouseUI.CreateButton((ConsoleKey) (i + ConsoleKey.A), false, i + row - 4, 0, 1,
+                        Global.SCREEN_W);
                 }
 
                 Screen.ResetColors();
@@ -267,10 +298,13 @@ namespace Forays
                         Global.LoadOptions();
                         Game game = new Game();
                         Actor.attack[ActorType.PLAYER] = new List<AttackInfo>
-                            {new AttackInfo(100, 2, AttackEffect.NO_CRIT, "& hit *", "& miss *", "")};
+                        {
+                            new AttackInfo(100, 2, AttackEffect.NO_CRIT, "& hit *", "& miss *", "")
+                        };
                         if (!saved_game)
                         {
-                            game.Player = new Player(new Nym.Name("you", noArticles: true, secondPerson: true), 0,
+                            game.Player = new Player(
+                                new Nym.Name("you", noArticles: true, secondPerson: true), 0,
                                 AttrType.HUMANOID_INTELLIGENCE);
                             Actor.feats_in_order = new List<FeatType>();
                             Actor.spells_in_order = new List<SpellType>();
@@ -313,7 +347,8 @@ namespace Forays
                                     num = Convert.ToInt32(file.ReadLine());
                                     if (num > 1)
                                     {
-                                        Actor.player_name = Actor.player_name + " " + Global.RomanNumeral(num);
+                                        Actor.player_name =
+                                            Actor.player_name + " " + Global.RomanNumeral(num);
                                     }
                                 }
 
@@ -366,15 +401,18 @@ namespace Forays
                                             option_color = Color.White;
                                         }
 
-                                        Screen.WriteMapString(15 + i, c, name_options[i], option_color);
+                                        Screen.WriteMapString(15 + i, c, name_options[i],
+                                            option_color);
                                     }
 
                                     Screen.WriteMapString(20, c,
-                                        "(Press [Tab] to change naming preference)".GetColorString());
+                                        "(Press [Tab] to change naming preference)"
+                                            .GetColorString());
                                     if (name_option != 0)
                                     {
                                         Screen.WriteMapString(22, c - 5,
-                                            "(To stop naming characters automatically, delete name.txt)", Color.Green);
+                                            "(To stop naming characters automatically, delete name.txt)",
+                                            Color.Green);
                                     }
                                     else
                                     {
@@ -382,22 +420,30 @@ namespace Forays
                                     }
 
                                     Screen.WriteMapString(4, c + 12, s.PadRight(26));
-                                    Screen.SetCursorPosition(c + Global.MAP_OFFSET_COLS + 12 + s.Length,
+                                    Screen.SetCursorPosition(
+                                        c + Global.MAP_OFFSET_COLS + 12 + s.Length,
                                         Global.MAP_OFFSET_ROWS + 4);
-                                    MouseUI.CreateButton(ConsoleKey.Enter, false, 6 + Global.MAP_OFFSET_ROWS, 0, 1,
+                                    MouseUI.CreateButton(ConsoleKey.Enter, false,
+                                        6 + Global.MAP_OFFSET_ROWS, 0, 1,
                                         Global.SCREEN_W);
-                                    MouseUI.CreateButton(ConsoleKey.Tab, false, 20 + Global.MAP_OFFSET_ROWS, 0, 1,
+                                    MouseUI.CreateButton(ConsoleKey.Tab, false,
+                                        20 + Global.MAP_OFFSET_ROWS, 0, 1,
                                         Global.SCREEN_W);
-                                    MouseUI.CreateButton(ConsoleKey.F21, false, 15 + Global.MAP_OFFSET_ROWS, 0, 1,
+                                    MouseUI.CreateButton(ConsoleKey.F21, false,
+                                        15 + Global.MAP_OFFSET_ROWS, 0, 1,
                                         Global.SCREEN_W);
-                                    MouseUI.CreateButton(ConsoleKey.F22, false, 16 + Global.MAP_OFFSET_ROWS, 0, 1,
+                                    MouseUI.CreateButton(ConsoleKey.F22, false,
+                                        16 + Global.MAP_OFFSET_ROWS, 0, 1,
                                         Global.SCREEN_W);
-                                    MouseUI.CreateButton(ConsoleKey.F23, false, 17 + Global.MAP_OFFSET_ROWS, 0, 1,
+                                    MouseUI.CreateButton(ConsoleKey.F23, false,
+                                        17 + Global.MAP_OFFSET_ROWS, 0, 1,
                                         Global.SCREEN_W);
-                                    MouseUI.CreateButton(ConsoleKey.F24, false, 18 + Global.MAP_OFFSET_ROWS, 0, 1,
+                                    MouseUI.CreateButton(ConsoleKey.F24, false,
+                                        18 + Global.MAP_OFFSET_ROWS, 0, 1,
                                         Global.SCREEN_W);
                                     command = Input.ReadKey();
-                                    if ((command.KeyChar >= '!' && command.KeyChar <= '~') || command.KeyChar == ' ')
+                                    if ((command.KeyChar >= '!' && command.KeyChar <= '~') ||
+                                        command.KeyChar == ' ')
                                     {
                                         if (s.Length < 26)
                                         {
@@ -531,7 +577,8 @@ namespace Forays
                             game.map.wiz_dark = binaryLoader.WizDark;
                             game.map.last_seen = binaryLoader.LastSeen;
                             // 9. Final Level Cultist Count (Int32)
-                            game.map.final_level_cultist_count = binaryLoader.FinalLevelCultistCount;
+                            game.map.final_level_cultist_count =
+                                binaryLoader.FinalLevelCultistCount;
                             // 10. Final Level Demon Count (Int32)
                             game.map.final_level_demon_count = binaryLoader.FinalLevelDemonCount;
                             // 11. Final Level Clock (Int32)
@@ -739,7 +786,8 @@ namespace Forays
                                     }
                                     else
                                     {
-                                        throw new Exception("Error: some tiles/actors weren't loaded(4). ");
+                                        throw new Exception(
+                                            "Error: some tiles/actors weren't loaded(4). ");
                                     }
                                 }
 
@@ -758,7 +806,8 @@ namespace Forays
                                     }
                                     else
                                     {
-                                        throw new Exception("Error: some tiles weren't loaded(5). ");
+                                        throw new Exception(
+                                            "Error: some tiles weren't loaded(5). ");
                                     }
                                 }
 
@@ -784,7 +833,8 @@ namespace Forays
                                     }
                                     else
                                     {
-                                        throw new Exception("Error: some actors/tiles weren't loaded(6). ");
+                                        throw new Exception(
+                                            "Error: some actors/tiles weren't loaded(6). ");
                                     }
                                 }
 
@@ -862,11 +912,13 @@ namespace Forays
                                 }
                                 else
                                 {
-                                    throw new Exception("Error: some actors/tiles weren't loaded(7). ");
+                                    throw new Exception(
+                                        "Error: some actors/tiles weren't loaded(7). ");
                                 }
                             }
 
-                            game.map.aesthetics = new PosArray<AestheticFeature>(Global.ROWS, Global.COLS);
+                            game.map.aesthetics =
+                                new PosArray<AestheticFeature>(Global.ROWS, Global.COLS);
                             for (int i = 0; i < Global.ROWS; ++i)
                             {
                                 for (int j = 0; j < Global.COLS; ++j)
@@ -879,10 +931,12 @@ namespace Forays
                             if (b.ReadBoolean())
                             {
                                 int numShrines = b.ReadInt32();
-                                game.map.nextLevelShrines = new List<SchismDungeonGenerator.CellType>();
+                                game.map.nextLevelShrines =
+                                    new List<SchismDungeonGenerator.CellType>();
                                 for (int i = 0; i < numShrines; ++i)
                                 {
-                                    game.map.nextLevelShrines.Add((SchismDungeonGenerator.CellType) b.ReadInt32());
+                                    game.map.nextLevelShrines.Add(
+                                        (SchismDungeonGenerator.CellType) b.ReadInt32());
                                 }
                             }
 
@@ -907,7 +961,8 @@ namespace Forays
                             }
 
                             int message_pos = b.ReadInt32();
-                            game.MessageBuffer.LoadMessagesAndPosition(messages, message_pos, num_messages);
+                            game.MessageBuffer.LoadMessagesAndPosition(messages, message_pos,
+                                num_messages);
                             b.Close();
                             file.Close();
                             File.Delete("forays.sav");
@@ -990,7 +1045,8 @@ namespace Forays
                                     {
                                         string[] tokens = s.Split(' ');
                                         int dlev = Convert.ToInt32(tokens[0]);
-                                        if (dlev < game.map.Depth || (dlev == game.map.Depth && Global.BOSS_KILLED))
+                                        if (dlev < game.map.Depth ||
+                                            (dlev == game.map.Depth && Global.BOSS_KILLED))
                                         {
                                             if (!added)
                                             {
@@ -1096,10 +1152,12 @@ namespace Forays
 
                             file.Close();
                         }
-                        if (scores.Count == Global.HIGH_SCORES && !on_highscore_list && recentdepth != -1)
+                        if (scores.Count == Global.HIGH_SCORES && !on_highscore_list &&
+                            recentdepth != -1)
                         {
                             scores.RemoveLast();
-                            scores.Add(recentdepth.ToString() + " " + recentwin + " " + recentname + " -- " +
+                            scores.Add(recentdepth.ToString() + " " + recentwin + " " + recentname +
+                                       " -- " +
                                        recentcause);
                         }
 
@@ -1134,15 +1192,20 @@ namespace Forays
                         int spaces3 = half_spaces_offset - (half_spaces_offset / 4);
                         int name_middle = spaces1 + longest_name / 2;
                         int depth_middle = spaces1 + spaces2 + longest_name + 1;
-                        int cause_middle = spaces1 + spaces2 + spaces3 + longest_name + 4 + (longest_cause - 1) / 2;
+                        int cause_middle = spaces1 + spaces2 + spaces3 + longest_name + 4 +
+                                           (longest_cause - 1) / 2;
                         Color primary = Color.Green;
                         Color recent = Color.Cyan;
                         Screen.WriteString(0, (Global.SCREEN_W - 11) / 2,
-                            new ColorString("HIGH SCORES", Color.Yellow)); //"HIGH SCORES" has width 11
-                        Screen.WriteString(1, (Global.SCREEN_W - 11) / 2, new ColorString("-----------", Color.Cyan));
-                        Screen.WriteString(2, name_middle - 4, new ColorString("Character", primary));
+                            new ColorString("HIGH SCORES",
+                                Color.Yellow)); //"HIGH SCORES" has width 11
+                        Screen.WriteString(1, (Global.SCREEN_W - 11) / 2,
+                            new ColorString("-----------", Color.Cyan));
+                        Screen.WriteString(2, name_middle - 4,
+                            new ColorString("Character", primary));
                         Screen.WriteString(2, depth_middle - 2, new ColorString("Depth", primary));
-                        Screen.WriteString(2, cause_middle - 6, new ColorString("Cause of death", primary));
+                        Screen.WriteString(2, cause_middle - 6,
+                            new ColorString("Cause of death", primary));
                         bool written_recent = false;
                         int line = 3;
                         foreach (string s in scores)
@@ -1160,9 +1223,11 @@ namespace Forays
                             string name = name_and_cause_of_death.Substring(0, idx);
                             string cause_of_death = name_and_cause_of_death.Substring(idx + 4);
                             string cause_capitalized =
-                                cause_of_death.Substring(0, 1).ToUpper() + cause_of_death.Substring(1);
+                                cause_of_death.Substring(0, 1).ToUpper() +
+                                cause_of_death.Substring(1);
                             Color current_color = Color.White;
-                            if (!written_recent && name == recentname && dlev == recentdepth && winning == recentwin &&
+                            if (!written_recent && name == recentname && dlev == recentdepth &&
+                                winning == recentwin &&
                                 cause_of_death == recentcause)
                             {
                                 current_color = recent;
@@ -1215,10 +1280,12 @@ namespace Forays
             ColorChar[,] mem = null;
             UI.DisplayStats();
             bool showed_IDed_tip = false;
-            if (Global.KILLED_BY != "gave up" && !Help.displayed[TutorialTopic.IdentifiedConsumables])
+            if (Global.KILLED_BY != "gave up" &&
+                !Help.displayed[TutorialTopic.IdentifiedConsumables])
             {
                 if (game.Player.inv.Where(item =>
-                        Item.identified[item.type] && item.Is(ConsumableType.HEALING, ConsumableType.TIME)).Count > 0)
+                        Item.identified[item.type] &&
+                        item.Is(ConsumableType.HEALING, ConsumableType.TIME)).Count > 0)
                 {
                     Help.TutorialTip(TutorialTopic.IdentifiedConsumables);
                     Global.SaveOptions();
@@ -1238,7 +1305,8 @@ namespace Forays
                     }
                 }
 
-                if (known_count < 2 && game.Player.inv.Where(item => !Item.identified[item.type]).Count > 2)
+                if (known_count < 2 &&
+                    game.Player.inv.Where(item => !Item.identified[item.type]).Count > 2)
                 {
                     Help.TutorialTip(TutorialTopic.UnidentifiedConsumables);
                     Global.SaveOptions();
@@ -1288,9 +1356,11 @@ namespace Forays
                     Screen.MapDrawWithStrings(mem, 0, 0, Global.ROWS, Global.COLS);
                 }
 
-                game.Player.Select("Would you like to examine your character! ", "".PadRight(Global.COLS),
+                game.Player.Select("Would you like to examine your character! ",
+                    "".PadRight(Global.COLS),
                     "".PadRight(Global.COLS), ls, true, false, false);
-                int sel = game.Player.GetSelection("Would you like to examine your character? ", ls.Count, true, false,
+                int sel = game.Player.GetSelection("Would you like to examine your character? ",
+                    ls.Count, true, false,
                     false);
                 mem = Screen.GetCurrentMap();
                 switch (sel)
@@ -1309,7 +1379,8 @@ namespace Forays
                             }
                         }
 
-                        Screen.MapDrawWithStrings(game.map.last_seen, 0, 0, Global.ROWS, Global.COLS);
+                        Screen.MapDrawWithStrings(game.map.last_seen, 0, 0, Global.ROWS,
+                            Global.COLS);
                         game.Player.GetTarget(true, -1, -1, true, false, false, "");
                         //game.UI.Display("Press any key to continue. ");
                         //Input.ReadKey();
@@ -1355,7 +1426,8 @@ namespace Forays
                         }
 
                         MouseUI.AutomaticButtonsFromStrings = false;
-                        game.Player.Select("In your pack: ", postMortemInventoryList, true, false, false);
+                        game.Player.Select("In your pack: ", postMortemInventoryList, true, false,
+                            false);
                         Input.ReadKey();
                         MouseUI.PopButtonMap();
                         break;
