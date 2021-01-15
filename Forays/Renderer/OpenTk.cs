@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
+using Forays.Scenes;
 using GLDrawing;
 using OpenTK;
 using OpenTK.Graphics;
@@ -606,6 +607,21 @@ namespace Forays.Renderer
                 new IntPtr(sizeof(float) * a4), values);
         }
 
+        public bool IsRunning()
+        {
+            return !IsExiting;
+        }
+
+        public void Draw()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
         public void WriteString(int x, int y, string text)
         {
             throw new NotImplementedException();
@@ -617,6 +633,11 @@ namespace Forays.Renderer
         }
 
         public void WriteString(int x, int y, string text, Color foreground, Color background)
+        {
+            throw new NotImplementedException();
+        }
+
+        public NextScene ProcessInput()
         {
             throw new NotImplementedException();
         }
