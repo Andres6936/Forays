@@ -30,7 +30,7 @@ namespace GLDrawing
     public class Surface
     {
         public OpenTk window;
-        public VBO vbo;
+        public VertexBufferObject VertexBufferObject;
         public Texture texture;
         public Shader shader;
         public List<CellLayout> layouts = new List<CellLayout>();
@@ -49,9 +49,11 @@ namespace GLDrawing
         {
         }
 
-        public static Surface Create(OpenTk window_, string texture_filename, params int[] vertex_attrib_counts)
+        public static Surface Create(OpenTk window_, string texture_filename,
+            params int[] vertex_attrib_counts)
         {
-            return Create(window_, texture_filename, false, Shader.DefaultFS(), false, vertex_attrib_counts);
+            return Create(window_, texture_filename, false, Shader.DefaultFS(), false,
+                vertex_attrib_counts);
         }
 
         public static Surface Create(OpenTk window_, string texture_filename,
@@ -63,7 +65,7 @@ namespace GLDrawing
             int dims = has_depth ? 3 : 2;
             s.UseDepthBuffer = has_depth;
             VertexAttributes attribs = VertexAttributes.Create(vertex_attrib_counts);
-            s.vbo = VBO.Create(dims, attribs);
+            s.VertexBufferObject = VertexBufferObject.Create(dims, attribs);
             s.texture = Texture.Create(texture_filename, null, loadTextureFromEmbeddedResource);
             s.shader = Shader.Create(frag_shader);
             if (window_ != null)
@@ -125,11 +127,13 @@ namespace GLDrawing
             if (counts_per_layout.GetLength(0) != layouts.Count)
             {
                 throw new ArgumentException("SetEasyLayoutCounts: Number of arguments (" +
-                                            counts_per_layout.GetLength(0) + ") must match number of layouts (" +
+                                            counts_per_layout.GetLength(0) +
+                                            ") must match number of layouts (" +
                                             layouts.Count + ").");
             }
 
-            defaults.positions = new List<int>(); //this method creates the default lists used by Update()
+            defaults.positions =
+                new List<int>(); //this method creates the default lists used by Update()
             defaults.layouts = new List<int>();
             int idx = 0;
             foreach (int count in counts_per_layout)

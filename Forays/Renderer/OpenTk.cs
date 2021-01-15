@@ -244,27 +244,28 @@ namespace Forays.Renderer
 
             float[] values =
                 new float[count * 4 *
-                          s.vbo
+                          s.VertexBufferObject
                               .PositionDimensions]; //2 or 3 dimensions for 4 vertices for each tile
             int[] indices = null;
-            if (start_index < 0 && s.vbo.NumElements != count * 6)
+            if (start_index < 0 && s.VertexBufferObject.NumElements != count * 6)
             {
                 indices = new int[count * 6];
-                s.vbo.NumElements = count * 6;
+                s.VertexBufferObject.NumElements = count * 6;
             }
             else
             {
                 if (start_index >= 0)
                 {
-                    if ((start_index + count) * 6 > s.vbo.NumElements && s.vbo.NumElements > 0)
+                    if ((start_index + count) * 6 > s.VertexBufferObject.NumElements &&
+                        s.VertexBufferObject.NumElements > 0)
                     {
                         throw new ArgumentException(
                             "Error: start_index + count is bigger than VBO size. To always replace the previous data, set start_index to -1.");
                     } //todo: I could also just ignore the start_index if there's too much data.
 
-                    if ((start_index + count) * 4 * s.vbo.PositionDimensions >
-                        s.vbo.PositionDataSize &&
-                        s.vbo.PositionDataSize > 0)
+                    if ((start_index + count) * 4 * s.VertexBufferObject.PositionDimensions >
+                        s.VertexBufferObject.PositionDataSize &&
+                        s.VertexBufferObject.PositionDataSize > 0)
                     {
                         throw new ArgumentException(
                             "Error: (start_index + count) * total_attrib_size is bigger than VBO size. To always replace the previous data, set start_index to -1.");
@@ -288,7 +289,7 @@ namespace Forays.Renderer
                 float x_plus1 = (cellx + x_w) * width_ratio - 1.0f;
                 float y_plus1 = (celly + y_h) * height_ratio - 1.0f;
 
-                int N = s.vbo.PositionDimensions;
+                int N = s.VertexBufferObject.PositionDimensions;
                 int idxN = current_total * 4 * N;
 
                 values[idxN] = x; //the 4 corners, flipped so it works with the inverted Y axis
@@ -323,14 +324,14 @@ namespace Forays.Renderer
                 current_total++;
             }
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.PositionArrayBufferID);
-            if ((start_index < 0 && s.vbo.PositionDataSize != values.Length) ||
-                s.vbo.PositionDataSize == 0)
+            GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.PositionArrayBufferID);
+            if ((start_index < 0 && s.VertexBufferObject.PositionDataSize != values.Length) ||
+                s.VertexBufferObject.PositionDataSize == 0)
             {
                 GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * values.Length),
                     values,
                     BufferUsageHint.StreamDraw);
-                s.vbo.PositionDataSize = values.Length;
+                s.VertexBufferObject.PositionDataSize = values.Length;
             }
             else
             {
@@ -341,14 +342,16 @@ namespace Forays.Renderer
                 }
 
                 GL.BufferSubData(BufferTarget.ArrayBuffer,
-                    new IntPtr(sizeof(float) * 4 * s.vbo.PositionDimensions * offset),
+                    new IntPtr(sizeof(float) * 4 * s.VertexBufferObject.PositionDimensions *
+                               offset),
                     new IntPtr(sizeof(float) * values.Length), values);
                 //GL.BufferSubData(BufferTarget.ArrayBuffer,new IntPtr(0),new IntPtr(sizeof(float) * values.Length),values);
             }
 
             if (indices != null)
             {
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, s.vbo.ElementArrayBufferID);
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer,
+                    s.VertexBufferObject.ElementArrayBufferID);
                 GL.BufferData(BufferTarget.ElementArrayBuffer,
                     new IntPtr(sizeof(int) * indices.Length), indices,
                     BufferUsageHint.StaticDraw);
@@ -358,7 +361,8 @@ namespace Forays.Renderer
         public void UpdatePositionSingleVertex(Surface s, int index, int layout = 0)
         {
             float[] values =
-                new float[4 * s.vbo.PositionDimensions]; //2 or 3 dimensions for 4 vertices
+                new float[4 * s.VertexBufferObject
+                              .PositionDimensions]; //2 or 3 dimensions for 4 vertices
             float width_ratio = 2.0f / (float) Viewport.Width;
             float height_ratio = 2.0f / (float) Viewport.Height;
             float x_offset = (float) s.layouts[layout].HorizontalOffsetPx;
@@ -372,7 +376,7 @@ namespace Forays.Renderer
             float x_plus1 = (cellx + x_w) * width_ratio - 1.0f;
             float y_plus1 = (celly + y_h) * height_ratio - 1.0f;
 
-            int N = s.vbo.PositionDimensions;
+            int N = s.VertexBufferObject.PositionDimensions;
 
             values[0] = x; //the 4 corners, flipped so it works with the inverted Y axis
             values[1] = y_plus1;
@@ -391,9 +395,9 @@ namespace Forays.Renderer
                 values[N * 3 + 2] = z;
             }
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.PositionArrayBufferID);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.PositionArrayBufferID);
             GL.BufferSubData(BufferTarget.ArrayBuffer,
-                new IntPtr(sizeof(float) * 4 * s.vbo.PositionDimensions * index),
+                new IntPtr(sizeof(float) * 4 * s.VertexBufferObject.PositionDimensions * index),
                 new IntPtr(sizeof(float) * values.Length), values);
         }
 
@@ -409,10 +413,11 @@ namespace Forays.Renderer
             params IList<float>[] vertex_attributes)
         {
             int count = sprite_index.Count;
-            int a = s.vbo.VertexAttribs.TotalSize;
+            int a = s.VertexBufferObject.VertexAttribs.TotalSize;
             int a4 = a * 4;
-            if (start_index >= 0 && (start_index + count) * a4 > s.vbo.OtherDataSize &&
-                s.vbo.OtherDataSize > 0)
+            if (start_index >= 0 &&
+                (start_index + count) * a4 > s.VertexBufferObject.OtherDataSize &&
+                s.VertexBufferObject.OtherDataSize > 0)
             {
                 throw new ArgumentException(
                     "Error: (start_index + count) * total_attrib_size is bigger than VBO size. To always replace the previous data, set start_index to -1.");
@@ -441,10 +446,10 @@ namespace Forays.Renderer
                 values[a * 3] = tex_end_x;
                 values[a * 3 + 1] = tex_end_y;
                 int prev_total = 2;
-                for (int g = 1; g < s.vbo.VertexAttribs.Size.Length; ++g)
+                for (int g = 1; g < s.VertexBufferObject.VertexAttribs.Size.Length; ++g)
                 {
                     //starting at 1 because texcoords are already done
-                    int attrib_size = s.vbo.VertexAttribs.Size[g];
+                    int attrib_size = s.VertexBufferObject.VertexAttribs.Size[g];
                     for (int k = 0; k < attrib_size; ++k)
                     {
                         float attrib =
@@ -463,13 +468,14 @@ namespace Forays.Renderer
                 values.CopyTo(all_values, i * a4);
             }
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.OtherArrayBufferID);
-            if ((start_index < 0 && s.vbo.OtherDataSize != a4 * count) || s.vbo.OtherDataSize == 0)
+            GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.OtherArrayBufferID);
+            if ((start_index < 0 && s.VertexBufferObject.OtherDataSize != a4 * count) ||
+                s.VertexBufferObject.OtherDataSize == 0)
             {
                 GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * a4 * count),
                     all_values,
                     BufferUsageHint.StreamDraw);
-                s.vbo.OtherDataSize = a4 * count;
+                s.VertexBufferObject.OtherDataSize = a4 * count;
             }
             else
             {
@@ -488,7 +494,7 @@ namespace Forays.Renderer
         public void UpdateOtherSingleVertex(Surface s, int index, int sprite_index, int sprite_type,
             params IList<float>[] vertex_attributes)
         {
-            int a = s.vbo.VertexAttribs.TotalSize;
+            int a = s.VertexBufferObject.VertexAttribs.TotalSize;
             int a4 = a * 4;
             float[] values = new float[a4];
             SpriteType sprite = s.texture.Sprite[sprite_type];
@@ -505,10 +511,10 @@ namespace Forays.Renderer
             values[a * 3] = tex_end_x;
             values[a * 3 + 1] = tex_end_y;
             int prev_total = 2;
-            for (int g = 1; g < s.vbo.VertexAttribs.Size.Length; ++g)
+            for (int g = 1; g < s.VertexBufferObject.VertexAttribs.Size.Length; ++g)
             {
                 //starting at 1 because texcoords are already done
-                int attrib_size = s.vbo.VertexAttribs.Size[g];
+                int attrib_size = s.VertexBufferObject.VertexAttribs.Size[g];
                 for (int k = 0; k < attrib_size; ++k)
                 {
                     float
@@ -523,7 +529,7 @@ namespace Forays.Renderer
                 prev_total += attrib_size;
             }
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.OtherArrayBufferID);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.OtherArrayBufferID);
             GL.BufferSubData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * a4 * index),
                 new IntPtr(sizeof(float) * a4), values);
         }
@@ -561,31 +567,34 @@ namespace Forays.Renderer
 
                 GL.Uniform2(s.shader.OffsetUniformLocation, s.raw_x_offset, s.raw_y_offset);
                 GL.Uniform1(s.shader.TextureUniformLocation, s.texture.TextureIndex);
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, s.vbo.ElementArrayBufferID);
-                GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.PositionArrayBufferID);
-                GL.VertexAttribPointer(0, s.vbo.PositionDimensions, VertexAttribPointerType.Float,
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer,
+                    s.VertexBufferObject.ElementArrayBufferID);
+                GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.PositionArrayBufferID);
+                GL.VertexAttribPointer(0, s.VertexBufferObject.PositionDimensions,
+                    VertexAttribPointerType.Float,
                     false,
-                    sizeof(float) * s.vbo.PositionDimensions, new IntPtr(0)); //position
-                GL.BindBuffer(BufferTarget.ArrayBuffer, s.vbo.OtherArrayBufferID);
-                int stride = sizeof(float) * s.vbo.VertexAttribs.TotalSize;
-                GL.VertexAttribPointer(1, s.vbo.VertexAttribs.Size[0],
+                    sizeof(float) * s.VertexBufferObject.PositionDimensions,
+                    new IntPtr(0)); //position
+                GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.OtherArrayBufferID);
+                int stride = sizeof(float) * s.VertexBufferObject.VertexAttribs.TotalSize;
+                GL.VertexAttribPointer(1, s.VertexBufferObject.VertexAttribs.Size[0],
                     VertexAttribPointerType.Float, false, stride,
                     new IntPtr(0)); //texcoords
-                int totalOfPreviousAttribs = s.vbo.VertexAttribs.Size[0];
-                for (int i = 1; i < s.vbo.VertexAttribs.Size.Length; ++i)
+                int totalOfPreviousAttribs = s.VertexBufferObject.VertexAttribs.Size[0];
+                for (int i = 1; i < s.VertexBufferObject.VertexAttribs.Size.Length; ++i)
                 {
                     GL.EnableVertexAttribArray(
                         i + 1); //i+1 because 0 and 1 are always on (for position & texcoords)
-                    GL.VertexAttribPointer(i + 1, s.vbo.VertexAttribs.Size[i],
+                    GL.VertexAttribPointer(i + 1, s.VertexBufferObject.VertexAttribs.Size[i],
                         VertexAttribPointerType.Float, false,
                         stride, new IntPtr(sizeof(float) * totalOfPreviousAttribs));
-                    totalOfPreviousAttribs += s.vbo.VertexAttribs.Size[i];
+                    totalOfPreviousAttribs += s.VertexBufferObject.VertexAttribs.Size[i];
                 }
 
-                GL.DrawElements(PrimitiveType.Triangles, s.vbo.NumElements,
+                GL.DrawElements(PrimitiveType.Triangles, s.VertexBufferObject.NumElements,
                     DrawElementsType.UnsignedInt,
                     IntPtr.Zero);
-                for (int i = 1; i < s.vbo.VertexAttribs.Size.Length; ++i)
+                for (int i = 1; i < s.VertexBufferObject.VertexAttribs.Size.Length; ++i)
                 {
                     GL.DisableVertexAttribArray(i + 1);
                 }
