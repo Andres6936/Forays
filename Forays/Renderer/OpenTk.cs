@@ -591,6 +591,10 @@ namespace Forays.Renderer
                 }
             }
 
+            // Note: OpenTK uses double buffering, which means that one image is
+            // visible, while we work on a second image. SwapBuffers swaps these
+            // images. This way we prevent a partially rendered image from being
+            // visible.
             SwapBuffers();
         }
 
