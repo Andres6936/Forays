@@ -240,16 +240,5 @@ namespace GLDrawing
                 window.UpdatePositionVertexArray(this, d.positions, d.layouts);
             }
         }
-
-        public void UpdateOtherDataOnly()
-        {
-            if (UpdateOtherDataOnlyMethod != null)
-            {
-                SurfaceDefaults d = new SurfaceDefaults(defaults);
-                UpdateOtherDataOnlyMethod(d);
-                d.FillValues(false, true);
-                window.UpdateOtherVertexArray(this, -1, d.sprites, d.sprite_types, d.other_data);
-            }
-        }
     }
 }
