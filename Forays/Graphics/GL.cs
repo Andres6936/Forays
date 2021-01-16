@@ -31,11 +31,11 @@ namespace GLDrawing
         private OpenTk window;
         private SurfaceDefaults defaults = new SurfaceDefaults();
         public VertexBufferObject VertexBufferObject;
-        public Texture texture;
-        public Shader shader;
-        public List<CellLayout> layouts = new List<CellLayout>();
-        public float raw_x_offset;
-        public float raw_y_offset;
+        public Texture Texture;
+        public Shader Shader;
+        public List<CellLayout> Layouts = new List<CellLayout>();
+        public float RawXOffset;
+        public float RawYOffset;
         public bool UseDepthBuffer;
         public bool Disabled = false;
 
@@ -52,9 +52,9 @@ namespace GLDrawing
                 // of vertex buffer object.
                 VertexBufferObject = VertexBufferObject.Create(hasDepth ? 3 : 2,
                     VertexAttributes.Create(vertexAttributeCounts)),
-                texture = Texture.Create(Global.ForaysImageResources + textureFilename,
+                Texture = Texture.Create(Global.ForaysImageResources + textureFilename,
                     null, loadTextureFromEmbeddedResource),
-                shader = Shader.Create(fragShader)
+                Shader = Shader.Create(fragShader)
             };
 
             window?.Surfaces.Add(s);
@@ -64,18 +64,18 @@ namespace GLDrawing
 
         public void SetOffsetInPixels(int x_offset_px, int y_offset_px)
         {
-            raw_x_offset = (float) (x_offset_px * 2) / (float) window.Viewport.Width;
-            raw_y_offset = (float) (y_offset_px * 2) / (float) window.Viewport.Height;
+            RawXOffset = (float) (x_offset_px * 2) / (float) window.Viewport.Width;
+            RawYOffset = (float) (y_offset_px * 2) / (float) window.Viewport.Height;
         }
 
         public void SetEasyLayoutCounts(params int[] counts_per_layout)
         {
-            if (counts_per_layout.GetLength(0) != layouts.Count)
+            if (counts_per_layout.GetLength(0) != Layouts.Count)
             {
                 throw new ArgumentException("SetEasyLayoutCounts: Number of arguments (" +
                                             counts_per_layout.GetLength(0) +
                                             ") must match number of layouts (" +
-                                            layouts.Count + ").");
+                                            Layouts.Count + ").");
             }
 
             defaults.positions =

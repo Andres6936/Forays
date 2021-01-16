@@ -291,12 +291,12 @@ namespace Forays.Renderer
             int current_total = 0;
             foreach (int i in index_list)
             {
-                float x_offset = (float) s.layouts[layout_list[current_total]].HorizontalOffset;
-                float y_offset = (float) s.layouts[layout_list[current_total]].VerticalOffset;
-                float x_w = (float) s.layouts[layout_list[current_total]].Width;
-                float y_h = (float) s.layouts[layout_list[current_total]].Height;
-                float cellx = s.layouts[layout_list[current_total]].X(i) + x_offset;
-                float celly = s.layouts[layout_list[current_total]].Y(i) + y_offset;
+                float x_offset = (float) s.Layouts[layout_list[current_total]].HorizontalOffset;
+                float y_offset = (float) s.Layouts[layout_list[current_total]].VerticalOffset;
+                float x_w = (float) s.Layouts[layout_list[current_total]].Width;
+                float y_h = (float) s.Layouts[layout_list[current_total]].Height;
+                float cellx = s.Layouts[layout_list[current_total]].X(i) + x_offset;
+                float celly = s.Layouts[layout_list[current_total]].Y(i) + y_offset;
                 float x = cellx * width_ratio - 1.0f;
                 float y = celly * height_ratio - 1.0f;
                 float x_plus1 = (cellx + x_w) * width_ratio - 1.0f;
@@ -374,12 +374,12 @@ namespace Forays.Renderer
                               .PositionDimensions]; //2 or 3 dimensions for 4 vertices
             float width_ratio = 2.0f / (float) Viewport.Width;
             float height_ratio = 2.0f / (float) Viewport.Height;
-            float x_offset = (float) s.layouts[layout].HorizontalOffset;
-            float y_offset = (float) s.layouts[layout].VerticalOffset;
-            float x_w = (float) s.layouts[layout].Width;
-            float y_h = (float) s.layouts[layout].Height;
-            float cellx = s.layouts[layout].X(index) + x_offset;
-            float celly = s.layouts[layout].Y(index) + y_offset;
+            float x_offset = (float) s.Layouts[layout].HorizontalOffset;
+            float y_offset = (float) s.Layouts[layout].VerticalOffset;
+            float x_w = (float) s.Layouts[layout].Width;
+            float y_h = (float) s.Layouts[layout].Height;
+            float cellx = s.Layouts[layout].X(index) + x_offset;
+            float celly = s.Layouts[layout].Y(index) + y_offset;
             float x = cellx * width_ratio - 1.0f;
             float y = celly * height_ratio - 1.0f;
             float x_plus1 = (cellx + x_w) * width_ratio - 1.0f;
@@ -436,7 +436,7 @@ namespace Forays.Renderer
             float[] all_values = new float[count * a4];
             for (int i = 0; i < count; ++i)
             {
-                SpriteType sprite = s.texture.Sprite[sprite_type[i]];
+                SpriteType sprite = s.Texture.Sprite[sprite_type[i]];
                 float tex_start_x = sprite.X(sprite_index[i]);
                 float tex_start_y = sprite.Y(sprite_index[i]);
                 float tex_end_x = tex_start_x + sprite.SpriteWidth;
@@ -502,7 +502,7 @@ namespace Forays.Renderer
             int a = s.VertexBufferObject.VertexAttributes.TotalSize;
             int a4 = a * 4;
             float[] values = new float[a4];
-            SpriteType sprite = s.texture.Sprite[sprite_type];
+            SpriteType sprite = s.Texture.Sprite[sprite_type];
             float tex_start_x = sprite.X(sprite_index);
             float tex_start_y = sprite.Y(sprite_index);
             float tex_end_x = tex_start_x + sprite.SpriteWidth;
@@ -564,14 +564,14 @@ namespace Forays.Renderer
                     DepthTestEnabled = s.UseDepthBuffer;
                 }
 
-                if (LastShaderID != s.shader.ShaderProgramID)
+                if (LastShaderID != s.Shader.ShaderProgramID)
                 {
-                    GL.UseProgram(s.shader.ShaderProgramID);
-                    LastShaderID = s.shader.ShaderProgramID;
+                    GL.UseProgram(s.Shader.ShaderProgramID);
+                    LastShaderID = s.Shader.ShaderProgramID;
                 }
 
-                GL.Uniform2(s.shader.OffsetUniformLocation, s.raw_x_offset, s.raw_y_offset);
-                GL.Uniform1(s.shader.TextureUniformLocation, s.texture.TextureIndex);
+                GL.Uniform2(s.Shader.OffsetUniformLocation, s.RawXOffset, s.RawYOffset);
+                GL.Uniform1(s.Shader.TextureUniformLocation, s.Texture.TextureIndex);
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer,
                     s.VertexBufferObject.ElementArrayBufferId);
                 GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.PositionArrayBufferId);

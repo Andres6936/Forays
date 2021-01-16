@@ -1901,16 +1901,16 @@ namespace Forays
                 Screen.cellWidth = fontWidths[selectedIdx];
                 string newFont = GetFontFilename(Screen.cellWidth, Screen.cellHeight);
                 int fontPadding = GetFontPadding(newFont);
-                Screen.textSurface.texture = Texture.Create(newFont, Screen.currentFont, true);
+                Screen.textSurface.Texture = Texture.Create(newFont, Screen.currentFont, true);
                 Screen.currentFont = newFont;
-                Screen.textSurface.texture.Sprite.Clear();
+                Screen.textSurface.Texture.Sprite.Clear();
                 SpriteType.DefineSingleRowSprite(Screen.textSurface, Screen.cellWidth, fontPadding);
-                Screen.cursorSurface.texture = Screen.textSurface.texture;
-                Screen.textSurface.layouts.Clear();
-                Screen.textSurface.layouts.Add(new CellLayout(Global.SCREEN_W, Screen.cellHeight,
+                Screen.cursorSurface.Texture = Screen.textSurface.Texture;
+                Screen.textSurface.Layouts.Clear();
+                Screen.textSurface.Layouts.Add(new CellLayout(Global.SCREEN_W, Screen.cellHeight,
                     Screen.cellWidth));
-                Screen.cursorSurface.layouts.Clear();
-                Screen.cursorSurface.layouts.Add(new CellLayout(1, 2, Screen.cellWidth));
+                Screen.cursorSurface.Layouts.Clear();
+                Screen.cursorSurface.Layouts.Add(new CellLayout(1, 2, Screen.cellWidth));
             }
 
             if (Screen.gl.FullScreen || forceBorder)

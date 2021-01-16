@@ -22,7 +22,7 @@ namespace Forays.Scenes
                 true,
                 Shader.DefaultFS(), false, 2);
             SpriteType.DefineSingleRowSprite(logo, logoW);
-            logo.layouts.Add(new CellLayout(1, logoH, logoW,
+            logo.Layouts.Add(new CellLayout(1, logoH, logoW,
                 (Screen.gl.ClientRectangle.Height - logoH) / 16,
                 (Screen.gl.ClientRectangle.Width - logoW) / 2));
             logo.SetEasyLayoutCounts(1);

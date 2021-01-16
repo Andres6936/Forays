@@ -17,14 +17,14 @@ namespace Forays
         {
             SpriteType s = new SpriteType();
             float texcoord_width =
-                (float) sprite_width_px * 1.0f / (float) surface.texture.TextureWidthPx;
+                (float) sprite_width_px * 1.0f / (float) surface.Texture.TextureWidthPx;
             s.X = idx => idx * texcoord_width;
             s.Y = idx => 0;
             s.SpriteWidth = texcoord_width;
             s.SpriteHeight = 1.0f;
             if (surface != null)
             {
-                surface.texture.Sprite.Add(s);
+                surface.Texture.Sprite.Add(s);
             }
 
             return s;
@@ -40,14 +40,14 @@ namespace Forays
         public static void DefineSingleRowSprite(Surface surface, int width, int padding)
         {
             SpriteType s = new SpriteType();
-            float px_width = 1.0f / surface.texture.TextureWidthPx;
+            float px_width = 1.0f / surface.Texture.TextureWidthPx;
             float texcoord_width = width * px_width;
             float texcoord_start = texcoord_width + padding * px_width;
             s.X = idx => idx * texcoord_start;
             s.Y = idx => 0;
             s.SpriteWidth = texcoord_width;
             s.SpriteHeight = 1.0f;
-            surface.texture.Sprite.Add(s);
+            surface.Texture.Sprite.Add(s);
         }
 
         public static SpriteType DefineSpriteAcross(Surface surface, int sprite_width_px,
@@ -56,16 +56,16 @@ namespace Forays
         {
             SpriteType s = new SpriteType();
             float texcoord_width =
-                (float) sprite_width_px * 1.0f / (float) surface.texture.TextureWidthPx;
+                (float) sprite_width_px * 1.0f / (float) surface.Texture.TextureWidthPx;
             float texcoord_height = (float) sprite_height_px * 1.0f /
-                                    (float) surface.texture.TextureHeightPx;
+                                    (float) surface.Texture.TextureHeightPx;
             s.X = idx => (idx % num_columns) * texcoord_width;
             s.Y = idx => (idx / num_columns) * texcoord_height;
             s.SpriteWidth = texcoord_width;
             s.SpriteHeight = texcoord_height;
             if (surface != null)
             {
-                surface.texture.Sprite.Add(s);
+                surface.Texture.Sprite.Add(s);
             }
 
             return s;
@@ -77,18 +77,18 @@ namespace Forays
         {
             SpriteType s = new SpriteType();
             float texcoord_width =
-                (float) sprite_width_px * 1.0f / (float) surface.texture.TextureWidthPx;
+                (float) sprite_width_px * 1.0f / (float) surface.Texture.TextureWidthPx;
             float texcoord_height = (float) sprite_height_px * 1.0f /
-                                    (float) surface.texture.TextureHeightPx;
+                                    (float) surface.Texture.TextureHeightPx;
             s.X = idx => ((idx % num_columns) * sprite_width_px + h_offset_px) * 1.0f /
-                         (float) surface.texture.TextureWidthPx;
+                         (float) surface.Texture.TextureWidthPx;
             s.Y = idx => ((idx / num_columns) * sprite_height_px + v_offset_px) * 1.0f /
-                         (float) surface.texture.TextureHeightPx;
+                         (float) surface.Texture.TextureHeightPx;
             s.SpriteWidth = texcoord_width;
             s.SpriteHeight = texcoord_height;
             if (surface != null)
             {
-                surface.texture.Sprite.Add(s);
+                surface.Texture.Sprite.Add(s);
             }
 
             return s;
@@ -100,16 +100,16 @@ namespace Forays
         {
             SpriteType s = new SpriteType();
             float texcoord_width =
-                (float) sprite_width_px * 1.0f / (float) surface.texture.TextureWidthPx;
+                (float) sprite_width_px * 1.0f / (float) surface.Texture.TextureWidthPx;
             float texcoord_height = (float) sprite_height_px * 1.0f /
-                                    (float) surface.texture.TextureHeightPx;
+                                    (float) surface.Texture.TextureHeightPx;
             s.X = idx => (idx / num_rows) * texcoord_width;
             s.Y = idx => (idx % num_rows) * texcoord_height;
             s.SpriteWidth = texcoord_width;
             s.SpriteHeight = texcoord_height;
             if (surface != null)
             {
-                surface.texture.Sprite.Add(s);
+                surface.Texture.Sprite.Add(s);
             }
 
             return s;
@@ -121,18 +121,18 @@ namespace Forays
         {
             SpriteType s = new SpriteType();
             float texcoord_width =
-                (float) sprite_width_px * 1.0f / (float) surface.texture.TextureWidthPx;
+                (float) sprite_width_px * 1.0f / (float) surface.Texture.TextureWidthPx;
             float texcoord_height = (float) sprite_height_px * 1.0f /
-                                    (float) surface.texture.TextureHeightPx;
+                                    (float) surface.Texture.TextureHeightPx;
             s.X = idx => ((idx / num_rows) * sprite_width_px + h_offset_px) * 1.0f /
-                         (float) surface.texture.TextureWidthPx;
+                         (float) surface.Texture.TextureWidthPx;
             s.Y = idx => ((idx % num_rows) * sprite_height_px + v_offset_px) * 1.0f /
-                         (float) surface.texture.TextureHeightPx;
+                         (float) surface.Texture.TextureHeightPx;
             s.SpriteWidth = texcoord_width;
             s.SpriteHeight = texcoord_height;
             if (surface != null)
             {
-                surface.texture.Sprite.Add(s);
+                surface.Texture.Sprite.Add(s);
             }
 
             return s;
