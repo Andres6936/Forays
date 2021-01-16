@@ -343,15 +343,16 @@ namespace Forays.Renderer
             }
         }
 
-        public void UpdateOtherSingleVertex(Surface s, int index, int sprite_index, int sprite_type,
-            params IList<float>[] vertex_attributes)
+        public void UpdateOtherSingleVertex(Surface surface, int index, int spriteIndex,
+            int spriteType,
+            params IList<float>[] vertexAttributes)
         {
-            int a = s.VertexBufferObject.VertexAttributes.TotalSize;
+            int a = surface.VertexBufferObject.VertexAttributes.TotalSize;
             int a4 = a * 4;
             float[] values = new float[a4];
-            SpriteType sprite = s.Texture.Sprite[sprite_type];
-            float tex_start_x = sprite.X(sprite_index);
-            float tex_start_y = sprite.Y(sprite_index);
+            SpriteType sprite = surface.Texture.Sprite[spriteType];
+            float tex_start_x = sprite.X(spriteIndex);
+            float tex_start_y = sprite.Y(spriteIndex);
             float tex_end_x = tex_start_x + sprite.SpriteWidth;
             float tex_end_y = tex_start_y + SpriteType.SpriteHeight;
             values[0] = tex_start_x; //the 4 corners, texcoords:
@@ -363,14 +364,14 @@ namespace Forays.Renderer
             values[a * 3] = tex_end_x;
             values[a * 3 + 1] = tex_end_y;
             int prev_total = 2;
-            for (int g = 1; g < s.VertexBufferObject.VertexAttributes.Size.Length; ++g)
+            for (int g = 1; g < surface.VertexBufferObject.VertexAttributes.Size.Length; ++g)
             {
                 //starting at 1 because texcoords are already done
-                int attrib_size = s.VertexBufferObject.VertexAttributes.Size[g];
+                int attrib_size = surface.VertexBufferObject.VertexAttributes.Size[g];
                 for (int k = 0; k < attrib_size; ++k)
                 {
                     float
-                        attrib = vertex_attributes[g - 1][
+                        attrib = vertexAttributes[g - 1][
                             k]; // -1 because the vertex_attributes array doesn't contain texcoords here in the update method.
                     values[prev_total + k] = attrib;
                     values[prev_total + k + a] = attrib;
@@ -381,7 +382,7 @@ namespace Forays.Renderer
                 prev_total += attrib_size;
             }
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.OtherArrayBufferId);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, surface.VertexBufferObject.OtherArrayBufferId);
             GL.BufferSubData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * a4 * index),
                 new IntPtr(sizeof(float) * a4), values);
         }
