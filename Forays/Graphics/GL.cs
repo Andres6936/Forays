@@ -148,11 +148,6 @@ namespace GLDrawing
             defaults.single_position = position_index;
         }
 
-        public void SetDefaultLayout(int layout_index)
-        {
-            defaults.single_layout = layout_index;
-        }
-
         public void SetDefaultSprite(int sprite_index)
         {
             defaults.single_sprite = sprite_index;
