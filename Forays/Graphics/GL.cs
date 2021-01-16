@@ -191,10 +191,6 @@ namespace GLDrawing
                 }
             }
         }*/
-        public void SetDefaults(SurfaceDefaults new_defaults)
-        {
-            defaults = new_defaults;
-        }
 
         public void DefaultUpdate()
         {
