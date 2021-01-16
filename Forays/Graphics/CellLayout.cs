@@ -38,10 +38,7 @@ namespace Forays
             c.X = idx => (idx % cols) * c.CellWidthPx;
             c.Y = idx => (idx / cols) * c.CellHeightPx;
             c.Z = z;
-            if (s != null)
-            {
-                s.layouts.Add(c);
-            }
+            s.layouts.Add(c);
         }
     }
 }
