@@ -97,22 +97,22 @@ namespace GLDrawing
         //public void YOffsetPx(){ return y_offset_px; }
         public int TotalXOffsetPx(CellLayout layout)
         {
-            return x_offset_px + layout.HorizontalOffsetPx;
+            return x_offset_px + layout.HorizontalOffset;
         }
 
         public int TotalXOffsetPx()
         {
-            return x_offset_px + layouts[0].HorizontalOffsetPx;
+            return x_offset_px + layouts[0].HorizontalOffset;
         }
 
         public int TotalYOffsetPx(CellLayout layout)
         {
-            return y_offset_px + layout.VerticalOffsetPx;
+            return y_offset_px + layout.VerticalOffset;
         }
 
         public int TotalYOffsetPx()
         {
-            return y_offset_px + layouts[0].VerticalOffsetPx;
+            return y_offset_px + layouts[0].VerticalOffset;
         }
 
         public void SetEasyLayoutCounts(params int[] counts_per_layout)

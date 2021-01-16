@@ -291,10 +291,10 @@ namespace Forays.Renderer
             int current_total = 0;
             foreach (int i in index_list)
             {
-                float x_offset = (float) s.layouts[layout_list[current_total]].HorizontalOffsetPx;
-                float y_offset = (float) s.layouts[layout_list[current_total]].VerticalOffsetPx;
-                float x_w = (float) s.layouts[layout_list[current_total]].CellWidthPx;
-                float y_h = (float) s.layouts[layout_list[current_total]].CellHeightPx;
+                float x_offset = (float) s.layouts[layout_list[current_total]].HorizontalOffset;
+                float y_offset = (float) s.layouts[layout_list[current_total]].VerticalOffset;
+                float x_w = (float) s.layouts[layout_list[current_total]].Width;
+                float y_h = (float) s.layouts[layout_list[current_total]].Height;
                 float cellx = s.layouts[layout_list[current_total]].X(i) + x_offset;
                 float celly = s.layouts[layout_list[current_total]].Y(i) + y_offset;
                 float x = cellx * width_ratio - 1.0f;
@@ -374,10 +374,10 @@ namespace Forays.Renderer
                               .PositionDimensions]; //2 or 3 dimensions for 4 vertices
             float width_ratio = 2.0f / (float) Viewport.Width;
             float height_ratio = 2.0f / (float) Viewport.Height;
-            float x_offset = (float) s.layouts[layout].HorizontalOffsetPx;
-            float y_offset = (float) s.layouts[layout].VerticalOffsetPx;
-            float x_w = (float) s.layouts[layout].CellWidthPx;
-            float y_h = (float) s.layouts[layout].CellHeightPx;
+            float x_offset = (float) s.layouts[layout].HorizontalOffset;
+            float y_offset = (float) s.layouts[layout].VerticalOffset;
+            float x_w = (float) s.layouts[layout].Width;
+            float y_h = (float) s.layouts[layout].Height;
             float cellx = s.layouts[layout].X(index) + x_offset;
             float celly = s.layouts[layout].Y(index) + y_offset;
             float x = cellx * width_ratio - 1.0f;
