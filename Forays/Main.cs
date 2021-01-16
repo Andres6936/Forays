@@ -26,13 +26,19 @@ namespace Forays
 #if CONSOLE
             Screen.GLMode = false;
 #endif
+            // Identifies the operating system, or platform, supported by an
+            // assembly.
+            PlatformID operatingSystem = Environment.OSVersion.Platform;
+
+            // If the operating system is Unix.
+            // If the operating system is Macintosh.
+            // Note: This value was returned by Silverlight. On .NET Core, its
+            // replacement is Unix.
+            if (operatingSystem == PlatformID.Unix || operatingSystem == PlatformID.MacOSX)
             {
-                int os = (int) Environment.OSVersion.Platform;
-                if (os == 4 || os == 6 || os == 128)
-                {
-                    Global.LINUX = true;
-                }
+                Global.LINUX = true;
             }
+
             if (args != null && args.Length > 0)
             {
                 if (args[0] == "-c" || args[0] == "--console")
