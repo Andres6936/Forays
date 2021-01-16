@@ -96,19 +96,19 @@ namespace GLDrawing
             defaults.fill_count = defaults.positions.Count;
         }
 
-        public void SetDefaultSprite(int sprite_index)
+        public void SetDefaultSprite(int spriteIndex)
         {
-            defaults.single_sprite = sprite_index;
+            defaults.single_sprite = spriteIndex;
         }
 
-        public void SetDefaultSpriteType(int sprite_type_index)
+        public void SetDefaultSpriteType(int spriteTypeIndex)
         {
-            defaults.single_sprite_type = sprite_type_index;
+            defaults.single_sprite_type = spriteTypeIndex;
         }
 
-        public void SetDefaultOtherData(params List<float>[] other_data)
+        public void SetDefaultOtherData(params List<float>[] otherData)
         {
-            defaults.single_other_data = other_data;
+            defaults.single_other_data = otherData;
         }
 
         public void DefaultUpdate()
