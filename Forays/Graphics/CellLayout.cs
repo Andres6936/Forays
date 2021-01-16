@@ -44,25 +44,5 @@ namespace Forays
                 s.layouts.Add(c);
             }
         }
-
-        public static CellLayout Create(Surface s, int cell_height_px, int cell_width_px,
-            int v_offset_px,
-            int h_offset_px, PositionFromIndex x, PositionFromIndex y, PositionFromIndex z = null)
-        {
-            CellLayout c = new CellLayout(); //todo: fix x/y order for entire file?
-            c.CellHeightPx = cell_height_px;
-            c.CellWidthPx = cell_width_px;
-            c.VerticalOffsetPx = v_offset_px;
-            c.HorizontalOffsetPx = h_offset_px;
-            c.X = x;
-            c.Y = y;
-            c.Z = z;
-            if (s != null)
-            {
-                s.layouts.Add(c);
-            }
-
-            return c;
-        }
     }
 }
