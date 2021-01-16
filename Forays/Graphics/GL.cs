@@ -68,12 +68,12 @@ namespace GLDrawing
             RawYOffset = (float) (yOffsetPx * 2) / (float) window.Viewport.Height;
         }
 
-        public void SetEasyLayoutCounts(params int[] counts_per_layout)
+        public void SetEasyLayoutCounts(params int[] countsPerLayout)
         {
-            if (counts_per_layout.GetLength(0) != Layouts.Count)
+            if (countsPerLayout.GetLength(0) != Layouts.Count)
             {
                 throw new ArgumentException("SetEasyLayoutCounts: Number of arguments (" +
-                                            counts_per_layout.GetLength(0) +
+                                            countsPerLayout.GetLength(0) +
                                             ") must match number of layouts (" +
                                             Layouts.Count + ").");
             }
@@ -82,7 +82,7 @@ namespace GLDrawing
                 new List<int>(); //this method creates the default lists used by Update()
             defaults.layouts = new List<int>();
             int idx = 0;
-            foreach (int count in counts_per_layout)
+            foreach (int count in countsPerLayout)
             {
                 for (int i = 0; i < count; ++i)
                 {
