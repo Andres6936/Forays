@@ -23,10 +23,7 @@ namespace Forays
             s.Y = idx => 0;
             s.SpriteWidth = texcoord_width;
             s.SpriteHeight = 1.0f;
-            if (surface != null)
-            {
-                surface.Texture.Sprite.Add(s);
-            }
+            surface.Texture.Sprite.Add(s);
         }
 
         /// <summary>
