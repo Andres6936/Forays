@@ -17,11 +17,11 @@ namespace Forays
         public static void DefineSingleRowSprite(Surface surface, int spriteWidthPx)
         {
             SpriteType s = new SpriteType();
-            float texcoord_width =
+            float texcoordWidth =
                 (float) spriteWidthPx * 1.0f / (float) surface.Texture.TextureWidthPx;
-            s.X = idx => idx * texcoord_width;
+            s.X = idx => idx * texcoordWidth;
             s.Y = idx => 0;
-            s.SpriteWidth = texcoord_width;
+            s.SpriteWidth = texcoordWidth;
             s.SpriteHeight = 1.0f;
             surface.Texture.Sprite.Add(s);
         }
@@ -36,12 +36,12 @@ namespace Forays
         public static void DefineSingleRowSprite(Surface surface, int width, int padding)
         {
             SpriteType s = new SpriteType();
-            float px_width = 1.0f / surface.Texture.TextureWidthPx;
-            float texcoord_width = width * px_width;
-            float texcoord_start = texcoord_width + padding * px_width;
-            s.X = idx => idx * texcoord_start;
+            float pxWidth = 1.0f / surface.Texture.TextureWidthPx;
+            float texcoordWidth = width * pxWidth;
+            float texcoordStart = texcoordWidth + padding * pxWidth;
+            s.X = idx => idx * texcoordStart;
             s.Y = idx => 0;
-            s.SpriteWidth = texcoord_width;
+            s.SpriteWidth = texcoordWidth;
             s.SpriteHeight = 1.0f;
             surface.Texture.Sprite.Add(s);
         }
