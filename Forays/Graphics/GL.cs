@@ -143,11 +143,6 @@ namespace GLDrawing
             defaults.fill_count = defaults.positions.Count;
         }
 
-        public void SetDefaultPosition(int position_index)
-        {
-            defaults.single_position = position_index;
-        }
-
         public void SetDefaultSprite(int sprite_index)
         {
             defaults.single_sprite = sprite_index;
