@@ -19,7 +19,6 @@ namespace Forays
         /// Create and added a new cell layout to surface's layout.
         /// </summary>
         /// <param name="s">Surface where the layout will be added.</param>
-        /// <param name="rows">Determine how many rows the layout will have.</param>
         /// <param name="cols">Determine how many columns the layout will have.</param>
         /// <param name="cellHeightPx">Determine the height of each cell.</param>
         /// <param name="cellWidthPx">Determine the width of each cell,</param>
