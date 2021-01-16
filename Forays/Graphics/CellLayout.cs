@@ -27,7 +27,7 @@ namespace Forays
         /// <param name="hOffsetPx"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        public static void CreateGrid(Surface s, int rows, int cols, int cellHeightPx,
+        public static void CreateGrid(Surface s, int cols, int cellHeightPx,
             int cellWidthPx, int vOffsetPx, int hOffsetPx, PositionFromIndex z = null)
         {
             var cellLayout = new CellLayout();

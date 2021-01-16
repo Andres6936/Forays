@@ -1907,11 +1907,11 @@ namespace Forays
                 SpriteType.DefineSingleRowSprite(Screen.textSurface, Screen.cellWidth, fontPadding);
                 Screen.cursorSurface.texture = Screen.textSurface.texture;
                 Screen.textSurface.layouts.Clear();
-                CellLayout.CreateGrid(Screen.textSurface, Global.SCREEN_H, Global.SCREEN_W,
+                CellLayout.CreateGrid(Screen.textSurface, Global.SCREEN_W,
                     Screen.cellHeight,
                     Screen.cellWidth, 0, 0);
                 Screen.cursorSurface.layouts.Clear();
-                CellLayout.CreateGrid(Screen.cursorSurface, 1, 1, 2, Screen.cellWidth, 0, 0);
+                CellLayout.CreateGrid(Screen.cursorSurface, 1, 2, Screen.cellWidth, 0, 0);
             }
 
             if (Screen.gl.FullScreen || forceBorder)

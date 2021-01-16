@@ -105,7 +105,7 @@ namespace Forays
                 Screen.textSurface = Surface.Create(Screen.gl, "font8x16.png", true,
                     Shader.AAFontFS(), false, 2, 4, 4);
                 SpriteType.DefineSingleRowSprite(Screen.textSurface, 8, 1);
-                CellLayout.CreateGrid(Screen.textSurface, Global.SCREEN_H, Global.SCREEN_W, 16, 8,
+                CellLayout.CreateGrid(Screen.textSurface, Global.SCREEN_W, 16, 8,
                     0, 0);
                 Screen.textSurface.SetEasyLayoutCounts(Global.SCREEN_H * Global.SCREEN_W);
                 Screen.textSurface.DefaultUpdatePositions();
@@ -119,7 +119,7 @@ namespace Forays
                 Screen.cursorSurface = Surface.Create(Screen.gl, "font8x16.png", true,
                     Shader.AAFontFS(), false, 2, 4, 4);
                 Screen.cursorSurface.texture = Screen.textSurface.texture;
-                CellLayout.CreateGrid(Screen.cursorSurface, 1, 1, 2, 8, 0, 0);
+                CellLayout.CreateGrid(Screen.cursorSurface, 1, 2, 8, 0, 0);
                 Screen.cursorSurface.SetEasyLayoutCounts(1);
                 Screen.cursorSurface.DefaultUpdatePositions();
                 Screen.cursorSurface.SetDefaultSpriteType(0);
