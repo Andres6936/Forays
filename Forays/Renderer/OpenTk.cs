@@ -291,45 +291,6 @@ namespace Forays.Renderer
             }
         }
 
-        public void UpdatePositionSingleVertex(Surface s, int index, int layout = 0)
-        {
-            float[] values =
-                new float[4 * s.VertexBufferObject
-                              .PositionDimensions]; //2 or 3 dimensions for 4 vertices
-            float width_ratio = 2.0f / (float) Viewport.Width;
-            float height_ratio = 2.0f / (float) Viewport.Height;
-            float x_offset = (float) s.Layouts[layout].HorizontalOffset;
-            float y_offset = (float) s.Layouts[layout].VerticalOffset;
-            float x_w = (float) s.Layouts[layout].Width;
-            float y_h = (float) s.Layouts[layout].Height;
-            float cellx = s.Layouts[layout].X(index) + x_offset;
-            float celly = s.Layouts[layout].Y(index) + y_offset;
-            float x = cellx * width_ratio - 1.0f;
-            float y = celly * height_ratio - 1.0f;
-            float x_plus1 = (cellx + x_w) * width_ratio - 1.0f;
-            float y_plus1 = (celly + y_h) * height_ratio - 1.0f;
-
-            int N = s.VertexBufferObject.PositionDimensions;
-
-            values[0] = x; //the 4 corners, flipped so it works with the inverted Y axis
-            values[1] = y_plus1;
-            values[N] = x;
-            values[N + 1] = y;
-            values[N * 2] = x_plus1;
-            values[N * 2 + 1] = y;
-            values[N * 3] = x_plus1;
-            values[N * 3 + 1] = y_plus1;
-            if (N == 3)
-            {
-                throw new Exception("3 Dimension not is current supported.");
-            }
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.PositionArrayBufferId);
-            GL.BufferSubData(BufferTarget.ArrayBuffer,
-                new IntPtr(sizeof(float) * 4 * s.VertexBufferObject.PositionDimensions * index),
-                new IntPtr(sizeof(float) * values.Length), values);
-        }
-
         public void UpdateOtherVertexArray(Surface s, int start_index, IList<int> sprite_index,
             IList<int> sprite_type,
             params IList<float>[] vertex_attributes)
