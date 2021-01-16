@@ -4,13 +4,9 @@ namespace Forays
 {
     public class CellLayout
     {
-        public PositionFromIndex X;
-        public PositionFromIndex Y;
+        public readonly PositionFromIndex X;
 
-        /// <summary>
-        /// Z isn't used unless the VBO object has PositionDimensions set to 3.
-        /// </summary>
-        public PositionFromIndex Z;
+        public readonly PositionFromIndex Y;
 
         /// <summary>
         /// Height of cell. (In pixels).

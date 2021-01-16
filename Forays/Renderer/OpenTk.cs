@@ -315,11 +315,7 @@ namespace Forays.Renderer
                 values[idxN + N * 3 + 1] = y_plus1;
                 if (N == 3)
                 {
-                    float z = s.layouts[layout_list[current_total]].Z(i);
-                    values[idxN + 2] = z;
-                    values[idxN + N + 2] = z;
-                    values[idxN + N * 2 + 2] = z;
-                    values[idxN + N * 3 + 2] = z;
+                    throw new Exception("3 Dimension not is current supported.");
                 }
 
                 if (indices != null)
@@ -401,11 +397,7 @@ namespace Forays.Renderer
             values[N * 3 + 1] = y_plus1;
             if (N == 3)
             {
-                float z = s.layouts[layout].Z(index);
-                values[2] = z;
-                values[N + 2] = z;
-                values[N * 2 + 2] = z;
-                values[N * 3 + 2] = z;
+                throw new Exception("3 Dimension not is current supported.");
             }
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.PositionArrayBufferId);
