@@ -21,25 +21,8 @@ namespace Forays
 {
     public class Game
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-#if CONSOLE
-            Screen.GLMode = false;
-#endif
-
-            if (args != null && args.Length > 0)
-            {
-                if (args[0] == "-c" || args[0] == "--console")
-                {
-                    Screen.GLMode = false;
-                }
-
-                if (args[0] == "-g" || args[0] == "--gl")
-                {
-                    Screen.GLMode = true;
-                }
-            }
-
             if (!Screen.GLMode)
             {
                 if (Global.LINUX)
