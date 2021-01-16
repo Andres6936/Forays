@@ -412,7 +412,6 @@ namespace Forays
             gl.UpdateOtherSingleVertex(textSurface, U.Get1DIndex(row, col, Global.SCREEN_W),
                 (int) cch.c, 0,
                 cch.color.GetFloatValues(), cch.bgcolor.GetFloatValues());
-            //Game.gl.UpdateVertexArray(row,col,GLGame.text_surface,0,(int)cch.c,cch.color.GetFloatValues(),cch.bgcolor.GetFloatValues());
         }
 
         public static void UpdateCursor(bool make_visible)
