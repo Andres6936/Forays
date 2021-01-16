@@ -21,21 +21,20 @@ namespace Forays
         /// <param name="s">Surface where the layout will be added.</param>
         /// <param name="rows">Determine how many rows the layout will have.</param>
         /// <param name="cols">Determine how many columns the layout will have.</param>
-        /// <param name="cell_height_px">Determine the height of each cell.</param>
-        /// <param name="cell_width_px">Determine the width of each cell,</param>
-        /// <param name="v_offset_px"></param>
-        /// <param name="h_offset_px"></param>
+        /// <param name="cellHeightPx">Determine the height of each cell.</param>
+        /// <param name="cellWidthPx">Determine the width of each cell,</param>
+        /// <param name="vOffsetPx"></param>
+        /// <param name="hOffsetPx"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        public static void CreateGrid(Surface s, int rows, int cols, int cell_height_px,
-            int cell_width_px,
-            int v_offset_px, int h_offset_px, PositionFromIndex z = null)
+        public static void CreateGrid(Surface s, int rows, int cols, int cellHeightPx,
+            int cellWidthPx, int vOffsetPx, int hOffsetPx, PositionFromIndex z = null)
         {
             CellLayout c = new CellLayout();
-            c.CellHeightPx = cell_height_px;
-            c.CellWidthPx = cell_width_px;
-            c.VerticalOffsetPx = v_offset_px;
-            c.HorizontalOffsetPx = h_offset_px;
+            c.CellHeightPx = cellHeightPx;
+            c.CellWidthPx = cellWidthPx;
+            c.VerticalOffsetPx = vOffsetPx;
+            c.HorizontalOffsetPx = hOffsetPx;
             c.X = idx => (idx % cols) * c.CellWidthPx;
             c.Y = idx => (idx / cols) * c.CellHeightPx;
             c.Z = z;
