@@ -21,7 +21,7 @@ namespace Forays
 {
     public class Game
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
 #if CONSOLE
             Screen.GLMode = false;
