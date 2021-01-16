@@ -2,9 +2,11 @@ using GLDrawing;
 
 namespace Forays
 {
+    /// <summary>
+    /// Each different arrangement of sprites on a sheet gets its own SpriteType. Many, like fonts, will use only a single SpriteType for the whole sheet.
+    /// </summary>
     public class SpriteType
     {
-        //each different arrangement of sprites on a sheet gets its own SpriteType. Many, like fonts, will use only a single SpriteType for the whole sheet.
         public PositionFromIndex
             X; //SpriteType is pretty similar to CellLayout. Any chance they could ever be combined?
 
