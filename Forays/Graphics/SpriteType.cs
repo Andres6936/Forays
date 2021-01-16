@@ -49,28 +49,5 @@ namespace Forays
             s.SpriteHeight = 1.0f;
             surface.Texture.Sprite.Add(s);
         }
-
-        public static SpriteType DefineSpriteDown(Surface surface, int sprite_width_px,
-            int sprite_height_px,
-            int num_rows, int h_offset_px, int v_offset_px)
-        {
-            SpriteType s = new SpriteType();
-            float texcoord_width =
-                (float) sprite_width_px * 1.0f / (float) surface.Texture.TextureWidthPx;
-            float texcoord_height = (float) sprite_height_px * 1.0f /
-                                    (float) surface.Texture.TextureHeightPx;
-            s.X = idx => ((idx / num_rows) * sprite_width_px + h_offset_px) * 1.0f /
-                         (float) surface.Texture.TextureWidthPx;
-            s.Y = idx => ((idx % num_rows) * sprite_height_px + v_offset_px) * 1.0f /
-                         (float) surface.Texture.TextureHeightPx;
-            s.SpriteWidth = texcoord_width;
-            s.SpriteHeight = texcoord_height;
-            if (surface != null)
-            {
-                surface.Texture.Sprite.Add(s);
-            }
-
-            return s;
-        }
     }
 }
