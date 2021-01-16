@@ -17,21 +17,7 @@ namespace Forays.Renderer
     {
         public List<Surface> Surfaces = new List<Surface>();
 
-        public ResizeOption ResizingPreference = ResizeOption.StretchToFit;
-        public ResizeOption ResizingFullScreenPreference = ResizeOption.StretchToFit;
         protected bool Resizing = false;
-
-        public int
-            SnapWidth =
-                1; //if EnforceRatio is true, the AddBorder and SnapWindow options will require that the new multiples of SnapHeight and SnapWidth be equal.
-
-        public int
-            SnapHeight =
-                1; //Assuming SnapW is 100 and SnapH is 50:  If EnforceRatio is true, the valid sizes are 100x50, 200x100, 300x150, and so on.
-
-        public bool
-            EnforceRatio =
-                false; //If EnforceRatio is false, 100x750 is a valid size, as are 900x50 and 200x200.
 
         public bool NoClose = false;
         public bool FullScreen = false;
@@ -75,8 +61,6 @@ namespace Forays.Renderer
             internalViewport = new Rectangle(0, 0, w, h);
             Icon = new Icon(Assembly.GetExecutingAssembly()
                 .GetManifestResourceStream(Global.ForaysImageResources + "forays.ico"));
-            ResizingPreference = ResizeOption.SnapWindow;
-            ResizingFullScreenPreference = ResizeOption.AddBorder;
             FinalResize += InputKey.HandleResize;
             Closing += InputKey.OnClosing;
             KeyDown += InputKey.KeyDownHandler;
