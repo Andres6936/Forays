@@ -17,9 +17,9 @@ namespace Forays
 
         // Properties
 
-        public PositionFromIndex X;
+        public readonly PositionFromIndex X;
 
-        public PositionFromIndex Y;
+        public readonly PositionFromIndex Y;
 
         public readonly float SpriteWidth;
 
