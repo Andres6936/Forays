@@ -69,14 +69,6 @@ namespace GLDrawing
             return s;
         }
 
-        public void RemoveFromWindow()
-        {
-            if (window != null)
-            {
-                window.Surfaces.Remove(this);
-            }
-        }
-
         public void SetOffsetInPixels(int x_offset_px, int y_offset_px)
         {
             this.x_offset_px = x_offset_px;
