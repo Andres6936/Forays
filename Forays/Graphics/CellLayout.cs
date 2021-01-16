@@ -8,7 +8,7 @@ namespace Forays
         public PositionFromIndex Y;
 
         public PositionFromIndex
-            Z = null; //Z isn't used unless the VBO object has PositionDimensions set to 3.
+            Z; //Z isn't used unless the VBO object has PositionDimensions set to 3.
 
         public int CellHeightPx; //in pixels
         public int CellWidthPx;
@@ -27,7 +27,7 @@ namespace Forays
         /// <param name="z"></param>
         /// <returns></returns>
         public static void CreateGrid(Surface s, int cols, int cellHeightPx,
-            int cellWidthPx, int vOffsetPx, int hOffsetPx, PositionFromIndex z = null)
+            int cellWidthPx, int vOffsetPx, int hOffsetPx)
         {
             var cellLayout = new CellLayout();
             cellLayout.CellHeightPx = cellHeightPx;
@@ -36,7 +36,6 @@ namespace Forays
             cellLayout.HorizontalOffsetPx = hOffsetPx;
             cellLayout.X = idx => (idx % cols) * cellLayout.CellWidthPx;
             cellLayout.Y = idx => (idx / cols) * cellLayout.CellHeightPx;
-            cellLayout.Z = z;
             s.layouts.Add(cellLayout);
         }
     }
