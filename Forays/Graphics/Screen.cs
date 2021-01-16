@@ -254,6 +254,11 @@ namespace Forays
             return memory[r, c];
         } //changed from r+1,c
 
+        // Static Constructor
+
+        /// <summary>
+        /// For set the mode console is needed added the macro CONSOLE.
+        /// </summary>
         static Screen()
         {
 #if CONSOLE
