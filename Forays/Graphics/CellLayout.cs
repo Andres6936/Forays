@@ -30,15 +30,15 @@ namespace Forays
         public static void CreateGrid(Surface s, int rows, int cols, int cellHeightPx,
             int cellWidthPx, int vOffsetPx, int hOffsetPx, PositionFromIndex z = null)
         {
-            CellLayout c = new CellLayout();
-            c.CellHeightPx = cellHeightPx;
-            c.CellWidthPx = cellWidthPx;
-            c.VerticalOffsetPx = vOffsetPx;
-            c.HorizontalOffsetPx = hOffsetPx;
-            c.X = idx => (idx % cols) * c.CellWidthPx;
-            c.Y = idx => (idx / cols) * c.CellHeightPx;
-            c.Z = z;
-            s.layouts.Add(c);
+            var cellLayout = new CellLayout();
+            cellLayout.CellHeightPx = cellHeightPx;
+            cellLayout.CellWidthPx = cellWidthPx;
+            cellLayout.VerticalOffsetPx = vOffsetPx;
+            cellLayout.HorizontalOffsetPx = hOffsetPx;
+            cellLayout.X = idx => (idx % cols) * cellLayout.CellWidthPx;
+            cellLayout.Y = idx => (idx / cols) * cellLayout.CellHeightPx;
+            cellLayout.Z = z;
+            s.layouts.Add(cellLayout);
         }
     }
 }
