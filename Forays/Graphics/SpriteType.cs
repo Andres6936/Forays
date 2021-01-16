@@ -7,12 +7,18 @@ namespace Forays
     /// </summary>
     public class SpriteType
     {
+        // Const Properties
+
+        public const float SpriteHeight = 1.0f;
+
+        // Properties
+
         public PositionFromIndex
             X; //SpriteType is pretty similar to CellLayout. Any chance they could ever be combined?
 
         public PositionFromIndex Y;
-        public float SpriteHeight; //0 to 1, not pixels
-        public float SpriteWidth;
+
+        public readonly float SpriteWidth;
 
         // Constructs
 
@@ -28,7 +34,6 @@ namespace Forays
             X = idx => idx * texcoordWidth;
             Y = idx => 0;
             SpriteWidth = texcoordWidth;
-            SpriteHeight = 1.0f;
         }
 
         /// <summary>
@@ -46,7 +51,6 @@ namespace Forays
             X = idx => idx * texcoordStart;
             Y = idx => 0;
             SpriteWidth = texcoordWidth;
-            SpriteHeight = 1.0f;
         }
     }
 }

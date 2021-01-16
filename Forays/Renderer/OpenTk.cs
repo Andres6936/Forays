@@ -442,7 +442,7 @@ namespace Forays.Renderer
                 float tex_start_x = sprite.X(sprite_index[i]);
                 float tex_start_y = sprite.Y(sprite_index[i]);
                 float tex_end_x = tex_start_x + sprite.SpriteWidth;
-                float tex_end_y = tex_start_y + sprite.SpriteHeight;
+                float tex_end_y = tex_start_y + SpriteType.SpriteHeight;
                 float[] values = new float[a4];
                 values[0] = tex_start_x; //the 4 corners, texcoords:
                 values[1] = tex_end_y;
@@ -508,7 +508,7 @@ namespace Forays.Renderer
             float tex_start_x = sprite.X(sprite_index);
             float tex_start_y = sprite.Y(sprite_index);
             float tex_end_x = tex_start_x + sprite.SpriteWidth;
-            float tex_end_y = tex_start_y + sprite.SpriteHeight;
+            float tex_end_y = tex_start_y + SpriteType.SpriteHeight;
             values[0] = tex_start_x; //the 4 corners, texcoords:
             values[1] = tex_end_y;
             values[a] = tex_start_x;
