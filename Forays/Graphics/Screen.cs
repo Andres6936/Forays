@@ -281,12 +281,6 @@ namespace Forays
             return memory[r + Global.MAP_OFFSET_ROWS, c + Global.MAP_OFFSET_COLS];
         }
 
-        public static ColorChar StatsChar(int r, int c)
-        {
-            return memory[r, c];
-        } //changed from r+1,c
-
-
         public static ColorChar BlankChar()
         {
             return new ColorChar(Color.Black, ' ');
