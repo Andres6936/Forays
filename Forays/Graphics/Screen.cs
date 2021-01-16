@@ -26,9 +26,12 @@ namespace Forays
         private static readonly string bold_off = (char) 27 + "[m";
         public static bool GLMode = true;
 
-        public static bool
-            NoGLUpdate =
-                false; //if NoGLUpdate is true, UpdateGLBuffer won't be called - only the memory will be updated. This is useful if you wish to update all at once, instead of one at a time.
+        /// <summary>
+        /// If is true, UpdateGLBuffer won't be called - only the memory will be
+        /// updated. This is useful if you wish to update all at once, instead
+        /// of one at a time.
+        /// </summary>
+        public static bool NoGLUpdate = false;
 
         public static int screen_center_col = -1;
 
