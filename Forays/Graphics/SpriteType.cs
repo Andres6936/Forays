@@ -16,6 +16,12 @@ namespace Forays
 
         // Constructs
 
+        /// <summary>
+        /// Define the sprite sheet for a image with only a row of sprites.
+        /// The width and padding of each sprite must be greater to zero.
+        /// </summary>
+        /// <param name="width">The width of each sprite (in pixels).</param>
+        /// <param name="textureWidth">The width of texture in pixels.</param>
         public SpriteType(int width, int textureWidth)
         {
             float texcoordWidth = width * 1.0f / textureWidth;
