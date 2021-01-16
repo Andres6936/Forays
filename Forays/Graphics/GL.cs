@@ -85,14 +85,6 @@ namespace GLDrawing
             raw_y_offset = (float) (y_offset_px * 2) / (float) window.Viewport.Height;
         }
 
-        public void ChangeOffsetInPixels(int dx_offset_px, int dy_offset_px)
-        {
-            x_offset_px += dx_offset_px;
-            y_offset_px += dy_offset_px;
-            raw_x_offset += (float) (dx_offset_px * 2) / (float) window.Viewport.Width;
-            raw_y_offset += (float) (dy_offset_px * 2) / (float) window.Viewport.Height;
-        }
-
         public void SetEasyLayoutCounts(params int[] counts_per_layout)
         {
             if (counts_per_layout.GetLength(0) != layouts.Count)
