@@ -328,16 +328,6 @@ namespace Forays
             return result;
         }
 
-        public static bool BoundsCheck(int r, int c)
-        {
-            if (r >= 0 && r < Global.SCREEN_H && c >= 0 && c < Global.SCREEN_W)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         public static bool MapBoundsCheck(int r, int c)
         {
             if (r >= 0 && r < Global.ROWS && c >= 0 && c < Global.COLS)
