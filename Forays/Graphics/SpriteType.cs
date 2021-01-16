@@ -29,7 +29,6 @@ namespace Forays
         /// Define the sprite sheet for a image with only a row of sprites.
         /// The width and padding of each sprite must be greater to zero.
         /// </summary>
-        /// <param name="surface">The surface that content the image.</param>
         /// <param name="width">The width of each sprite (in pixels).</param>
         /// <param name="padding">The padding between each sprite (in pixels).</param>
         /// <param name="textureWidth">The width of texture in pixels.</param>
