@@ -1589,12 +1589,6 @@ namespace Forays
         }
 
         public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch,
-            int duration)
-        {
-            AnimateExplosion(obj, radius, ch, duration, false);
-        }
-
-        public static void AnimateExplosion(PhysicalObject obj, int radius, ColorChar ch,
             int duration,
             bool single_frame)
         {
