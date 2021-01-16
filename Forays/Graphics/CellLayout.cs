@@ -15,22 +15,22 @@ namespace Forays
         /// <summary>
         /// Height of cell. (In pixels).
         /// </summary>
-        public int CellHeightPx;
+        public readonly int CellHeightPx;
 
         /// <summary>
         /// Width of cell. (In pixels).
         /// </summary>
-        public int CellWidthPx;
+        public readonly int CellWidthPx;
 
         /// <summary>
         /// The vertical offset of cell. (In pixels).
         /// </summary>
-        public int VerticalOffsetPx;
+        public readonly int VerticalOffsetPx;
 
         /// <summary>
         /// The horizontal offset of cell. (In pixels). 
         /// </summary>
-        public int HorizontalOffsetPx;
+        public readonly int HorizontalOffsetPx;
 
         // Constructs
 
