@@ -34,11 +34,9 @@ namespace GLDrawing
         public Shader shader;
         public List<CellLayout> layouts = new List<CellLayout>();
         protected SurfaceDefaults defaults = new SurfaceDefaults();
-        public float raw_x_offset = 0.0f;
-        public float raw_y_offset = 0.0f; //todo: should be properties
-        private int x_offset_px;
-        private int y_offset_px;
-        public bool UseDepthBuffer = false;
+        public float raw_x_offset;
+        public float raw_y_offset;
+        public bool UseDepthBuffer;
         public bool Disabled = false;
 
 
@@ -66,8 +64,6 @@ namespace GLDrawing
 
         public void SetOffsetInPixels(int x_offset_px, int y_offset_px)
         {
-            this.x_offset_px = x_offset_px;
-            this.y_offset_px = y_offset_px;
             raw_x_offset = (float) (x_offset_px * 2) / (float) window.Viewport.Width;
             raw_y_offset = (float) (y_offset_px * 2) / (float) window.Viewport.Height;
         }
