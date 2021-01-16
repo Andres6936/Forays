@@ -45,6 +45,38 @@ namespace Forays
         public static int cellWidth = 8;
         public static string currentFont = Global.ForaysImageResources + "font8x16.png";
 
+
+        // Static Constructor
+
+        /// <summary>
+        /// For set the mode console is needed added the macro CONSOLE.
+        /// </summary>
+        static Screen()
+        {
+#if CONSOLE
+            Screen.GLMode = false;
+#endif
+
+            memory = new ColorChar[Global.SCREEN_H, Global.SCREEN_W];
+            for (int i = 0; i < Global.SCREEN_H; ++i)
+            {
+                for (int j = 0; j < Global.SCREEN_W; ++j)
+                {
+                    memory[i, j].c = ' ';
+                    memory[i, j].color = Color.Black;
+                    memory[i, j].bgcolor = Color.Black;
+                }
+            }
+
+            if (!GLMode)
+            {
+                BackgroundColor = Console.BackgroundColor;
+                ForegroundColor = Console.ForegroundColor;
+            }
+        }
+
+        // Methods
+
         public static bool NoClose
         {
             get
@@ -254,34 +286,6 @@ namespace Forays
             return memory[r, c];
         } //changed from r+1,c
 
-        // Static Constructor
-
-        /// <summary>
-        /// For set the mode console is needed added the macro CONSOLE.
-        /// </summary>
-        static Screen()
-        {
-#if CONSOLE
-            Screen.GLMode = false;
-#endif
-
-            memory = new ColorChar[Global.SCREEN_H, Global.SCREEN_W];
-            for (int i = 0; i < Global.SCREEN_H; ++i)
-            {
-                for (int j = 0; j < Global.SCREEN_W; ++j)
-                {
-                    memory[i, j].c = ' ';
-                    memory[i, j].color = Color.Black;
-                    memory[i, j].bgcolor = Color.Black;
-                }
-            }
-
-            if (!GLMode)
-            {
-                BackgroundColor = Console.BackgroundColor;
-                ForegroundColor = Console.ForegroundColor;
-            }
-        }
 
         public static ColorChar BlankChar()
         {
