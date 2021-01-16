@@ -14,11 +14,11 @@ namespace Forays
         public float SpriteHeight; //0 to 1, not pixels
         public float SpriteWidth;
 
-        public static void DefineSingleRowSprite(Surface surface, int sprite_width_px)
+        public static void DefineSingleRowSprite(Surface surface, int spriteWidthPx)
         {
             SpriteType s = new SpriteType();
             float texcoord_width =
-                (float) sprite_width_px * 1.0f / (float) surface.Texture.TextureWidthPx;
+                (float) spriteWidthPx * 1.0f / (float) surface.Texture.TextureWidthPx;
             s.X = idx => idx * texcoord_width;
             s.Y = idx => 0;
             s.SpriteWidth = texcoord_width;
