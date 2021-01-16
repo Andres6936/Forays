@@ -28,12 +28,12 @@ namespace GLDrawing
 
     public class Surface
     {
-        public OpenTk window;
+        private OpenTk window;
+        private SurfaceDefaults defaults = new SurfaceDefaults();
         public VertexBufferObject VertexBufferObject;
         public Texture texture;
         public Shader shader;
         public List<CellLayout> layouts = new List<CellLayout>();
-        protected SurfaceDefaults defaults = new SurfaceDefaults();
         public float raw_x_offset;
         public float raw_y_offset;
         public bool UseDepthBuffer;
