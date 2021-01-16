@@ -16,9 +16,9 @@ namespace Forays
 
         // Constructs
 
-        public SpriteType(int spriteWidthPx, int textureWidth)
+        public SpriteType(int width, int textureWidth)
         {
-            float texcoordWidth = spriteWidthPx * 1.0f / textureWidth;
+            float texcoordWidth = width * 1.0f / textureWidth;
             X = idx => idx * texcoordWidth;
             Y = idx => 0;
             SpriteWidth = texcoordWidth;
