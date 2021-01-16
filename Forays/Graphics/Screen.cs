@@ -491,40 +491,41 @@ namespace Forays
 
         public static void WriteChar(int r, int c, ColorChar ch)
         {
-            if (!memory[r, c].Equals(ch))
+            // If the char to write is same one that exists in that same
+            // position, then there will be no need to update.
+            if (memory[r, c].Equals(ch)) return;
+
+            ch.color = Colors.ResolveColor(ch.color);
+            ch.bgcolor = Colors.ResolveColor(ch.bgcolor);
+            if (GLMode)
             {
-                ch.color = Colors.ResolveColor(ch.color);
-                ch.bgcolor = Colors.ResolveColor(ch.bgcolor);
-                if (GLMode)
+                memory[r, c] = ch;
+                if (!NoGLUpdate)
                 {
-                    memory[r, c] = ch;
-                    if (!NoGLUpdate)
-                    {
-                        UpdateGLBuffer(r, c);
-                    }
+                    UpdateGLBuffer(r, c);
                 }
-                else
+            }
+            else
+            {
+                if (!memory[r, c].Equals(ch))
                 {
-                    if (!memory[r, c].Equals(ch))
+                    //check for equality again now that the color has been resolved - still cheaper than actually writing to console
+                    memory[r, c] = ch;
+                    ConsoleColor co = Colors.GetColor(ch.color);
+                    if (co != ForegroundColor)
                     {
-                        //check for equality again now that the color has been resolved - still cheaper than actually writing to console
-                        memory[r, c] = ch;
-                        ConsoleColor co = Colors.GetColor(ch.color);
-                        if (co != ForegroundColor)
-                        {
-                            ForegroundColor = co;
-                        }
-
-                        co = Colors.GetColor(ch.bgcolor);
-                        if (co != Console.BackgroundColor || Global.LINUX)
-                        {
-                            //voodoo here. not sure why this is needed. (possible Mono bug)
-                            BackgroundColor = co;
-                        }
-
-                        Console.SetCursorPosition(c, r);
-                        Console.Write(ch.c);
+                        ForegroundColor = co;
                     }
+
+                    co = Colors.GetColor(ch.bgcolor);
+                    if (co != Console.BackgroundColor || Global.LINUX)
+                    {
+                        //voodoo here. not sure why this is needed. (possible Mono bug)
+                        BackgroundColor = co;
+                    }
+
+                    Console.SetCursorPosition(c, r);
+                    Console.Write(ch.c);
                 }
             }
         }
