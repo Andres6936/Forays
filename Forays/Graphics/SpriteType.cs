@@ -11,7 +11,6 @@ namespace Forays
         public PositionFromIndex Y;
         public float SpriteHeight; //0 to 1, not pixels
         public float SpriteWidth;
-        public int DefaultSpriteIndex;
 
         public static void DefineSingleRowSprite(Surface surface, int sprite_width_px)
         {
