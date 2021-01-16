@@ -12,9 +12,24 @@ namespace Forays
         /// </summary>
         public PositionFromIndex Z;
 
-        public int CellHeightPx; //in pixels
+        /// <summary>
+        /// Height of cell. (In pixels).
+        /// </summary>
+        public int CellHeightPx;
+
+        /// <summary>
+        /// Width of cell. (In pixels).
+        /// </summary>
         public int CellWidthPx;
+
+        /// <summary>
+        /// The vertical offset of cell. (In pixels).
+        /// </summary>
         public int VerticalOffsetPx;
+
+        /// <summary>
+        /// The horizontal offset of cell. (In pixels). 
+        /// </summary>
         public int HorizontalOffsetPx;
 
         /// <summary>
