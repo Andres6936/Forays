@@ -110,11 +110,6 @@ namespace GLDrawing
             return y_offset_px + layout.VerticalOffset;
         }
 
-        public int TotalYOffsetPx()
-        {
-            return y_offset_px + layouts[0].VerticalOffset;
-        }
-
         public void SetEasyLayoutCounts(params int[] counts_per_layout)
         {
             if (counts_per_layout.GetLength(0) != layouts.Count)
