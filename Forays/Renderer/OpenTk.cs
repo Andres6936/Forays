@@ -330,13 +330,6 @@ namespace Forays.Renderer
                 new IntPtr(sizeof(float) * values.Length), values);
         }
 
-        public void UpdateOtherVertexArray(Surface s, IList<int> sprite_index,
-            params IList<float>[] vertex_attributes)
-        {
-            UpdateOtherVertexArray(s, -1, sprite_index, new int[sprite_index.Count],
-                vertex_attributes); //default to sprite type 0.
-        } //should I add more overloads here?
-
         public void UpdateOtherVertexArray(Surface s, int start_index, IList<int> sprite_index,
             IList<int> sprite_type,
             params IList<float>[] vertex_attributes)
