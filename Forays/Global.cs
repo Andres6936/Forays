@@ -30,7 +30,10 @@ namespace Forays
         public const int MAP_OFFSET_ROWS = 3;
         public const int MAP_OFFSET_COLS = 21;
         public const int STATUS_WIDTH = 20;
-        public const int MAX_LIGHT_RADIUS = 12; //the maximum POSSIBLE light radius. used in light calculations.
+
+        public const int
+            MAX_LIGHT_RADIUS = 12; //the maximum POSSIBLE light radius. used in light calculations.
+
         public const int MAX_INVENTORY_SIZE = 20;
         public const int HIGH_SCORES = 25;
         public static bool GAME_OVER = false;
@@ -44,6 +47,31 @@ namespace Forays
         public static Stopwatch Timer;
 
         public static Dictionary<OptionType, bool> Options = new Dictionary<OptionType, bool>();
+
+        // Static Constructor
+
+        /// <summary>
+        /// Initialize the static variables of class.
+        /// Post-condition:
+        /// - Determine if the application run under system operative Linux.
+        /// </summary>
+        static Global()
+        {
+            // Identifies the operating system, or platform, supported by an
+            // assembly.
+            PlatformID operatingSystem = Environment.OSVersion.Platform;
+
+            // If the operating system is Unix.
+            // If the operating system is Macintosh.
+            // Note: This value was returned by Silverlight. On .NET Core, its
+            // replacement is Unix.
+            if (operatingSystem == PlatformID.Unix || operatingSystem == PlatformID.MacOSX)
+            {
+                LINUX = true;
+            }
+        }
+
+        // Methods
 
         public static bool Option(OptionType option)
         {
@@ -136,24 +164,30 @@ namespace Forays
         {
             List<string> vowel = new List<string>
             {
-                "a", "e", "i", "o", "u", "ei", "a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "a", "e", "i", "o",
+                "a", "e", "i", "o", "u", "ei", "a", "e", "i", "o", "u", "a", "e", "i", "o", "u",
+                "a", "e", "i", "o",
                 "a", "e", "o"
             };
             List<string> end_vowel = new List<string>
             {
-                "a", "e", "i", "o", "u", "io", "ia", "a", "e", "i", "o", "a", "e", "i", "o", "a", "e", "o", "a", "e",
+                "a", "e", "i", "o", "u", "io", "ia", "a", "e", "i", "o", "a", "e", "i", "o", "a",
+                "e", "o", "a", "e",
                 "o"
             };
             List<string> consonant = new List<string>
             {
-                "k", "s", "t", "n", "h", "m", "y", "r", "w", "g", "d", "p", "b", "f", "l", "v", "z", "ch", "br", "cr",
-                "dr", "fr", "gr", "kr", "pr", "tr", "th", "sc", "sh", "sk", "sl", "sm", "sn", "sp", "st", "s", "t", "n",
+                "k", "s", "t", "n", "h", "m", "y", "r", "w", "g", "d", "p", "b", "f", "l", "v", "z",
+                "ch", "br", "cr",
+                "dr", "fr", "gr", "kr", "pr", "tr", "th", "sc", "sh", "sk", "sl", "sm", "sn", "sp",
+                "st", "s", "t", "n",
                 "m", "r", "g", "d", "p", "b", "l", "k", "s", "t", "n", "m", "d", "p", "b", "l"
             };
             List<string> end_consonant = new List<string>
             {
-                "k", "s", "t", "n", "m", "r", "g", "d", "p", "b", "l", "z", "ch", "th", "sh", "sk", "sp", "st", "k",
-                "s", "t", "n", "m", "r", "n", "d", "p", "b", "l", "k", "s", "t", "n", "m", "r", "d", "p", "l", "sk",
+                "k", "s", "t", "n", "m", "r", "g", "d", "p", "b", "l", "z", "ch", "th", "sh", "sk",
+                "sp", "st", "k",
+                "s", "t", "n", "m", "r", "n", "d", "p", "b", "l", "k", "s", "t", "n", "m", "r", "d",
+                "p", "l", "sk",
                 "th", "st", "d", "m", "s"
             };
             string result = "";
@@ -161,12 +195,14 @@ namespace Forays
             {
                 if (R.CoinFlip())
                 {
-                    result = vowel.Random() + consonant.Random() + vowel.Random() + consonant.Random() +
+                    result = vowel.Random() + consonant.Random() + vowel.Random() +
+                             consonant.Random() +
                              vowel.Random() + end_consonant.Random();
                 }
                 else
                 {
-                    result = vowel.Random() + consonant.Random() + vowel.Random() + consonant.Random() +
+                    result = vowel.Random() + consonant.Random() + vowel.Random() +
+                             consonant.Random() +
                              end_vowel.Random();
                 }
             }
@@ -174,12 +210,14 @@ namespace Forays
             {
                 if (R.CoinFlip())
                 {
-                    result = consonant.Random() + vowel.Random() + consonant.Random() + vowel.Random() +
+                    result = consonant.Random() + vowel.Random() + consonant.Random() +
+                             vowel.Random() +
                              consonant.Random() + vowel.Random() + end_consonant.Random();
                 }
                 else
                 {
-                    result = consonant.Random() + vowel.Random() + consonant.Random() + vowel.Random() +
+                    result = consonant.Random() + vowel.Random() + consonant.Random() +
+                             vowel.Random() +
                              consonant.Random() + end_vowel.Random();
                 }
             }
@@ -244,7 +282,8 @@ namespace Forays
                 {
                     if (circleDestroyed)
                     {
-                        B.Add(Priority.Important, "The summoning circles have been destroyed, but demons yet remain! ");
+                        B.Add(Priority.Important,
+                            "The summoning circles have been destroyed, but demons yet remain! ");
                     }
                 }
             }
@@ -278,7 +317,8 @@ namespace Forays
                             bool valid = true;
                             try
                             {
-                                option = (OptionType) Enum.Parse(typeof(OptionType), tokens[1], true);
+                                option = (OptionType) Enum.Parse(typeof(OptionType), tokens[1],
+                                    true);
                             }
                             catch (ArgumentException)
                             {
@@ -319,7 +359,8 @@ namespace Forays
                             bool valid = true;
                             try
                             {
-                                topic = (TutorialTopic) Enum.Parse(typeof(TutorialTopic), tokens[1], true);
+                                topic = (TutorialTopic) Enum.Parse(typeof(TutorialTopic), tokens[1],
+                                    true);
                             }
                             catch (ArgumentException)
                             {
@@ -559,7 +600,8 @@ namespace Forays
                 else
                 {
                     b.Write(false);
-                    b.Write(GetID(e.target)); //in every other case, the target should already be accounted for.
+                    b.Write(GetID(e
+                        .target)); //in every other case, the target should already be accounted for.
                 }
 
                 if (e.area == null)
@@ -687,7 +729,8 @@ namespace Forays
             file.Close();
         }
 
-        private static void SaveActor(Actor a, BinaryWriter b, List<List<Actor>> groups, IDMethod get_id)
+        private static void SaveActor(Actor a, BinaryWriter b, List<List<Actor>> groups,
+            IDMethod get_id)
         {
             b.Write(get_id(a));
             b.Write(a.row);
@@ -821,7 +864,8 @@ namespace Forays
 
     public static class Extensions
     {
-        public static List<string> GetWordWrappedList(this string s, int max_length, bool match_length_exactly)
+        public static List<string> GetWordWrappedList(this string s, int max_length,
+            bool match_length_exactly)
         {
             //max_length MUST be longer than any single word in the string
             List<string> result = new List<string>();
@@ -934,12 +978,14 @@ namespace Forays
             return GetColorString(s, text_color, Color.Cyan, Color.Black);
         }
 
-        public static ColorBufferString GetColorString(this string s, Color text_color, Color key_color)
+        public static ColorBufferString GetColorString(this string s, Color text_color,
+            Color key_color)
         {
             return GetColorString(s, text_color, key_color, Color.Black);
         }
 
-        public static ColorBufferString GetColorString(this string s, Color text_color, Color key_color, Color bg_color)
+        public static ColorBufferString GetColorString(this string s, Color text_color,
+            Color key_color, Color bg_color)
         {
             if (s.Contains("["))
             {
@@ -959,12 +1005,15 @@ namespace Forays
                         int hyphen = temp.IndexOf('-');
                         if (hyphen != -1 && hyphen > open && hyphen < close)
                         {
-                            result.strings.Add(new ColorString(temp.Substring(0, open + 1), text_color, bg_color));
+                            result.strings.Add(new ColorString(temp.Substring(0, open + 1),
+                                text_color, bg_color));
                             //result.strings.Add(new cstr(temp.Substring(open+1,(close-open)-1),Color.Cyan));
-                            result.strings.Add(new ColorString(temp.Substring(open + 1, (hyphen - open) - 1), key_color,
+                            result.strings.Add(new ColorString(
+                                temp.Substring(open + 1, (hyphen - open) - 1), key_color,
                                 bg_color));
                             result.strings.Add(new ColorString("-", text_color, bg_color));
-                            result.strings.Add(new ColorString(temp.Substring(hyphen + 1, (close - hyphen) - 1),
+                            result.strings.Add(new ColorString(
+                                temp.Substring(hyphen + 1, (close - hyphen) - 1),
                                 key_color,
                                 bg_color));
                             result.strings.Add(new ColorString("]", text_color, bg_color));
@@ -972,8 +1021,10 @@ namespace Forays
                         }
                         else
                         {
-                            result.strings.Add(new ColorString(temp.Substring(0, open + 1), text_color, bg_color));
-                            result.strings.Add(new ColorString(temp.Substring(open + 1, (close - open) - 1), key_color,
+                            result.strings.Add(new ColorString(temp.Substring(0, open + 1),
+                                text_color, bg_color));
+                            result.strings.Add(new ColorString(
+                                temp.Substring(open + 1, (close - open) - 1), key_color,
                                 bg_color));
                             result.strings.Add(new ColorString("]", text_color, bg_color));
                             temp = temp.Substring(close + 1);
@@ -1005,7 +1056,8 @@ namespace Forays
             return result;
         }
 
-        public static void AddWithWrap(this List<ColorBufferString> l, ColorBufferString cs, int wrap_width,
+        public static void AddWithWrap(this List<ColorBufferString> l, ColorBufferString cs,
+            int wrap_width,
             int indent = 0)
         {
             ColorBufferString last = l.LastOrDefault();
