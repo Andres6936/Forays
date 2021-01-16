@@ -13,7 +13,7 @@ namespace Forays
         public float SpriteWidth;
         public int DefaultSpriteIndex;
 
-        public static SpriteType DefineSingleRowSprite(Surface surface, int sprite_width_px)
+        public static void DefineSingleRowSprite(Surface surface, int sprite_width_px)
         {
             SpriteType s = new SpriteType();
             float texcoord_width =
@@ -26,8 +26,6 @@ namespace Forays
             {
                 surface.Texture.Sprite.Add(s);
             }
-
-            return s;
         }
 
         /// <summary>
