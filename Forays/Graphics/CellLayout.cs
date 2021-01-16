@@ -27,7 +27,7 @@ namespace Forays
         /// <param name="h_offset_px"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        public static CellLayout CreateGrid(Surface s, int rows, int cols, int cell_height_px,
+        public static void CreateGrid(Surface s, int rows, int cols, int cell_height_px,
             int cell_width_px,
             int v_offset_px, int h_offset_px, PositionFromIndex z = null)
         {
@@ -43,8 +43,6 @@ namespace Forays
             {
                 s.layouts.Add(c);
             }
-
-            return c;
         }
 
         public static CellLayout CreateIso(Surface s, int rows, int cols, int cell_height_px,
