@@ -406,7 +406,7 @@ namespace Forays
             //Game.gl.UpdateVertexArray(start_row,start_col,GLGame.text_surface,sprite_rows,sprite_cols,color_info);
         }
 
-        public static void UpdateGLBuffer(int row, int col)
+        private static void UpdateGLBuffer(int row, int col)
         {
             ColorChar cch = memory[row, col];
             gl.UpdateOtherSingleVertex(textSurface, U.Get1DIndex(row, col, Global.SCREEN_W),
