@@ -223,7 +223,11 @@ namespace SchismDungeonGenerator
                 7; //1 - "max" might not be the actual maximum if CorridorExtraLength and CorridorExtraLengthChance are more than zero
 
         public int CorridorExtraLength = 8; //2
-        public int CorridorExtraLengthChance = 50; //3 - percent chance to add CorridorExtraLength to a given corridor
+
+        public int
+            CorridorExtraLengthChance =
+                50; //3 - percent chance to add CorridorExtraLength to a given corridor
+
         public int CorridorChainSizeMin = 1; //4 -the number of linked corridors that will be
         public int CorridorChainSizeMax = 4; //5 -      generated at one time
 
@@ -473,7 +477,8 @@ namespace SchismDungeonGenerator
 
                     if (roomdir == 0)
                     {
-                        return false; //no room found, error - disable this if you want tiny rooms with h/w of 2
+                        return
+                            false; //no room found, error - disable this if you want tiny rooms with h/w of 2
                         /*char[] rotated = new char[8];
                         for(int i=0;i<8;++i){
                             rotated[i] = Map(PosInDir(r,c,RotateDir(8,true,i)));
@@ -540,7 +545,8 @@ namespace SchismDungeonGenerator
                             }
                         }
 
-                        if ((map[rotated[4]].IsWall() || (map[rotated[3]].IsWall() && map[rotated[5]].IsWall())) ==
+                        if ((map[rotated[4]].IsWall() ||
+                             (map[rotated[3]].IsWall() && map[rotated[5]].IsWall())) ==
                             false)
                         {
                             return false;
@@ -715,14 +721,24 @@ namespace SchismDungeonGenerator
                         dir_of_wall = 4;
                     }
 
-                    if (!map[p.PosInDir(dir_of_wall)].IsWall() || !map[p.PosInDir(dir_of_wall.RotateDir(true, 4))]
+                    if (!map[p.PosInDir(dir_of_wall)].IsWall() || !map[
+                                                                       p.PosInDir(
+                                                                           dir_of_wall.RotateDir(
+                                                                               true, 4))]
                                                                    .IsWall()
-                                                               || map[p.PosInDir(dir_of_wall.RotateDir(true, 2))]
+                                                               || map[
+                                                                       p.PosInDir(
+                                                                           dir_of_wall.RotateDir(
+                                                                               true, 2))]
                                                                    .IsWall() ||
-                                                               map[p.PosInDir(dir_of_wall.RotateDir(false, 2))]
+                                                               map[
+                                                                       p.PosInDir(
+                                                                           dir_of_wall.RotateDir(
+                                                                               false, 2))]
                                                                    .IsWall())
                     {
-                        return false; //needs 2 walls on opposite sides, 2 nonwalls on opposite sides
+                        return
+                            false; //needs 2 walls on opposite sides, 2 nonwalls on opposite sides
                     }
 
                     break;
@@ -819,7 +835,8 @@ namespace SchismDungeonGenerator
                                         {
                                             for (int dt = -1; dt <= 1; ++dt)
                                             {
-                                                if (s + ds >= 0 && s + ds < 3 && t + dt >= 0 && t + dt < 3 &&
+                                                if (s + ds >= 0 && s + ds < 3 && t + dt >= 0 &&
+                                                    t + dt < 3 &&
                                                     num[s + ds, t + dt] == 0)
                                                 {
                                                     num[s + ds, t + dt] = count;
@@ -1019,7 +1036,8 @@ namespace SchismDungeonGenerator
                     int lastdir = 0;
                     foreach (int direction in U.FourDirections)
                     {
-                        if (p.PosInDir(direction).BoundsCheck(map) && map[p.PosInDir(direction)].IsFloor())
+                        if (p.PosInDir(direction).BoundsCheck(map) &&
+                            map[p.PosInDir(direction)].IsFloor())
                         {
                             ++total;
                             lastdir = direction;
@@ -1038,7 +1056,8 @@ namespace SchismDungeonGenerator
 
                     if (R.PercentChance(10))
                     {
-                        if (CreateCorridor(p.row, p.col, Between(CorridorChainSizeMin, CorridorChainSizeMax), dir))
+                        if (CreateCorridor(p.row, p.col,
+                            Between(CorridorChainSizeMin, CorridorChainSizeMax), dir))
                         {
                             ++success_count;
                         }
@@ -1069,7 +1088,8 @@ namespace SchismDungeonGenerator
 
         public bool CreateCorridor()
         {
-            return CreateCorridor(Roll(H - 4) + 1, Roll(W - 4) + 1, Between(CorridorChainSizeMin, CorridorChainSizeMax),
+            return CreateCorridor(Roll(H - 4) + 1, Roll(W - 4) + 1,
+                Between(CorridorChainSizeMin, CorridorChainSizeMax),
                 Roll(4) * 2);
         }
 
@@ -1080,7 +1100,8 @@ namespace SchismDungeonGenerator
 
         public bool CreateCorridor(int rr, int rc)
         {
-            return CreateCorridor(rr, rc, Between(CorridorChainSizeMin, CorridorChainSizeMax), Roll(4) * 2);
+            return CreateCorridor(rr, rc, Between(CorridorChainSizeMin, CorridorChainSizeMax),
+                Roll(4) * 2);
         }
 
         public bool CreateCorridor(int rr, int rc, int count)
@@ -1235,7 +1256,8 @@ namespace SchismDungeonGenerator
                                 }
                             }
 
-                            if (good && map[rr - 1, rc].Is(CellType.CorridorHorizontal, CellType.CorridorIntersection))
+                            if (good && map[rr - 1, rc].Is(CellType.CorridorHorizontal,
+                                    CellType.CorridorIntersection))
                             {
                                 map[rr - 1, rc] = CellType.CorridorIntersection;
                             }
@@ -1254,8 +1276,10 @@ namespace SchismDungeonGenerator
                                     //they are checked by the others
                                     if (i != rr + length && j != rc + 1)
                                     {
-                                        if (map[i, j].IsCorridorType() && map[i, j + 1].IsCorridorType() &&
-                                            map[i + 1, j].IsCorridorType() && map[i + 1, j + 1].IsCorridorType())
+                                        if (map[i, j].IsCorridorType() &&
+                                            map[i, j + 1].IsCorridorType() &&
+                                            map[i + 1, j].IsCorridorType() &&
+                                            map[i + 1, j + 1].IsCorridorType())
                                         {
                                             good = false;
                                             break;
@@ -1414,8 +1438,10 @@ namespace SchismDungeonGenerator
                                     //they are checked by the others
                                     if (i != rr + 1 && j != rc + length)
                                     {
-                                        if (map[i, j].IsCorridorType() && map[i, j + 1].IsCorridorType() &&
-                                            map[i + 1, j].IsCorridorType() && map[i + 1, j + 1].IsCorridorType())
+                                        if (map[i, j].IsCorridorType() &&
+                                            map[i, j + 1].IsCorridorType() &&
+                                            map[i + 1, j].IsCorridorType() &&
+                                            map[i + 1, j + 1].IsCorridorType())
                                         {
                                             good = false;
                                             break;
@@ -1662,7 +1688,8 @@ namespace SchismDungeonGenerator
                                     map[i + rr, j + rc] = CellType.RoomCorner;
                                     break;
                                 default:
-                                    map[i + rr, j + rc] = CellType.InterestingLocation; //this indicates an error
+                                    map[i + rr, j + rc] =
+                                        CellType.InterestingLocation; //this indicates an error
                                     break;
                             }
                         }
@@ -1762,7 +1789,8 @@ namespace SchismDungeonGenerator
                             bool good = true;
                             for (int ii = 3; ii <= 5; ++ii)
                             {
-                                if (map[p.PosInDir(direction_of_other_wall.RotateDir(true, ii))].IsWall() == false)
+                                if (map[p.PosInDir(direction_of_other_wall.RotateDir(true, ii))]
+                                        .IsWall() == false)
                                 {
                                     good = false;
                                     break;
@@ -1804,7 +1832,8 @@ namespace SchismDungeonGenerator
                             int total = 0;
                             foreach (int dir in FourDirections)
                             {
-                                if (!BoundsCheck(p.PosInDir(dir), true) || map[p.PosInDir(dir)].IsWall())
+                                if (!BoundsCheck(p.PosInDir(dir), true) ||
+                                    map[p.PosInDir(dir)].IsWall())
                                 {
                                     ++total;
                                 }
@@ -1863,7 +1892,8 @@ namespace SchismDungeonGenerator
                                         {
                                             for (int dt = -1; dt <= 1; ++dt)
                                             {
-                                                if (BoundsCheck(s + ds, t + dt, true) && num[s + ds, t + dt] == 0)
+                                                if (BoundsCheck(s + ds, t + dt, true) &&
+                                                    num[s + ds, t + dt] == 0)
                                                 {
                                                     num[s + ds, t + dt] = count;
                                                     changed = true;
@@ -1960,7 +1990,8 @@ namespace SchismDungeonGenerator
                         {
                             if (p.ApproximateEuclideanDistanceFromX10(10, 10) < 100)
                             {
-                                if (PercentChance(100 - p.ApproximateEuclideanDistanceFromX10(10, 10)))
+                                if (PercentChance(
+                                    100 - p.ApproximateEuclideanDistanceFromX10(10, 10)))
                                 {
                                     shape[p] = CellType.DeepWater;
                                     if (p.row == 1 || p.col == 1 || p.row == 19 || p.col == 19)
@@ -1987,7 +2018,8 @@ namespace SchismDungeonGenerator
                                 for (int t = 0; t < 21 && !done; ++t)
                                 {
                                     if (shape[s, t].IsWall() &&
-                                        new pos(i, j).ApproximateEuclideanDistanceFromX10(s, t) < 20)
+                                        new pos(i, j).ApproximateEuclideanDistanceFromX10(s, t) <
+                                        20)
                                     {
                                         shape[i, j] = CellType.ShallowWater;
                                         done = true;
@@ -1995,7 +2027,8 @@ namespace SchismDungeonGenerator
                                     else
                                     {
                                         if (shape[s, t].IsWall() &&
-                                            new pos(i, j).ApproximateEuclideanDistanceFromX10(s, t) == 20)
+                                            new pos(i, j)
+                                                .ApproximateEuclideanDistanceFromX10(s, t) == 20)
                                         {
                                             if (CoinFlip())
                                             {
@@ -2015,7 +2048,8 @@ namespace SchismDungeonGenerator
                     }
                 }
 
-                int start_r = 999; //these are for the position of the lake within the "shape" variable
+                int start_r =
+                    999; //these are for the position of the lake within the "shape" variable
                 int start_c = 999;
                 int end_r = -1;
                 int end_c = -1;
@@ -2060,7 +2094,8 @@ namespace SchismDungeonGenerator
                         for (int j = 0; j < lake_w; ++j)
                         {
                             old_cells[i, j] = map[i + rr, j + rc];
-                            if (shape[i + start_r, j + start_c].Is(CellType.ShallowWater, CellType.DeepWater) &&
+                            if (shape[i + start_r, j + start_c]
+                                    .Is(CellType.ShallowWater, CellType.DeepWater) &&
                                 !map[i + rr, j + rc].Is(CellType.DeepWater))
                             {
                                 map[i + rr, j + rc] = shape[i + start_r, j + start_c];
@@ -2113,7 +2148,8 @@ namespace SchismDungeonGenerator
             int minimum_distance_from_other_trees)
         {
             List<pos>
-                locations = new List<pos>(); //if number_of_trees is negative, keep going until no more can be placed.
+                locations =
+                    new List<pos>(); //if number_of_trees is negative, keep going until no more can be placed.
             while (true)
             {
                 bool[,] valid = new bool[H, W];
@@ -2131,9 +2167,13 @@ namespace SchismDungeonGenerator
                     {
                         if (map[i, j].IsWall())
                         {
-                            for (int s = i - minimum_distance_from_walls; s <= i + minimum_distance_from_walls; ++s)
+                            for (int s = i - minimum_distance_from_walls;
+                                s <= i + minimum_distance_from_walls;
+                                ++s)
                             {
-                                for (int t = j - minimum_distance_from_walls; t <= j + minimum_distance_from_walls; ++t)
+                                for (int t = j - minimum_distance_from_walls;
+                                    t <= j + minimum_distance_from_walls;
+                                    ++t)
                                 {
                                     if (BoundsCheck(s, t))
                                     {
@@ -2188,9 +2228,13 @@ namespace SchismDungeonGenerator
                     int i = p.row;
                     int j = p.col;
                     bool good = true;
-                    for (int s = i - minimum_distance_from_walls; s <= i + minimum_distance_from_walls; ++s)
+                    for (int s = i - minimum_distance_from_walls;
+                        s <= i + minimum_distance_from_walls;
+                        ++s)
                     {
-                        for (int t = j - minimum_distance_from_walls; t <= j + minimum_distance_from_walls; ++t)
+                        for (int t = j - minimum_distance_from_walls;
+                            t <= j + minimum_distance_from_walls;
+                            ++t)
                         {
                             if (BoundsCheck(s, t) && map[s, t].IsWall())
                             {
@@ -2199,7 +2243,9 @@ namespace SchismDungeonGenerator
                         }
                     }
 
-                    for (int s = i - minimum_distance_from_other_trees; s <= i + minimum_distance_from_other_trees; ++s)
+                    for (int s = i - minimum_distance_from_other_trees;
+                        s <= i + minimum_distance_from_other_trees;
+                        ++s)
                     {
                         for (int t = j - minimum_distance_from_other_trees;
                             t <= j + minimum_distance_from_other_trees;
@@ -2264,7 +2310,8 @@ namespace SchismDungeonGenerator
             }
         }
 
-        public void BSPFill(int forcedSplitHeight, int forcedSplitWidth, int minHeight, int minWidth,
+        public void BSPFill(int forcedSplitHeight, int forcedSplitWidth, int minHeight,
+            int minWidth,
             bool proportionalSplitChance)
         {
             // forcedSplit_ must be no less than 2*min_ + 1.
@@ -2394,7 +2441,8 @@ namespace SchismDungeonGenerator
                                 twists[neighbor.PosInDir(dir.RotateDir(false, 2))] == 0)
                             {
                                 if (twists[neighbor.PosInDir(dir)] != 0 &&
-                                    (sections[twists[neighbor.PosInDir(dir)]] != section || R.OneIn(200)))
+                                    (sections[twists[neighbor.PosInDir(dir)]] != section ||
+                                     R.OneIn(200)))
                                 {
                                     dirs.Add(dir);
                                 }
@@ -2744,7 +2792,8 @@ namespace SchismDungeonGenerator
                 for (int j = 0; j < W; ++j)
                 {
                     pos p = new pos(i, j);
-                    int num_walls = p.AdjacentPositionsClockwise().Where(x => !BoundsCheck(x, true) || map[x].IsWall())
+                    int num_walls = p.AdjacentPositionsClockwise()
+                        .Where(x => !BoundsCheck(x, true) || map[x].IsWall())
                         .Count;
                     if (map[p].IsWall())
                     {
@@ -2875,11 +2924,13 @@ namespace SchismDungeonGenerator
                         {
                             foreach (pos neighbor in new pos(i, j).PositionsWithinDistance(1))
                             {
-                                pos neighbor_offset = new pos(p.row + neighbor.row, p.col + neighbor.col);
+                                pos neighbor_offset = new pos(p.row + neighbor.row,
+                                    p.col + neighbor.col);
                                 if (!force_cardinal_direction_connection)
                                 {
                                     //if this bool is set, check later.
-                                    if (map.BoundsCheck(neighbor_offset) && map[neighbor_offset].IsPassable())
+                                    if (map.BoundsCheck(neighbor_offset) &&
+                                        map[neighbor_offset].IsPassable())
                                     {
                                         bad_connection = false;
                                     }
@@ -2896,7 +2947,8 @@ namespace SchismDungeonGenerator
                                 foreach (pos neighbor in new pos(i, j).CardinalAdjacentPositions())
                                 {
                                     if (connected.BoundsCheck(neighbor) &&
-                                        map[p.row + neighbor.row, p.col + neighbor.col].IsPassable())
+                                        map[p.row + neighbor.row, p.col + neighbor.col]
+                                            .IsPassable())
                                     {
                                         bad_connection = false;
                                     }
@@ -3132,7 +3184,8 @@ namespace SchismDungeonGenerator
             StatueEdges
         };
 
-        public void AlterRooms(int no_change_freq, int add_pillars_freq, int cross_room_freq, int cave_widen_freq,
+        public void AlterRooms(int no_change_freq, int add_pillars_freq, int cross_room_freq,
+            int cave_widen_freq,
             int cave_fill_freq)
         {
             List<int> modification = new List<int>();
@@ -3255,12 +3308,16 @@ namespace SchismDungeonGenerator
                                                     offset = Roll(2) - 1;
                                                 }
 
-                                                for (int i = start_r + 1 + offset; i < (start_r + end_r) / 2; i += 2)
+                                                for (int i = start_r + 1 + offset;
+                                                    i < (start_r + end_r) / 2;
+                                                    i += 2)
                                                 {
                                                     map[i, (start_c + end_c) / 2] = pillar;
                                                 }
 
-                                                for (int i = end_r - 1 - offset; i > (start_r + end_r) / 2 + 1; i -= 2)
+                                                for (int i = end_r - 1 - offset;
+                                                    i > (start_r + end_r) / 2 + 1;
+                                                    i -= 2)
                                                 {
                                                     map[i, (start_c + end_c) / 2] = pillar;
                                                 }
@@ -3283,12 +3340,16 @@ namespace SchismDungeonGenerator
                                                     offset = Roll(2) - 1;
                                                 }
 
-                                                for (int i = start_c + 1 + offset; i < (start_c + end_c) / 2; i += 2)
+                                                for (int i = start_c + 1 + offset;
+                                                    i < (start_c + end_c) / 2;
+                                                    i += 2)
                                                 {
                                                     map[(start_r + end_r) / 2, i] = pillar;
                                                 }
 
-                                                for (int i = end_c - 1 - offset; i > (start_c + end_c) / 2 + 1; i -= 2)
+                                                for (int i = end_c - 1 - offset;
+                                                    i > (start_c + end_c) / 2 + 1;
+                                                    i -= 2)
                                                 {
                                                     map[(start_r + end_r) / 2, i] = pillar;
                                                 }
@@ -3311,7 +3372,8 @@ namespace SchismDungeonGenerator
                                             h_offset = Roll(2) - 1;
                                         }
 
-                                        map[start_r + 1 + v_offset, start_c + 1 + h_offset] = pillar;
+                                        map[start_r + 1 + v_offset, start_c + 1 + h_offset] =
+                                            pillar;
                                         map[start_r + 1 + v_offset, end_c - 1 - h_offset] = pillar;
                                         map[end_r - 1 - v_offset, start_c + 1 + h_offset] = pillar;
                                         map[end_r - 1 - v_offset, end_c - 1 - h_offset] = pillar;
@@ -3345,13 +3407,17 @@ namespace SchismDungeonGenerator
 
                                         for (int i = start_r + 1 + v_offset; i < half_r; i += 2)
                                         {
-                                            for (int j = end_c - 1 - h_offset; j > half_c_offset; j -= 2)
+                                            for (int j = end_c - 1 - h_offset;
+                                                j > half_c_offset;
+                                                j -= 2)
                                             {
                                                 map[i, j] = pillar;
                                             }
                                         }
 
-                                        for (int i = end_r - 1 - v_offset; i > half_r_offset; i -= 2)
+                                        for (int i = end_r - 1 - v_offset;
+                                            i > half_r_offset;
+                                            i -= 2)
                                         {
                                             for (int j = start_c + 1 + h_offset; j < half_c; j += 2)
                                             {
@@ -3359,9 +3425,13 @@ namespace SchismDungeonGenerator
                                             }
                                         }
 
-                                        for (int i = end_r - 1 - v_offset; i > half_r_offset; i -= 2)
+                                        for (int i = end_r - 1 - v_offset;
+                                            i > half_r_offset;
+                                            i -= 2)
                                         {
-                                            for (int j = end_c - 1 - h_offset; j > half_c_offset; j -= 2)
+                                            for (int j = end_c - 1 - h_offset;
+                                                j > half_c_offset;
+                                                j -= 2)
                                             {
                                                 map[i, j] = pillar;
                                             }
@@ -3384,12 +3454,16 @@ namespace SchismDungeonGenerator
                                                     offset = Roll(2) - 1;
                                                 }
 
-                                                for (int i = start_r + 1 + offset; i < half_r; i += 2)
+                                                for (int i = start_r + 1 + offset;
+                                                    i < half_r;
+                                                    i += 2)
                                                 {
                                                     map[i, half_c] = pillar;
                                                 }
 
-                                                for (int i = end_r - 1 - offset; i > half_r_offset; i -= 2)
+                                                for (int i = end_r - 1 - offset;
+                                                    i > half_r_offset;
+                                                    i -= 2)
                                                 {
                                                     map[i, half_c] = pillar;
                                                 }
@@ -3413,12 +3487,16 @@ namespace SchismDungeonGenerator
                                                     offset = Roll(2) - 1;
                                                 }
 
-                                                for (int i = start_c + 1 + offset; i < half_c; i += 2)
+                                                for (int i = start_c + 1 + offset;
+                                                    i < half_c;
+                                                    i += 2)
                                                 {
                                                     map[half_r, i] = pillar;
                                                 }
 
-                                                for (int i = end_c - 1 - offset; i > half_c_offset; i -= 2)
+                                                for (int i = end_c - 1 - offset;
+                                                    i > half_c_offset;
+                                                    i -= 2)
                                                 {
                                                     map[half_r, i] = pillar;
                                                 }
@@ -3442,15 +3520,21 @@ namespace SchismDungeonGenerator
                                         if (width % 2 == 1 && width > 3)
                                         {
                                             int half_c = (start_c + end_c) / 2;
-                                            int corridors = new pos(start_r, half_c).CardinalAdjacentPositions()
-                                                .Where(x => BoundsCheck(x) && map[x].IsCorridorType()).Count;
+                                            int corridors = new pos(start_r, half_c)
+                                                .CardinalAdjacentPositions()
+                                                .Where(x =>
+                                                    BoundsCheck(x) && map[x].IsCorridorType())
+                                                .Count;
                                             if (corridors == 0)
                                             {
                                                 map[start_r, half_c] = CellType.Statue;
                                             }
 
-                                            corridors = new pos(end_r, half_c).CardinalAdjacentPositions()
-                                                .Where(x => BoundsCheck(x) && map[x].IsCorridorType()).Count;
+                                            corridors = new pos(end_r, half_c)
+                                                .CardinalAdjacentPositions()
+                                                .Where(x =>
+                                                    BoundsCheck(x) && map[x].IsCorridorType())
+                                                .Count;
                                             if (corridors == 0)
                                             {
                                                 map[end_r, half_c] = CellType.Statue;
@@ -3460,15 +3544,21 @@ namespace SchismDungeonGenerator
                                         if (height % 2 == 1 && height > 3)
                                         {
                                             int half_r = (start_r + end_r) / 2;
-                                            int corridors = new pos(half_r, start_c).CardinalAdjacentPositions()
-                                                .Where(x => BoundsCheck(x) && map[x].IsCorridorType()).Count;
+                                            int corridors = new pos(half_r, start_c)
+                                                .CardinalAdjacentPositions()
+                                                .Where(x =>
+                                                    BoundsCheck(x) && map[x].IsCorridorType())
+                                                .Count;
                                             if (corridors == 0)
                                             {
                                                 map[half_r, start_c] = CellType.Statue;
                                             }
 
-                                            corridors = new pos(half_r, end_c).CardinalAdjacentPositions()
-                                                .Where(x => BoundsCheck(x) && map[x].IsCorridorType()).Count;
+                                            corridors = new pos(half_r, end_c)
+                                                .CardinalAdjacentPositions()
+                                                .Where(x =>
+                                                    BoundsCheck(x) && map[x].IsCorridorType())
+                                                .Count;
                                             if (corridors == 0)
                                             {
                                                 map[half_r, end_c] = CellType.Statue;
@@ -3507,7 +3597,8 @@ namespace SchismDungeonGenerator
                         {
                             for (int j = start_c; j <= end_c; ++j)
                             {
-                                if ((i < start_r + rows_to_convert || i > end_r - rows_to_convert) &&
+                                if ((i < start_r + rows_to_convert ||
+                                     i > end_r - rows_to_convert) &&
                                     (j < start_c + cols_to_convert || j > end_c - cols_to_convert))
                                 {
                                     pos p = new pos(i, j);
@@ -3544,10 +3635,12 @@ namespace SchismDungeonGenerator
                                 foreach (int dir in U.FourDirections)
                                 {
                                     pos next = p.PosInDir(dir);
-                                    while (next.row >= start_r && next.row <= end_r && next.col >= start_c &&
+                                    while (next.row >= start_r && next.row <= end_r &&
+                                           next.col >= start_c &&
                                            next.col <= end_c)
                                     {
-                                        if (next.CardinalAdjacentPositions().Any(x => map[x].IsRoomType()))
+                                        if (next.CardinalAdjacentPositions()
+                                            .Any(x => map[x].IsRoomType()))
                                         {
                                             valid_dirs.Add(dir);
                                             break;
@@ -3563,7 +3656,8 @@ namespace SchismDungeonGenerator
                                 while (true)
                                 {
                                     new_corridor.Add(next2);
-                                    if (next2.CardinalAdjacentPositions().Any(x => map[x].IsRoomType()))
+                                    if (next2.CardinalAdjacentPositions()
+                                        .Any(x => map[x].IsRoomType()))
                                     {
                                         break;
                                     }
@@ -3583,7 +3677,8 @@ namespace SchismDungeonGenerator
                     case 3:
                     {
                         List<pos> list = map.PositionsWhere(x =>
-                            x.row >= start_r && x.row <= end_r && x.col >= start_c && x.col <= end_c);
+                            x.row >= start_r && x.row <= end_r && x.col >= start_c &&
+                            x.col <= end_c);
                         PosArray<CellType> old_map = new PosArray<CellType>(H, W);
                         foreach (pos p in list)
                         {
@@ -3659,7 +3754,8 @@ namespace SchismDungeonGenerator
                             pos f = frontier.RemoveRandom();
                             foreach (pos neighbor in f.CardinalAdjacentPositions())
                             {
-                                if (!BoundsCheck(neighbor, false) || !rock[neighbor.row, neighbor.col])
+                                if (!BoundsCheck(neighbor, false) ||
+                                    !rock[neighbor.row, neighbor.col])
                                 {
                                     ++fail_counter; //this might now be unreachable
                                     if (!BoundsCheck(neighbor, false))
@@ -3726,8 +3822,11 @@ namespace SchismDungeonGenerator
                     case 4:
                     {
                         List<pos> list = map.PositionsWhere(x =>
-                            x.row >= start_r && x.row <= end_r && x.col >= start_c && x.col <= end_c);
-                        Dungeon room = new Dungeon((end_r - start_r) + 3, (end_c - start_c) + 3); //includes borders
+                            x.row >= start_r && x.row <= end_r && x.col >= start_c &&
+                            x.col <= end_c);
+                        Dungeon room =
+                            new Dungeon((end_r - start_r) + 3,
+                                (end_c - start_c) + 3); //includes borders
                         List<pos> map_exits = list.Where(x =>
                             x.CardinalAdjacentPositions()
                                 .Any(y => map[y]
@@ -3793,7 +3892,8 @@ namespace SchismDungeonGenerator
             });
         }
 
-        public void MakeCrossRooms(int percent_chance_per_rectangular_room, bool allow_corner_only_rooms)
+        public void MakeCrossRooms(int percent_chance_per_rectangular_room,
+            bool allow_corner_only_rooms)
         {
             ForEachRectangularRoom((start_r, start_c, end_r, end_c) =>
             {
@@ -3942,7 +4042,8 @@ namespace SchismDungeonGenerator
             return offset;
         }
 
-        public delegate void DensityUpdateDelegate(pos p, PosArray<int> density, PosArray<CellType> cells);
+        public delegate void DensityUpdateDelegate(pos p, PosArray<int> density,
+            PosArray<CellType> cells);
 
         public bool CreateTwistyCave(bool two_walls_between_corridors, int percent_coverage)
         {
@@ -3950,7 +4051,8 @@ namespace SchismDungeonGenerator
                 (x, density, cells) => { return; });
         }
 
-        public bool CreateTwistyCave(bool two_walls_between_corridors, int percent_coverage, int density_threshold,
+        public bool CreateTwistyCave(bool two_walls_between_corridors, int percent_coverage,
+            int density_threshold,
             DensityUpdateDelegate update_density)
         {
             int target_number_of_floors = (H * W * percent_coverage) / 100;
@@ -4104,7 +4206,8 @@ namespace SchismDungeonGenerator
             return MakeRoomsCavelike(100, true);
         }
 
-        public bool MakeRoomsCavelike(int percent_chance_per_room, bool ignore_rooms_with_single_exit)
+        public bool MakeRoomsCavelike(int percent_chance_per_room,
+            bool ignore_rooms_with_single_exit)
         {
             //this isn't guaranteed to succeed, so you might need to check the return value
             return ForEachRoom(list =>
@@ -4115,7 +4218,9 @@ namespace SchismDungeonGenerator
                     int end_r = list.WhereGreatest(x => x.row)[0].row;
                     int start_c = list.WhereLeast(x => x.col)[0].col;
                     int end_c = list.WhereGreatest(x => x.col)[0].col;
-                    Dungeon room = new Dungeon((end_r - start_r) + 3, (end_c - start_c) + 3); //includes borders
+                    Dungeon room =
+                        new Dungeon((end_r - start_r) + 3,
+                            (end_c - start_c) + 3); //includes borders
                     List<pos> map_exits =
                         list.Where(x =>
                             x.CardinalAdjacentPositions()
@@ -4192,7 +4297,9 @@ namespace SchismDungeonGenerator
                     int end_r = list.WhereGreatest(x => x.row)[0].row;
                     int start_c = list.WhereLeast(x => x.col)[0].col;
                     int end_c = list.WhereGreatest(x => x.col)[0].col;
-                    Dungeon room = new Dungeon((end_r - start_r) + 3, (end_c - start_c) + 3); //includes borders
+                    Dungeon room =
+                        new Dungeon((end_r - start_r) + 3,
+                            (end_c - start_c) + 3); //includes borders
                     while (true)
                     {
                         room.FillWithRandomWalls(25);
@@ -4202,7 +4309,8 @@ namespace SchismDungeonGenerator
                             for (int j = start_c; j <= end_c; ++j)
                             {
                                 pos p = new pos(i, j);
-                                if (!p.PositionsWithinDistance(minimum_distance_from_wall - 1, room.map)
+                                if (!p.PositionsWithinDistance(minimum_distance_from_wall - 1,
+                                        room.map)
                                     .All(x => list.Contains(x)))
                                 {
                                     //todo: I probably broke this. 
@@ -4332,12 +4440,16 @@ namespace SchismDungeonGenerator
                                                 offset = Roll(2) - 1;
                                             }
 
-                                            for (int i = start_r + 1 + offset; i < (start_r + end_r) / 2; i += 2)
+                                            for (int i = start_r + 1 + offset;
+                                                i < (start_r + end_r) / 2;
+                                                i += 2)
                                             {
                                                 map[i, (start_c + end_c) / 2] = pillar;
                                             }
 
-                                            for (int i = end_r - 1 - offset; i > (start_r + end_r) / 2 + 1; i -= 2)
+                                            for (int i = end_r - 1 - offset;
+                                                i > (start_r + end_r) / 2 + 1;
+                                                i -= 2)
                                             {
                                                 map[i, (start_c + end_c) / 2] = pillar;
                                             }
@@ -4360,12 +4472,16 @@ namespace SchismDungeonGenerator
                                                 offset = Roll(2) - 1;
                                             }
 
-                                            for (int i = start_c + 1 + offset; i < (start_c + end_c) / 2; i += 2)
+                                            for (int i = start_c + 1 + offset;
+                                                i < (start_c + end_c) / 2;
+                                                i += 2)
                                             {
                                                 map[(start_r + end_r) / 2, i] = pillar;
                                             }
 
-                                            for (int i = end_c - 1 - offset; i > (start_c + end_c) / 2 + 1; i -= 2)
+                                            for (int i = end_c - 1 - offset;
+                                                i > (start_c + end_c) / 2 + 1;
+                                                i -= 2)
                                             {
                                                 map[(start_r + end_r) / 2, i] = pillar;
                                             }
@@ -4422,7 +4538,9 @@ namespace SchismDungeonGenerator
 
                                     for (int i = start_r + 1 + v_offset; i < half_r; i += 2)
                                     {
-                                        for (int j = end_c - 1 - h_offset; j > half_c_offset; j -= 2)
+                                        for (int j = end_c - 1 - h_offset;
+                                            j > half_c_offset;
+                                            j -= 2)
                                         {
                                             map[i, j] = pillar;
                                         }
@@ -4438,7 +4556,9 @@ namespace SchismDungeonGenerator
 
                                     for (int i = end_r - 1 - v_offset; i > half_r_offset; i -= 2)
                                     {
-                                        for (int j = end_c - 1 - h_offset; j > half_c_offset; j -= 2)
+                                        for (int j = end_c - 1 - h_offset;
+                                            j > half_c_offset;
+                                            j -= 2)
                                         {
                                             map[i, j] = pillar;
                                         }
@@ -4466,7 +4586,9 @@ namespace SchismDungeonGenerator
                                                 map[i, half_c] = pillar;
                                             }
 
-                                            for (int i = end_r - 1 - offset; i > half_r_offset; i -= 2)
+                                            for (int i = end_r - 1 - offset;
+                                                i > half_r_offset;
+                                                i -= 2)
                                             {
                                                 map[i, half_c] = pillar;
                                             }
@@ -4495,7 +4617,9 @@ namespace SchismDungeonGenerator
                                                 map[half_r, i] = pillar;
                                             }
 
-                                            for (int i = end_c - 1 - offset; i > half_c_offset; i -= 2)
+                                            for (int i = end_c - 1 - offset;
+                                                i > half_c_offset;
+                                                i -= 2)
                                             {
                                                 map[half_r, i] = pillar;
                                             }
@@ -4519,15 +4643,19 @@ namespace SchismDungeonGenerator
                                     if (width % 2 == 1 && width > 3)
                                     {
                                         int half_c = (start_c + end_c) / 2;
-                                        int corridors = new pos(start_r, half_c).CardinalAdjacentPositions()
-                                            .Where(x => BoundsCheck(x) && map[x].IsCorridorType()).Count;
+                                        int corridors = new pos(start_r, half_c)
+                                            .CardinalAdjacentPositions()
+                                            .Where(x => BoundsCheck(x) && map[x].IsCorridorType())
+                                            .Count;
                                         if (corridors == 0)
                                         {
                                             map[start_r, half_c] = CellType.Statue;
                                         }
 
-                                        corridors = new pos(end_r, half_c).CardinalAdjacentPositions()
-                                            .Where(x => BoundsCheck(x) && map[x].IsCorridorType()).Count;
+                                        corridors = new pos(end_r, half_c)
+                                            .CardinalAdjacentPositions()
+                                            .Where(x => BoundsCheck(x) && map[x].IsCorridorType())
+                                            .Count;
                                         if (corridors == 0)
                                         {
                                             map[end_r, half_c] = CellType.Statue;
@@ -4537,15 +4665,19 @@ namespace SchismDungeonGenerator
                                     if (height % 2 == 1 && height > 3)
                                     {
                                         int half_r = (start_r + end_r) / 2;
-                                        int corridors = new pos(half_r, start_c).CardinalAdjacentPositions()
-                                            .Where(x => BoundsCheck(x) && map[x].IsCorridorType()).Count;
+                                        int corridors = new pos(half_r, start_c)
+                                            .CardinalAdjacentPositions()
+                                            .Where(x => BoundsCheck(x) && map[x].IsCorridorType())
+                                            .Count;
                                         if (corridors == 0)
                                         {
                                             map[half_r, start_c] = CellType.Statue;
                                         }
 
-                                        corridors = new pos(half_r, end_c).CardinalAdjacentPositions()
-                                            .Where(x => BoundsCheck(x) && map[x].IsCorridorType()).Count;
+                                        corridors = new pos(half_r, end_c)
+                                            .CardinalAdjacentPositions()
+                                            .Where(x => BoundsCheck(x) && map[x].IsCorridorType())
+                                            .Count;
                                         if (corridors == 0)
                                         {
                                             map[half_r, end_c] = CellType.Statue;
@@ -4664,7 +4796,8 @@ namespace SchismDungeonGenerator
                             ++fail_counter; //this might now be unreachable
                             if (!BoundsCheck(neighbor, false))
                             {
-                                fail_counter += 25; //fail quicker when against the edge of the map to prevent ugliness
+                                fail_counter +=
+                                    25; //fail quicker when against the edge of the map to prevent ugliness
                             } //however, this doesn't actually fail as quickly as it should - i've overlooked something.
 
                             if (fail_counter >= 50)
@@ -4847,16 +4980,21 @@ namespace SchismDungeonGenerator
                                 bool potential_door = false;
                                 for (int k = 2; k <= 8; k += 2)
                                 {
-                                    if (map[p.PosInDir(k)].IsPassable() && map[p.PosInDir(k).PosInDir(k)].IsPassable())
+                                    if (map[p.PosInDir(k)].IsPassable() &&
+                                        map[p.PosInDir(k).PosInDir(k)].IsPassable())
                                     {
-                                        if (map[p.PosInDir(k).PosInDir(k.RotateDir(false, 2))].IsPassable()
-                                            && map[p.PosInDir(k).PosInDir(k.RotateDir(false, 1))].IsPassable())
+                                        if (map[p.PosInDir(k).PosInDir(k.RotateDir(false, 2))]
+                                                .IsPassable()
+                                            && map[p.PosInDir(k).PosInDir(k.RotateDir(false, 1))]
+                                                .IsPassable())
                                         {
                                             potential_door = true;
                                         }
 
-                                        if (map[p.PosInDir(k).PosInDir(k.RotateDir(true, 2))].IsPassable()
-                                            && map[p.PosInDir(k).PosInDir(k.RotateDir(true, 1))].IsPassable())
+                                        if (map[p.PosInDir(k).PosInDir(k.RotateDir(true, 2))]
+                                                .IsPassable()
+                                            && map[p.PosInDir(k).PosInDir(k.RotateDir(true, 1))]
+                                                .IsPassable())
                                         {
                                             potential_door = true;
                                         }
@@ -4916,7 +5054,8 @@ namespace SchismDungeonGenerator
                 {
                     if (values[i, j] > 0)
                     {
-                        if (!new pos(i, j).PositionsAtDistance(1, values).Any(x => values[x] > values[i, j]))
+                        if (!new pos(i, j).PositionsAtDistance(1, values)
+                            .Any(x => values[x] > values[i, j]))
                         {
                             map[i, j] = CellType.InterestingLocation;
                         }
@@ -5024,15 +5163,18 @@ namespace SchismDungeonGenerator
                         int greatest_distance = 0;
                         foreach (pos center in centers)
                         {
-                            if (exit.ApproximateEuclideanDistanceFromX10(center) > greatest_distance)
+                            if (exit.ApproximateEuclideanDistanceFromX10(center) >
+                                greatest_distance)
                             {
-                                greatest_distance = exit.ApproximateEuclideanDistanceFromX10(center);
+                                greatest_distance =
+                                    exit.ApproximateEuclideanDistanceFromX10(center);
                             }
                         }
 
                         foreach (pos potential in in_middle_row_or_column)
                         {
-                            if (exit.ApproximateEuclideanDistanceFromX10(potential) <= greatest_distance)
+                            if (exit.ApproximateEuclideanDistanceFromX10(potential) <=
+                                greatest_distance)
                             {
                                 rejected.Add(potential);
                             }
@@ -5053,7 +5195,8 @@ namespace SchismDungeonGenerator
                             int total_distance = 0;
                             foreach (pos exit in exits)
                             {
-                                total_distance += potential.ApproximateEuclideanDistanceFromX10(exit);
+                                total_distance +=
+                                    potential.ApproximateEuclideanDistanceFromX10(exit);
                             }
 
                             if (total_distance > greatest_total_distance)
@@ -5098,7 +5241,8 @@ namespace SchismDungeonGenerator
         }
 
         //utility:
-        public delegate bool RectangularRoomDelegate(int start_r, int start_c, int end_r, int end_c);
+        public delegate bool
+            RectangularRoomDelegate(int start_r, int start_c, int end_r, int end_c);
 
         public bool ForEachRectangularRoom(RectangularRoomDelegate action)
         {
@@ -5200,7 +5344,8 @@ namespace SchismDungeonGenerator
                 {
                     for (int j = start_c - 1; j <= end_c + 1 && rectangular; ++j)
                     {
-                        if (i == start_r - 1 || j == start_c - 1 || i == end_r + 1 || j == end_c + 1)
+                        if (i == start_r - 1 || j == start_c - 1 || i == end_r + 1 ||
+                            j == end_c + 1)
                         {
                             if (BoundsCheck(i, j) && map[i, j].IsRoomType())
                             {
@@ -5252,7 +5397,8 @@ namespace SchismDungeonGenerator
 
                     if (good && !completed.Contains(p))
                     {
-                        List<pos> room = map.GetFloodFillPositions(p, false, x => map[x].IsRoomType());
+                        List<pos> room =
+                            map.GetFloodFillPositions(p, false, x => map[x].IsRoomType());
                         if (!action(room))
                         {
                             //return false;
@@ -5269,7 +5415,8 @@ namespace SchismDungeonGenerator
             return true;
         }
 
-        public List<pos> PositionSearch(List<CellType> stay_away_from, List<int> min_distance_away_from,
+        public List<pos> PositionSearch(List<CellType> stay_away_from,
+            List<int> min_distance_away_from,
             List<CellType> stay_near, List<int> max_distance_away_from)
         {
             if (stay_away_from == null)
@@ -5294,7 +5441,8 @@ namespace SchismDungeonGenerator
 
             CellType[] away = stay_away_from.ToArray();
             PosArray<int> distance =
-                map.GetDijkstraMap(x => map[x].Is(away), x => 1 - source_values[map[x]], x => false, x => 1);
+                map.GetDijkstraMap(x => map[x].Is(away), x => 1 - source_values[map[x]], x => false,
+                    x => 1);
             List<pos> remaining = map.AllPositions();
             k = 0;
             foreach (CellType ct in stay_near)
@@ -5452,8 +5600,10 @@ namespace SchismExtensionMethods
 
         public static bool IsFloor(this CellType c)
         {
-            if (c.Is(CellType.RoomCorner, CellType.RoomEdge, CellType.RoomInterior, CellType.RoomInteriorCorner,
-                CellType.CorridorHorizontal, CellType.CorridorIntersection, CellType.CorridorVertical,
+            if (c.Is(CellType.RoomCorner, CellType.RoomEdge, CellType.RoomInterior,
+                CellType.RoomInteriorCorner,
+                CellType.CorridorHorizontal, CellType.CorridorIntersection,
+                CellType.CorridorVertical,
                 CellType.ShallowWater))
             {
                 return true;
@@ -5464,8 +5614,10 @@ namespace SchismExtensionMethods
 
         public static bool IsRoomType(this CellType c)
         {
-            if (c.Is(CellType.RoomCorner, CellType.RoomEdge, CellType.RoomInterior, CellType.RoomInteriorCorner,
-                CellType.Pillar, CellType.Statue, CellType.RoomFeature1, CellType.RoomFeature2, CellType.RoomFeature3,
+            if (c.Is(CellType.RoomCorner, CellType.RoomEdge, CellType.RoomInterior,
+                CellType.RoomInteriorCorner,
+                CellType.Pillar, CellType.Statue, CellType.RoomFeature1, CellType.RoomFeature2,
+                CellType.RoomFeature3,
                 CellType.RoomFeature4, CellType.RoomFeature5, CellType.InterestingLocation))
             {
                 return true;
@@ -5477,8 +5629,10 @@ namespace SchismExtensionMethods
         public static bool IsRoomInteriorType(this CellType c)
         {
             //note that statues aren't included here yet - for now, pillars are for the interior.
-            if (c.Is(CellType.RoomInterior, CellType.Pillar, CellType.RoomFeature1, CellType.RoomFeature2,
-                CellType.RoomFeature3, CellType.RoomFeature4, CellType.RoomFeature5, CellType.InterestingLocation))
+            if (c.Is(CellType.RoomInterior, CellType.Pillar, CellType.RoomFeature1,
+                CellType.RoomFeature2,
+                CellType.RoomFeature3, CellType.RoomFeature4, CellType.RoomFeature5,
+                CellType.InterestingLocation))
             {
                 return true;
             }
@@ -5488,7 +5642,8 @@ namespace SchismExtensionMethods
 
         public static bool IsRoomEdgeType(this CellType c)
         {
-            if (c.Is(CellType.RoomCorner, CellType.RoomEdge, CellType.RoomInteriorCorner, CellType.Statue))
+            if (c.Is(CellType.RoomCorner, CellType.RoomEdge, CellType.RoomInteriorCorner,
+                CellType.Statue))
             {
                 return true;
             }
@@ -5498,8 +5653,10 @@ namespace SchismExtensionMethods
 
         public static bool IsCorridorType(this CellType c)
         {
-            if (c.Is(CellType.CorridorHorizontal, CellType.CorridorIntersection, CellType.CorridorVertical,
-                CellType.Door, CellType.CorridorFeature1, CellType.CorridorFeature2, CellType.CorridorFeature3,
+            if (c.Is(CellType.CorridorHorizontal, CellType.CorridorIntersection,
+                CellType.CorridorVertical,
+                CellType.Door, CellType.CorridorFeature1, CellType.CorridorFeature2,
+                CellType.CorridorFeature3,
                 CellType.CorridorFeature4, CellType.CorridorFeature5))
             {
                 return true;
@@ -5640,7 +5797,8 @@ namespace SchismExtensionMethods
             return false;
         }
 
-        public static List<pos> OppositePairsWhere(this pos p, bool cardinal_only, U.BooleanPositionDelegate condition)
+        public static List<pos> OppositePairsWhere(this pos p, bool cardinal_only,
+            U.BooleanPositionDelegate condition)
         {
             List<pos> result = new List<pos>();
             for (int i = 1; i <= 4; ++i)
@@ -5658,7 +5816,8 @@ namespace SchismExtensionMethods
             return result;
         }
 
-        public static bool HasOppositePairWhere(this pos p, bool cardinal_only, U.BooleanPositionDelegate condition)
+        public static bool HasOppositePairWhere(this pos p, bool cardinal_only,
+            U.BooleanPositionDelegate condition)
         {
             for (int i = 1; i <= 4; ++i)
             {

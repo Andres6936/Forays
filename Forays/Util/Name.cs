@@ -26,7 +26,8 @@ namespace Nym
         /// <param name="uncountable">Marks uncountable nouns like "water", "courage", and "equipment". These names don't receive quantities or "a/an".</param>
         /// <param name="noArticles">Indistinct or unique names might not accept articles, like "something" or "Excalibur".</param>
         /// <param name="secondPerson">Probably used for the name "you", to work correctly with verbs.</param>
-        public Name(string rawName, bool exceptionToAAnRule = false, bool uncountable = false, bool noArticles = false,
+        public Name(string rawName, bool exceptionToAAnRule = false, bool uncountable = false,
+            bool noArticles = false,
             bool secondPerson = false)
         {
             if (rawName.Contains("~"))
@@ -69,7 +70,8 @@ namespace Nym
         /// <param name="uncountable">Marks uncountable nouns like "water", "courage", and "equipment". These names don't receive quantities or "a/an".</param>
         /// <param name="noArticles">Indistinct or unique names might not accept articles, like "something" or "Excalibur".</param>
         /// <param name="secondPerson">Probably used for the name "you", to work correctly with verbs.</param>
-        public Name(string singular, string plural, bool exceptionToAAnRule = false, bool uncountable = false,
+        public Name(string singular, string plural, bool exceptionToAAnRule = false,
+            bool uncountable = false,
             bool noArticles = false, bool secondPerson = false)
         {
             this.Singular = singular;
@@ -84,7 +86,8 @@ namespace Nym
         {
             if (singular.Length > 0)
             {
-                if (singular[0] == 'a' || singular[0] == 'e' || singular[0] == 'i' || singular[0] == 'o' ||
+                if (singular[0] == 'a' || singular[0] == 'e' || singular[0] == 'i' ||
+                    singular[0] == 'o' ||
                     singular[0] == 'u')
                 {
                     usesAn = true;
@@ -109,7 +112,8 @@ namespace Nym
         public int Quantity { get; set; }
         public Func<string> GetExtraInfo { get; set; }
 
-        public Named(string rawName, int qty = 1, Func<string> getExtraInfo = null) : this(new Name(rawName), qty,
+        public Named(string rawName, int qty = 1, Func<string> getExtraInfo = null) : this(
+            new Name(rawName), qty,
             getExtraInfo)
         {
         }
@@ -139,9 +143,11 @@ namespace Nym
         public static string GetName(this INamed n, params NameElement[] elements) =>
             n.Name.GetName(n.Quantity, n.GetExtraInfo, elements);
 
-        public static string GetName(this Name name, params NameElement[] elements) => name.GetName(1, null, elements);
+        public static string GetName(this Name name, params NameElement[] elements) =>
+            name.GetName(1, null, elements);
 
-        public static string GetName(this Name name, int qty, Func<string> getExtraInfo, params NameElement[] elements)
+        public static string GetName(this Name name, int qty, Func<string> getExtraInfo,
+            params NameElement[] elements)
         {
             string articleStr = null;
             string qtyStr = null;
@@ -163,7 +169,8 @@ namespace Nym
             {
                 if (e.verb != null)
                 {
-                    verbStr = " " + Verbs.Conjugate(e.verb, e.thirdPersonSingular, qty != 1, name.secondPerson);
+                    verbStr = " " + Verbs.Conjugate(e.verb, e.thirdPersonSingular, qty != 1,
+                                  name.secondPerson);
                     continue;
                 }
 
@@ -186,7 +193,8 @@ namespace Nym
 
                 if (e == NameElement.Possessive)
                 {
-                    if (name.secondPerson) verbStr = "r"; // this forms "your". Feels hacky but it works.
+                    if (name.secondPerson)
+                        verbStr = "r"; // this forms "your". Feels hacky but it works.
                     else verbStr = "'s";
                     continue;
                 }
@@ -277,7 +285,8 @@ namespace Nym
 
         /// <param name="verb">For example, "attack".</param>
         /// <param name="thirdPersonSingular">For example, "attacks".</param>
-        public static string Conjugate(string verb, string thirdPersonSingular, bool plural, bool secondPerson)
+        public static string Conjugate(string verb, string thirdPersonSingular, bool plural,
+            bool secondPerson)
         {
             if (plural || secondPerson) return verb;
             else
@@ -285,11 +294,13 @@ namespace Nym
                 if (registered.ContainsKey(verb)) return registered[verb];
                 else
                 {
-                    if (thirdPersonSingular != null) return thirdPersonSingular; // use this one if it has been provided
+                    if (thirdPersonSingular != null)
+                        return thirdPersonSingular; // use this one if it has been provided
                     else
                     {
                         // otherwise, use the default, which does *not* attempt to handle every single rule.
-                        if (verb.EndsWith("sh") || verb.EndsWith("ch") || verb.EndsWith("s") || verb.EndsWith("z") ||
+                        if (verb.EndsWith("sh") || verb.EndsWith("ch") || verb.EndsWith("s") ||
+                            verb.EndsWith("z") ||
                             verb.EndsWith("x"))
                         {
                             return verb + "es";
@@ -297,7 +308,8 @@ namespace Nym
 
                         if (verb.EndsWith("y"))
                         {
-                            if (!verb.EndsWith("ay") && !verb.EndsWith("ey") && !verb.EndsWith("oy") &&
+                            if (!verb.EndsWith("ay") && !verb.EndsWith("ey") &&
+                                !verb.EndsWith("oy") &&
                                 !verb.EndsWith("uy"))
                             {
                                 return verb.Substring(0, verb.Length - 1) + "ies";

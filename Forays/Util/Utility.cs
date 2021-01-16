@@ -266,7 +266,8 @@ namespace Utilities
         //for Utility, of course
         public static DistanceMetric DefaultMetric = DistanceMetric.Chebyshev;
 
-        public static bool BoundsCheck<T>(this pos p, PosArray<T> array, bool allow_map_edges = true)
+        public static bool BoundsCheck<T>(this pos p, PosArray<T> array,
+            bool allow_map_edges = true)
         {
             int h = array.objs.GetLength(0);
             int w = array.objs.GetLength(1);
@@ -286,12 +287,14 @@ namespace Utilities
             return true;
         }
 
-        public static bool BoundsCheck<T>(this PosArray<T> array, pos p, bool allow_map_edges = true)
+        public static bool BoundsCheck<T>(this PosArray<T> array, pos p,
+            bool allow_map_edges = true)
         {
             return p.BoundsCheck(array, allow_map_edges);
         }
 
-        public static bool BoundsCheck<T>(this PosArray<T> array, int r, int c, bool allow_map_edges = true)
+        public static bool BoundsCheck<T>(this PosArray<T> array, int r, int c,
+            bool allow_map_edges = true)
         {
             return new pos(r, c).BoundsCheck(array, allow_map_edges);
         }
@@ -321,15 +324,19 @@ namespace Utilities
             return true;
         }
 
-        public static int[] EightDirections = {8, 9, 6, 3, 2, 1, 4, 7}; //these all start at 8 (up) and go clockwise.
+        public static int[]
+            EightDirections =
+                {8, 9, 6, 3, 2, 1, 4, 7}; //these all start at 8 (up) and go clockwise.
 
         public static int[]
-            FourDirections = {8, 6, 2, 4}; //the directions correspond to the numbers on a keyboard's numpad.
+            FourDirections =
+                {8, 6, 2, 4}; //the directions correspond to the numbers on a keyboard's numpad.
 
         public static int[] DiagonalDirections = {9, 3, 1, 7};
 
         public static int[]
-            NineDirections = {5, 8, 9, 6, 3, 2, 1, 4, 7}; //eight, plus the direction that corresponds to "here".
+            NineDirections =
+                {5, 8, 9, 6, 3, 2, 1, 4, 7}; //eight, plus the direction that corresponds to "here".
 
         public static int[][] FourDirectionPairs = {new int[] {8, 2}, new int[] {6, 4}};
 
@@ -772,7 +779,8 @@ namespace Utilities
             }
         }
 
-        public static List<pos> PositionsWithinDistance(this pos p, int dist, bool exclude_origin = false)
+        public static List<pos> PositionsWithinDistance(this pos p, int dist,
+            bool exclude_origin = false)
         {
             return p.PositionsWithinDistance<int>(dist, null, exclude_origin);
         }
@@ -788,12 +796,14 @@ namespace Utilities
             return p.PositionsWithinManhattanDistance(dist, array, exclude_origin);
         }
 
-        public static List<pos> PositionsWithinChebyshevDistance(this pos p, int dist, bool exclude_origin = false)
+        public static List<pos> PositionsWithinChebyshevDistance(this pos p, int dist,
+            bool exclude_origin = false)
         {
             return p.PositionsWithinChebyshevDistance<int>(dist, null, exclude_origin);
         }
 
-        public static List<pos> PositionsWithinChebyshevDistance<T>(this pos p, int dist, PosArray<T> array,
+        public static List<pos> PositionsWithinChebyshevDistance<T>(this pos p, int dist,
+            PosArray<T> array,
             bool exclude_origin = false)
         {
             List<pos> result = new List<pos>();
@@ -814,12 +824,14 @@ namespace Utilities
             return result;
         }
 
-        public static List<pos> PositionsWithinManhattanDistance(this pos p, int dist, bool exclude_origin = false)
+        public static List<pos> PositionsWithinManhattanDistance(this pos p, int dist,
+            bool exclude_origin = false)
         {
             return p.PositionsWithinManhattanDistance<int>(dist, null, exclude_origin);
         }
 
-        public static List<pos> PositionsWithinManhattanDistance<T>(this pos p, int dist, PosArray<T> array,
+        public static List<pos> PositionsWithinManhattanDistance<T>(this pos p, int dist,
+            PosArray<T> array,
             bool exclude_origin = false)
         {
             List<pos> result = new List<pos>();
@@ -864,7 +876,8 @@ namespace Utilities
             return p.PositionsAtChebyshevDistance<int>(dist, null);
         }
 
-        public static List<pos> PositionsAtChebyshevDistance<T>(this pos p, int dist, PosArray<T> array)
+        public static List<pos> PositionsAtChebyshevDistance<T>(this pos p, int dist,
+            PosArray<T> array)
         {
             List<pos> result = new List<pos>();
             for (int i = p.row - dist; i <= p.row + dist; ++i)
@@ -893,7 +906,8 @@ namespace Utilities
             return p.PositionsAtManhattanDistance<int>(dist, null);
         }
 
-        public static List<pos> PositionsAtManhattanDistance<T>(this pos p, int dist, PosArray<T> array)
+        public static List<pos> PositionsAtManhattanDistance<T>(this pos p, int dist,
+            PosArray<T> array)
         {
             List<pos> result = new List<pos>();
             for (int i = p.row - dist; i <= p.row + dist; ++i)
@@ -946,7 +960,8 @@ namespace Utilities
             //now, some utility extension methods for lists.
             if (l.Count == 0)
             {
-                throw new IndexOutOfRangeException("This list is empty! It has no values to return.");
+                throw new IndexOutOfRangeException(
+                    "This list is empty! It has no values to return.");
             }
 
             return l[R.Roll(l.Count) - 1];
@@ -1310,7 +1325,8 @@ namespace Utilities
             return s.PadBetween(other, totalWidth, ' ');
         }
 
-        public static string PadBetween(this string s, string other, int totalWidth, char paddingChar)
+        public static string PadBetween(this string s, string other, int totalWidth,
+            char paddingChar)
         {
             //example: "Status:".PadBetween("Disabled",20)  returns "Status:     Disabled"
             int diff = (totalWidth - other.Length).Floor(0);
@@ -1387,20 +1403,24 @@ namespace Utilities
         {
             if (allow_borders)
             {
-                return new pos(R.Between(0, array.objs.GetLength(0) - 1), R.Between(0, array.objs.GetLength(1) - 1));
+                return new pos(R.Between(0, array.objs.GetLength(0) - 1),
+                    R.Between(0, array.objs.GetLength(1) - 1));
             }
             else
             {
-                return new pos(R.Between(1, array.objs.GetLength(0) - 2), R.Between(1, array.objs.GetLength(1) - 2));
+                return new pos(R.Between(1, array.objs.GetLength(0) - 2),
+                    R.Between(1, array.objs.GetLength(1) - 2));
             }
         }
 
-        public static List<pos> PositionsWhere<T>(this PosArray<T> array, BooleanPositionDelegate condition)
+        public static List<pos> PositionsWhere<T>(this PosArray<T> array,
+            BooleanPositionDelegate condition)
         {
             return array.objs.PositionsWhere(condition);
         }
 
-        public static List<pos> PositionsWhere<T>(this T[,] array, BooleanPositionDelegate condition)
+        public static List<pos> PositionsWhere<T>(this T[,] array,
+            BooleanPositionDelegate condition)
         {
             List<pos> result = new List<pos>();
             int rows = array.GetLength(0);
@@ -1420,13 +1440,15 @@ namespace Utilities
             return result;
         }
 
-        public static List<pos> PositionsWhereGreatest<T>(this PosArray<T> array, IntegerPositionDelegate value)
+        public static List<pos> PositionsWhereGreatest<T>(this PosArray<T> array,
+            IntegerPositionDelegate value)
         {
             //are these useful with no Dijkstra specialization? I'm not sure.
             return array.objs.PositionsWhereGreatest(value);
         }
 
-        public static List<pos> PositionsWhereGreatest<T>(this T[,] array, IntegerPositionDelegate value)
+        public static List<pos> PositionsWhereGreatest<T>(this T[,] array,
+            IntegerPositionDelegate value)
         {
             List<pos> result = new List<pos>();
             int rows = array.GetLength(0);
@@ -1467,12 +1489,14 @@ namespace Utilities
             return result;
         }
 
-        public static List<pos> PositionsWhereLeast<T>(this PosArray<T> array, IntegerPositionDelegate value)
+        public static List<pos> PositionsWhereLeast<T>(this PosArray<T> array,
+            IntegerPositionDelegate value)
         {
             return array.objs.PositionsWhereLeast(value);
         }
 
-        public static List<pos> PositionsWhereLeast<T>(this T[,] array, IntegerPositionDelegate value)
+        public static List<pos> PositionsWhereLeast<T>(this T[,] array,
+            IntegerPositionDelegate value)
         {
             List<pos> result = new List<pos>();
             int rows = array.GetLength(0);
@@ -1546,7 +1570,8 @@ namespace Utilities
 
         public delegate bool BooleanPositionDelegate(pos p);
 
-        public static List<pos> GetFloodFillPositions<T>(this PosArray<T> array, pos origin, bool exclude_origin,
+        public static List<pos> GetFloodFillPositions<T>(this PosArray<T> array, pos origin,
+            bool exclude_origin,
             BooleanPositionDelegate condition)
         {
             return array.GetFloodFillPositions(new List<pos> {origin}, exclude_origin, condition);
@@ -1556,7 +1581,8 @@ namespace Utilities
             bool exclude_origins, BooleanPositionDelegate condition)
         {
             List<pos> result = new List<pos>(origins);
-            PosArray<bool> result_map = new PosArray<bool>(array.objs.GetLength(0), array.objs.GetLength(1));
+            PosArray<bool> result_map =
+                new PosArray<bool>(array.objs.GetLength(0), array.objs.GetLength(1));
             foreach (pos origin in origins)
             {
                 result_map[origin] = true;
@@ -1588,7 +1614,8 @@ namespace Utilities
             return result;
         }
 
-        public static PosArray<bool> GetFloodFillArray<T>(this PosArray<T> array, pos origin, bool exclude_origin,
+        public static PosArray<bool> GetFloodFillArray<T>(this PosArray<T> array, pos origin,
+            bool exclude_origin,
             BooleanPositionDelegate condition)
         {
             return array.GetFloodFillArray(new List<pos> {origin}, exclude_origin, condition);
@@ -1597,7 +1624,8 @@ namespace Utilities
         public static PosArray<bool> GetFloodFillArray<T>(this PosArray<T> array, List<pos> origins,
             bool exclude_origins, BooleanPositionDelegate condition)
         {
-            PosArray<bool> result_map = new PosArray<bool>(array.objs.GetLength(0), array.objs.GetLength(1));
+            PosArray<bool> result_map =
+                new PosArray<bool>(array.objs.GetLength(0), array.objs.GetLength(1));
             foreach (pos origin in origins)
             {
                 result_map[origin] = true;
@@ -1628,7 +1656,8 @@ namespace Utilities
             return result_map;
         }
 
-        public static List<pos> GetRandomizedFloodFillPositions<T>(this PosArray<T> array, pos origin,
+        public static List<pos> GetRandomizedFloodFillPositions<T>(this PosArray<T> array,
+            pos origin,
             int desired_count, bool exclude_origin_from_count, bool exclude_origin_from_result,
             BooleanPositionDelegate condition)
         {
@@ -1636,12 +1665,14 @@ namespace Utilities
                 exclude_origin_from_count, exclude_origin_from_result, condition);
         }
 
-        public static List<pos> GetRandomizedFloodFillPositions<T>(this PosArray<T> array, List<pos> origins,
+        public static List<pos> GetRandomizedFloodFillPositions<T>(this PosArray<T> array,
+            List<pos> origins,
             int desired_count, bool exclude_origins_from_count, bool exclude_origins_from_result,
             BooleanPositionDelegate condition)
         {
             List<pos> result = new List<pos>();
-            PosArray<bool> result_map = new PosArray<bool>(array.objs.GetLength(0), array.objs.GetLength(1));
+            PosArray<bool> result_map =
+                new PosArray<bool>(array.objs.GetLength(0), array.objs.GetLength(1));
             List<pos> frontier = new List<pos>();
             int count = 0;
             foreach (pos origin in origins)
@@ -1718,38 +1749,49 @@ namespace Utilities
             return array.GetDijkstraMap(sources, x => 0, (p1, p2) => is_blocked(p2), (p1, p2) => 1);
         }
 
-        public static PosArray<int> GetDijkstraMap<T>(this PosArray<T> array, BooleanPositionDelegate is_source,
+        public static PosArray<int> GetDijkstraMap<T>(this PosArray<T> array,
+            BooleanPositionDelegate is_source,
             BooleanPositionDelegate is_blocked)
         {
-            return array.GetDijkstraMap(is_source, x => 0, (p1, p2) => is_blocked(p2), (p1, p2) => 1);
+            return array.GetDijkstraMap(is_source, x => 0, (p1, p2) => is_blocked(p2),
+                (p1, p2) => 1);
         }
 
         public static PosArray<int> GetDijkstraMap<T>(this PosArray<T> array, List<pos> sources,
             BooleanPositionDelegate is_blocked, IntegerPositionDelegate get_cost)
         {
-            return array.GetDijkstraMap(sources, x => 0, (p1, p2) => is_blocked(p2), (p1, p2) => get_cost(p2));
+            return array.GetDijkstraMap(sources, x => 0, (p1, p2) => is_blocked(p2),
+                (p1, p2) => get_cost(p2));
         }
 
-        public static PosArray<int> GetDijkstraMap<T>(this PosArray<T> array, BooleanPositionDelegate is_source,
+        public static PosArray<int> GetDijkstraMap<T>(this PosArray<T> array,
+            BooleanPositionDelegate is_source,
             BooleanPositionDelegate is_blocked, IntegerPositionDelegate get_cost)
         {
-            return array.GetDijkstraMap(is_source, x => 0, (p1, p2) => is_blocked(p2), (p1, p2) => get_cost(p2));
+            return array.GetDijkstraMap(is_source, x => 0, (p1, p2) => is_blocked(p2),
+                (p1, p2) => get_cost(p2));
         }
 
         public static PosArray<int> GetDijkstraMap<T>(this PosArray<T> array, List<pos> sources,
-            IntegerPositionDelegate source_value, BooleanPositionDelegate is_blocked, IntegerPositionDelegate get_cost)
+            IntegerPositionDelegate source_value, BooleanPositionDelegate is_blocked,
+            IntegerPositionDelegate get_cost)
         {
-            return array.GetDijkstraMap(sources, source_value, (p1, p2) => is_blocked(p2), (p1, p2) => get_cost(p2));
+            return array.GetDijkstraMap(sources, source_value, (p1, p2) => is_blocked(p2),
+                (p1, p2) => get_cost(p2));
         }
 
-        public static PosArray<int> GetDijkstraMap<T>(this PosArray<T> array, BooleanPositionDelegate is_source,
-            IntegerPositionDelegate source_value, BooleanPositionDelegate is_blocked, IntegerPositionDelegate get_cost)
+        public static PosArray<int> GetDijkstraMap<T>(this PosArray<T> array,
+            BooleanPositionDelegate is_source,
+            IntegerPositionDelegate source_value, BooleanPositionDelegate is_blocked,
+            IntegerPositionDelegate get_cost)
         {
-            return array.GetDijkstraMap(is_source, source_value, (p1, p2) => is_blocked(p2), (p1, p2) => get_cost(p2));
+            return array.GetDijkstraMap(is_source, source_value, (p1, p2) => is_blocked(p2),
+                (p1, p2) => get_cost(p2));
         }
 
         public static PosArray<int> GetDijkstraMap<T>(this PosArray<T> array, List<pos> sources,
-            IntegerPositionDelegate source_value, EdgeBlockedDelegate is_blocked, EdgeCostDelegate get_cost)
+            IntegerPositionDelegate source_value, EdgeBlockedDelegate is_blocked,
+            EdgeCostDelegate get_cost)
         {
             int height = array.objs.GetLength(0);
             int width = array.objs.GetLength(1);
@@ -1773,8 +1815,10 @@ namespace Utilities
             return map;
         }
 
-        public static PosArray<int> GetDijkstraMap<T>(this PosArray<T> array, BooleanPositionDelegate is_source,
-            IntegerPositionDelegate source_value, EdgeBlockedDelegate is_blocked, EdgeCostDelegate get_cost)
+        public static PosArray<int> GetDijkstraMap<T>(this PosArray<T> array,
+            BooleanPositionDelegate is_source,
+            IntegerPositionDelegate source_value, EdgeBlockedDelegate is_blocked,
+            EdgeCostDelegate get_cost)
         {
             int height = array.objs.GetLength(0);
             int width = array.objs.GetLength(1);
@@ -1801,7 +1845,8 @@ namespace Utilities
             return map;
         }
 
-        private static void DijkstraScan(PosArray<int> map, PriorityQueue<pos> frontier, EdgeBlockedDelegate is_blocked,
+        private static void DijkstraScan(PosArray<int> map, PriorityQueue<pos> frontier,
+            EdgeBlockedDelegate is_blocked,
             EdgeCostDelegate get_cost)
         {
             while (frontier.list.Count > 0)
@@ -1822,7 +1867,8 @@ namespace Utilities
             }
         }
 
-        private static void DijkstraScanWithDuplicates(PosArray<int> map, PriorityQueue<pos> frontier,
+        private static void DijkstraScanWithDuplicates(PosArray<int> map,
+            PriorityQueue<pos> frontier,
             EdgeBlockedDelegate is_blocked, EdgeCostDelegate get_cost)
         {
             PosArray<bool>
@@ -1856,10 +1902,12 @@ namespace Utilities
             map.RescanDijkstraMap((p1, p2) => !map[p2].IsValidDijkstraValue(), (p1, p2) => 1);
         }
 
-        public static void RescanDijkstraMap(this PosArray<int> map, IntegerPositionDelegate get_cost)
+        public static void RescanDijkstraMap(this PosArray<int> map,
+            IntegerPositionDelegate get_cost)
         {
             //This version can assume a cell is blocked from all sides if it doesn't have a valid Dijkstra value.
-            map.RescanDijkstraMap((p1, p2) => !map[p2].IsValidDijkstraValue(), (p1, p2) => get_cost(p2));
+            map.RescanDijkstraMap((p1, p2) => !map[p2].IsValidDijkstraValue(),
+                (p1, p2) => get_cost(p2));
         }
 
         public static void RescanDijkstraMap(this PosArray<int> map, EdgeBlockedDelegate is_blocked,
@@ -1895,7 +1943,8 @@ namespace Utilities
             int height = array.objs.GetLength(0);
             int width = array.objs.GetLength(1);
             PosArray<int> map = new PosArray<int>(height, width);
-            PriorityQueue<pos> frontier = new PriorityQueue<pos>(x => -(map[x] + x.DistanceFrom(goal) * default_cost));
+            PriorityQueue<pos> frontier =
+                new PriorityQueue<pos>(x => -(map[x] + x.DistanceFrom(goal) * default_cost));
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
@@ -1924,9 +1973,11 @@ namespace Utilities
                     {
                         result.Add(current_position);
                         List<pos> valid = current_position.PositionsAtDistance(1, map)
-                            .Where(x => map[x].IsValidDijkstraValue() && map[x] < map[current_position])
+                            .Where(x =>
+                                map[x].IsValidDijkstraValue() && map[x] < map[current_position])
                             .WhereLeast(x => map[x])
-                            .WhereLeast(x => x.ApproximateEuclideanDistanceFromX10(current_position));
+                            .WhereLeast(
+                                x => x.ApproximateEuclideanDistanceFromX10(current_position));
                         if (valid.Count > 0)
                         {
                             if (deterministic_results)
@@ -1985,7 +2036,8 @@ namespace Utilities
             int height = array.objs.GetLength(0);
             int width = array.objs.GetLength(1);
             PosArray<int> map = new PosArray<int>(height, width);
-            PriorityQueue<pos> frontier = new PriorityQueue<pos>(x => -(map[x] + x.DistanceFrom(goal) * default_cost));
+            PriorityQueue<pos> frontier =
+                new PriorityQueue<pos>(x => -(map[x] + x.DistanceFrom(goal) * default_cost));
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
@@ -2260,7 +2312,9 @@ namespace Utilities
         public Number RangeMax = null;
         public List<Number> Sequence = null;
         public int sequence_index = 0;
-        public Number Delta = null; //todo: some of these should be properties, with validation on changes.
+
+        public Number
+            Delta = null; //todo: some of these should be properties, with validation on changes.
 
         public static implicit operator int(Number n)
         {
@@ -2381,7 +2435,9 @@ namespace Utilities
         public FloatNumber RangeMax = null;
         public List<FloatNumber> Sequence = null;
         public int sequence_index = 0;
-        public FloatNumber Delta = null; //todo: some of these should be properties, with validation on changes.
+
+        public FloatNumber
+            Delta = null; //todo: some of these should be properties, with validation on changes.
 
         public static implicit operator float(FloatNumber n)
         {
@@ -2399,7 +2455,8 @@ namespace Utilities
                     {
                         float min = RangeMin.GetValue();
                         float max = RangeMax.GetValue();
-                        float result = (float) (R.r.NextDouble() * (double) (max - min) + (double) min);
+                        float result =
+                            (float) (R.r.NextDouble() * (double) (max - min) + (double) min);
                         if (!float.IsInfinity(result) && !float.IsNaN(result))
                         {
                             return result;

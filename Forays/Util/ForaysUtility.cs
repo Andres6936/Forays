@@ -17,7 +17,8 @@ namespace ForaysUtilities
     /// </summary>
     public class StringWrapBuffer
     {
-        public StringWrapBuffer(int maxLines, int maxLength) : this(maxLines, maxLength, new char[] {'-'},
+        public StringWrapBuffer(int maxLines, int maxLength) : this(maxLines, maxLength,
+            new char[] {'-'},
             new char[] {' '})
         {
         }
@@ -33,7 +34,8 @@ namespace ForaysUtilities
         {
             this.maxLines = maxLines;
             if (maxLength < 1)
-                throw new ArgumentOutOfRangeException("maxLength", maxLength, "Max length must be at least 1.");
+                throw new ArgumentOutOfRangeException("maxLength", maxLength,
+                    "Max length must be at least 1.");
             this.maxLength = maxLength;
             this.contents = new List<string>();
             this.createNewLine = true;
@@ -69,10 +71,12 @@ namespace ForaysUtilities
                     createNewLine = false;
                     if (contents.Count == maxLines && reservedSpace > 0 && reservedWrapData != null)
                     {
-                        var reserveSplit = SplitOverflow(reservedWrapData, maxLength - reservedSpace);
+                        var reserveSplit =
+                            SplitOverflow(reservedWrapData, maxLength - reservedSpace);
                         reservedWrapData = null;
                         contents[contents.Count - 1] =
-                            reserveSplit[0]; //this string is resplit to make room for reserved space
+                            reserveSplit
+                                [0]; //this string is resplit to make room for reserved space
                         reserveSplit[1] = RemoveLeadingDiscardedSeparators(reserveSplit[1]);
                         contents.Add(reserveSplit[1] +
                                      s); //if there's overflow from *that* line, it gets added before our new addition.
@@ -120,7 +124,9 @@ namespace ForaysUtilities
             get { return maxLength; }
             set
             {
-                if (value < 1) throw new ArgumentOutOfRangeException("value", value, "Max length must be at least 1.");
+                if (value < 1)
+                    throw new ArgumentOutOfRangeException("value", value,
+                        "Max length must be at least 1.");
                 if (value - reservedSpace <= 0)
                     throw new ArgumentOutOfRangeException("value", value,
                         "Max length must be greater than ReservedSpace.");
@@ -161,7 +167,8 @@ namespace ForaysUtilities
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("value", value, "Reserved space cannot be negative.");
+                    throw new ArgumentOutOfRangeException("value", value,
+                        "Reserved space cannot be negative.");
                 if (maxLength - value <= 0)
                     throw new ArgumentOutOfRangeException("value", value,
                         "Reserved space must be less than MaxLength.");
@@ -176,7 +183,8 @@ namespace ForaysUtilities
         /// </summary>
         public void ConfirmReservedSpace()
         {
-            if (contents.Count > 0 && contents[contents.Count - 1].Length > maxLength - reservedSpace)
+            if (contents.Count > 0 &&
+                contents[contents.Count - 1].Length > maxLength - reservedSpace)
             {
                 string line = reservedWrapData ?? contents[contents.Count - 1];
                 var reservedSplit = SplitOverflow(line, maxLength - reservedSpace);
@@ -206,7 +214,8 @@ namespace ForaysUtilities
         {
             while (!createNewLine && contents[contents.Count - 1].Length > maxLength)
             {
-                createNewLine = true; //no matter what, THIS line is done -- no more will be added to it.
+                createNewLine =
+                    true; //no matter what, THIS line is done -- no more will be added to it.
                 var maxSplit = SplitOverflow(contents[contents.Count - 1], maxLength);
                 maxSplit[1] = RemoveLeadingDiscardedSeparators(maxSplit[1]);
                 if (maxSplit[1] != "")
@@ -290,7 +299,8 @@ namespace ForaysUtilities
                     return tentativeIdx;
                 }
 
-                if (!discardedSeparators.Contains(s[tentativeIdx - 1]) && discardedSeparators.Contains(s[tentativeIdx]))
+                if (!discardedSeparators.Contains(s[tentativeIdx - 1]) &&
+                    discardedSeparators.Contains(s[tentativeIdx]))
                 {
                     //don't stop at the first discarded separator.
                     return tentativeIdx;
