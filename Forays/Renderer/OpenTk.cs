@@ -62,6 +62,8 @@ namespace Forays.Renderer
 
         public OpenTk(int w, int h, string title) : base(w, h, GraphicsMode.Default, title)
         {
+            // Set to false for applications that are not DPI-aware (e.g. WinForms.)
+            ToolkitOptions.Default.EnableHighResolution = false;
             VSync = VSyncMode.On;
             GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             GL.EnableVertexAttribArray(

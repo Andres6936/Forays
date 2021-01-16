@@ -74,7 +74,6 @@ namespace Forays
 
             if (Screen.GLMode)
             {
-                ToolkitOptions.Default.EnableHighResolution = false;
                 int height_px = Global.SCREEN_H * 16;
                 int width_px = Global.SCREEN_W * 8;
                 Screen.gl = new OpenTk(width_px, height_px, "Forays into Norrendrin");
