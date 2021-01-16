@@ -25,8 +25,6 @@ namespace GLDrawing
 
     public delegate float PositionFromIndex(int idx);
 
-    public delegate void SurfaceUpdateMethod(SurfaceDefaults defaults);
-
 
     public class Surface
     {
@@ -42,9 +40,6 @@ namespace GLDrawing
         private int y_offset_px;
         public bool UseDepthBuffer = false;
         public bool Disabled = false;
-        public SurfaceUpdateMethod UpdateMethod = null;
-        public SurfaceUpdateMethod UpdatePositionsOnlyMethod = null;
-        public SurfaceUpdateMethod UpdateOtherDataOnlyMethod = null;
 
 
         public static Surface Create(OpenTk window, string textureFilename,
