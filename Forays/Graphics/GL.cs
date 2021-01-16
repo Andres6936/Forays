@@ -168,30 +168,6 @@ namespace GLDrawing
             defaults.single_other_data = other_data;
         }
 
-        /*public void SetDefaults(IList<int> positions,IList<int> layouts,IList<int> sprites,IList<int> sprite_types,params IList<float>[] other_data){
-            defaults = new SurfaceDefaults();
-            if(positions != null){
-                defaults.positions = new List<int>(positions);
-            }
-            if(layouts != null){
-                defaults.layouts = new List<int>(layouts);
-            }
-            if(sprites != null){
-                defaults.sprites = new List<int>(sprites);
-            }
-            if(sprite_types != null){
-                defaults.sprite_types = new List<int>(sprite_types);
-            }
-            if(other_data != null){
-                defaults.other_data = new List<float>[other_data.GetLength(0)];
-                int idx = 0;
-                foreach(List<float> l in other_data){
-                    other_data[idx] = new List<float>(l);
-                    ++idx;
-                }
-            }
-        }*/
-
         public void DefaultUpdate()
         {
             SurfaceDefaults d = new SurfaceDefaults(defaults);
