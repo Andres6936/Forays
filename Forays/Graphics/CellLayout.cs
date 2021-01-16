@@ -7,8 +7,10 @@ namespace Forays
         public PositionFromIndex X;
         public PositionFromIndex Y;
 
-        public PositionFromIndex
-            Z; //Z isn't used unless the VBO object has PositionDimensions set to 3.
+        /// <summary>
+        /// Z isn't used unless the VBO object has PositionDimensions set to 3.
+        /// </summary>
+        public PositionFromIndex Z;
 
         public int CellHeightPx; //in pixels
         public int CellWidthPx;
