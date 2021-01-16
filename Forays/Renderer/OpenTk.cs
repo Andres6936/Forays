@@ -344,8 +344,7 @@ namespace Forays.Renderer
         }
 
         public void UpdateOtherSingleVertex(Surface surface, int index, int spriteIndex,
-            int spriteType,
-            params IList<float>[] vertexAttributes)
+            int spriteType, params IList<float>[] vertexAttributes)
         {
             int a = surface.VertexBufferObject.VertexAttributes.TotalSize;
             int a4 = a * 4;
