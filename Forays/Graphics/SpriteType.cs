@@ -14,16 +14,15 @@ namespace Forays
         public float SpriteHeight; //0 to 1, not pixels
         public float SpriteWidth;
 
-        public static void DefineSingleRowSprite(Surface surface, int spriteWidthPx)
+        // Constructs
+
+        public SpriteType(int spriteWidthPx, int textureWidth)
         {
-            SpriteType s = new SpriteType();
-            float texcoordWidth =
-                (float) spriteWidthPx * 1.0f / (float) surface.Texture.TextureWidthPx;
-            s.X = idx => idx * texcoordWidth;
-            s.Y = idx => 0;
-            s.SpriteWidth = texcoordWidth;
-            s.SpriteHeight = 1.0f;
-            surface.Texture.Sprite.Add(s);
+            float texcoordWidth = spriteWidthPx * 1.0f / textureWidth;
+            X = idx => idx * texcoordWidth;
+            Y = idx => 0;
+            SpriteWidth = texcoordWidth;
+            SpriteHeight = 1.0f;
         }
 
         /// <summary>
@@ -33,17 +32,16 @@ namespace Forays
         /// <param name="surface">The surface that content the image.</param>
         /// <param name="width">The width of each sprite (in pixels).</param>
         /// <param name="padding">The padding between each sprite (in pixels).</param>
-        public static void DefineSingleRowSprite(Surface surface, int width, int padding)
+        /// <param name="textureWidth">The width of texture in pixels.</param>
+        public SpriteType(int width, int padding, int textureWidth)
         {
-            SpriteType s = new SpriteType();
-            float pxWidth = 1.0f / surface.Texture.TextureWidthPx;
+            float pxWidth = 1.0f / textureWidth;
             float texcoordWidth = width * pxWidth;
             float texcoordStart = texcoordWidth + padding * pxWidth;
-            s.X = idx => idx * texcoordStart;
-            s.Y = idx => 0;
-            s.SpriteWidth = texcoordWidth;
-            s.SpriteHeight = 1.0f;
-            surface.Texture.Sprite.Add(s);
+            X = idx => idx * texcoordStart;
+            Y = idx => 0;
+            SpriteWidth = texcoordWidth;
+            SpriteHeight = 1.0f;
         }
     }
 }

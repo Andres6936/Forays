@@ -1904,7 +1904,8 @@ namespace Forays
                 Screen.textSurface.Texture = Texture.Create(newFont, Screen.currentFont, true);
                 Screen.currentFont = newFont;
                 Screen.textSurface.Texture.Sprite.Clear();
-                SpriteType.DefineSingleRowSprite(Screen.textSurface, Screen.cellWidth, fontPadding);
+                Screen.textSurface.Texture.Sprite.Add(new SpriteType(Screen.cellWidth, fontPadding,
+                    Screen.textSurface.Texture.TextureWidthPx));
                 Screen.cursorSurface.Texture = Screen.textSurface.Texture;
                 Screen.textSurface.Layouts.Clear();
                 Screen.textSurface.Layouts.Add(new CellLayout(Global.SCREEN_W, Screen.cellHeight,

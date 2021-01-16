@@ -80,7 +80,8 @@ namespace Forays
 
                 Screen.textSurface = Surface.Create(Screen.gl, "font8x16.png", true,
                     Shader.AAFontFS(), false, 2, 4, 4);
-                SpriteType.DefineSingleRowSprite(Screen.textSurface, 8, 1);
+                Screen.textSurface.Texture.Sprite.Add(new SpriteType(8, 1,
+                    Screen.textSurface.Texture.TextureWidthPx));
                 Screen.textSurface.Layouts.Add(new CellLayout(Global.SCREEN_W, 16, 8));
                 Screen.textSurface.SetEasyLayoutCounts(Global.SCREEN_H * Global.SCREEN_W);
                 Screen.textSurface.DefaultUpdatePositions();
