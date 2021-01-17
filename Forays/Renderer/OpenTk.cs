@@ -51,10 +51,6 @@ namespace Forays.Renderer
             // Set to false for applications that are not DPI-aware (e.g. WinForms.)
             ToolkitOptions.Default.EnableHighResolution = false;
             VSync = VSyncMode.On;
-            GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-            GL.EnableVertexAttribArray(
-                0); //these 2 attrib arrays are always on, for position and texcoords.
-            GL.EnableVertexAttribArray(1);
             KeyDown += KeyDownHandler;
             KeyUp += KeyUpHandler;
             Keyboard.KeyRepeat = true;
@@ -68,6 +64,27 @@ namespace Forays.Renderer
             Mouse.Move += InputKey.MouseMoveHandler;
             Mouse.ButtonUp += InputKey.MouseClickHandler;
             Mouse.WheelChanged += InputKey.MouseWheelHandler;
+        }
+
+        /// <summary>
+        /// This function runs one time, when the window first opens. Any
+        /// initialization-related code should go here.
+        /// Post-condition:
+        /// 1. Define the color of window after it gets cleared between frames.
+        /// </summary>
+        /// <param name="e">Not used.</param>
+        protected override void OnLoad(EventArgs e)
+        {
+            // This takes four floats, ranging between 0.0f and 1.0f. This
+            // decides the color of the window after it gets cleared between
+            // frames.
+            GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            // These 2 attributes arrays are always ON, for position and text
+            // coordinate.
+            GL.EnableVertexAttribArray(0);
+            GL.EnableVertexAttribArray(1);
+
+            base.OnLoad(e);
         }
 
         protected virtual void KeyDownHandler(object sender, KeyboardKeyEventArgs args)
