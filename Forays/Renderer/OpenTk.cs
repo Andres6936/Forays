@@ -412,7 +412,7 @@ namespace Forays.Renderer
         {
             base.OnRenderFrame(render_args);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            foreach (var surface in Surfaces.Where(s => !s.Disabled))
+            foreach (var surface in Surfaces.Where(surface => !surface.Disabled))
             {
                 if (DepthTestEnabled != surface.UseDepthBuffer)
                 {
