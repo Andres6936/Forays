@@ -456,10 +456,11 @@ namespace Forays.Renderer
                 }
             }
 
-            // Note: OpenTK uses double buffering, which means that one image is
-            // visible, while we work on a second image. SwapBuffers swaps these
-            // images. This way we prevent a partially rendered image from being
-            // visible.
+            // Almost any modern OpenGL context is what's known as "double-buffered".
+            // Double-buffering means that there are two areas that OpenGL draws
+            // to. In essence: One area is displayed, while the other is being
+            // rendered to. Then, when you call SwapBuffers, the two are reversed.
+            // A single-buffered context could have issues such as screen tearing.
             SwapBuffers();
         }
 
