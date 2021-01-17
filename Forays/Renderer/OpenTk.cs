@@ -463,9 +463,13 @@ namespace Forays.Renderer
             SwapBuffers();
         }
 
+        /// <summary>
+        /// Clears the screen, using the color set in Gl.ClearColor function.
+        /// This should always be the first function called when rendering.
+        /// </summary>
         public void Clear()
         {
-            throw new NotImplementedException();
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
 
         public void WriteString(int x, int y, string text)
