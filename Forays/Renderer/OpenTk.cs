@@ -412,11 +412,11 @@ namespace Forays.Renderer
         {
             base.OnRenderFrame(render_args);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            foreach (var s in Surfaces.Where(s => !s.Disabled))
+            foreach (var surface in Surfaces.Where(s => !s.Disabled))
             {
-                if (DepthTestEnabled != s.UseDepthBuffer)
+                if (DepthTestEnabled != surface.UseDepthBuffer)
                 {
-                    if (s.UseDepthBuffer)
+                    if (surface.UseDepthBuffer)
                     {
                         GL.Enable(EnableCap.DepthTest);
                     }
@@ -425,45 +425,49 @@ namespace Forays.Renderer
                         GL.Disable(EnableCap.DepthTest);
                     }
 
-                    DepthTestEnabled = s.UseDepthBuffer;
+                    DepthTestEnabled = surface.UseDepthBuffer;
                 }
 
-                if (LastShaderID != s.Shader.ShaderProgramID)
+                if (LastShaderID != surface.Shader.ShaderProgramID)
                 {
-                    GL.UseProgram(s.Shader.ShaderProgramID);
-                    LastShaderID = s.Shader.ShaderProgramID;
+                    GL.UseProgram(surface.Shader.ShaderProgramID);
+                    LastShaderID = surface.Shader.ShaderProgramID;
                 }
 
-                GL.Uniform2(s.Shader.OffsetUniformLocation, s.RawXOffset, s.RawYOffset);
-                GL.Uniform1(s.Shader.TextureUniformLocation, s.Texture.TextureIndex);
+                GL.Uniform2(surface.Shader.OffsetUniformLocation, surface.RawXOffset,
+                    surface.RawYOffset);
+                GL.Uniform1(surface.Shader.TextureUniformLocation, surface.Texture.TextureIndex);
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer,
-                    s.VertexBufferObject.ElementArrayBufferId);
-                GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.PositionArrayBufferId);
-                GL.VertexAttribPointer(0, s.VertexBufferObject.PositionDimensions,
+                    surface.VertexBufferObject.ElementArrayBufferId);
+                GL.BindBuffer(BufferTarget.ArrayBuffer,
+                    surface.VertexBufferObject.PositionArrayBufferId);
+                GL.VertexAttribPointer(0, surface.VertexBufferObject.PositionDimensions,
                     VertexAttribPointerType.Float,
                     false,
-                    sizeof(float) * s.VertexBufferObject.PositionDimensions,
+                    sizeof(float) * surface.VertexBufferObject.PositionDimensions,
                     new IntPtr(0)); //position
-                GL.BindBuffer(BufferTarget.ArrayBuffer, s.VertexBufferObject.OtherArrayBufferId);
-                int stride = sizeof(float) * s.VertexBufferObject.VertexAttributes.TotalSize;
-                GL.VertexAttribPointer(1, s.VertexBufferObject.VertexAttributes.Size[0],
+                GL.BindBuffer(BufferTarget.ArrayBuffer,
+                    surface.VertexBufferObject.OtherArrayBufferId);
+                int stride = sizeof(float) * surface.VertexBufferObject.VertexAttributes.TotalSize;
+                GL.VertexAttribPointer(1, surface.VertexBufferObject.VertexAttributes.Size[0],
                     VertexAttribPointerType.Float, false, stride,
                     new IntPtr(0)); //texcoords
-                int totalOfPreviousAttribs = s.VertexBufferObject.VertexAttributes.Size[0];
-                for (int i = 1; i < s.VertexBufferObject.VertexAttributes.Size.Length; ++i)
+                int totalOfPreviousAttribs = surface.VertexBufferObject.VertexAttributes.Size[0];
+                for (int i = 1; i < surface.VertexBufferObject.VertexAttributes.Size.Length; ++i)
                 {
                     GL.EnableVertexAttribArray(
                         i + 1); //i+1 because 0 and 1 are always on (for position & texcoords)
-                    GL.VertexAttribPointer(i + 1, s.VertexBufferObject.VertexAttributes.Size[i],
+                    GL.VertexAttribPointer(i + 1,
+                        surface.VertexBufferObject.VertexAttributes.Size[i],
                         VertexAttribPointerType.Float, false,
                         stride, new IntPtr(sizeof(float) * totalOfPreviousAttribs));
-                    totalOfPreviousAttribs += s.VertexBufferObject.VertexAttributes.Size[i];
+                    totalOfPreviousAttribs += surface.VertexBufferObject.VertexAttributes.Size[i];
                 }
 
-                GL.DrawElements(PrimitiveType.Triangles, s.VertexBufferObject.NumElements,
+                GL.DrawElements(PrimitiveType.Triangles, surface.VertexBufferObject.NumElements,
                     DrawElementsType.UnsignedInt,
                     IntPtr.Zero);
-                for (int i = 1; i < s.VertexBufferObject.VertexAttributes.Size.Length; ++i)
+                for (int i = 1; i < surface.VertexBufferObject.VertexAttributes.Size.Length; ++i)
                 {
                     GL.DisableVertexAttribArray(i + 1);
                 }
