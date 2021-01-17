@@ -43,6 +43,7 @@ namespace Forays.Renderer
         public void SetViewport(int x, int y, int width, int height)
         {
             internalViewport = new Rectangle(x, y, width, height);
+            // GL.Viewport maps the NDC to the window.
             GL.Viewport(x, y, width, height);
         }
 
