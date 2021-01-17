@@ -235,6 +235,10 @@ namespace Forays.Renderer
             if ((start_index < 0 && s.VertexBufferObject.PositionDataSize != values.Length) ||
                 s.VertexBufferObject.PositionDataSize == 0)
             {
+                // The fourth parameter is a BufferUsageHint, which specifies
+                // how we want the graphics card to manage the given data.
+                // For this case: StreamDraw: the data will change every time
+                // it is drawn.
                 GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * values.Length),
                     values,
                     BufferUsageHint.StreamDraw);
@@ -259,6 +263,10 @@ namespace Forays.Renderer
             {
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer,
                     s.VertexBufferObject.ElementArrayBufferId);
+                // The fourth parameter is a BufferUsageHint, which specifies
+                // how we want the graphics card to manage the given data.
+                // For this case: StaticDraw: the data will most likely not
+                // change at all or very rarely.
                 GL.BufferData(BufferTarget.ElementArrayBuffer,
                     new IntPtr(sizeof(int) * indices.Length), indices,
                     BufferUsageHint.StaticDraw);
@@ -329,6 +337,10 @@ namespace Forays.Renderer
             if ((start_index < 0 && s.VertexBufferObject.OtherDataSize != a4 * count) ||
                 s.VertexBufferObject.OtherDataSize == 0)
             {
+                // The fourth parameter is a BufferUsageHint, which specifies
+                // how we want the graphics card to manage the given data.
+                // For this case: StreamDraw: the data will change every time
+                // it is drawn.
                 GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * a4 * count),
                     all_values,
                     BufferUsageHint.StreamDraw);
