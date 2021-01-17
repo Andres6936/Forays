@@ -10,6 +10,15 @@ namespace Forays.Graphics
     /// data reside in video device memory rather than system memory and so it
     /// can be rendered directly by the video device. These are equivalent to
     /// vertex buffers in Direct3D.
+    ///
+    /// The vertex buffer objects (VBO) that can store a large number of
+    /// vertices in the GPU's memory. The advantage of using those buffer
+    /// objects is that we can send large batches of data all at once to the
+    /// graphics card without having to send data a vertex a time. Sending data
+    /// to the graphics card from the CPU is relatively slow, so wherever we
+    /// can, we try to send as much data as possible at once. Once the data is
+    /// in the graphics card's memory the vertex shader has almost instant
+    /// access to the vertices making it extremely fast.
     /// </summary>
     public class VertexBufferObject
     {
