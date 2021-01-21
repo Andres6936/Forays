@@ -2,6 +2,12 @@ using Forays.Renderer;
 
 namespace Forays.Scenes
 {
+    /// <summary>
+    /// The scene manager keeps track of the scenes in a game, allowing to
+    /// switch between them. At it's basic, it provides a centralized place to
+    /// load and unload the scenes, keeping track of which one is loaded and
+    /// handle unloading that scene when a new one is loaded. 
+    /// </summary>
     public class SceneManager
     {
         // Members Variables
