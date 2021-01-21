@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Reflection;
-using GLDrawing;
 using OpenTK.Graphics.OpenGL;
 
 namespace Forays
