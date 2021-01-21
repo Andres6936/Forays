@@ -96,6 +96,10 @@ namespace GLDrawing
             defaults.fill_count = defaults.positions.Count;
         }
 
+        /// <summary>
+        /// Set the default sprite for the surface.
+        /// </summary>
+        /// <param name="spriteIndex">Index of sprite in the texture.</param>
         public void SetDefaultSprite(int spriteIndex)
         {
             defaults.single_sprite = spriteIndex;

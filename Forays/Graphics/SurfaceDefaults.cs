@@ -6,7 +6,12 @@ namespace Forays
     {
         public int fill_count = -1;
         public int single_layout = -1;
+
+        /// <summary>
+        /// Index of sprite in the texture.
+        /// </summary>
         public int single_sprite = -1;
+
         public int single_position = -1;
         public int single_sprite_type = -1;
 
