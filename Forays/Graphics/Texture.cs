@@ -118,7 +118,7 @@ namespace Forays
             }
         }
 
-        protected void ReplaceTexture(string filename, string replaced,
+        private void ReplaceTexture(string filename, string replaced,
             bool loadFromEmbeddedResource = false)
         {
             if (String.IsNullOrEmpty(filename))
