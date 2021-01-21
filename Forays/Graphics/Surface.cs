@@ -51,7 +51,7 @@ namespace GLDrawing
                 // hasDepth ? 3 : 2 - This section of code determine the dimensions
                 // of vertex buffer object.
                 VertexBufferObject = VertexBufferObject.Create(hasDepth ? 3 : 2,
-                    VertexAttributes.Create(vertexAttributeCounts)),
+                    new VertexAttributes(vertexAttributeCounts)),
                 Texture = Texture.Create(Global.ForaysImageResources + textureFilename,
                     null, loadTextureFromEmbeddedResource),
                 Shader = Shader.Create(fragShader)
