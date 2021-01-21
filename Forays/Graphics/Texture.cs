@@ -46,11 +46,11 @@ namespace Forays
             return t;
         }
 
-        protected Texture()
+        private Texture()
         {
         }
 
-        protected void LoadTexture(string filename, bool loadFromEmbeddedResource = false)
+        private void LoadTexture(string filename, bool loadFromEmbeddedResource = false)
         {
             if (String.IsNullOrEmpty(filename))
             {
