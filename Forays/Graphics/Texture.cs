@@ -13,7 +13,6 @@ namespace Forays
         public int TextureIndex;
         public int TextureHeightPx;
         public int TextureWidthPx;
-        public int DefaultSpriteTypeIndex = 0;
         public List<SpriteType> Sprite = null;
 
         protected static int next_texture = 0;
@@ -84,17 +83,21 @@ namespace Forays
                 Bitmap bmp;
                 if (loadFromEmbeddedResource)
                 {
-                    bmp = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream(filename));
+                    bmp = new Bitmap(Assembly.GetExecutingAssembly()
+                        .GetManifestResourceStream(filename));
                 }
                 else
                 {
                     bmp = new Bitmap(filename);
                 }
 
-                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
+                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height),
+                    ImageLockMode.ReadOnly,
                     System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width,
+                    bmp_data.Height, 0,
+                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte,
+                    bmp_data.Scan0);
                 bmp.UnlockBits(bmp_data);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
                     (int) TextureMinFilter.Nearest);
@@ -112,7 +115,8 @@ namespace Forays
             }
         }
 
-        protected void ReplaceTexture(string filename, string replaced, bool loadFromEmbeddedResource = false)
+        protected void ReplaceTexture(string filename, string replaced,
+            bool loadFromEmbeddedResource = false)
         {
             if (String.IsNullOrEmpty(filename))
             {
@@ -158,17 +162,21 @@ namespace Forays
                 Bitmap bmp;
                 if (loadFromEmbeddedResource)
                 {
-                    bmp = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream(filename));
+                    bmp = new Bitmap(Assembly.GetExecutingAssembly()
+                        .GetManifestResourceStream(filename));
                 }
                 else
                 {
                     bmp = new Bitmap(filename);
                 }
 
-                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
+                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height),
+                    ImageLockMode.ReadOnly,
                     System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width,
+                    bmp_data.Height, 0,
+                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte,
+                    bmp_data.Scan0);
                 bmp.UnlockBits(bmp_data);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
                     (int) TextureMinFilter.Nearest);
