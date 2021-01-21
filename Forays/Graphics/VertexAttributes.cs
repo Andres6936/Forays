@@ -2,9 +2,9 @@ namespace Forays
 {
     public class VertexAttributes
     {
-        public float[][] Defaults;
-        public int[] Size;
-        public int TotalSize;
+        public readonly float[][] Defaults;
+        public readonly int[] Size;
+        public readonly int TotalSize;
 
         public VertexAttributes(params int[] counts)
         {
