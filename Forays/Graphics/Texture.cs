@@ -51,7 +51,7 @@ namespace Forays
 
         private void LoadTexture(string filename, bool loadFromEmbeddedResource = false)
         {
-            if (String.IsNullOrEmpty(filename))
+            if (string.IsNullOrEmpty(filename))
             {
                 throw new ArgumentException(filename);
             }
@@ -121,7 +121,7 @@ namespace Forays
         private void ReplaceTexture(string filename, string replaced,
             bool loadFromEmbeddedResource = false)
         {
-            if (String.IsNullOrEmpty(filename))
+            if (string.IsNullOrEmpty(filename))
             {
                 throw new ArgumentException(filename);
             }
