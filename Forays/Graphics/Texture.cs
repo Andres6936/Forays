@@ -11,22 +11,22 @@ namespace Forays
     public class Texture
     {
         public int TextureIndex;
-        public int TextureHeightPx;
         public int TextureWidthPx;
         public List<SpriteType> Sprite = null;
 
-        protected static int next_texture = 0;
+        private int TextureHeightPx;
+        private static int next_texture = 0;
 
         /// <summary>
         /// Currently, max_textures serves only to crash in a better way.
         /// Eventually I'll figure out how to swap texture units around!.
         /// </summary>
-        protected static int max_textures = -1;
+        private static int max_textures = -1;
 
         /// <summary>
         /// The Textures contained herein are used only to store index/height/width.
         /// </summary>
-        protected static Dictionary<string, Texture> texture_info =
+        private static Dictionary<string, Texture> texture_info =
             new Dictionary<string, Texture>();
 
         public static Texture Create(string filename, string textureToReplace = null,
