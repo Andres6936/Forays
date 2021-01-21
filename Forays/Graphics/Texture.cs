@@ -12,10 +12,10 @@ namespace Forays
     {
         public int TextureIndex;
         public int TextureWidthPx;
-        public List<SpriteType> Sprite = null;
+        public List<SpriteType> Sprite;
 
-        private int TextureHeightPx;
-        private static int next_texture = 0;
+        private int textureHeightPx;
+        private static int _nextTexture;
 
         /// <summary>
         /// Currently, max_textures serves only to crash in a better way.
@@ -61,7 +61,7 @@ namespace Forays
             {
                 Texture t = TextureInfo[filename];
                 TextureIndex = t.TextureIndex;
-                TextureHeightPx = t.TextureHeightPx;
+                textureHeightPx = t.textureHeightPx;
                 TextureWidthPx = t.TextureWidthPx;
             }
             else
@@ -71,7 +71,7 @@ namespace Forays
                     GL.GetInteger(GetPName.MaxTextureImageUnits, out _maxTextures);
                 }
 
-                int num = next_texture++;
+                int num = _nextTexture++;
                 if (num == _maxTextures)
                 {
                     //todo: eventually fix this
@@ -108,12 +108,12 @@ namespace Forays
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
                     (int) TextureMagFilter.Nearest);
                 TextureIndex = num;
-                TextureHeightPx = bmp.Height;
+                textureHeightPx = bmp.Height;
                 TextureWidthPx = bmp.Width;
                 Texture
                     t = new Texture(); //this one goes into the dictionary as an easy way to store the index/height/width of this filename.
                 t.TextureIndex = num;
-                t.TextureHeightPx = bmp.Height;
+                t.textureHeightPx = bmp.Height;
                 t.TextureWidthPx = bmp.Width;
                 TextureInfo.Add(filename, t);
             }
@@ -131,7 +131,7 @@ namespace Forays
             {
                 Texture t = TextureInfo[filename];
                 TextureIndex = t.TextureIndex;
-                TextureHeightPx = t.TextureHeightPx;
+                textureHeightPx = t.textureHeightPx;
                 TextureWidthPx = t.TextureWidthPx;
             }
             else
@@ -149,7 +149,7 @@ namespace Forays
                         GL.GetInteger(GetPName.MaxTextureImageUnits, out _maxTextures);
                     }
 
-                    num = next_texture++;
+                    num = _nextTexture++;
                     if (num == _maxTextures)
                     {
                         //todo: eventually fix this
@@ -187,12 +187,12 @@ namespace Forays
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
                     (int) TextureMagFilter.Nearest);
                 TextureIndex = num;
-                TextureHeightPx = bmp.Height;
+                textureHeightPx = bmp.Height;
                 TextureWidthPx = bmp.Width;
                 Texture
                     t = new Texture(); //this one goes into the dictionary as an easy way to store the index/height/width of this filename.
                 t.TextureIndex = num;
-                t.TextureHeightPx = bmp.Height;
+                t.textureHeightPx = bmp.Height;
                 t.TextureWidthPx = bmp.Width;
                 TextureInfo.Add(filename, t);
             }
