@@ -15,20 +15,17 @@ namespace Forays.Renderer
 {
     public class OpenTk : GameWindow, IRenderer
     {
-        public List<Surface> Surfaces = new List<Surface>();
-
-        protected bool Resizing = false;
-
         public bool NoClose = false;
         public bool FullScreen = false;
-
-        protected FrameEventArgs render_args = new FrameEventArgs();
-        protected Dictionary<Key, bool> key_down = new Dictionary<Key, bool>();
-        protected bool DepthTestEnabled = false;
-        protected int LastShaderID = -1;
-
         public Action FinalResize = null;
-        protected Rectangle internalViewport;
+        public List<Surface> Surfaces = new List<Surface>();
+
+        private FrameEventArgs render_args = new FrameEventArgs();
+        private Dictionary<Key, bool> key_down = new Dictionary<Key, bool>();
+        private bool Resizing = false;
+        private bool DepthTestEnabled = false;
+        private int LastShaderID = -1;
+        private Rectangle internalViewport;
 
         public Rectangle Viewport
         {
