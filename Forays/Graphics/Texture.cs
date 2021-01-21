@@ -17,13 +17,17 @@ namespace Forays
 
         protected static int next_texture = 0;
 
-        protected static int
-            max_textures =
-                -1; //Currently, max_textures serves only to crash in a better way. Eventually I'll figure out how to swap texture units around, todo!
+        /// <summary>
+        /// Currently, max_textures serves only to crash in a better way.
+        /// Eventually I'll figure out how to swap texture units around!.
+        /// </summary>
+        protected static int max_textures = -1;
 
-        protected static Dictionary<string, Texture>
-            texture_info =
-                new Dictionary<string, Texture>(); //the Textures contained herein are used only to store index/height/width
+        /// <summary>
+        /// The Textures contained herein are used only to store index/height/width.
+        /// </summary>
+        protected static Dictionary<string, Texture> texture_info =
+            new Dictionary<string, Texture>();
 
         public static Texture Create(string filename, string textureToReplace = null,
             bool loadFromEmbeddedResource = false)
