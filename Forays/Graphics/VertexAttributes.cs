@@ -1,6 +1,6 @@
 namespace Forays
 {
-    public class VertexAttributes
+    public readonly struct VertexAttributes
     {
         public readonly int[] Size;
         public readonly int TotalSize;
