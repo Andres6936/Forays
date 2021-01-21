@@ -2,7 +2,6 @@ namespace Forays
 {
     public class VertexAttributes
     {
-        public readonly float[][] Defaults;
         public readonly int[] Size;
         public readonly int TotalSize;
 
@@ -10,7 +9,7 @@ namespace Forays
         {
             //makes zeroed arrays in the given counts.
             int count = counts.GetLength(0);
-            Defaults = new float[count][];
+            float[][] defaults = new float[count][];
             Size = new int[count];
             TotalSize = 0;
             int idx = 0;
@@ -18,7 +17,7 @@ namespace Forays
             {
                 // This method needs a note:  which attributes are assumed to be
                 // here already? if you Create(2), is that texcoords? and what?.
-                Defaults[idx] = new float[i];
+                defaults[idx] = new float[i];
                 Size[idx] = i;
                 TotalSize += i;
                 ++idx;
