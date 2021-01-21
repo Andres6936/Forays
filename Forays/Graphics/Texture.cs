@@ -21,12 +21,12 @@ namespace Forays
         /// Currently, max_textures serves only to crash in a better way.
         /// Eventually I'll figure out how to swap texture units around!.
         /// </summary>
-        private static int max_textures = -1;
+        private static int _maxTextures = -1;
 
         /// <summary>
         /// The Textures contained herein are used only to store index/height/width.
         /// </summary>
-        private static Dictionary<string, Texture> texture_info =
+        private static readonly Dictionary<string, Texture> TextureInfo =
             new Dictionary<string, Texture>();
 
         public static Texture Create(string filename, string textureToReplace = null,
@@ -57,22 +57,22 @@ namespace Forays
                 throw new ArgumentException(filename);
             }
 
-            if (texture_info.ContainsKey(filename))
+            if (TextureInfo.ContainsKey(filename))
             {
-                Texture t = texture_info[filename];
+                Texture t = TextureInfo[filename];
                 TextureIndex = t.TextureIndex;
                 TextureHeightPx = t.TextureHeightPx;
                 TextureWidthPx = t.TextureWidthPx;
             }
             else
             {
-                if (max_textures == -1)
+                if (_maxTextures == -1)
                 {
-                    GL.GetInteger(GetPName.MaxTextureImageUnits, out max_textures);
+                    GL.GetInteger(GetPName.MaxTextureImageUnits, out _maxTextures);
                 }
 
                 int num = next_texture++;
-                if (num == max_textures)
+                if (num == _maxTextures)
                 {
                     //todo: eventually fix this
                     throw new NotSupportedException("This machine only supports " + num +
@@ -115,7 +115,7 @@ namespace Forays
                 t.TextureIndex = num;
                 t.TextureHeightPx = bmp.Height;
                 t.TextureWidthPx = bmp.Width;
-                texture_info.Add(filename, t);
+                TextureInfo.Add(filename, t);
             }
         }
 
@@ -127,9 +127,9 @@ namespace Forays
                 throw new ArgumentException(filename);
             }
 
-            if (texture_info.ContainsKey(filename))
+            if (TextureInfo.ContainsKey(filename))
             {
-                Texture t = texture_info[filename];
+                Texture t = TextureInfo[filename];
                 TextureIndex = t.TextureIndex;
                 TextureHeightPx = t.TextureHeightPx;
                 TextureWidthPx = t.TextureWidthPx;
@@ -137,20 +137,20 @@ namespace Forays
             else
             {
                 int num;
-                if (texture_info.ContainsKey(replaced))
+                if (TextureInfo.ContainsKey(replaced))
                 {
-                    num = texture_info[replaced].TextureIndex;
-                    texture_info.Remove(replaced);
+                    num = TextureInfo[replaced].TextureIndex;
+                    TextureInfo.Remove(replaced);
                 }
                 else
                 {
-                    if (max_textures == -1)
+                    if (_maxTextures == -1)
                     {
-                        GL.GetInteger(GetPName.MaxTextureImageUnits, out max_textures);
+                        GL.GetInteger(GetPName.MaxTextureImageUnits, out _maxTextures);
                     }
 
                     num = next_texture++;
-                    if (num == max_textures)
+                    if (num == _maxTextures)
                     {
                         //todo: eventually fix this
                         throw new NotSupportedException("This machine only supports " + num +
@@ -194,7 +194,7 @@ namespace Forays
                 t.TextureIndex = num;
                 t.TextureHeightPx = bmp.Height;
                 t.TextureWidthPx = bmp.Width;
-                texture_info.Add(filename, t);
+                TextureInfo.Add(filename, t);
             }
         }
     }
