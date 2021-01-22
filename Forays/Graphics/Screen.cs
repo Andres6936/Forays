@@ -400,13 +400,7 @@ namespace Forays
             gl.UpdateOtherVertexArray(textSurface, start_idx, sprite_cols, null, color_info);
             //Game.gl.UpdateVertexArray(start_row,start_col,GLGame.text_surface,sprite_rows,sprite_cols,color_info);
         }
-
-        /*public static void UpdateSurface(int row,int col,SpriteSurface s,int sprite_row,int sprite_col){
-            Game.gl.UpdateVertexArray(row,col,s,sprite_row,sprite_col,new float[][]{new float[]{1,1,1,1}});
-        }
-        public static void UpdateSurface(int row,int col,SpriteSurface s,int sprite_row,int sprite_col,float r,float g,float b){
-            Game.gl.UpdateVertexArray(row,col,s,sprite_row,sprite_col,new float[][]{new float[]{r,g,b,1}});
-        }*/
+        
         public static void WriteChar(int r, int c, char ch)
         {
             WriteChar(r, c, new ColorChar(Color.Gray, ch));
