@@ -9,9 +9,11 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using Forays.Renderer;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using Utilities;
 using PosArrays;
 using GLDrawing;
@@ -233,6 +235,101 @@ namespace Forays
                 BackgroundColor = Console.BackgroundColor;
                 ForegroundColor = Console.ForegroundColor;
             }
+            
+            if (!GLMode)
+            {
+                if (Global.LINUX)
+                {
+                    CursorVisible = false;
+                    SetCursorPosition(0,
+                        0); //todo: this should still work fine but it's worth a verification.
+                    if (Console.BufferWidth < Global.SCREEN_W ||
+                        Console.BufferHeight < Global.SCREEN_H)
+                    {
+                        Console.Write("Please resize your terminal to {0}x{1}, then press any key.",
+                            Global.SCREEN_W,
+                            Global.SCREEN_H);
+                        SetCursorPosition(0, 1);
+                        Console.Write("         Current dimensions are {0}x{1}.".PadRight(57),
+                            Console.BufferWidth,
+                            Console.BufferHeight);
+                        InputKey.ReadKey(false);
+                        SetCursorPosition(0, 0);
+                        if (Console.BufferWidth < Global.SCREEN_W ||
+                            Console.BufferHeight < Global.SCREEN_H)
+                        {
+                            CursorVisible = true;
+                            Environment.Exit(0);
+                        }
+                    }
+
+                    Screen.Blank();
+                    Console.TreatControlCAsInput = true;
+                }
+                else
+                {
+                    if (Type.GetType("Mono.Runtime") != null)
+                    {
+                        // If you try to resize the Windows Command Prompt using Mono, it crashes, so just switch
+                        GLMode =
+                            true; // back to GL mode in that case. (Fortunately, nobody uses Mono on Windows unless they're compiling a project in MD/XS.)
+                    }
+                    else
+                    {
+                        CursorVisible = false;
+                        Console.Title = "Forays into Norrendrin";
+                        Console.BufferHeight = Global.SCREEN_H;
+                        Console.SetWindowSize(Global.SCREEN_W, Global.SCREEN_H);
+                        Console.TreatControlCAsInput = true;
+                    }
+                }
+            }
+
+            if (GLMode)
+            {
+                int height_px = Global.SCREEN_H * 16;
+                int width_px = Global.SCREEN_W * 8;
+                gl = new OpenTk(width_px, height_px, "Forays into Norrendrin");
+
+                textSurface = Surface.Create(gl, "font8x16.png", true,
+                    Shader.AAFontFS(), false, 2, 4, 4);
+                textSurface.Texture.Sprite.Add(new SpriteType(8, 1,
+                    textSurface.Texture.TextureWidthPx));
+                textSurface.Layouts.Add(new CellLayout(Global.SCREEN_W, 16, 8));
+                textSurface.SetEasyLayoutCounts(Global.SCREEN_H * Global.SCREEN_W);
+                textSurface.DefaultUpdatePositions();
+                textSurface.SetDefaultSpriteType(0);
+                textSurface.SetDefaultSprite(32); //space
+                textSurface.SetDefaultOtherData(
+                    new List<float>(Color.Gray.GetFloatValues()),
+                    new List<float>(Color.Black.GetFloatValues()));
+                textSurface.DefaultUpdateOtherData();
+
+                cursorSurface = Surface.Create(gl, "font8x16.png", true,
+                    Shader.AAFontFS(), false, 2, 4, 4);
+                cursorSurface.Texture = textSurface.Texture;
+                cursorSurface.Layouts.Add(new CellLayout(1, 2, 8));
+                cursorSurface.SetEasyLayoutCounts(1);
+                cursorSurface.DefaultUpdatePositions();
+                cursorSurface.SetDefaultSpriteType(0);
+                cursorSurface.SetDefaultSprite(32);
+                cursorSurface.SetDefaultOtherData(
+                    new List<float>(Color.Black.GetFloatValues()),
+                    new List<float>(Color.Gray.GetFloatValues()));
+                cursorSurface.DefaultUpdateOtherData();
+
+                GL.Enable(EnableCap.Blend);
+                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                gl.Visible = true;
+                Global.Timer = new Stopwatch();
+                Global.Timer.Start();
+                CursorVisible = false;
+            }
+
+            Nym.Verbs.Register("feel",
+                "looks"); //Useful for generating messages like "You feel stronger" / "The foo looks stronger".
+            InputKey.LoadKeyRebindings();
+            
         }
 
         // Methods
@@ -1419,7 +1516,7 @@ namespace Forays
                     {
                         if (s.Text.Length > 0)
                         {
-                            Screen.WriteMapString(i, current_c, s);
+                            WriteMapString(i, current_c, s);
                             s.Text = "";
                             s.Text += ch.c;
                             s.Foreground = ch.color;
@@ -1437,7 +1534,7 @@ namespace Forays
                     }
                 }
 
-                Screen.WriteMapString(i, current_c, s);
+                WriteMapString(i, current_c, s);
             }
         }
 
@@ -1445,7 +1542,7 @@ namespace Forays
         {
             ColorChar prev = memory[r, c];
             WriteChar(r, c, ch);
-            Screen.GLUpdate();
+            GLUpdate();
             Thread.Sleep(duration);
             WriteChar(r, c, prev);
         }
@@ -1488,7 +1585,7 @@ namespace Forays
                 ++idx;
             }
 
-            Screen.GLUpdate();
+            GLUpdate();
             Thread.Sleep(duration);
             idx = 0;
             foreach (pos p in cells)
@@ -1514,7 +1611,7 @@ namespace Forays
                 ++idx;
             }
 
-            Screen.GLUpdate();
+            GLUpdate();
             Thread.Sleep(duration);
             idx = 0;
             foreach (pos p in cells)
@@ -1613,7 +1710,7 @@ namespace Forays
                         WriteMapChar(t.row, t.col, ch);
                     }
 
-                    Screen.GLUpdate();
+                    GLUpdate();
                     Thread.Sleep(duration);
                 }
             }
@@ -1624,7 +1721,7 @@ namespace Forays
                     WriteMapChar(t.row, t.col, ch);
                 }
 
-                Screen.GLUpdate();
+                GLUpdate();
                 Thread.Sleep(duration);
             }
 
@@ -1680,7 +1777,7 @@ namespace Forays
             {
                 memlist.Add(MapChar(t.row, t.col));
                 WriteMapChar(t.row, t.col, ch);
-                Screen.GLUpdate();
+                GLUpdate();
                 Thread.Sleep(duration);
             }
 
@@ -1707,7 +1804,7 @@ namespace Forays
             {
                 memlist.Add(MapChar(t.row, t.col));
                 WriteMapChar(t.row, t.col, ch);
-                Screen.GLUpdate();
+                GLUpdate();
                 Thread.Sleep(duration);
             }
 
@@ -1743,7 +1840,7 @@ namespace Forays
                     }
                 }
 
-                Screen.AnimateMapCells(cells, ch);
+                AnimateMapCells(cells, ch);
             }
         }
 
