@@ -12,10 +12,6 @@ namespace Forays.Scenes
 
         public TitleScene()
         {
-            // The responsibility of initialize Renderer lies with us (the Title
-            // scene to be the first scene in to be rendered).
-            Renderer = Screen.gl;
-
             const int logoW = 512;
             const int logoH = 412;
             logo = Surface.Create(Screen.gl, "logo.png",
