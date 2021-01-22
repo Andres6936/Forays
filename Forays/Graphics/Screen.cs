@@ -117,10 +117,6 @@ namespace Forays
         /// </summary>
         static Screen()
         {
-#if CONSOLE
-            Screen.GLMode = false;
-#endif
-
             memory = new ColorChar[Global.SCREEN_H, Global.SCREEN_W];
             for (int i = 0; i < Global.SCREEN_H; ++i)
             {
