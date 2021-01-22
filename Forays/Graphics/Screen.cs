@@ -365,22 +365,22 @@ namespace Forays
         /// <param name="endCol">End coordinate in the axus Y.</param>
         public static void UpdateGLBuffer(int startRow, int startCol, int endRow, int endCol)
         {
-            int num_positions = ((endCol + endRow * Global.SCREEN_W) -
+            int numPositions = ((endCol + endRow * Global.SCREEN_W) -
                                  (startCol + startRow * Global.SCREEN_W)) + 1;
             int row = startRow;
             int col = startCol;
-            int[] sprite_rows = new int[num_positions];
-            int[] sprite_cols = new int[num_positions];
+            int[] spriteRows = new int[numPositions];
+            int[] spriteCols = new int[numPositions];
             float[][] colorInfo = new float[2][];
-            colorInfo[0] = new float[4 * num_positions];
-            colorInfo[1] = new float[4 * num_positions];
-            for (int i = 0; i < num_positions; ++i)
+            colorInfo[0] = new float[4 * numPositions];
+            colorInfo[1] = new float[4 * numPositions];
+            for (int i = 0; i < numPositions; ++i)
             {
                 ColorChar cch = memory[row, col];
                 Color4 foregroundColor = Colors.ConvertColor(cch.color);
                 Color4 backgroundColor = Colors.ConvertColor(cch.bgcolor);
-                sprite_rows[i] = 0;
-                sprite_cols[i] = (int) cch.c;
+                spriteRows[i] = 0;
+                spriteCols[i] = (int) cch.c;
                 int idx4 = i * 4;
                 colorInfo[0][idx4] = foregroundColor.R;
                 colorInfo[0][idx4 + 1] = foregroundColor.G;
@@ -401,7 +401,7 @@ namespace Forays
             //int idx = (start_col + start_row*Global.SCREEN_W) * 48;
             //GL.BufferSubData(BufferTarget.ArrayBuffer,new IntPtr(sizeof(float)*idx),new IntPtr(sizeof(float)*48*num_positions),values.ToArray());
             gl.UpdateOtherVertexArray(textSurface,
-                U.Get1DIndex(startRow, startCol, Global.SCREEN_W), sprite_cols,
+                U.Get1DIndex(startRow, startCol, Global.SCREEN_W), spriteCols,
                 null, colorInfo);
             //Game.gl.UpdateVertexArray(start_row,start_col,GLGame.text_surface,sprite_rows,sprite_cols,color_info);
         }
