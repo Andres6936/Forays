@@ -49,7 +49,7 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <PropertyGroup>
-        <StartupObject>Forays.Game</StartupObject>
+        <StartupObject>Forays.App</StartupObject>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System"/>
