@@ -728,7 +728,7 @@ namespace Forays
                     cch.bgcolor = s.Background;
 
                     int i = 0;
-                    bool changed = false;
+                    
                     foreach (char ch in s.Text)
                     {
                         cch.c = ch;
@@ -741,7 +741,7 @@ namespace Forays
                             }
 
                             end_col = pos + i;
-                            changed = true;
+                            
                         }
 
                         ++i;
@@ -1025,7 +1025,6 @@ namespace Forays
                     
 
                     int i = 0;
-                    bool changed = false;
                     foreach (char ch in s.Text)
                     {
                         cch.c = ch;
@@ -1038,7 +1037,6 @@ namespace Forays
                             }
 
                             end_col = cpos + i;
-                            changed = true;
                         }
 
                         ++i;
