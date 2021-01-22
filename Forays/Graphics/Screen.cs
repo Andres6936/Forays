@@ -377,19 +377,19 @@ namespace Forays
             for (int i = 0; i < num_positions; ++i)
             {
                 ColorChar cch = memory[row, col];
-                Color4 color = Colors.ConvertColor(cch.color);
-                Color4 bgcolor = Colors.ConvertColor(cch.bgcolor);
+                Color4 foregroundColor = Colors.ConvertColor(cch.color);
+                Color4 backgroundColor = Colors.ConvertColor(cch.bgcolor);
                 sprite_rows[i] = 0;
                 sprite_cols[i] = (int) cch.c;
                 int idx4 = i * 4;
-                color_info[0][idx4] = color.R;
-                color_info[0][idx4 + 1] = color.G;
-                color_info[0][idx4 + 2] = color.B;
-                color_info[0][idx4 + 3] = color.A;
-                color_info[1][idx4] = bgcolor.R;
-                color_info[1][idx4 + 1] = bgcolor.G;
-                color_info[1][idx4 + 2] = bgcolor.B;
-                color_info[1][idx4 + 3] = bgcolor.A;
+                color_info[0][idx4] = foregroundColor.R;
+                color_info[0][idx4 + 1] = foregroundColor.G;
+                color_info[0][idx4 + 2] = foregroundColor.B;
+                color_info[0][idx4 + 3] = foregroundColor.A;
+                color_info[1][idx4] = backgroundColor.R;
+                color_info[1][idx4 + 1] = backgroundColor.G;
+                color_info[1][idx4 + 2] = backgroundColor.B;
+                color_info[1][idx4 + 3] = backgroundColor.A;
                 col++;
                 if (col == Global.SCREEN_W)
                 {
