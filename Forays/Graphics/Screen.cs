@@ -26,8 +26,6 @@ namespace Forays
 
         private static ColorChar[,] memory;
         private static bool terminal_bold; //for linux terminals
-        private static readonly string bold_on = (char) 27 + "[1m"; //VT100 codes, sweet
-        private static readonly string bold_off = (char) 27 + "[m";
 
         /// <summary>
         /// If is true, UpdateGLBuffer won't be called - only the memory will be
