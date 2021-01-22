@@ -6113,7 +6113,7 @@ namespace Forays
                                 M.Draw();
                                 if (Screen.GLMode)
                                 {
-                                    Screen.UpdateGLBuffer(0, 0, Global.SCREEN_H - 1,
+                                    Screen.UpdateGlBuffer(0, 0, Global.SCREEN_H - 1,
                                         Global.SCREEN_W - 1);
                                 }
 

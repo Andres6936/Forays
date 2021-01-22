@@ -864,7 +864,7 @@ namespace Forays
                     }
                 }
 
-                Screen.UpdateGLBuffer(Global.MAP_OFFSET_ROWS, Global.MAP_OFFSET_COLS,
+                Screen.UpdateGlBuffer(Global.MAP_OFFSET_ROWS, Global.MAP_OFFSET_COLS,
                     Global.MAP_OFFSET_ROWS + Global.ROWS - 1,
                     Global.MAP_OFFSET_COLS + Global.COLS - 1);
             }

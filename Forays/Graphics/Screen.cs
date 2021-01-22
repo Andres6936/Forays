@@ -363,7 +363,7 @@ namespace Forays
         /// <param name="startCol">Start coordinate in the axis Y.</param>
         /// <param name="endRow">End coordinate in the axis X.</param>
         /// <param name="endCol">End coordinate in the axus Y.</param>
-        public static void UpdateGLBuffer(int startRow, int startCol, int endRow, int endCol)
+        public static void UpdateGlBuffer(int startRow, int startCol, int endRow, int endCol)
         {
             int numPositions = ((endCol + endRow * Global.SCREEN_W) -
                                  (startCol + startRow * Global.SCREEN_W)) + 1;
@@ -671,7 +671,7 @@ namespace Forays
                 {
                     if (!NoGLUpdate)
                     {
-                        UpdateGLBuffer(r, start_col, r, end_col);
+                        UpdateGlBuffer(r, start_col, r, end_col);
                     }
                 }
                 else
@@ -860,7 +860,7 @@ namespace Forays
 
                 if (GLMode && !NoGLUpdate && start_col != -1)
                 {
-                    UpdateGLBuffer(r, start_col, r, end_col);
+                    UpdateGlBuffer(r, start_col, r, end_col);
                 }
 
                 if (MouseUI.AutomaticButtonsFromStrings && GLMode)
@@ -1098,7 +1098,7 @@ namespace Forays
                     {
                         if (!NoGLUpdate)
                         {
-                            UpdateGLBuffer(r, start_col, r, end_col);
+                            UpdateGlBuffer(r, start_col, r, end_col);
                         }
                     }
                     else
@@ -1213,7 +1213,7 @@ namespace Forays
 
                 if (GLMode && !NoGLUpdate && start_col != -1)
                 {
-                    UpdateGLBuffer(r, start_col, r, end_col);
+                    UpdateGlBuffer(r, start_col, r, end_col);
                 }
 
                 if (MouseUI.AutomaticButtonsFromStrings && GLMode)
@@ -1351,7 +1351,7 @@ namespace Forays
                     {
                         if (!NoGLUpdate)
                         {
-                            UpdateGLBuffer(r, start_col, r, end_col);
+                            UpdateGlBuffer(r, start_col, r, end_col);
                         }
                     }
                     else

@@ -1935,7 +1935,7 @@ namespace Forays
             Screen.cursorSurface.DefaultUpdatePositions();
             Screen.UpdateCursor(Screen.CursorVisible);
             Screen.textSurface.DefaultUpdatePositions();
-            Screen.UpdateGLBuffer(0, 0, Global.SCREEN_H - 1, Global.SCREEN_W - 1);
+            Screen.UpdateGlBuffer(0, 0, Global.SCREEN_H - 1, Global.SCREEN_W - 1);
         }
 
         private static string GetFontFilename(int w, int h)

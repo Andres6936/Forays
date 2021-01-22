@@ -269,7 +269,7 @@ namespace Forays
                 {
                     int h = mouselook_current_desc_area.Height;
                     int w = mouselook_current_desc_area.Width;
-                    Screen.UpdateGLBuffer(Global.MAP_OFFSET_ROWS,
+                    Screen.UpdateGlBuffer(Global.MAP_OFFSET_ROWS,
                         Global.MAP_OFFSET_COLS + mouselook_current_desc_area.Left, Global.MAP_OFFSET_ROWS + h - 1,
                         Global.MAP_OFFSET_COLS + mouselook_current_desc_area.Right - 1);
                     mouselook_current_desc_area = Rectangle.Empty;
