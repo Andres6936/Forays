@@ -110,57 +110,6 @@ namespace Forays
             }
         }
 
-        public static ConsoleColor ForegroundColor
-        {
-            get
-            {
-                if (Global.LINUX && terminal_bold)
-                {
-                    return Console.ForegroundColor + 8;
-                }
-
-                return Console.ForegroundColor;
-            }
-            set
-            {
-                if (Global.LINUX && (int) value >= 8)
-                {
-                    Console.ForegroundColor = value - 8;
-                    if (!terminal_bold)
-                    {
-                        terminal_bold = true;
-                        Console.Write(bold_on);
-                    }
-                }
-                else
-                {
-                    if (Global.LINUX && terminal_bold)
-                    {
-                        Console.Write(bold_off);
-                        terminal_bold = false;
-                    }
-
-                    Console.ForegroundColor = value;
-                }
-            }
-        }
-
-        public static ConsoleColor BackgroundColor
-        {
-            get { return Console.BackgroundColor; }
-            set
-            {
-                if (Global.LINUX && (int) value >= 8)
-                {
-                    Console.BackgroundColor = value - 8;
-                }
-                else
-                {
-                    Console.BackgroundColor = value;
-                }
-            }
-        }
-
         // Static Constructor
 
         /// <summary>
