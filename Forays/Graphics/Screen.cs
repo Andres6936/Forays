@@ -20,6 +20,9 @@ namespace Forays
 {
     public static class Screen
     {
+        
+        // Properties
+        
         private static ColorChar[,] memory;
         private static bool terminal_bold = false; //for linux terminals
         private static readonly string bold_on = (char) 27 + "[1m"; //VT100 codes, sweet
@@ -48,38 +51,6 @@ namespace Forays
         public static int cellWidth = 8;
         public static string currentFont = Global.ForaysImageResources + "font8x16.png";
 
-
-        // Static Constructor
-
-        /// <summary>
-        /// For set the mode console is needed added the macro CONSOLE.
-        /// </summary>
-        static Screen()
-        {
-#if CONSOLE
-            Screen.GLMode = false;
-#endif
-
-            memory = new ColorChar[Global.SCREEN_H, Global.SCREEN_W];
-            for (int i = 0; i < Global.SCREEN_H; ++i)
-            {
-                for (int j = 0; j < Global.SCREEN_W; ++j)
-                {
-                    memory[i, j].c = ' ';
-                    memory[i, j].color = Color.Black;
-                    memory[i, j].bgcolor = Color.Black;
-                }
-            }
-
-            if (!GLMode)
-            {
-                BackgroundColor = Console.BackgroundColor;
-                ForegroundColor = Console.ForegroundColor;
-            }
-        }
-
-        // Methods
-
         public static bool NoClose
         {
             get
@@ -98,13 +69,6 @@ namespace Forays
                     gl.NoClose = value;
                 }
             }
-        }
-
-        public static bool GLUpdate()
-        {
-            gl.ProcessInput();
-            gl.Draw();
-            return gl.IsRunning();
         }
 
         public static bool CursorVisible
@@ -191,23 +155,6 @@ namespace Forays
             }
         }
 
-        public static void SetCursorPosition(int left, int top)
-        {
-            if (GLMode)
-            {
-                if (cursor_left != left || cursor_top != top)
-                {
-                    cursor_left = left;
-                    cursor_top = top;
-                    UpdateCursor(cursor_visible);
-                }
-            }
-            else
-            {
-                Console.SetCursorPosition(left, top);
-            }
-        }
-
         public static ConsoleColor ForegroundColor
         {
             get
@@ -256,6 +203,61 @@ namespace Forays
                 {
                     Console.BackgroundColor = value;
                 }
+            }
+        }
+        
+        // Static Constructor
+
+        /// <summary>
+        /// For set the mode console is needed added the macro CONSOLE.
+        /// </summary>
+        static Screen()
+        {
+#if CONSOLE
+            Screen.GLMode = false;
+#endif
+
+            memory = new ColorChar[Global.SCREEN_H, Global.SCREEN_W];
+            for (int i = 0; i < Global.SCREEN_H; ++i)
+            {
+                for (int j = 0; j < Global.SCREEN_W; ++j)
+                {
+                    memory[i, j].c = ' ';
+                    memory[i, j].color = Color.Black;
+                    memory[i, j].bgcolor = Color.Black;
+                }
+            }
+
+            if (!GLMode)
+            {
+                BackgroundColor = Console.BackgroundColor;
+                ForegroundColor = Console.ForegroundColor;
+            }
+        }
+
+        // Methods
+
+        public static bool GLUpdate()
+        {
+            gl.ProcessInput();
+            gl.Draw();
+            return gl.IsRunning();
+        }
+
+        public static void SetCursorPosition(int left, int top)
+        {
+            if (GLMode)
+            {
+                if (cursor_left != left || cursor_top != top)
+                {
+                    cursor_left = left;
+                    cursor_top = top;
+                    UpdateCursor(cursor_visible);
+                }
+            }
+            else
+            {
+                Console.SetCursorPosition(left, top);
             }
         }
 
