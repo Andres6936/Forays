@@ -234,10 +234,7 @@ namespace Forays
             {
                 BackgroundColor = Console.BackgroundColor;
                 ForegroundColor = Console.ForegroundColor;
-            }
-            
-            if (!GLMode)
-            {
+                
                 if (Global.LINUX)
                 {
                     CursorVisible = false;
@@ -284,10 +281,9 @@ namespace Forays
                     }
                 }
             }
-
-            if (GLMode)
+            else
             {
-                int height_px = Global.SCREEN_H * 16;
+                 int height_px = Global.SCREEN_H * 16;
                 int width_px = Global.SCREEN_W * 8;
                 gl = new OpenTk(width_px, height_px, "Forays into Norrendrin");
 
