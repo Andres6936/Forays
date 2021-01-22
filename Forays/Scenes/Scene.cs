@@ -19,7 +19,7 @@ namespace Forays.Scenes
         // Static Constructor
 
         /// <summary>
-        /// Initialize the default render to use (OpenTK).
+        /// Initialize the default render to use (aka. OpenTK).
         /// </summary>
         static Scene()
         {
