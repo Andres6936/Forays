@@ -25,7 +25,7 @@ namespace Forays
         // Properties
 
         private static ColorChar[,] memory;
-        private static bool terminal_bold = false; //for linux terminals
+        private static bool terminal_bold; //for linux terminals
         private static readonly string bold_on = (char) 27 + "[1m"; //VT100 codes, sweet
         private static readonly string bold_off = (char) 27 + "[m";
 
@@ -42,11 +42,11 @@ namespace Forays
             cursor_visible =
                 true; //these 3 values are only used in GL mode - in console mode, the Console values are used directly.
 
-        private static int cursor_top = 0;
-        private static int cursor_left = 0;
-        public static OpenTk gl = null;
-        public static Surface textSurface = null;
-        public static Surface cursorSurface = null;
+        private static int cursor_top;
+        private static int cursor_left ;
+        public static OpenTk gl ;
+        public static Surface textSurface ;
+        public static Surface cursorSurface ;
         public static int cellHeight = 16;
         public static int cellWidth = 8;
         public static string currentFont = Global.ForaysImageResources + "font8x16.png";
