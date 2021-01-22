@@ -723,20 +723,6 @@ namespace Forays
             ColorChar cch;
             cch.color = text.Foreground;
             cch.bgcolor = text.Background;
-            if (!GLMode)
-            {
-                ConsoleColor co = Colors.GetColor(text.Foreground);
-                if (ForegroundColor != co)
-                {
-                    ForegroundColor = co;
-                }
-
-                co = Colors.GetColor(text.Background);
-                if (BackgroundColor != co)
-                {
-                    BackgroundColor = co;
-                }
-            }
 
             int start_col = -1;
             int end_col = -1;
@@ -762,17 +748,9 @@ namespace Forays
 
             if (changed)
             {
-                if (GLMode)
+                if (!NoGLUpdate)
                 {
-                    if (!NoGLUpdate)
-                    {
-                        UpdateGlBuffer(r, start_col, r, end_col);
-                    }
-                }
-                else
-                {
-                    Console.SetCursorPosition(c, r);
-                    Console.Write(text.Text);
+                    UpdateGlBuffer(r, start_col, r, end_col);
                 }
             }
 
@@ -876,7 +854,7 @@ namespace Forays
                                     key = ConsoleKey.OemPlus;
                                     break;
                                 default: //all others should be lowercase letters
-                                    key = (ConsoleKey) (ConsoleKey.A + (text[start + 1] - 'a'));
+                                    key = (ConsoleKey.A + (text[start + 1] - 'a'));
                                     break;
                             }
 
