@@ -359,16 +359,16 @@ namespace Forays
         /// <summary>
         /// Update the OpenGL Buffer.
         /// </summary>
-        /// <param name="start_row">Start coordinate in the axis X.</param>
-        /// <param name="start_col">Start coordinate in the axis Y.</param>
-        /// <param name="end_row">End coordinate in the axis X.</param>
-        /// <param name="end_col">End coordinate in the axus Y.</param>
-        public static void UpdateGLBuffer(int start_row, int start_col, int end_row, int end_col)
+        /// <param name="startRow">Start coordinate in the axis X.</param>
+        /// <param name="startCol">Start coordinate in the axis Y.</param>
+        /// <param name="endRow">End coordinate in the axis X.</param>
+        /// <param name="endCol">End coordinate in the axus Y.</param>
+        public static void UpdateGLBuffer(int startRow, int startCol, int endRow, int endCol)
         {
-            int num_positions = ((end_col + end_row * Global.SCREEN_W) -
-                                 (start_col + start_row * Global.SCREEN_W)) + 1;
-            int row = start_row;
-            int col = start_col;
+            int num_positions = ((endCol + endRow * Global.SCREEN_W) -
+                                 (startCol + startRow * Global.SCREEN_W)) + 1;
+            int row = startRow;
+            int col = startCol;
             int[] sprite_rows = new int[num_positions];
             int[] sprite_cols = new int[num_positions];
             float[][] colorInfo = new float[2][];
@@ -401,7 +401,7 @@ namespace Forays
             //int idx = (start_col + start_row*Global.SCREEN_W) * 48;
             //GL.BufferSubData(BufferTarget.ArrayBuffer,new IntPtr(sizeof(float)*idx),new IntPtr(sizeof(float)*48*num_positions),values.ToArray());
             gl.UpdateOtherVertexArray(textSurface,
-                U.Get1DIndex(start_row, start_col, Global.SCREEN_W), sprite_cols,
+                U.Get1DIndex(startRow, startCol, Global.SCREEN_W), sprite_cols,
                 null, colorInfo);
             //Game.gl.UpdateVertexArray(start_row,start_col,GLGame.text_surface,sprite_rows,sprite_cols,color_info);
         }
