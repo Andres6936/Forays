@@ -378,23 +378,12 @@ namespace Forays
                     "E[x]plore     [t]orch     [s]hoot bow    [r]est     Cast spell [z]"
                         .GetColorString(wordcolor,
                             lettercolor));
-                if (Screen.GLMode)
-                {
-                    Screen.WriteString(Global.SCREEN_H - 1, Global.MAP_OFFSET_COLS,
-                        "[i]nventory   [e]quipment [c]haracter    [m]ap              [Menu]"
-                            .GetColorString(wordcolor,
-                                lettercolor));
-                }
-                else
-                {
-                    Screen.WriteString(Global.SCREEN_H - 1, Global.MAP_OFFSET_COLS,
-                        "[i]nventory   [e]quipment [c]haracter    [m]ap                    "
-                            .GetColorString(wordcolor,
-                                lettercolor));
-                }
+                Screen.WriteString(Global.SCREEN_H - 1, Global.MAP_OFFSET_COLS,
+                    "[i]nventory   [e]quipment [c]haracter    [m]ap              [Menu]"
+                        .GetColorString(wordcolor,
+                            lettercolor));
             }
-
-            Screen.ResetColors();
+            
             MouseUI.AutomaticButtonsFromStrings = buttons;
         }
 
@@ -1138,7 +1127,6 @@ namespace Forays
             }
 
             Screen.WriteMapString(row, 0, "".PadRight(COLS, '-'), text);
-            Screen.ResetColors();
             UI.Display("Character information: ");
 
             int result = -1;
@@ -1473,8 +1461,7 @@ namespace Forays
                         MouseUI.CreateMapButton(ConsoleKey.Enter, false, row, 1);
                     }
                 }
-
-                Screen.ResetColors();
+                
                 UI.Display("Your equipment: ");
                 command = InputKey.ReadKey();
                 char ch = command.GetCommandChar();

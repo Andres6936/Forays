@@ -4733,7 +4733,7 @@ compare this number to 1/2:  if less than 1/2, major.
             Tile tc = M.tile[r, c];
             while (!done)
             {
-                Screen.ResetColors();
+                
                 tc = M.tile[r, c];
                 Targeting_DisplayContents(tc, always_displayed, unseen_area_message, true,
                     first_iteration);
@@ -4791,11 +4791,6 @@ compare this number to 1/2:  if less than 1/2, major.
                 {
                     ColorChar cch = mem[r, c];
                     cch.bgcolor = Color.Green;
-                    if (Global.LINUX && !Screen.GLMode)
-                    {
-                        //no bright bg in terminals
-                        cch.bgcolor = Color.DarkGreen;
-                    }
 
                     if (cch.color == cch.bgcolor)
                     {
@@ -5152,11 +5147,6 @@ compare this number to 1/2:  if less than 1/2, major.
                         if (!blocked)
                         {
                             cch.bgcolor = Color.Green;
-                            if (Global.LINUX && !Screen.GLMode)
-                            {
-                                //no bright bg in terminals
-                                cch.bgcolor = Color.DarkGreen;
-                            }
 
                             if (cch.color == cch.bgcolor)
                             {
@@ -5168,10 +5158,6 @@ compare this number to 1/2:  if less than 1/2, major.
                         else
                         {
                             cch.bgcolor = Color.Red;
-                            if (Global.LINUX && !Screen.GLMode)
-                            {
-                                cch.bgcolor = Color.DarkRed;
-                            }
 
                             if (cch.color == cch.bgcolor)
                             {

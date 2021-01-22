@@ -229,21 +229,14 @@ namespace Forays
                 case Color.OutOfSight:
                     if (Global.Option(OptionType.DARK_GRAY_UNSEEN))
                     {
-                        if (Screen.GLMode)
-                        {
-                            return Color.DarkerGray;
-                        }
-                        else
-                        {
-                            return Color.DarkGray;
-                        }
+                        return Color.DarkerGray;
                     }
                     else
                     {
                         return Color.DarkBlue;
                     }
                 case Color.TerrainDarkGray:
-                    if (Screen.GLMode || !Global.Option(OptionType.DARK_GRAY_UNSEEN))
+                    if (!Global.Option(OptionType.DARK_GRAY_UNSEEN))
                     {
                         return Color.DarkGray;
                     }
@@ -252,41 +245,13 @@ namespace Forays
                         return Color.Gray;
                     }
                 case Color.HealthBar:
-                    if (Screen.GLMode)
-                    {
-                        return Color.DarkerRed;
-                    }
-                    else
-                    {
-                        return Color.DarkRed;
-                    }
+                    return Color.DarkerRed;
                 case Color.StatusEffectBar:
-                    if (Screen.GLMode)
-                    {
-                        return Color.DarkerMagenta;
-                    }
-                    else
-                    {
-                        return Color.DarkMagenta;
-                    }
+                    return Color.DarkerMagenta;
                 case Color.EnvironmentDescription:
-                    if (Screen.GLMode)
-                    {
-                        return Color.ForestGreen;
-                    }
-                    else
-                    {
-                        return Color.Green;
-                    }
+                    return Color.ForestGreen;
                 case Color.DarkEnvironmentDescription:
-                    if (Screen.GLMode)
-                    {
-                        return Color.DarkForestGreen;
-                    }
-                    else
-                    {
-                        return Color.DarkGreen;
-                    }
+                    return Color.DarkForestGreen;
                 default:
                     return c;
             }

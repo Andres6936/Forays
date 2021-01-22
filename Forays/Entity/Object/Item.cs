@@ -1714,10 +1714,6 @@ namespace Forays
                     List<Tile>[] printed = new List<Tile>[13];
                     Color leading_edge_color = Color.White;
                     Color trail_color = Color.DarkCyan;
-                    if (Global.LINUX && !Screen.GLMode)
-                    {
-                        leading_edge_color = Color.Gray;
-                    }
 
                     for (int dist = 0; dist <= 12; ++dist)
                     {
@@ -1853,10 +1849,6 @@ namespace Forays
                     List<Tile>[] printed = new List<Tile>[13];
                     Color leading_edge_color = Color.Red;
                     Color trail_color = Color.DarkRed;
-                    if (Global.LINUX && !Screen.GLMode)
-                    {
-                        leading_edge_color = Color.DarkRed;
-                    }
 
                     for (int dist = 0; dist <= 12; ++dist)
                     {
@@ -2134,10 +2126,6 @@ namespace Forays
                                 }
 
                                 cch.bgcolor = Color.Blue;
-                                if (Global.LINUX && !Screen.GLMode)
-                                {
-                                    cch.bgcolor = Color.DarkBlue;
-                                }
 
                                 if (cch.color == cch.bgcolor)
                                 {

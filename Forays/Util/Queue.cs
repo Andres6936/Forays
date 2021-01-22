@@ -1975,10 +1975,7 @@ namespace Forays
                             }
 
                             cch.bgcolor = Color.Blue;
-                            if (Global.LINUX && !Screen.GLMode)
-                            {
-                                cch.bgcolor = Color.DarkBlue;
-                            }
+                            
 
                             if (cch.color == cch.bgcolor)
                             {

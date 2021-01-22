@@ -33,28 +33,13 @@ namespace Forays
 
         public static bool KeyIsAvailable()
         {
-            if (Screen.GLMode)
-            {
-                return KeyPressed;
-            }
-
-            return Console.KeyAvailable;
+            return KeyPressed;
         }
 
         public static void FlushInput()
         {
-            if (Screen.GLMode)
-            {
-                Screen.gl.ProcessEvents();
-                KeyPressed = false;
-            }
-            else
-            {
-                while (Console.KeyAvailable)
-                {
-                    Console.ReadKey(true);
-                }
-            }
+            Screen.gl.ProcessEvents();
+            KeyPressed = false;
         }
 
         public static ConsoleKey GetConsoleKey(Key key)
@@ -340,22 +325,7 @@ namespace Forays
         public static ConsoleKeyInfo ReadKey(bool showCursor = true)
         {
             if (showCursor) Screen.CursorVisible = true;
-            if (!Screen.GLMode)
-            {
-                ConsoleKeyInfo raw = Console.ReadKey(true);
-                Screen.CursorVisible = false;
-                bool shift = (raw.Modifiers & ConsoleModifiers.Shift) == ConsoleModifiers.Shift;
-                ConsoleKeyInfo k = new ConsoleKeyInfo(GetChar(raw.Key, shift), raw.Key, shift,
-                    (raw.Modifiers & ConsoleModifiers.Alt) == ConsoleModifiers.Alt,
-                    (raw.Modifiers & ConsoleModifiers.Control) == ConsoleModifiers.Control);
-                if (global_rebindings.ContainsKey(k))
-                {
-                    return global_rebindings[k];
-                }
-
-                return k;
-            }
-
+            
             while (true)
             {
                 //Animations.Update();

@@ -67,7 +67,7 @@ namespace Forays.Scenes
                     Global.SCREEN_W);
             }
 
-            Screen.ResetColors();
+            
             Screen.SetCursorPosition(Global.MAP_OFFSET_COLS, Global.MAP_OFFSET_ROWS + 8);
         }
 

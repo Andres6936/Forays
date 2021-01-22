@@ -22,14 +22,12 @@ namespace Forays
 {
     public static class Screen
     {
-        
         // Properties
-        
+
         private static ColorChar[,] memory;
         private static bool terminal_bold = false; //for linux terminals
         private static readonly string bold_on = (char) 27 + "[1m"; //VT100 codes, sweet
         private static readonly string bold_off = (char) 27 + "[m";
-        public static bool GLMode = true;
 
         /// <summary>
         /// If is true, UpdateGLBuffer won't be called - only the memory will be
@@ -75,84 +73,39 @@ namespace Forays
 
         public static bool CursorVisible
         {
-            get
-            {
-                if (GLMode)
-                {
-                    return cursor_visible;
-                }
-
-                return Console.CursorVisible;
-            }
+            get { return cursor_visible; }
             set
             {
-                if (GLMode)
+                if (cursor_visible != value)
                 {
-                    if (cursor_visible != value)
-                    {
-                        cursor_visible = value;
-                        UpdateCursor(value);
-                    }
-                }
-                else
-                {
-                    Console.CursorVisible = value;
+                    cursor_visible = value;
+                    UpdateCursor(value);
                 }
             }
         }
 
         public static int CursorTop
         {
-            get
-            {
-                if (GLMode)
-                {
-                    return cursor_top;
-                }
-
-                return Console.CursorTop;
-            }
+            get { return cursor_top; }
             set
             {
-                if (GLMode)
+                if (cursor_top != value)
                 {
-                    if (cursor_top != value)
-                    {
-                        cursor_top = value;
-                        UpdateCursor(cursor_visible);
-                    }
-                }
-                else
-                {
-                    Console.CursorTop = value;
+                    cursor_top = value;
+                    UpdateCursor(cursor_visible);
                 }
             }
         }
 
         public static int CursorLeft
         {
-            get
-            {
-                if (GLMode)
-                {
-                    return cursor_left;
-                }
-
-                return Console.CursorLeft;
-            }
+            get { return cursor_left; }
             set
             {
-                if (GLMode)
+                if (cursor_left != value)
                 {
-                    if (cursor_left != value)
-                    {
-                        cursor_left = value;
-                        UpdateCursor(cursor_visible);
-                    }
-                }
-                else
-                {
-                    Console.CursorLeft = value;
+                    cursor_left = value;
+                    UpdateCursor(cursor_visible);
                 }
             }
         }
@@ -207,7 +160,7 @@ namespace Forays
                 }
             }
         }
-        
+
         // Static Constructor
 
         /// <summary>
@@ -230,102 +183,47 @@ namespace Forays
                 }
             }
 
-            if (!GLMode)
-            {
-                BackgroundColor = Console.BackgroundColor;
-                ForegroundColor = Console.ForegroundColor;
-                
-                if (Global.LINUX)
-                {
-                    CursorVisible = false;
-                    SetCursorPosition(0,
-                        0); //todo: this should still work fine but it's worth a verification.
-                    if (Console.BufferWidth < Global.SCREEN_W ||
-                        Console.BufferHeight < Global.SCREEN_H)
-                    {
-                        Console.Write("Please resize your terminal to {0}x{1}, then press any key.",
-                            Global.SCREEN_W,
-                            Global.SCREEN_H);
-                        SetCursorPosition(0, 1);
-                        Console.Write("         Current dimensions are {0}x{1}.".PadRight(57),
-                            Console.BufferWidth,
-                            Console.BufferHeight);
-                        InputKey.ReadKey(false);
-                        SetCursorPosition(0, 0);
-                        if (Console.BufferWidth < Global.SCREEN_W ||
-                            Console.BufferHeight < Global.SCREEN_H)
-                        {
-                            CursorVisible = true;
-                            Environment.Exit(0);
-                        }
-                    }
+            int height_px = Global.SCREEN_H * 16;
+            int width_px = Global.SCREEN_W * 8;
+            gl = new OpenTk(width_px, height_px, "Forays into Norrendrin");
 
-                    Screen.Blank();
-                    Console.TreatControlCAsInput = true;
-                }
-                else
-                {
-                    if (Type.GetType("Mono.Runtime") != null)
-                    {
-                        // If you try to resize the Windows Command Prompt using Mono, it crashes, so just switch
-                        GLMode =
-                            true; // back to GL mode in that case. (Fortunately, nobody uses Mono on Windows unless they're compiling a project in MD/XS.)
-                    }
-                    else
-                    {
-                        CursorVisible = false;
-                        Console.Title = "Forays into Norrendrin";
-                        Console.BufferHeight = Global.SCREEN_H;
-                        Console.SetWindowSize(Global.SCREEN_W, Global.SCREEN_H);
-                        Console.TreatControlCAsInput = true;
-                    }
-                }
-            }
-            else
-            {
-                 int height_px = Global.SCREEN_H * 16;
-                int width_px = Global.SCREEN_W * 8;
-                gl = new OpenTk(width_px, height_px, "Forays into Norrendrin");
+            textSurface = Surface.Create(gl, "font8x16.png", true,
+                Shader.AAFontFS(), false, 2, 4, 4);
+            textSurface.Texture.Sprite.Add(new SpriteType(8, 1,
+                textSurface.Texture.TextureWidthPx));
+            textSurface.Layouts.Add(new CellLayout(Global.SCREEN_W, 16, 8));
+            textSurface.SetEasyLayoutCounts(Global.SCREEN_H * Global.SCREEN_W);
+            textSurface.DefaultUpdatePositions();
+            textSurface.SetDefaultSpriteType(0);
+            textSurface.SetDefaultSprite(32); //space
+            textSurface.SetDefaultOtherData(
+                new List<float>(Color.Gray.GetFloatValues()),
+                new List<float>(Color.Black.GetFloatValues()));
+            textSurface.DefaultUpdateOtherData();
 
-                textSurface = Surface.Create(gl, "font8x16.png", true,
-                    Shader.AAFontFS(), false, 2, 4, 4);
-                textSurface.Texture.Sprite.Add(new SpriteType(8, 1,
-                    textSurface.Texture.TextureWidthPx));
-                textSurface.Layouts.Add(new CellLayout(Global.SCREEN_W, 16, 8));
-                textSurface.SetEasyLayoutCounts(Global.SCREEN_H * Global.SCREEN_W);
-                textSurface.DefaultUpdatePositions();
-                textSurface.SetDefaultSpriteType(0);
-                textSurface.SetDefaultSprite(32); //space
-                textSurface.SetDefaultOtherData(
-                    new List<float>(Color.Gray.GetFloatValues()),
-                    new List<float>(Color.Black.GetFloatValues()));
-                textSurface.DefaultUpdateOtherData();
+            cursorSurface = Surface.Create(gl, "font8x16.png", true,
+                Shader.AAFontFS(), false, 2, 4, 4);
+            cursorSurface.Texture = textSurface.Texture;
+            cursorSurface.Layouts.Add(new CellLayout(1, 2, 8));
+            cursorSurface.SetEasyLayoutCounts(1);
+            cursorSurface.DefaultUpdatePositions();
+            cursorSurface.SetDefaultSpriteType(0);
+            cursorSurface.SetDefaultSprite(32);
+            cursorSurface.SetDefaultOtherData(
+                new List<float>(Color.Black.GetFloatValues()),
+                new List<float>(Color.Gray.GetFloatValues()));
+            cursorSurface.DefaultUpdateOtherData();
 
-                cursorSurface = Surface.Create(gl, "font8x16.png", true,
-                    Shader.AAFontFS(), false, 2, 4, 4);
-                cursorSurface.Texture = textSurface.Texture;
-                cursorSurface.Layouts.Add(new CellLayout(1, 2, 8));
-                cursorSurface.SetEasyLayoutCounts(1);
-                cursorSurface.DefaultUpdatePositions();
-                cursorSurface.SetDefaultSpriteType(0);
-                cursorSurface.SetDefaultSprite(32);
-                cursorSurface.SetDefaultOtherData(
-                    new List<float>(Color.Black.GetFloatValues()),
-                    new List<float>(Color.Gray.GetFloatValues()));
-                cursorSurface.DefaultUpdateOtherData();
-
-                GL.Enable(EnableCap.Blend);
-                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-                gl.Visible = true;
-                Global.Timer = new Stopwatch();
-                Global.Timer.Start();
-                CursorVisible = false;
-            }
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            gl.Visible = true;
+            Global.Timer = new Stopwatch();
+            Global.Timer.Start();
+            CursorVisible = false;
 
             Nym.Verbs.Register("feel",
                 "looks"); //Useful for generating messages like "You feel stronger" / "The foo looks stronger".
             InputKey.LoadKeyRebindings();
-            
         }
 
         // Methods
@@ -339,18 +237,11 @@ namespace Forays
 
         public static void SetCursorPosition(int left, int top)
         {
-            if (GLMode)
+            if (cursor_left != left || cursor_top != top)
             {
-                if (cursor_left != left || cursor_top != top)
-                {
-                    cursor_left = left;
-                    cursor_top = top;
-                    UpdateCursor(cursor_visible);
-                }
-            }
-            else
-            {
-                Console.SetCursorPosition(left, top);
+                cursor_left = left;
+                cursor_top = top;
+                UpdateCursor(cursor_visible);
             }
         }
 
@@ -461,7 +352,7 @@ namespace Forays
         public static void UpdateGlBuffer(int startRow, int startCol, int endRow, int endCol)
         {
             int numPositions = ((endCol + endRow * Global.SCREEN_W) -
-                                 (startCol + startRow * Global.SCREEN_W)) + 1;
+                                (startCol + startRow * Global.SCREEN_W)) + 1;
             int row = startRow;
             int col = startCol;
             int[] spriteRows = new int[numPositions];
@@ -594,36 +485,10 @@ namespace Forays
 
             ch.color = Colors.ResolveColor(ch.color);
             ch.bgcolor = Colors.ResolveColor(ch.bgcolor);
-            if (GLMode)
+            memory[r, c] = ch;
+            if (!NoGLUpdate)
             {
-                memory[r, c] = ch;
-                if (!NoGLUpdate)
-                {
-                    UpdateGLBuffer(r, c);
-                }
-            }
-            else
-            {
-                if (!memory[r, c].Equals(ch))
-                {
-                    //check for equality again now that the color has been resolved - still cheaper than actually writing to console
-                    memory[r, c] = ch;
-                    ConsoleColor co = Colors.GetColor(ch.color);
-                    if (co != ForegroundColor)
-                    {
-                        ForegroundColor = co;
-                    }
-
-                    co = Colors.GetColor(ch.bgcolor);
-                    if (co != Console.BackgroundColor || Global.LINUX)
-                    {
-                        //voodoo here. not sure why this is needed. (possible Mono bug)
-                        BackgroundColor = co;
-                    }
-
-                    Console.SetCursorPosition(c, r);
-                    Console.Write(ch.c);
-                }
+                UpdateGLBuffer(r, c);
             }
         }
 
@@ -643,38 +508,12 @@ namespace Forays
                         ch.bgcolor = Colors.ResolveColor(ch.bgcolor);
                         //memory[r+i,c+j] = ch;
                         array[i, j] = ch;
-                        if (!GLMode)
-                        {
-                            if (!memory[r + i, c + j].Equals(ch))
-                            {
-                                //check again to avoid writing to console when possible
-                                memory[r + i, c + j] = ch;
-                                ConsoleColor co = Colors.GetColor(ch.color);
-                                if (co != ForegroundColor)
-                                {
-                                    ForegroundColor = co;
-                                }
-
-                                co = Colors.GetColor(ch.bgcolor);
-                                if (co != Console.BackgroundColor || Global.LINUX)
-                                {
-                                    //voodoo here. not sure why this is needed. (possible Mono bug)
-                                    BackgroundColor = co;
-                                }
-
-                                Console.SetCursorPosition(c + j, r + i);
-                                Console.Write(ch.c);
-                            }
-                        }
-                        else
-                        {
-                            memory[r + i, c + j] = ch;
-                        }
+                        memory[r + i, c + j] = ch;
                     }
                 }
             }
 
-            if (GLMode && !NoGLUpdate)
+            if (!NoGLUpdate)
             {
                 UpdateGLBuffer(r, c, array);
             }
@@ -754,7 +593,7 @@ namespace Forays
                 }
             }
 
-            if (MouseUI.AutomaticButtonsFromStrings && GLMode)
+            if (MouseUI.AutomaticButtonsFromStrings)
             {
                 int idx = 0;
                 int brace = -1;
@@ -887,20 +726,6 @@ namespace Forays
                     ColorChar cch;
                     cch.color = s.Foreground;
                     cch.bgcolor = s.Background;
-                    if (!GLMode)
-                    {
-                        ConsoleColor co = Colors.GetColor(s.Foreground);
-                        if (ForegroundColor != co)
-                        {
-                            ForegroundColor = co;
-                        }
-
-                        co = Colors.GetColor(s.Background);
-                        if (BackgroundColor != co)
-                        {
-                            BackgroundColor = co;
-                        }
-                    }
 
                     int i = 0;
                     bool changed = false;
@@ -922,21 +747,15 @@ namespace Forays
                         ++i;
                     }
 
-                    if (changed && !GLMode)
-                    {
-                        Console.SetCursorPosition(pos, r);
-                        Console.Write(s.Text);
-                    }
-
                     pos += s.Text.Length;
                 }
 
-                if (GLMode && !NoGLUpdate && start_col != -1)
+                if ( !NoGLUpdate && start_col != -1)
                 {
                     UpdateGlBuffer(r, start_col, r, end_col);
                 }
 
-                if (MouseUI.AutomaticButtonsFromStrings && GLMode)
+                if (MouseUI.AutomaticButtonsFromStrings)
                 {
                     int idx = 0;
                     int brace = -1;
@@ -1054,22 +873,6 @@ namespace Forays
             }
         }
 
-        public static void ResetColors()
-        {
-            if (!GLMode)
-            {
-                if (ForegroundColor != ConsoleColor.Gray)
-                {
-                    ForegroundColor = ConsoleColor.Gray;
-                }
-
-                if (BackgroundColor != ConsoleColor.Black)
-                {
-                    BackgroundColor = ConsoleColor.Black;
-                }
-            }
-        }
-
         public static void WriteMapChar(int r, int c, char ch)
         {
             WriteMapChar(r, c, new ColorChar(Color.Gray, ch));
@@ -1128,20 +931,7 @@ namespace Forays
                 ColorChar cch;
                 cch.color = s.Foreground;
                 cch.bgcolor = s.Background;
-                if (!GLMode)
-                {
-                    ConsoleColor co = Colors.GetColor(s.Foreground);
-                    if (ForegroundColor != co)
-                    {
-                        ForegroundColor = co;
-                    }
-
-                    co = Colors.GetColor(s.Background);
-                    if (BackgroundColor != co)
-                    {
-                        BackgroundColor = co;
-                    }
-                }
+                
 
                 int start_col = -1;
                 int end_col = -1;
@@ -1167,21 +957,13 @@ namespace Forays
 
                 if (changed)
                 {
-                    if (GLMode)
+                    if (!NoGLUpdate)
                     {
-                        if (!NoGLUpdate)
-                        {
-                            UpdateGlBuffer(r, start_col, r, end_col);
-                        }
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(c, r);
-                        Console.Write(s.Text);
+                        UpdateGlBuffer(r, start_col, r, end_col);
                     }
                 }
 
-                if (MouseUI.AutomaticButtonsFromStrings && GLMode)
+                if (MouseUI.AutomaticButtonsFromStrings)
                 {
                     int idx = s.Text
                         .IndexOf('['); //for now I'm only checking for a single brace here.
@@ -1240,20 +1022,7 @@ namespace Forays
                     ColorChar cch;
                     cch.color = s.Foreground;
                     cch.bgcolor = s.Background;
-                    if (!GLMode)
-                    {
-                        ConsoleColor co = Colors.GetColor(s.Foreground);
-                        if (ForegroundColor != co)
-                        {
-                            ForegroundColor = co;
-                        }
-
-                        co = Colors.GetColor(s.Background);
-                        if (BackgroundColor != co)
-                        {
-                            BackgroundColor = co;
-                        }
-                    }
+                    
 
                     int i = 0;
                     bool changed = false;
@@ -1275,21 +1044,15 @@ namespace Forays
                         ++i;
                     }
 
-                    if (changed && !GLMode)
-                    {
-                        Console.SetCursorPosition(cpos, r);
-                        Console.Write(s.Text);
-                    }
-
                     cpos += s.Text.Length;
                 }
 
-                if (GLMode && !NoGLUpdate && start_col != -1)
+                if (  !NoGLUpdate && start_col != -1)
                 {
                     UpdateGlBuffer(r, start_col, r, end_col);
                 }
 
-                if (MouseUI.AutomaticButtonsFromStrings && GLMode)
+                if (MouseUI.AutomaticButtonsFromStrings)
                 {
                     int idx = -1;
                     int len = cs.Length();
@@ -1381,20 +1144,6 @@ namespace Forays
                 ColorChar cch;
                 cch.color = s.Foreground;
                 cch.bgcolor = s.Background;
-                if (!GLMode)
-                {
-                    ConsoleColor co = Colors.GetColor(s.Foreground);
-                    if (ForegroundColor != co)
-                    {
-                        ForegroundColor = co;
-                    }
-
-                    co = Colors.GetColor(s.Background);
-                    if (BackgroundColor != co)
-                    {
-                        BackgroundColor = co;
-                    }
-                }
 
                 int start_col = -1;
                 int end_col = -1;
@@ -1420,21 +1169,13 @@ namespace Forays
 
                 if (changed)
                 {
-                    if (GLMode)
+                    if (!NoGLUpdate)
                     {
-                        if (!NoGLUpdate)
-                        {
-                            UpdateGlBuffer(r, start_col, r, end_col);
-                        }
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(c, r);
-                        Console.Write(s.Text);
+                        UpdateGlBuffer(r, start_col, r, end_col);
                     }
                 }
 
-                if (MouseUI.AutomaticButtonsFromStrings && GLMode)
+                if (MouseUI.AutomaticButtonsFromStrings)
                 {
                     int idx = s.Text
                         .IndexOf('['); //for now I'm only checking for a single brace here.
@@ -1835,8 +1576,6 @@ namespace Forays
                     WriteMapChar(i, j, ch);
                 }
             }
-
-            ResetColors();
         }
     }
 }

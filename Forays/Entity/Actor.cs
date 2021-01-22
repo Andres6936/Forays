@@ -4505,11 +4505,6 @@ namespace Forays
                                     if (p.row == stairs.row && p.col == stairs.col)
                                     {
                                         cch.bgcolor = Color.Green;
-                                        if (Global.LINUX && !Screen.GLMode)
-                                        {
-                                            //no bright bg in terminals
-                                            cch.bgcolor = Color.DarkGreen;
-                                        }
 
                                         if (cch.color == cch.bgcolor)
                                         {
@@ -6069,16 +6064,8 @@ namespace Forays
                                .PadLeft(4));
                         if (Global.LINUX)
                         {
-                            if (Screen.GLMode)
-                            {
-                                ls.Add("Attempt to fix font size (if window can't be resized)"
-                                    .PadRight(COLS));
-                            }
-                            else
-                            {
-                                ls.Add("Attempt to fix display glitches on certain terminals"
-                                    .PadRight(COLS));
-                            }
+                            ls.Add("Attempt to fix font size (if window can't be resized)"
+                                .PadRight(COLS));
                         }
 
                         /*if(Screen.GLMode){
@@ -6111,11 +6098,8 @@ namespace Forays
                                 Global.Options[OptionType.DARK_GRAY_UNSEEN] =
                                     !Global.Option(OptionType.DARK_GRAY_UNSEEN);
                                 M.Draw();
-                                if (Screen.GLMode)
-                                {
-                                    Screen.UpdateGlBuffer(0, 0, Global.SCREEN_H - 1,
-                                        Global.SCREEN_W - 1);
-                                }
+                                Screen.UpdateGlBuffer(0, 0, Global.SCREEN_H - 1,
+                                    Global.SCREEN_W - 1);
 
                                 break;
                             case 'g':
@@ -6138,65 +6122,7 @@ namespace Forays
                             case 'j':
                                 if (Global.LINUX)
                                 {
-                                    if (Screen.GLMode)
-                                    {
-                                        InputKey.HandleResize(true);
-                                    }
-                                    else
-                                    {
-                                        ColorChar[,] screen = Screen.GetCurrentScreen();
-                                        ColorChar cch = new ColorChar('@', Color.White);
-                                        for (int i = 0; i < Global.SCREEN_H; ++i)
-                                        {
-                                            for (int j = i % 2; j < Global.SCREEN_W; j += 2)
-                                            {
-                                                if (i != Global.SCREEN_H - 1 ||
-                                                    j != Global.SCREEN_W - 1)
-                                                {
-                                                    Screen.WriteChar(i, j, cch);
-                                                }
-                                            }
-                                        }
-
-                                        cch = new ColorChar('@', Color.Green);
-                                        for (int i = 0; i < Global.SCREEN_H; ++i)
-                                        {
-                                            Screen.WriteChar(i, 0, cch);
-                                            for (int j = 1 + i % 2; j < Global.SCREEN_W; j += 2)
-                                            {
-                                                if (i != Global.SCREEN_H - 1 ||
-                                                    j != Global.SCREEN_W - 1)
-                                                {
-                                                    Screen.WriteChar(i, j, cch);
-                                                }
-                                            }
-                                        }
-
-                                        cch = new ColorChar('@', Color.Cyan);
-                                        for (int j = 0; j < Global.SCREEN_W; ++j)
-                                        {
-                                            for (int i = 0; i < Global.SCREEN_H; ++i)
-                                            {
-                                                if (i != Global.SCREEN_H - 1 ||
-                                                    j != Global.SCREEN_W - 1)
-                                                {
-                                                    Screen.WriteChar(i, j, cch);
-                                                }
-                                            }
-                                        }
-
-                                        for (int i = 0; i < Global.SCREEN_H; ++i)
-                                        {
-                                            for (int j = 0; j < Global.SCREEN_W; ++j)
-                                            {
-                                                if (i != Global.SCREEN_H - 1 ||
-                                                    j != Global.SCREEN_W - 1)
-                                                {
-                                                    Screen.WriteChar(i, j, screen[i, j]);
-                                                }
-                                            }
-                                        }
-                                    }
+                                    InputKey.HandleResize(true);
                                 }
 
                                 break;
@@ -12737,10 +12663,6 @@ namespace Forays
                             {
                                 ColorChar cch = M.VisibleColorChar(t.row, t.col);
                                 cch.bgcolor = Color.Yellow;
-                                if (Global.LINUX && !Screen.GLMode)
-                                {
-                                    cch.bgcolor = Color.DarkYellow;
-                                }
 
                                 if (cch.color == cch.bgcolor)
                                 {
@@ -22108,7 +22030,7 @@ namespace Forays
                     Global.MAP_OFFSET_COLS + 32, 1, 12);
                 while (!done)
                 {
-                    Screen.ResetColors();
+                    
                     Screen.WriteMapString(0, 0, "".PadRight(COLS, '-'));
                     for (int i = 0; i < 4; ++i)
                     {
@@ -23531,7 +23453,7 @@ namespace Forays
             Tile nearest = M.tile[r, c];
             while (!done)
             {
-                Screen.ResetColors();
+                
                 nearest = M.tile[r, c];
                 if (!first_iteration || r != row || c != col)
                 {
@@ -23573,11 +23495,6 @@ namespace Forays
                         {
                             ColorChar cch = mem[r, c];
                             cch.bgcolor = Color.Green;
-                            if (Global.LINUX && !Screen.GLMode)
-                            {
-                                //no bright bg in terminals
-                                cch.bgcolor = Color.DarkGreen;
-                            }
 
                             if (cch.color == cch.bgcolor)
                             {
@@ -23594,11 +23511,6 @@ namespace Forays
                 {
                     ColorChar cch = mem[r, c];
                     cch.bgcolor = Color.Green;
-                    if (Global.LINUX && !Screen.GLMode)
-                    {
-                        //no bright bg in terminals
-                        cch.bgcolor = Color.DarkGreen;
-                    }
 
                     if (cch.color == cch.bgcolor)
                     {

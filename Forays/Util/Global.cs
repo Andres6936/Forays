@@ -850,14 +850,6 @@ namespace Forays
 
         public static void Quit()
         {
-            if (LINUX && !Screen.GLMode)
-            {
-                Screen.Blank();
-                Screen.ResetColors();
-                Screen.SetCursorPosition(0, 0);
-                Screen.CursorVisible = true;
-            }
-
             Environment.Exit(0);
         }
     }

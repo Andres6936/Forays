@@ -818,7 +818,7 @@ namespace Forays
                     }
                 }*/
                 UI.SortStatusBarObjects();
-                Screen.ResetColors();
+                
                 Screen.NoGLUpdate = false;
                 Screen.GLUpdate();
             }
@@ -854,66 +854,17 @@ namespace Forays
                 }
             }
 
-            if (Screen.GLMode)
+            for (int i = i_start; i < row_limit; ++i)
             {
-                for (int i = i_start; i < row_limit; ++i)
+                for (int j = j_start; j < col_limit; ++j)
                 {
-                    for (int j = j_start; j < col_limit; ++j)
-                    {
-                        Screen.WriteMapChar(i, j, VisibleColorChar(i, j));
-                    }
+                    Screen.WriteMapChar(i, j, VisibleColorChar(i, j));
                 }
-
-                Screen.UpdateGlBuffer(Global.MAP_OFFSET_ROWS, Global.MAP_OFFSET_COLS,
-                    Global.MAP_OFFSET_ROWS + Global.ROWS - 1,
-                    Global.MAP_OFFSET_COLS + Global.COLS - 1);
             }
-            else
-            {
-                ColorString s;
-                s.Text = "";
-                s.Background = Color.Black;
-                s.Foreground = Color.Black;
-                int r = 0;
-                int c = 0;
-                for (int i = i_start; i < row_limit; ++i)
-                {
-                    s.Text = "";
-                    r = i;
-                    c = j_start;
-                    for (int j = j_start; j < col_limit; ++j)
-                    {
-                        ColorChar ch = VisibleColorChar(i, j);
-                        ch.color = Colors.ResolveColor(ch.color);
-                        if (ch.color != s.Foreground)
-                        {
-                            //ignores background color, assumes black
-                            if (s.Text.Length > 0)
-                            {
-                                Screen.WriteMapString(r, c, s);
-                                s.Text = "";
-                                s.Text += ch.c;
-                                s.Foreground = ch.color;
-                                r = i;
-                                c = j;
-                            }
-                            else
-                            {
-                                s.Text += ch.c;
-                                s.Foreground = ch.color;
-                            }
-                        }
-                        else
-                        {
-                            s.Text += ch.c;
-                        }
-                    }
 
-                    Screen.WriteMapString(r, c, s);
-                }
-
-                Screen.ResetColors();
-            }
+            Screen.UpdateGlBuffer(Global.MAP_OFFSET_ROWS, Global.MAP_OFFSET_COLS,
+                Global.MAP_OFFSET_ROWS + Global.ROWS - 1,
+                Global.MAP_OFFSET_COLS + Global.COLS - 1);
 
             Screen.NoGLUpdate = false;
             UI.SortStatusBarObjects();
