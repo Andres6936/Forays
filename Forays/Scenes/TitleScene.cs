@@ -1,3 +1,4 @@
+using Forays.Input;
 using GLDrawing;
 
 namespace Forays.Scenes
@@ -34,6 +35,8 @@ namespace Forays.Scenes
             Screen.WriteString(Global.SCREEN_H - 2, Global.SCREEN_W - 14, "Version " + Global.VERSION, Color.DarkGray);
             Screen.WriteString(Global.SCREEN_H - 1, Global.SCREEN_W - 19, "By Derrick Creamer ", Color.DarkGray);
             Screen.WriteString(Global.SCREEN_H - 1, 1, "Logo by Soundlust", Color.DarkerGray);
+
+            Screen.GLUpdate();
         }
 
         public override void Clear()
@@ -42,7 +45,14 @@ namespace Forays.Scenes
 
         public override NextScene ProcessInput()
         {
-            InputKey.ReadKey(false);
+            KeyCode keyCode = Screen.GetKeyPressed().GetKeyCode();
+
+            // Wait to user press a key
+            while (keyCode.Equals(KeyCode.None))
+            {
+                keyCode = Screen.GetKeyPressed().GetKeyCode();
+            }
+            
             Screen.gl.Surfaces.Remove(logo);
             return NextScene.Play;
         }

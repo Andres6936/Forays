@@ -5,11 +5,13 @@ using System.Linq;
 using System.Reflection;
 using Forays.Scenes;
 using Forays.Graphics;
+using Forays.Input;
 using GLDrawing;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
+using Key = OpenTK.Input.Key;
 
 namespace Forays.Renderer
 {
@@ -514,6 +516,30 @@ namespace Forays.Renderer
             }
 
             return NextScene.None;
+        }
+
+        public Input.Key GetKeyPressed()
+        {
+            Input.Key keyPressed = new Input.Key();
+            
+            ProcessEvents();
+
+            KeyboardState input = OpenTK.Input.Keyboard.GetState();
+
+            if (input.IsKeyDown(Key.Escape))
+            {
+                keyPressed.SetKeyCode(KeyCode.Escape);
+                
+                Console.Write("Escape.");
+            }
+            else if (input.IsKeyDown(Key.Space))
+            {
+                keyPressed.SetKeyCode(KeyCode.Space);
+                
+                Console.Write("Space.");
+            }
+
+            return keyPressed;
         }
     }
 }

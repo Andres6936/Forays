@@ -1512,5 +1512,10 @@ namespace Forays
                 }
             }
         }
+
+        public static Input.Key GetKeyPressed()
+        {
+            return gl.GetKeyPressed();
+        }
     }
 }
