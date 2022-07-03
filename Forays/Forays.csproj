@@ -49,6 +49,7 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <PropertyGroup>
+        <LangVersion>preview</LangVersion>
         <StartupObject>Forays.App</StartupObject>
     </PropertyGroup>
     <ItemGroup>
